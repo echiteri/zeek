@@ -91,4 +91,8 @@ local.properties
 .texlipse
 
 # Created by .ignore support plugin (hsz.mobi)
-/tools/src/main/resources/upgrade/upgrade.sql
+
+# Project specific excludes
+/omod/src/main/compass/.sass-cache/
+api/target/
+omod/target/
