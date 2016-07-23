@@ -7,15 +7,13 @@ import org.openmrs.ui.framework.page.PageRequestMapper;
 import org.springframework.stereotype.Component;
 
 /**
- *
  * Overrides the mapping to the login page for the reference application to a custom page
- *
  */
 @Component
 public class NamibiaLoginPageRequestMapper implements PageRequestMapper {
-
+	
 	protected final Log log = LogFactory.getLog(getClass());
-
+	
 	/**
 	 * Implementations should call {@link PageRequest#setProviderNameOverride(String)} and
 	 * {@link PageRequest#setPageNameOverride(String)}, and return true if they want to remap a request,
@@ -30,7 +28,7 @@ public class NamibiaLoginPageRequestMapper implements PageRequestMapper {
 				// change to the custom login provided by the module
 				request.setProviderNameOverride("namibia");
 				request.setPageNameOverride("namibiaLogin");
-
+				
 				log.info(request.toString());
 			}
 		}

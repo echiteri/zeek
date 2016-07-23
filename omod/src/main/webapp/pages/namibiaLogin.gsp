@@ -6,38 +6,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${ ui.message("referenceapplication.login.title") }</title>
-    <link rel="shortcut icon" type="image/ico" href="/${ ui.contextPath() }/images/openmrs-favicon.ico"/>
-    <link rel="icon" type="image/png\" href="/${ ui.contextPath() }/images/openmrs-favicon.png"/>
-    ${ ui.resourceLinks() }
+    <title>${ui.message("referenceapplication.login.title")}</title>
+    <link rel="shortcut icon" type="image/ico" href="/${ui.contextPath()}/images/openmrs-favicon.ico"/>
+    <link rel="icon" type="image/png\" href="/${ui.contextPath()}/images/openmrs-favicon.png"/>
+    ${ui.resourceLinks()}
 </head>
+
 <body>
 <script type="text/javascript">
     var OPENMRS_CONTEXT_PATH = '${ ui.contextPath() }';
 </script>
 
 
-${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
+${ui.includeFragment("referenceapplication", "infoAndErrorMessages")}
 
 <script type="text/javascript">
-    jQuery(function() {
-        updateSelectedOption = function() {
+    jQuery(function () {
+        updateSelectedOption = function () {
             jQuery('#sessionLocation li').removeClass('selected');
 
             var sessionLocationVal = jQuery('#sessionLocationInput').val();
-            if(sessionLocationVal != null && sessionLocationVal != "" && sessionLocationVal != 0){
+            if (sessionLocationVal != null && sessionLocationVal != "" && sessionLocationVal != 0) {
                 jQuery('#sessionLocation li[value|=' + sessionLocationVal + ']').addClass('selected');
             }
         };
 
         updateSelectedOption();
 
-        jQuery('#sessionLocation li').click( function() {
+        jQuery('#sessionLocation li').click(function () {
             jQuery('#sessionLocationInput').val(jQuery(this).attr("value"));
             updateSelectedOption();
         });
 
-        jQuery('#login-form').submit(function(e) {
+        jQuery('#login-form').submit(function (e) {
             var sessionLocationVal = jQuery('#sessionLocationInput').val();
 
             if (!sessionLocationVal) {
@@ -51,13 +52,13 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
         var cannotLoginController = emr.setupConfirmationDialog({
                                                                     selector: '#cannotLoginPopup',
                                                                     actions: {
-                                                                        confirm: function() {
+                                                                        confirm: function () {
                                                                             cannotLoginController.close();
                                                                         }
                                                                     }
                                                                 });
 
-        jQuery('a#cantLogin').click(function() {
+        jQuery('a#cantLogin').click(function () {
             cannotLoginController.show();
         });
 
@@ -80,26 +81,30 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
 
                 <legend>
                     <i class="icon-lock small"></i>
-                    ${ ui.message("referenceapplication.login.loginHeading") }
+                    ${ui.message("referenceapplication.login.loginHeading")}
                 </legend>
 
                 <p class="left">
                     <label for="username">
-                        ${ ui.message("referenceapplication.login.username") }:
+                        ${ui.message("referenceapplication.login.username")}:
                     </label>
-                    <input id="username" type="text" name="username" placeholder="${ ui.message("referenceapplication.login.username.placeholder") }"/>
+                    <input id="username" type="text" name="username"
+                           placeholder="${ui.message("referenceapplication.login.username.placeholder")}"/>
                 </p>
 
                 <p class="left">
                     <label for="password">
-                        ${ ui.message("referenceapplication.login.password") }:
+                        ${ui.message("referenceapplication.login.password")}:
                     </label>
-                    <input id="password" type="password" name="password" placeholder="${ ui.message("referenceapplication.login.password.placeholder") }"/>
+                    <input id="password" type="password" name="password"
+                           placeholder="${ui.message("referenceapplication.login.password.placeholder")}"/>
                 </p>
 
                 <p class="clear">
                     <label for="sessionLocation">
-                        ${ ui.message("referenceapplication.login.sessionLocation") }: <span class="location-error" id="sessionLocationError" style="display: none">${ui.message("referenceapplication.login.error.locationRequired")}</span>
+                        ${ui.message("referenceapplication.login.sessionLocation")}: <span class="location-error"
+                                                                                           id="sessionLocationError"
+                                                                                           style="display: none">${ui.message("referenceapplication.login.error.locationRequired")}</span>
                     </label>
                 <ul id="sessionLocation" class="select">
                     <% locations.sort { ui.format(it) }.each { %>
@@ -109,22 +114,25 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
             </p>
 
                 <input type="hidden" id="sessionLocationInput" name="sessionLocation"
-                    <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %> />
+                    <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %>/>
 
                 <p></p>
+
                 <p>
-                    <input id="loginButton" class="confirm" type="submit" value="${ ui.message("referenceapplication.login.button") }"/>
+                    <input id="loginButton" class="confirm" type="submit"
+                           value="${ui.message("referenceapplication.login.button")}"/>
                 </p>
+
                 <p>
                     <a id="cantLogin" href="javascript:void(0)">
                         <i class="icon-question-sign small"></i>
-                        ${ ui.message("referenceapplication.login.cannotLogin") }
+                        ${ui.message("referenceapplication.login.cannotLogin")}
                     </a>
                 </p>
 
             </fieldset>
 
-            <input type="hidden" name="redirectUrl" value="${redirectUrl}" />
+            <input type="hidden" name="redirectUrl" value="${redirectUrl}"/>
 
         </form>
 
@@ -134,12 +142,14 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
 <div id="cannotLoginPopup" class="dialog" style="display: none">
     <div class="dialog-header">
         <i class="icon-info-sign"></i>
-        <h3>${ ui.message("referenceapplication.login.cannotLogin") }</h3>
-    </div>
-    <div class="dialog-content">
-        <p class="dialog-instructions">${ ui.message("referenceapplication.login.cannotLoginInstructions") }</p>
 
-        <button class="confirm">${ ui.message("referenceapplication.okay") }</button>
+        <h3>${ui.message("referenceapplication.login.cannotLogin")}</h3>
+    </div>
+
+    <div class="dialog-content">
+        <p class="dialog-instructions">${ui.message("referenceapplication.login.cannotLoginInstructions")}</p>
+
+        <button class="confirm">${ui.message("referenceapplication.okay")}</button>
     </div>
 </div>
 

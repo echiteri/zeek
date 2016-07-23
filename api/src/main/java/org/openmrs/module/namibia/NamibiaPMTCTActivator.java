@@ -9,7 +9,6 @@
  */
 package org.openmrs.module.namibia;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,9 @@ import org.openmrs.module.Module;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.appframework.service.AppFrameworkService;
+import org.openmrs.module.namibia.activator.HtmlFormsInitializer;
+import org.openmrs.module.namibia.activator.Initializer;
+import org.openmrs.module.namibia.activator.MetadataInitializer;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -29,7 +31,7 @@ import org.openmrs.module.appframework.service.AppFrameworkService;
 public class NamibiaPMTCTActivator implements ModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
-		
+	
 	/**
 	 * @see ModuleActivator#willRefreshContext()
 	 */
@@ -65,7 +67,14 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
 			
-		} catch (Exception e) {
+			// initializers
+			log.info("Namibia module started - initializing...");
+			for (Initializer initializer : getInitializers()) {
+				initializer.started();
+			}
+			
+		}
+		catch (Exception e) {
 			Module mod = ModuleFactory.getModuleById("aijar");
 			ModuleFactory.stopModule(mod);
 			throw new RuntimeException("failed to setup the module ", e);
@@ -88,6 +97,13 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 		return properties;
 	}
 	
+	public List<Initializer> getInitializers() {
+		List<Initializer> l = new ArrayList<Initializer>();
+		l.add(new MetadataInitializer());
+		l.add(new HtmlFormsInitializer());
+		return l;
+	}
+	
 	/**
 	 * @see ModuleActivator#willStop()
 	 */
@@ -101,5 +117,5 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 	public void stopped() {
 		log.info("Namibia PMTCT Module stopped");
 	}
-		
+	
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <module configVersion="1.2">
-
+	
 	<!-- Module Properties -->
 	<id>${project.parent.artifactId}</id>
 	<name>${project.parent.name}</name>
@@ -27,24 +27,36 @@
 			org.openmrs.module.emrapi
 		</require_module>
 		<require_module>
+			org.openmrs.module.formentryapp
+		</require_module>
+		<require_module>
+			org.openmrs.module.htmlformentry
+		</require_module>
+		<require_module>
+			org.openmrs.module.htmlformentryui
+		</require_module>
+		<require_module>
+			org.openmrs.module.metadatadeploy
+		</require_module>
+		<require_module>
 			org.openmrs.module.referenceapplication
 		</require_module>
 		<require_module>
 			org.openmrs.module.uiframework
 		</require_module>
 	</require_modules>
-
+	
 	
 	<!-- Module Activator -->
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.NamibiaPMTCTActivator</activator>
 	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-
-        NamibiaPMTCT.hbm.xml
-				
+		
+		NamibiaPMTCT.hbm.xml
+	
 	</mappingFiles>
-
+	
 	<!-- Internationalization -->
 	<!-- All message codes should start with ${project.parent.artifactId}. -->
 	<messages>

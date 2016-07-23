@@ -12,7 +12,7 @@ package org.openmrs.module.namibia.api.db;
 import org.openmrs.module.namibia.api.NamibiaPMTCTService;
 
 /**
- *  Database methods for {@link NamibiaPMTCTService}.
+ * Database methods for {@link NamibiaPMTCTService}.
  */
 public interface NamibiaPMTCTDAO {
 	

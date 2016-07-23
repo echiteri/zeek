@@ -9,9 +9,9 @@
  */
 package org.openmrs.module.namibia.api.impl;
 
-import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.namibia.api.NamibiaPMTCTService;
 import org.openmrs.module.namibia.api.db.NamibiaPMTCTDAO;
 
@@ -25,16 +25,16 @@ public class NamibiaPMTCTServiceImpl extends BaseOpenmrsService implements Namib
 	private NamibiaPMTCTDAO dao;
 	
 	/**
-     * @param dao the dao to set
-     */
-    public void setDao(NamibiaPMTCTDAO dao) {
-	    this.dao = dao;
-    }
-    
-    /**
-     * @return the dao
-     */
-    public NamibiaPMTCTDAO getDao() {
-	    return dao;
-    }
+	 * @return the dao
+	 */
+	public NamibiaPMTCTDAO getDao() {
+		return dao;
+	}
+	
+	/**
+	 * @param dao the dao to set
+	 */
+	public void setDao(NamibiaPMTCTDAO dao) {
+		this.dao = dao;
+	}
 }

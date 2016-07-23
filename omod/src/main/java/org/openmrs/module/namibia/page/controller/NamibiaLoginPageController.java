@@ -29,7 +29,6 @@ import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.page.PageRequest;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
@@ -58,7 +57,8 @@ public class NamibiaLoginPageController {
 	public String get(PageModel model,
 	                  UiUtils ui,
 	                  PageRequest pageRequest,
-	                  @CookieValue(value = COOKIE_NAME_LAST_SESSION_LOCATION, required = false) String lastSessionLocationId,
+	                  @CookieValue(value = COOKIE_NAME_LAST_SESSION_LOCATION, required = false) String
+			                  lastSessionLocationId,
 	                  @SpringBean("locationService") LocationService locationService,
 	                  @SpringBean("appFrameworkService") AppFrameworkService appFrameworkService) {
 		
@@ -67,15 +67,17 @@ public class NamibiaLoginPageController {
 		}
 		
 		String redirectUrl = getStringSessionAttribute(SESSION_ATTRIBUTE_REDIRECT_URL, pageRequest.getRequest());
-		if (StringUtils.isBlank(redirectUrl))
+		if (StringUtils.isBlank(redirectUrl)) {
 			redirectUrl = pageRequest.getRequest().getParameter(REQUEST_PARAMETER_NAME_REDIRECT_URL);
+		}
 		
 		if (StringUtils.isBlank(redirectUrl)) {
 			redirectUrl = getRedirectUrlFromReferer(pageRequest);
 		}
 		
-		if (redirectUrl == null)
+		if (redirectUrl == null) {
 			redirectUrl = "";
+		}
 		
 		model.addAttribute(REQUEST_PARAMETER_NAME_REDIRECT_URL, redirectUrl);
 		Location lastSessionLocation = null;
@@ -128,8 +130,8 @@ public class NamibiaLoginPageController {
 	 * @param password
 	 * @param sessionLocationId
 	 * @param locationService
-	 * @param ui {@link UiUtils} object
-	 * @param pageRequest {@link PageRequest} object
+	 * @param ui                {@link UiUtils} object
+	 * @param pageRequest       {@link PageRequest} object
 	 * @param sessionContext
 	 * @return
 	 * @should redirect the user back to the redirectUrl if any
@@ -168,8 +170,9 @@ public class NamibiaLoginPageController {
 				Context.authenticate(username, password);
 				
 				if (Context.isAuthenticated()) {
-					if (log.isDebugEnabled())
+					if (log.isDebugEnabled()) {
 						log.debug("User has successfully authenticated");
+					}
 					
 					sessionContext.setSessionLocation(sessionLocation);
 					
@@ -184,13 +187,15 @@ public class NamibiaLoginPageController {
 					if (StringUtils.isNotBlank(redirectUrl)) {
 						//don't redirect back to the login page on success nor an external url
 						if (!redirectUrl.contains("login.")) {
-							if (log.isDebugEnabled())
+							if (log.isDebugEnabled()) {
 								log.debug("Redirecting user to " + redirectUrl);
+							}
 							
 							return "redirect:" + redirectUrl;
 						} else {
-							if (log.isDebugEnabled())
+							if (log.isDebugEnabled()) {
 								log.debug("Redirect contains 'login.', redirecting to home page");
+							}
 						}
 					}
 					
@@ -198,8 +203,9 @@ public class NamibiaLoginPageController {
 				}
 			}
 			catch (ContextAuthenticationException ex) {
-				if (log.isDebugEnabled())
+				if (log.isDebugEnabled()) {
 					log.debug("Failed to authenticate user");
+				}
 				
 				pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_ERROR_MESSAGE,
 						ui.message(ReferenceApplicationConstants.MODULE_ID + ".error.login.fail"));
@@ -214,8 +220,9 @@ public class NamibiaLoginPageController {
 					ui.message("referenceapplication.login.error.invalidLocation", sessionLocation.getName()));
 		}
 		
-		if (log.isDebugEnabled())
+		if (log.isDebugEnabled()) {
 			log.debug("Sending user back to login page");
+		}
 		
 		//TODO limit login attempts by IP Address
 		
@@ -231,8 +238,9 @@ public class NamibiaLoginPageController {
 	}
 	
 	public String getRelativeUrl(String url, PageRequest pageRequest) {
-		if (url == null)
+		if (url == null) {
 			return null;
+		}
 		
 		if (url.startsWith("/") || (!url.startsWith("http://") && !url.startsWith("https://"))) {
 			return url;

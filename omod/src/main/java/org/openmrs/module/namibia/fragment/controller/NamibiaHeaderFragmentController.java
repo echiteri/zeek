@@ -23,24 +23,23 @@ import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.appui.AppUiExtensions;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.springframework.stereotype.Controller;
 
 /**
  * Controller for the header fragment which is overriden here
  */
 public class NamibiaHeaderFragmentController {
-
+	
 	// RA-592: don't use PrivilegeConstants.VIEW_LOCATIONS
 	private static final String GET_LOCATIONS = "Get Locations";
-
+	
 	private static final String VIEW_LOCATIONS = "View Locations";
-
+	
 	public void controller(@SpringBean AppFrameworkService appFrameworkService, FragmentModel fragmentModel) {
 		try {
 			Context.addProxyPrivilege(GET_LOCATIONS);
 			Context.addProxyPrivilege(VIEW_LOCATIONS);
 			fragmentModel.addAttribute("loginLocations", appFrameworkService.getLoginLocations());
-
+			
 			List<Extension> exts = appFrameworkService.getExtensionsForCurrentUser(AppUiExtensions.HEADER_CONFIG_EXTENSION);
 			Map<String, Object> configSettings = exts.size() > 0 ? exts.get(0).getExtensionParams() : null;
 			fragmentModel.addAttribute("configSettings", configSettings);
@@ -53,5 +52,5 @@ public class NamibiaHeaderFragmentController {
 			Context.removeProxyPrivilege(VIEW_LOCATIONS);
 		}
 	}
-
+	
 }

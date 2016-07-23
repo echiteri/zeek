@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * Overrides the mapping to the header fragment to a local fragment
- *
  */
 @Component
 public class NamibiaHeaderFragmentRequestMapper implements FragmentRequestMapper {
-
+	
 	protected final Log log = LogFactory.getLog(getClass());
-
+	
 	/**
 	 * Implementations should call {@link FragmentRequest#setProviderNameOverride(String)} and
 	 * {@link FragmentRequest#setFragmentIdOverride(String)}, and return true if they want to remap a request,

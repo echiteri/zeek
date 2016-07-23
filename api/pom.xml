@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>namibia</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-
+	
 	<artifactId>namibia-api</artifactId>
 	<packaging>jar</packaging>
 	<name>Namibia PMTCT API</name>
 	<description>API project for Namibia PMTCT</description>
-
-	<dependencies>
 	
+	<dependencies>
+		
 		<!-- 
 		Add other dependencies from parent's pom:
 		<dependency>
@@ -22,7 +23,7 @@
 			<artifactId>library-name</artifactId>
 		</dependency> 
 		-->
-
+		
 		<!-- Begin OpenMRS core -->
 		
 		<dependency>
@@ -36,7 +37,7 @@
 			<artifactId>openmrs-web</artifactId>
 			<type>jar</type>
 		</dependency>
-				
+		
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
@@ -57,7 +58,7 @@
 			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
-				
+		
 		<!-- End OpenMRS core -->
 		
 		<!-- Custom dependencies -->
@@ -66,6 +67,46 @@
 			<artifactId>appframework-omod</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-omod</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>formentryapp-omod</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>htmlformentry-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>htmlformentryui-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>metadatadeploy-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>metadatamapping-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>metadatasharing-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>uiframework-omod</artifactId>
+		</dependency>
+	
 	</dependencies>
 	
 	<build>
@@ -73,9 +114,23 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<excludes>
+					<!-- exclude binary files from filtering as this causes corruption of the files -->
+					<exclude>*.zip</exclude>
+					<exclude>metadata/*.zip</exclude>
+				</excludes>
+			</resource>
+			<!-- Add the binary files to the omod without filtering -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>*.zip</include>
+					<include>metadata/*.zip</include>
+				</includes>
 			</resource>
 		</resources>
-
+		
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>

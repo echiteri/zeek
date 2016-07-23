@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * The main controller.
  */
 @Controller
-public class  NamibiaPMTCTManageController {
+public class NamibiaPMTCTManageController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
