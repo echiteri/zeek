@@ -10,14 +10,80 @@
 		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false"
 		  formDisplayStyle="Standard">
 	
-		<div class="headers" style="text-align: center;">
-			<h3>Mother ANC Visit</h3>
-		</div>
-	<section headerLabel="MotherANC Visits" sectionTag="section" headerTag="h3">
-		<encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
-		<encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
-		<encounterProviderAndRole />
+	<script type="text/javascript">
+		jq(function() {
+			jq('#provider-container select').focus();
+		});
+	</script>
+	
+	<h2>
+		<label>
+			Mother ANC Visit
+		</label>
+	</h2>
+	<section id="ancvisit">
+		<p>
+			<label>
+				Visit Date
+			</label>
+			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+		</p>
+		<p id="provider-container">
+			<label>
+				Attending Clinican
+			</label>
+			<encounterProvider />
+		</p>
+		<p>
+			<label>
+				Health Facility
+			</label>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
+			locations -->
+		</p>
 		
-		<submit />
+		<p>
+			<label>
+				Last menstral period
+			</label>
+			<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+		</p>
+		<p>
+			<label>
+				HIV Test Result
+			</label>
+			<obs conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+		</p>
+		<p>
+			<label>
+				ART status
+			</label>
+			<obs conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+		</p>
+		<p>
+			<label>
+				Most Recent Viral Load
+			</label>
+			<obs conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+		</p>
+		<p id="viralload-container">
+			<label>
+				Viral Load
+			</label>
+			<obs conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+		</p>
+		<p>
+			<label>
+				Syphilis test status
+			</label>
+			
+		</p>
+		<p id="syphilustestresult-container">
+			<label>
+				Syphilis test result
+			</label>
+			<obs conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+		</p>
 	</section>
+	<submit class="confirm center" />
 </htmlform>
