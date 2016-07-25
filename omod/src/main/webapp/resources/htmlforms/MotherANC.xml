@@ -4,18 +4,20 @@
 		  formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
 		  formVersion="0.9"
 		  formAddMetadata="yes"
-		  formUILocation="patientDashboard.currentVisitActions"
+		  formUILocation="patientDashboard.visitActions"
 		  formOrder="1"
 		  formIcon="icon-medkit"
 		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false"
 		  formDisplayStyle="Standard">
 	
-	<div class="ai-page-frame">
 		<div class="headers" style="text-align: center;">
 			<h3>Mother ANC Visit</h3>
 		</div>
-	</div>
-	<section>
+	<section headerLabel="MotherANC Visits" sectionTag="section" headerTag="h3">
+		<encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+		<encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+		<encounterProviderAndRole />
+		
 		<submit />
 	</section>
 </htmlform>
