@@ -7,7 +7,7 @@
 		  formUILocation="patientDashboard.visitActions"
 		  formOrder="1"
 		  formIcon="icon-medkit"
-		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false"
+		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
 	
 	<script type="text/javascript">
@@ -21,28 +21,30 @@
 			Mother ANC Visit
 		</label>
 	</h2>
-	<section id="ancvisit">
-		<p>
-			<label>
-				Visit Date
-			</label>
-			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-		</p>
-		<p id="provider-container">
+	<section id="who-when-where">
+		<p id="who">
 			<label>
 				Attending Clinican
 			</label>
 			<encounterProvider />
 		</p>
-		<p>
+		<p id="where">
 			<label>
 				Health Facility
 			</label>
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
 			locations -->
 		</p>
+		<p id="when">
+			<label>
+				Visit Date
+			</label>
+			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+		</p>
 		
-		<p>
+		</section>
+	<section id="data-collection">
+		<p class="narrow">
 			<label>
 				Last menstural period
 			</label>
@@ -90,7 +92,7 @@
 			</label>
 			<obs style="radio" conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1229,1228,1067" answerLabels="Negative,Positive,Unknown" />
 		</p>
-		<p>
+		<p class="narrow">
 			<label>
 				Expected facility of delivery
 			</label>
