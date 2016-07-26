@@ -71,3 +71,9 @@ header {
 textarea {
     width: 95%;
 }
+
+p > label:first-child {
+    font-size: 18px;
+    font-weight:bold;
+    color: #242563;
+}
