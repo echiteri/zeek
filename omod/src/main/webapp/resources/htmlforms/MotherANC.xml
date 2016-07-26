@@ -13,9 +13,6 @@
 	<script type="text/javascript">
 		jq(function() {
 			jq('#provider-container select').focus();
-		
-		    // when loading the page the viral load container is disabled
-			alert(get('
 	</script>
 	
 	<h2>
