@@ -6,3 +6,44 @@ header {
     background: #82CAFA;
     color: #404040;
 }
+
+#who-when-where {
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+
+#who-when-where p {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+#where > input[type=text] {
+    display: inline-block;
+}
+
+.narrow {
+    width: 200px;
+}
+
+.field-error {
+    color: #ff6666;
+    font-size: 1.1em;
+    display: block;
+}
+
+
+#data-collection {
+    display: inline-block;
+    width: 58%;
+    vertical-align: top;
+}
+
+#encounter-diagnoses-target {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+}
+
+#encounter-diagnoses-app {
+    margin-bottom: 20px;
+}
