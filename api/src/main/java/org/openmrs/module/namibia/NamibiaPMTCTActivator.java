@@ -63,6 +63,8 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 		try {
 			// disable elements not needed on the home screen
 			appFrameworkService.disableApp("coreapps.activeVisits");
+			// disable the reference app registration page and add one for Namibia
+			appFrameworkService.disableApp("referenceapplication.registrationapp.registerPatient");
 			
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
