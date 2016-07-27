@@ -59,20 +59,22 @@
 		</p>
 	</div>
 	<br />
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ARV Treatment Status">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
 		<div class="section-container">
 			<p>
 				<label>
 					HIV Test Status
 				</label>
 				<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown" answerSeparator="" />
+					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
+					 answerSeparator="" />
 			</p>
 			<p>
 				<label>
 					HIV Test Result
 				</label>
-				<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
+				<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Negative,Positive,Unknown"
+					 answerSeparator="" />
 			</p>
 			<p>
 				<label>
@@ -80,18 +82,16 @@
 				</label>
 				<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="160120,160119,160018,1754,1067"
-					 answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown" answerSeparator=""/>
+					 answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown"
+					 answerSeparator="" />
 			</p>
-		</div>
-	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Tests">
-		<div class="section-container radios">
 			<p id="viralloadstaus-container">
 				<label>
 					Most Recent Viral Load
 				</label>
 				<obs style="radio" conceptId="163310" id="163310" answerConceptIds="1118, 1306, 1301,1067"
-					 answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown" answerSeparator=""/>
+					 answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown"
+					 answerSeparator="" />
 			</p>
 			<p id="viralload-container" class="narrow">
 				<label>
@@ -99,21 +99,36 @@
 				</label>
 				<obs conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 			</p>
+		</div>
+	</section>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Syphillis">
+		<div class="section-container radios">
+			
 			<p>
 				<label>
 					Syphilis test status
 				</label>
 				<obs style="radio" conceptId="1827" answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for syphilis, Not tested for syphilis, Unknown" answerSeparator=""/>
+					 answerLabels="Tested for syphilis, Not tested for syphilis, Unknown" answerSeparator="" />
 			</p>
 			<p id="syphilustestresult-container">
 				<label>
 					Syphilis test result
 				</label>
 				<obs style="radio" conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1229,1228,1067"
-					 answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
+					 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
 			</p>
 		</div>
 	</section>
+	<br /><br />
+	<div class="section-container">
+		<p>
+			<label>
+				Mother's status after this visit
+			</label>
+			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
+				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator=""/>
+		</p>
+	</div>
 	<submit class="confirm center" />
 </htmlform>

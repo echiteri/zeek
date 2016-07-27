@@ -132,5 +132,15 @@
 			</p>
 		</div>
 	</section>
+	<br /><br />
+	<div class="section-container">
+		<p>
+			<label>
+				Mother's status after this visit
+			</label>
+			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
+				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator=""/>
+		</p>
+	</div>
 	<submit class="confirm center" />
 </htmlform>

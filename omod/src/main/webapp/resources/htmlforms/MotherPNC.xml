@@ -1,125 +1,133 @@
 <htmlform formName="Mother - PNC Form"
-          formDescription="A visit for a mother for Post natal Care"
-          formEncounterType="269bcc7f-04f8-4ddc-883d-7a3a0d569aad"
-          formUuid="e6b67aa4-6c59-4470-8ad5-b994efeda553"
-          formVersion="0.9"
-          formAddMetadata="yes"
-          formUILocation="patientDashboard.visitActions"
-          formOrder="1"
-          formIcon="icon-medkit"
-          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
-          formDisplayStyle="Standard">
-
-    <script type="text/javascript">
-        jq(function() {
-        jq('#provider-container select').focus();
-        });
-    </script>
-
-    <h2>
-        <label>
-            Mother Post-Natal Care Form
-        </label>
-    </h2>
-    <section id="who-when-where">
-        <p id="who">
-            <label>
-                Attending Clinican
-            </label>
-            <encounterProvider/>
-        </p>
-        <p id="where">
-            <label>
-                Health Facility
-            </label>
-            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1"/> <!-- Only show Login
+		  formDescription="A visit for a mother for Post natal Care"
+		  formEncounterType="269bcc7f-04f8-4ddc-883d-7a3a0d569aad"
+		  formUuid="e6b67aa4-6c59-4470-8ad5-b994efeda553"
+		  formVersion="0.9"
+		  formAddMetadata="yes"
+		  formUILocation="patientDashboard.visitActions"
+		  formOrder="1"
+		  formIcon="icon-medkit"
+		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
+		  formDisplayStyle="Standard">
+	
+	<script type="text/javascript">
+		jq(function() {
+		jq('#provider-container select').focus();
+		});
+	</script>
+	
+	<h2>
+		<label>
+			Mother Post-Natal Care Form
+		</label>
+	</h2>
+	<section id="who-when-where">
+		<p id="who">
+			<label>
+				Attending Clinican
+			</label>
+			<encounterProvider />
+		</p>
+		<p id="where">
+			<label>
+				Health Facility
+			</label>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
 			locations -->
-        </p>
-        <p id="when">
-            <label>
-                Visit Date
-            </label>
-            <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
-        </p>
-    </section>
-    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ART Status">
-        <div class="section-container radios">
-
-            <p id="mother-art-status-container">
-                <label>
-                    ART Status
-                </label>
-                <obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="160119,160120,127750,1754,1067"
-                     answerLabels="Already on ART before starting ANC,Started on ART during this visit,Refused ART,Not started due to stockout,Unknown"
-                     answerSeparator=""/>
-            </p>
-
-            <p>
-                <label>
-                    ART Unique Number
-                </label>
-                <!--<patient field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" />-->
-                <input type="text" size="15"/>
-            </p>
-        </div>
-    </section>
-
-    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Tests">
-        <div class="section-container">
-            <p>
-                <label>
-                    HIV Test Status
-                </label>
-                <obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
-                     answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
-                     answerSeparator=""/>
-            </p>
-            <p>
-                <label>
-                    HIV Test Result
-                </label>
-                <obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
-            </p>
-
-            <p id="viralloadstaus-container">
-                <label>
-                    Most Recent Viral Load
-                </label>
-                <obs style="radio" conceptId="163310" id="163310" answerConceptIds="1118, 1306, 1301,1067"
-                     answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown"
-                     answerSeparator=""/>
-            </p>
-            <p id="viralload-container">
-                <label>
-                    Viral Load
-                </label>
-                <obs conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="7"/>
-            </p>
-        </div>
-    </section>
-    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
-        <div class="section-container radios">
-            <p id="bf-container">
-                <label>
-                    Breastfeeding Status
-                </label>
-                <obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="5526,1595,6046,1067"
-                     answerLabels="Exclusive Breastfeeding, Replacement Breasfeeding, Mixed Breastfeeding, Unknown"
-                     answerSeparator=""/>
-            </p>
-        </div>
-    </section>
-    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Next Appointment">
-        <div class="section-container">
-        <p id="tca-container" class="narrow">
-            <label>
-                Date of Next Visit
-            </label>
-            <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="return-visit-date" allowFutureDates="true"/>
-        </p>
-        </div>
-    </section>
-    <submit class="confirm center"/>
+		</p>
+		<p id="when">
+			<label>
+				Visit Date
+			</label>
+			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+		</p>
+	</section>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ART Status">
+		<div class="section-container radios">
+			
+			<p id="mother-art-status-container">
+				<label>
+					ART Status
+				</label>
+				<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="160119,160120,127750,1754,1067"
+					 answerLabels="Already on ART before starting ANC,Started on ART during this visit,Refused ART,Not started due to stockout,Unknown"
+					 answerSeparator="" />
+			</p>
+			
+			<p>
+				<label>
+					ART Unique Number
+				</label>
+				<!--<patient field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" />-->
+				<input type="text" size="15" />
+			</p>
+		</div>
+	</section>
+	
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Tests">
+		<div class="section-container">
+			<p>
+				<label>
+					HIV Test Status
+				</label>
+				<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
+					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
+					 answerSeparator="" />
+			</p>
+			<p>
+				<label>
+					HIV Test Result
+				</label>
+				<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" />
+			</p>
+			
+			<p id="viralloadstaus-container">
+				<label>
+					Most Recent Viral Load
+				</label>
+				<obs style="radio" conceptId="163310" id="163310" answerConceptIds="1118, 1306, 1301,1067"
+					 answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown"
+					 answerSeparator="" />
+			</p>
+			<p id="viralload-container">
+				<label>
+					Viral Load
+				</label>
+				<obs conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="7" />
+			</p>
+		</div>
+	</section>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
+		<div class="section-container radios">
+			<p id="bf-container">
+				<label>
+					Breastfeeding Status
+				</label>
+				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="5526,1595,6046,1067"
+					 answerLabels="Exclusive Breastfeeding, Replacement Breasfeeding, Mixed Breastfeeding, Unknown"
+					 answerSeparator="" />
+			</p>
+		</div>
+	</section>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Status and Next Appointment">
+		<div class="section-container">
+			<p>
+				<label>
+					Mother's status after this visit
+				</label>
+				<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="161636,160034,159492,1067"
+					 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" />
+			</p>
+			<p id="tca-container" class="narrow">
+				<label>
+					Date of Next Visit
+				</label>
+				<obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="return-visit-date" allowFutureDates="true" />
+			</p>
+		</div>
+	</section>
+	<submit class="confirm center" />
 </htmlform>
