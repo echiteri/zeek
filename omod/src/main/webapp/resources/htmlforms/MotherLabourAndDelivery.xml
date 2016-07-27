@@ -1,18 +1,22 @@
-<htmlform formName="Mother - Labour and Delivery Form"
+<htmlform formName="Labour &amp; Delivery Form"
 		  formDescription="A visit for a mother for Labour and Delivery services"
 		  formEncounterType="2678423c-0523-4d76-b0da-18177b439eed"
 		  formUuid="1e5614d6-5306-11e6-beb8-9e71128cae77"
 		  formVersion="0.9"
 		  formAddMetadata="yes"
 		  formUILocation="patientDashboard.visitActions"
-		  formOrder="1"
+		  formOrder="2"
 		  formIcon="icon-medkit"
 		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
 	
 	<script type="text/javascript">
 		jq(function() {
-		jq('#provider-container select').focus();
+			/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+		encounter date */
+			jq('#encounterLocation, #encounterDate').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		});
 	</script>
 	
@@ -32,13 +36,17 @@
 			<label>
 				Health Facility
 			</label>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
+			<span id="currentLocation"></span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only
+			show
+			Login
 			locations -->
 		</p>
-		<p class="when">
+		<p id="when">
 			<label>
-				Date of delivery
+				Visit Date
 			</label>
+			<span id="visitDate"></span>
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
@@ -132,14 +140,15 @@
 			</p>
 		</div>
 	</section>
-	<br /><br />
+	<br />
+	<br />
 	<div class="section-container">
 		<p>
 			<label>
 				Mother's status after this visit
 			</label>
 			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator=""/>
+				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" />
 		</p>
 	</div>
 	<submit class="confirm center" />

@@ -1,4 +1,4 @@
-<htmlform formName="Infant - PNC Form"
+<htmlform formName="Infant - Postnatal Form"
 		  formDescription="A visit for an infant for Post natal Care"
 		  formEncounterType="af1f1b24-d2e8-4282-b308-0bf79b365584"
 		  formUuid="5022c5d7-ea45-47ce-bd65-1ba1d8ad2467"
@@ -12,7 +12,11 @@
 	
 	<script type="text/javascript">
 		jq(function() {
-			jq('#provider-container select').focus();
+			/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+		encounter date */
+			jq('#encounterLocation, #encounterDate').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		});
 	</script>
 	
@@ -32,16 +36,16 @@
 			<label>
 				Health Facility
 			</label>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
-			locations -->
+			<span id="currentLocation"></span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login locations -->
 		</p>
 		<p id="when">
 			<label>
 				Visit Date
 			</label>
+			<span id="visitDate"></span>
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
-
 	</section>
 	<div class="section-container">
 

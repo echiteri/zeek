@@ -1,4 +1,4 @@
-<htmlform formName="Mother - ANC Form"
+<htmlform formName="Antenatal Form"
           formDescription="A visit for a mother for ANC services"
           formEncounterType="2549af50-75c8-4aeb-87ca-4bb2cef6c69a"
           formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
@@ -18,6 +18,9 @@
             jq('#syphilustestresult-container :input').prop('disabled', true);
             jq('#art-status :input').prop('disabled', true);
             jq('#viralloadstatus-container :input').prop('disabled', true);
+            jq('#encounterLocation, #encounterDate').hide();
+            jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+            jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 
             jq('#hiv-test').click(function(){
                 if(getValue('hiv-test.value')==1065 || getValue('hiv-test.value')==1066) {
@@ -84,20 +87,24 @@
             <label>
                 Attending Clinican
             </label>
-            <encounterProvider/>
+            <encounterProvider />
         </p>
         <p id="where">
             <label>
                 Health Facility
             </label>
-            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1"/> <!-- Only show Login
+            <span id="currentLocation"></span>
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only
+			show
+			Login
 			locations -->
         </p>
         <p id="when">
             <label>
                 Visit Date
             </label>
-            <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+            <span id="visitDate"></span>
+            <encounterDate default="today" disallowMultipleEncountersOnDate="block" />
         </p>
 
     </section>

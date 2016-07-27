@@ -17,14 +17,14 @@
 	</developers>
 	
 	<organization>
-		<name>OpenMRS</name>
-		<url>http://openmrs.org</url>
+		<name>University of California San Francisco</name>
+		<url>http://globalhealthsciences.ucsf.edu/</url>
 	</organization>
 	
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-namibia.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-namibia.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-namibia</url>
+		<connection>scm:git:git@bitbucket.org:informatics-hub/openmrs-module-namibia.git</connection>
+		<developerConnection>scm:git:git@bitbucket.org:informatics-hub/openmrs-module-namibia.git</developerConnection>
+		<url>https://bitbucket.org/informatics-hub/openmrs-module-namibia</url>
 	</scm>
 	
 	<properties>

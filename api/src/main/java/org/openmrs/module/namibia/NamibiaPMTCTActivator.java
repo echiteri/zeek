@@ -21,6 +21,7 @@ import org.openmrs.module.Module;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.appframework.service.AppFrameworkService;
+import org.openmrs.module.namibia.activator.AppConfigurationInitializer;
 import org.openmrs.module.namibia.activator.HtmlFormsInitializer;
 import org.openmrs.module.namibia.activator.Initializer;
 import org.openmrs.module.namibia.activator.MetadataInitializer;
@@ -57,27 +58,18 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-		AdministrationService administrationService = Context.getAdministrationService();
-		AppFrameworkService appFrameworkService = Context.getService(AppFrameworkService.class);
+		
+		log.info("Namibia module started - initializing...");
 		
 		try {
-			// disable elements not needed on the home screen
-			appFrameworkService.disableApp("coreapps.activeVisits");
-			// disable the reference app registration page and add one for Namibia
-			appFrameworkService.disableApp("referenceapplication.registrationapp.registerPatient");
-			
-			// set defined global properties
-			administrationService.saveGlobalProperties(configureGlobalProperties());
-			
 			// initializers
-			log.info("Namibia module started - initializing...");
 			for (Initializer initializer : getInitializers()) {
 				initializer.started();
 			}
 			
 		}
 		catch (Exception e) {
-			Module mod = ModuleFactory.getModuleById("aijar");
+			Module mod = ModuleFactory.getModuleById(NamibiaConstants.MODULE_ID);
 			ModuleFactory.stopModule(mod);
 			throw new RuntimeException("failed to setup the module ", e);
 		}
@@ -85,22 +77,11 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 		log.info("Namibia PMTCT Module started");
 	}
 	
-	/**
-	 * Configure the global properties for the expected functionality
-	 *
-	 * @return
-	 */
-	private List<GlobalProperty> configureGlobalProperties() {
-		List<GlobalProperty> properties = new ArrayList<GlobalProperty>();
-		
-		// disable the appointmentshedulingui which is needed but not very usable at this point
-		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
-		
-		return properties;
-	}
+	
 	
 	public List<Initializer> getInitializers() {
 		List<Initializer> l = new ArrayList<Initializer>();
+		l.add(new AppConfigurationInitializer());
 		l.add(new MetadataInitializer());
 		l.add(new HtmlFormsInitializer());
 		return l;
