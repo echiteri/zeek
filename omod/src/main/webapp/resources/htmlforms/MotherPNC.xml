@@ -1,18 +1,22 @@
-<htmlform formName="Mother - PNC Form"
+<htmlform formName="Postnatal Form"
 		  formDescription="A visit for a mother for Post natal Care"
 		  formEncounterType="269bcc7f-04f8-4ddc-883d-7a3a0d569aad"
 		  formUuid="e6b67aa4-6c59-4470-8ad5-b994efeda553"
 		  formVersion="0.9"
 		  formAddMetadata="yes"
 		  formUILocation="patientDashboard.visitActions"
-		  formOrder="1"
+		  formOrder="3"
 		  formIcon="icon-medkit"
 		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
 	
 	<script type="text/javascript">
 		jq(function() {
-		jq('#provider-container select').focus();
+			/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+		encounter date */
+			jq('#encounterLocation, #encounterDate').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		});
 	</script>
 	
@@ -32,16 +36,21 @@
 			<label>
 				Health Facility
 			</label>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
+			<span id="currentLocation"></span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only
+			show
+			Login
 			locations -->
 		</p>
 		<p id="when">
 			<label>
 				Visit Date
 			</label>
+			<span id="visitDate"></span>
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
+	
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ART Status">
 		<div class="section-container radios">
 			

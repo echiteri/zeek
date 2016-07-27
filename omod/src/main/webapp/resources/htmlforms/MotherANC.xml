@@ -1,4 +1,4 @@
-<htmlform formName="Mother - ANC Form"
+<htmlform formName="Antenatal Form"
 		  formDescription="A visit for a mother for ANC services"
 		  formEncounterType="2549af50-75c8-4aeb-87ca-4bb2cef6c69a"
 		  formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
@@ -12,8 +12,12 @@
 	
 	<script type="text/javascript">
 		jq(function() {
-		jq('#provider-container select').focus();
-		}
+			/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+		encounter date */
+			jq('#encounterLocation, #encounterDate').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+		});
 	</script>
 	
 	<h2>
@@ -32,13 +36,17 @@
 			<label>
 				Health Facility
 			</label>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
+			<span id="currentLocation"></span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only
+			show
+			Login
 			locations -->
 		</p>
 		<p id="when">
 			<label>
 				Visit Date
 			</label>
+			<span id="visitDate"></span>
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	
