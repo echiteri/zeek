@@ -1,134 +1,195 @@
 <htmlform formName="Mother - ANC Form"
-		  formDescription="A visit for a mother for ANC services"
-		  formEncounterType="2549af50-75c8-4aeb-87ca-4bb2cef6c69a"
-		  formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
-		  formVersion="0.9"
-		  formAddMetadata="yes"
-		  formUILocation="patientDashboard.visitActions"
-		  formOrder="1"
-		  formIcon="icon-medkit"
-		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
-		  formDisplayStyle="Standard">
-	
-	<script type="text/javascript">
-		jq(function() {
-		jq('#provider-container select').focus();
-		}
-	</script>
-	
-	<h2>
-		<label>
-			Mother ANC Visit
-		</label>
-	</h2>
-	<section id="who-when-where">
-		<p id="who">
-			<label>
-				Attending Clinican
-			</label>
-			<encounterProvider />
-		</p>
-		<p id="where">
-			<label>
-				Health Facility
-			</label>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only show Login
+          formDescription="A visit for a mother for ANC services"
+          formEncounterType="2549af50-75c8-4aeb-87ca-4bb2cef6c69a"
+          formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
+          formVersion="0.9"
+          formAddMetadata="yes"
+          formUILocation="patientDashboard.visitActions"
+          formOrder="1"
+          formIcon="icon-medkit"
+          formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
+          formDisplayStyle="Standard">
+
+    <script type="text/javascript">
+        jq(function() {
+            jq('#provider-container select').focus();
+            jq('#test-result-container :input').prop('disabled', true);
+            jq('#viralload-container :input').prop('disabled', true);
+            jq('#syphilustestresult-container :input').prop('disabled', true);
+            jq('#art-status :input').prop('disabled', true);
+            jq('#viralloadstatus-container :input').prop('disabled', true);
+
+            jq('#hiv-test').click(function(){
+                if(getValue('hiv-test.value')==1065 || getValue('hiv-test.value')==1066) {
+                    jq('#test-result-container :input').prop('disabled', false);
+                }
+                else {
+                    jq('#test-result-container :input').prop('checked', false);
+                    jq('#test-result-container :input').prop('disabled', true);
+
+                }
+            });
+
+            jq('#recent-vl').click(function(){
+                if(getValue('recent-vl.value')==1301) {
+                jq('#viralload-container :input').prop('disabled', false);
+                }
+                else {
+
+                    jq('#viralload-container :input').prop('disabled', true);
+                    jq('#viralload-container :input').prop('value', '');
+                }
+            });
+            jq('#syphilis-test').click(function(){
+                if(getValue('syphilis-test.value')==1065) {
+                    jq('#syphilustestresult-container :input').attr('disabled', false);
+                }
+                else {
+
+                    jq('#syphilustestresult-container :input').attr('disabled', true);
+                    jq('#syphilustestresult-container :input').attr('checked', false);
+                }
+            });
+            jq('#test-result').click(function(){
+                if(getValue('test-result.value')==703) {
+                    jq('#art-status :input').prop('disabled', false);
+                }
+                else {
+
+                    jq('#art-status :input').attr('disabled', true);
+                    jq('#art-status :input').attr('checked', false);
+                }
+            });
+
+            jq('#date_started_art').click(function(){
+                if(getValue('date_started_art.value')==160120 || getValue('date_started_art.value')==160119) {
+                    jq('#viralloadstatus-container :input').prop('disabled', false);
+                }
+                else {
+
+                    jq('#viralloadstatus-container :input').attr('disabled', true);
+                    jq('#viralloadstatus-container :input').attr('checked', false);
+                }
+            });
+        });
+    </script>
+
+    <h2>
+        <label>
+            Mother ANC Visit
+        </label>
+    </h2>
+    <section id="who-when-where">
+        <p id="who">
+            <label>
+                Attending Clinican
+            </label>
+            <encounterProvider/>
+        </p>
+        <p id="where">
+            <label>
+                Health Facility
+            </label>
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1"/> <!-- Only show Login
 			locations -->
-		</p>
-		<p id="when">
-			<label>
-				Visit Date
-			</label>
-			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-		</p>
-	
-	</section>
-	
-	<div class="section-container">
-		<p class="narrow">
-			<label>
-				Last menstural period
-			</label>
-			<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-		</p>
-		<p class="narrow">
-			<label>
-				Expected facility of delivery
-			</label>
-			<obs conceptId="159758" style="location" answerLocationTags="2" />
-		</p>
-	</div>
-	<br />
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
-		<div class="section-container">
-			<p>
-				<label>
-					HIV Test Status
-				</label>
-				<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
-					 answerSeparator="" />
-			</p>
-			<p>
-				<label>
-					HIV Test Result
-				</label>
-				<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Negative,Positive,Unknown"
-					 answerSeparator="" />
-			</p>
-			<p>
-				<label>
-					ART status
-				</label>
-				<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160120,160119,160018,1754,1067"
-					 answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown"
-					 answerSeparator="" />
-			</p>
-			<p id="viralloadstaus-container">
-				<label>
-					Most Recent Viral Load
-				</label>
-				<obs style="radio" conceptId="163310" id="163310" answerConceptIds="1118, 1306, 1301,1067"
-					 answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown"
-					 answerSeparator="" />
-			</p>
-			<p id="viralload-container" class="narrow">
-				<label>
-					Viral Load
-				</label>
-				<obs conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-			</p>
-		</div>
-	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Syphillis">
-		<div class="section-container radios">
-			
-			<p>
-				<label>
-					Syphilis test status
-				</label>
-				<obs style="radio" conceptId="1827" answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for syphilis, Not tested for syphilis, Unknown" answerSeparator="" />
-			</p>
-			<p id="syphilustestresult-container">
-				<label>
-					Syphilis test result
-				</label>
-				<obs style="radio" conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1229,1228,1067"
-					 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
-			</p>
-		</div>
-	</section>
-	<br /><br />
-	<div class="section-container">
-		<p>
-			<label>
-				Mother's status after this visit
-			</label>
-			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator=""/>
-		</p>
-	</div>
-	<submit class="confirm center" />
+        </p>
+        <p id="when">
+            <label>
+                Visit Date
+            </label>
+            <encounterDate default="today" disallowMultipleEncountersOnDate="block"/>
+        </p>
+
+    </section>
+
+    <div class="section-container">
+        <p class="narrow">
+            <label>
+                Last menstural period
+            </label>
+            <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true"/>
+        </p>
+        <p class="narrow">
+            <label>
+                Expected facility of delivery
+            </label>
+            <obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        </p>
+    </div>
+    <br/>
+    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
+        <div class="section-container">
+            <p>
+                <label>
+                    HIV Test Status
+                </label>
+                <obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
+                     answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
+                     answerSeparator="" required="true"/>
+            </p>
+            <p id="test-result-container" >
+                <label>
+                    HIV Test Result
+                </label>
+                <obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerLabels="Negative,Positive,Unknown"
+                     answerSeparator=""/>
+            </p>
+            <p id="art-status">
+                <label>
+                    ART status
+                </label>
+                <obs id="date_started_art" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="160120,160119,160018,1754,1067"
+                     answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown"
+                     answerSeparator=""/>
+            </p>
+            <p id="viralloadstatus-container">
+                <label>
+                    Most Recent Viral Load
+                </label>
+                <obs style="radio" conceptId="163310" id="recent-vl" answerConceptIds="1118, 1306, 1301,1067"
+                     answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown"
+                     answerSeparator=""/>
+            </p>
+            <p id="viralload-container">
+                <label>
+                    Viral Load
+                </label>
+                <obs id="vl-result" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            </p>
+        </div>
+    </section>
+    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Syphillis">
+        <div class="section-container radios">
+
+            <p>
+                <label>
+                    Syphilis test status
+                </label>
+                <obs id="syphilis-test" style="radio" conceptId="1827" answerConceptIds="1065,1066,1067"
+                     answerLabels="Tested for syphilis, Not tested for syphilis, Unknown" answerSeparator=""/>
+            </p>
+            <p id="syphilustestresult-container">
+                <label>
+                    Syphilis test result
+                </label>
+                <obs style="radio" conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1229,1228,1067"
+                     answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
+            </p>
+        </div>
+    </section>
+    <br/>
+    <br/>
+    <div class="section-container">
+        <p>
+            <label>
+                Mother's status after this visit
+            </label>
+            <obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                 answerConceptIds="161636,160034,159492,1067"
+                 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator=""/>
+        </p>
+    </div>
+    <submit class="confirm center"/>
 </htmlform>
