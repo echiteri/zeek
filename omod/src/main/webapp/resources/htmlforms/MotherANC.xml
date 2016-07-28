@@ -13,78 +13,113 @@
     <script type="text/javascript">
         jq(function() {
             
-            /* Show the current location and visit date while hiding the encounter location drop down and date picker for
-            encounter date */
+            <!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+            encounter date */-->
             jq('#encounterLocation, #encounterDate').hide();
             jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
             jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
-    
-            /* Disable all the different data elements so that they can be enabled as the form is filled out */
-            jq('#test-result-container :input').prop('disabled', true);
-            jq('#viralload-container :input').prop('disabled', true);
-            jq('#syphilustestresult-container :input').prop('disabled', true);
-            jq('#art-status :input').prop('disabled', true);
-            jq('#viralloadstatus-container :input').prop('disabled', true);
 
-            /* When a patient tests or comes with a positive diagnosis then the test should show as such */
+
+            <!--/* When a patient tests or comes with a positive diagnosis then the test should show as such */-->
             jq('#hiv-test').click(function(){
                 
                 if(getValue('hiv-test.value') == 1065) {
-                    /* tested at this facility - could be positive or negative */
+                    <!--/* tested at this facility - could be positive or negative */-->
+                    jq('#test-result-container :input').prop('checked', false);
+                    jq('#test-result-container').removeClass('hidden');
+                    <!--Ensure art status container is hidden and no radio is checked-->
+                    jq('#art-status :input').attr('checked', false);
                     jq('#test-result-container :input').prop('disabled', false);
+                    jq('#art-status').addClass('hidden');
+
+                    <!--Ensure VL sections are hidden and fields reset-->
+                    hideVLContainer();
                 } else if(getValue('hiv-test.value') == 160546) {
-                    jq('#test-result-container :input').prop('disabled', false);
+                    jq('#test-result-container').removeClass('hidden');
+                    jq('#test-result-container :input').prop('disabled', true);
                     /* Confirmed positive so enable the test results, disable all but positive that is selected */
-                    jq('#test-result input:nth-child(2)').prop('checked', true);
+                    jq('#test-result :radio[value=703]').prop('disabled', false);
+                    jq('#test-result :radio[value=703]').prop('checked', true);
+                   <!-- /* show art status container */-->
+                    jq('#art-status :input').prop('disabled', false);
+                    jq('#art-status').removeClass('hidden');
+                    <!--Ensure VL sections are hidden and fields reset-->
+                    hideVLContainer();
                 } else {
                     jq('#test-result-container :input').prop('checked', false);
-                    jq('#test-result-container :input').prop('disabled', true);
+                    jq('#test-result-container').addClass('hidden');
+                    jq('#art-status :input').attr('checked', false);
+                    jq('#art-status').addClass('hidden');
+                    <!--Ensure VL sections are hidden and fields reset-->
+                    hideVLContainer();
 
                 }
             });
 
-            jq('#recent-vl').click(function(){
-                if(getValue('recent-vl.value')==1301) {
-                jq('#viralload-container :input').prop('disabled', false);
-                }
-                else {
-
-                    jq('#viralload-container :input').prop('disabled', true);
-                    jq('#viralload-container :input').prop('value', '');
-                }
-            });
-            jq('#syphilis-test').click(function(){
-                if(getValue('syphilis-test.value')==1065) {
-                    jq('#syphilustestresult-container :input').attr('disabled', false);
-                }
-                else {
-
-                    jq('#syphilustestresult-container :input').attr('disabled', true);
-                    jq('#syphilustestresult-container :input').attr('checked', false);
-                }
-            });
             jq('#test-result').click(function(){
                 if(getValue('test-result.value')==703) {
                     jq('#art-status :input').prop('disabled', false);
+                    jq('#art-status').removeClass('hidden');
+                    <!--Just ensure VL container remains hidden-->
+                    hideVLContainer();
                 }
                 else {
-
-                    jq('#art-status :input').attr('disabled', true);
                     jq('#art-status :input').attr('checked', false);
+                    jq('#art-status').addClass('hidden');
+                    <!--Just ensure VL container remains hidden-->
+                    hideVLContainer();
                 }
             });
 
             jq('#date_started_art').click(function(){
                 if(getValue('date_started_art.value')==160120 || getValue('date_started_art.value')==160119) {
                     jq('#viralloadstatus-container :input').prop('disabled', false);
+                    jq('#viralloadstatus-container :input').attr('checked', false);
+                    jq('#viralloadstatus-container').removeClass('hidden');
+                }
+                else {
+                    jq('#viralloadstatus-container').addClass('hidden');
+                    jq('#viralloadstatus-container :input').attr('disabled', true);
+                    jq('#viralloadstatus-container :input').attr('checked', false);
+
+                    <!--Just ensure VL container remains hidden-->
+                    hideVLContainer();
+                 }
+            });
+            jq('#recent-vl').click(function(){
+                if(getValue('recent-vl.value')==1301) {
+                    jq('#viralload-container :input').prop('disabled', false);
+                    jq('#viralload-container').removeClass('hidden');
                 }
                 else {
 
-                    jq('#viralloadstatus-container :input').attr('disabled', true);
-                    jq('#viralloadstatus-container :input').attr('checked', false);
+                    jq('#viralload-container').addClass('hidden');
+                    jq('#viralload-container :input').val('');
                 }
             });
+            jq('#syphilis-test').click(function(){
+                if(getValue('syphilis-test.value')==1065) {
+                    jq('#syphilustestresult-container').removeClass('hidden');
+                }
+                else {
+                    jq('#syphilustestresult-container :input').attr('checked', false);
+                    jq('#syphilustestresult-container').addClass('hidden');
+
+                }
+            });
+
         });
+
+        function hideVLContainer(){
+            jq('#viralloadstatus-container').addClass('hidden');
+            jq('#viralloadstatus-container :input').attr('disabled', true);
+            jq('#viralloadstatus-container :input').attr('checked', false);
+
+            <!--Also make sure VL input widget is off -->
+            jq('#viralload-container').addClass('hidden');
+            jq('#viralload-container :input').val('');
+
+        }
     </script>
 
     <h2>
@@ -144,7 +179,7 @@
                      answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Previously known HIV Positive,Unknown"
                      answerSeparator="" required="true"/>
             </p>
-            <p id="test-result-container" >
+            <p id="test-result-container" class="hidden">
                 <label>
                     HIV Test Result
                 </label>
@@ -152,7 +187,7 @@
                      answerLabels="Negative,Positive,Unknown"
                      answerSeparator=""/>
             </p>
-            <p id="art-status">
+            <p id="art-status" class="hidden">
                 <label>
                     ART status
                 </label>
@@ -161,15 +196,15 @@
                      answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown"
                      answerSeparator=""/>
             </p>
-            <p id="viralloadstatus-container">
+            <p id="viralloadstatus-container" class="hidden">
                 <label>
                     Most Recent Viral Load
                 </label>
                 <obs style="radio" conceptId="163310" id="recent-vl" answerConceptIds="1118, 1306, 1301,1067"
-                     answerLabels="No VL test done, Undetectable VL, VL detected&#44; Specify VL below, Unknown"
+                     answerLabels="No VL test done, Undetectable VL, VL detected. Please Specify VL below, Unknown"
                      answerSeparator=""/>
             </p>
-            <p id="viralload-container">
+            <p id="viralload-container" class="hidden">
                 <label>
                     Viral Load
                 </label>
@@ -187,7 +222,7 @@
                 <obs id="syphilis-test" style="radio" conceptId="1827" answerConceptIds="1065,1066,1067"
                      answerLabels="Tested for syphilis, Not tested for syphilis, Unknown" answerSeparator=""/>
             </p>
-            <p id="syphilustestresult-container">
+            <p id="syphilustestresult-container" class="hidden">
                 <label>
                     Syphilis test result
                 </label>
