@@ -57,7 +57,7 @@
 				<label>
 					Was this client booked at ANC?
 				</label>
-				<obs style="yes_no" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" />
+				<obs style="yes_no" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  />
 			</p>
 			<p>
 				<label>
@@ -81,30 +81,46 @@
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ART Status">
 		<div class="section-container">
-			<p>
-				<label>
-					HIV Test Status
-				</label>
-				<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
-					 answerSeparator="" />
-			</p>
-			<p>
-				<label>
-					HIV Test Result
-				</label>
-				<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-					 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
-			</p>
-			<p id="mother-art-status-container">
-				<label>
-					Mother ART Status
-				</label>
-				<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160119,160120,127750,1754,1067"
-					 answerLabels="Already on ART before starting ANC,Started on ART during labour and delivery,Refused ART,Not started due to stockout,Unknown"
-					 answerSeparator="" />
-			</p>
+			<includeIf velocityTest="$fn.latestObs(1396).valueCoded !=703">
+				<p>
+					<label>
+						HIV Test Status
+					</label>
+					<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
+						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
+						 answerSeparator="" />
+				</p>
+				<p>
+					<label>
+						HIV Test Result
+					</label>
+					<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+						 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
+				</p>
+				<p id="mother-art-status-container">
+					<label>
+						Mother ART Status
+					</label>
+					<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="160119,160120,127750,1754,1067"
+						 answerLabels="Already on ART before starting ANC,Started on ART during labour and delivery,Refused ART,Not started due to stockout,Unknown"
+						 answerSeparator="" />
+				</p>
+			</includeIf>
+			<includeIf velocityTest="$fn.latestObs(1396).valueCoded ==703">
+				<includeIf velocityTest="(($fn.latestObs(160117).valueCoded !=160119) &amp;&amp; ($fn.latestObs(160117).valueCoded !=160120))">
+					<p id="mother-art-status-container">
+						<label>
+							Mother ART Status
+						</label>
+						<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptIds="160119,160120,127750,1754,1067"
+							 answerLabels="Already on ART before starting ANC,Started on ART during labour and delivery,Refused ART,Not started due to stockout,Unknown"
+							 answerSeparator="" />
+					</p>
+				</includeIf>
+			</includeIf>
+
 			
 			<p id="infant-arv-status-container">
 				<label>
