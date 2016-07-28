@@ -12,21 +12,31 @@
 
     <script type="text/javascript">
         jq(function() {
-            jq('#provider-container select').focus();
+            
+            /* Show the current location and visit date while hiding the encounter location drop down and date picker for
+            encounter date */
+            jq('#encounterLocation, #encounterDate').hide();
+            jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+            jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+    
+            /* Disable all the different data elements so that they can be enabled as the form is filled out */
             jq('#test-result-container :input').prop('disabled', true);
             jq('#viralload-container :input').prop('disabled', true);
             jq('#syphilustestresult-container :input').prop('disabled', true);
             jq('#art-status :input').prop('disabled', true);
             jq('#viralloadstatus-container :input').prop('disabled', true);
-            jq('#encounterLocation, #encounterDate').hide();
-            jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-            jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 
+            /* When a patient tests or comes with a positive diagnosis then the test should show as such */
             jq('#hiv-test').click(function(){
-                if(getValue('hiv-test.value')==1065 || getValue('hiv-test.value')==1066) {
+                
+                if(getValue('hiv-test.value') == 1065) {
+                    /* tested at this facility - could be positive or negative */
                     jq('#test-result-container :input').prop('disabled', false);
-                }
-                else {
+                } else if(getValue('hiv-test.value') == 160546) {
+                    jq('#test-result-container :input').prop('disabled', false);
+                    /* Confirmed positive so enable the test results, disable all but positive that is selected */
+                    jq('#test-result input:nth-child(2)').prop('checked', true);
+                } else {
                     jq('#test-result-container :input').prop('checked', false);
                     jq('#test-result-container :input').prop('disabled', true);
 
@@ -130,8 +140,8 @@
                 <label>
                     HIV Test Status
                 </label>
-                <obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
-                     answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
+                <obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,160546,1067"
+                     answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Previously known HIV Positive,Unknown"
                      answerSeparator="" required="true"/>
             </p>
             <p id="test-result-container" >
