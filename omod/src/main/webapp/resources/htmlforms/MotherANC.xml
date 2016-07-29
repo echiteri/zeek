@@ -126,6 +126,7 @@
 
         }
 
+        <!--Function to calculate EDD-->
         function calculateEDD(lmpDate){
         <!--Based on (((lmp + 1 year)-3 months) + 7 days) algorithm-->
             var lmpDate = new Date(lmpDate);
@@ -140,7 +141,6 @@
 
             var date = dd + '/' + mm + '/' + yyyy;
             return date;
-
         }
     </script>
 
