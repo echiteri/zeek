@@ -33,6 +33,11 @@ public class AppConfigurationInitializer implements Initializer {
 			// disable the reference app registration page and add one for Namibia
 			appFrameworkService.disableApp("referenceapplication.registrationapp.registerPatient");
 			
+			// disable form entry app on the home page
+			appFrameworkService.disableApp("xforms.formentry");
+			// disable form entry extension in active visits
+			appFrameworkService.disableExtension("xforms.formentry.cfpd");
+			
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
 		}
