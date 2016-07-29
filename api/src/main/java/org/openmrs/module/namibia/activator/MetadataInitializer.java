@@ -8,6 +8,8 @@ import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.emrapi.utils.MetadataUtil;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.namibia.NamibiaConstants;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
+import org.openmrs.module.namibia.metadata.NamibiaPatientIdentifierTypes;
 
 /**
  * Initializer for metadata
@@ -20,7 +22,11 @@ public class MetadataInitializer implements Initializer {
 		MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
 		
 		try {
-			// install concepts
+			log.info("Installing patient identifiers");
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaPatientIdentifierTypeBundle.class).get(0));
+			log.info("Patient identifiers installed");
+			
+			// install Metadata sharing paclages
 			log.info("Installing standard metadata using the packages.xml file");
 			MetadataUtil.setupStandardMetadata(getClass().getClassLoader());
 			log.info("Standard metadata installed");
