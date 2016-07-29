@@ -12,11 +12,53 @@
 	
 	<script type="text/javascript">
 		jq(function() {
-			/* Show the current location and visit date while hiding the encounter location drop down and date picker for
-		encounter date */
+			<!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+			encounter date */-->
 			jq('#encounterLocation, #encounterDate').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+
+			<!--/* When a patient tests or comes with a positive diagnosis then the test should show as such */-->
+			jq('#hiv-test').click(function(){
+
+				if(getValue('hiv-test.value') == 1065) {
+					<!--/* tested at this facility - could be positive or negative */-->
+					jq('#test-result-container :input').prop('checked', false);
+					jq('#test-result-container').removeClass('hidden');
+					<!--Ensure art status container is hidden and no radio is checked-->
+					jq('#art-status :input').attr('checked', false);
+					jq('#test-result-container :input').prop('disabled', false);
+					jq('#art-status').addClass('hidden');
+
+				} else if(getValue('hiv-test.value') == 160546) {
+					jq('#test-result-container').removeClass('hidden');
+					jq('#test-result-container :input').prop('disabled', true);
+					/* Confirmed positive so enable the test results, disable all but positive that is selected */
+					jq('#test-result :radio[value=703]').prop('disabled', false);
+					jq('#test-result :radio[value=703]').prop('checked', true);
+					<!-- /* show art status container */-->
+					jq('#art-status :input').prop('disabled', false);
+					jq('#art-status').removeClass('hidden');
+				} else {
+					jq('#test-result-container :input').prop('checked', false);
+					jq('#test-result-container').addClass('hidden');
+					jq('#art-status :input').attr('checked', false);
+					jq('#art-status').addClass('hidden');
+				}
+			});
+
+			jq('#test-result').click(function(){
+				if(getValue('test-result.value')==703) {
+					jq('#art-status :input').prop('disabled', false);
+					jq('#art-status').removeClass('hidden');
+
+					}
+					else {
+					jq('#art-status :input').attr('checked', false);
+					jq('#art-status').addClass('hidden');
+
+				}
+			});
 		});
 	</script>
 	
@@ -57,13 +99,14 @@
 				<label>
 					Was this client booked at ANC?
 				</label>
-				<obs style="yes_no" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  />
+				<obs style="yes_no_dropdown"  conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answerSeparator="" />
+				<br/>
 			</p>
 			<p>
 				<label>
 					Does the client have a pink book?
 				</label>
-				<obs style="radio" conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" />
+				<obs style="radio" conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true"/>
 			</p>
 			<p>
 				<label>
@@ -79,25 +122,25 @@
 			</p>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ART Status">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs(1396).valueCoded !=703">
+			<includeIf velocityTest="(($fn.latestObs(160117).valueCoded !=160119) &amp;&amp; ($fn.latestObs(160117).valueCoded !=160120))">
 				<p>
 					<label>
 						HIV Test Status
 					</label>
-					<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
+					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
 						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
 						 answerSeparator="" />
 				</p>
-				<p>
+				<p id="test-result-container" class="hidden">
 					<label>
 						HIV Test Result
 					</label>
-					<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+					<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
 						 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
 				</p>
-				<p id="mother-art-status-container">
+				<p id="art-status" class="hidden">
 					<label>
 						Mother ART Status
 					</label>
@@ -106,19 +149,6 @@
 						 answerLabels="Already on ART before starting ANC,Started on ART during labour and delivery,Refused ART,Not started due to stockout,Unknown"
 						 answerSeparator="" />
 				</p>
-			</includeIf>
-			<includeIf velocityTest="$fn.latestObs(1396).valueCoded ==703">
-				<includeIf velocityTest="(($fn.latestObs(160117).valueCoded !=160119) &amp;&amp; ($fn.latestObs(160117).valueCoded !=160120))">
-					<p id="mother-art-status-container">
-						<label>
-							Mother ART Status
-						</label>
-						<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerConceptIds="160119,160120,127750,1754,1067"
-							 answerLabels="Already on ART before starting ANC,Started on ART during labour and delivery,Refused ART,Not started due to stockout,Unknown"
-							 answerSeparator="" />
-					</p>
-				</includeIf>
 			</includeIf>
 
 			
@@ -130,7 +160,7 @@
 					 answerLabels="ARV Prohylaxis daily up to 6 weeks,Refused ARV Prophylaxis,Stock-out of ARV"
 					 answerSeparator="" />
 			</p>
-			<p id="unique-art-number">
+			<p id="unique-art-number" class="hidden">
 				<label>
 					Unique ART Number(ePMS)
 				</label>

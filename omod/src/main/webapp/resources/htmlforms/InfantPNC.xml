@@ -7,13 +7,13 @@
 		  formUILocation="patientDashboard.visitActions"
 		  formOrder="15"
 		  formIcon="icon-medkit"
-		  formShowIf="(visit.active || !visit.active)  patient.person.dead==false &amp;&amp; patient.person.age &lt; 2"
+		  formShowIf="(visit.active || !visit.active) &amp;&amp;  patient.person.dead==false &amp;&amp; patient.person.age &lt; 2"
 		  formDisplayStyle="Standard">
 	
 	<script type="text/javascript">
 		jq(function() {
-			/* Show the current location and visit date while hiding the encounter location drop down and date picker for
-		encounter date */
+			<!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
+		encounter date */-->
 			jq('#encounterLocation, #encounterDate').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
@@ -54,7 +54,7 @@
 			<patient field="birthDate" />
 		</p>
 	</div>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Patient Identification">
+
 		<div class="section-container">
 		<p>
 			<label>
@@ -64,14 +64,13 @@
 			<input type="text" size="15"/>
 		</p>
 		</div>
-	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant Exposure and Propylaxis">
+
 		<div class="section-container radios">
 		<p>
 			<label>
 				Exposure Status
 			</label>
-			<obs style="radio" conceptId="5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="822,1066,1067" answerLabels="Currently Exposed,Currently Unexposed, Unknown" />
+			<obs style="radio" conceptId="5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="822,1066,1067" answerLabels="Currently Exposed,Currently Unexposed, Unknown" answerSeparator="" />
 		</p>
 
 		<p>
@@ -79,7 +78,7 @@
 				ARV Prophylaxis status
 			</label>
 			<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				 answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" />
+				 answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
 		</p>
 
 		<p>
@@ -87,11 +86,10 @@
 				CTX Prophylaxis status
 			</label>
 			<obs style="radio" conceptId="162229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				 answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" />
+				 answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
 		</p>
 	  </div>
-	</section>
-
+		<br/>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and Linkage">
 		<div class="section-container radios">
 		<p>
@@ -99,26 +97,26 @@
 				Was this infant tested for HIV during this visit?
 			</label>
 			<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				 answerConceptIds="1065,1066,138571,1067" answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Previously Known HIV Positive, Unknown" />
+				 answerConceptIds="1065,1066,138571,1067" answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Previously Known HIV Positive, Unknown" answerSeparator=""/>
 		</p>
 
 		<p>
 			<label>
 				What kind of test was used?
 			</label>
-			<obs style="radio" conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" />
+			<obs style="radio" conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
 		</p>
 		<p>
 			<label>
 				What was the final test result?
 			</label>
-			<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
 		</p>
 		<p>
 			<label>
 				Was this infant linked to ART
 			</label>
-			<obs style="radio" conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" />
+			<obs style="radio" conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
 		</p>
 
 		<p>
@@ -136,7 +134,7 @@
 			<label>
 				Infant transfer status
 			</label>
-			<obs style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160563,159492,1067" answerLabels="Transfer In, Transferred Out, Unknown" />
+			<obs style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160563,159492,1067" answerLabels="Transfer In, Transferred Out, Unknown" answerSeparator=""/>
 		</p>
 
 		<p>
@@ -144,7 +142,7 @@
 				Infant mother's status after this visit
 			</label>
 			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" />
+				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator=""/>
 		</p>
 	   </div>
 	</section>

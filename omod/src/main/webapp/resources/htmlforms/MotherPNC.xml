@@ -50,20 +50,21 @@
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
-	
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ART Status">
+	<includeIf velocityTest="(($fn.latestObs(160117).valueCoded !=160119) &amp;&amp; ($fn.latestObs(160117).valueCoded !=160120))">
 		<div class="section-container radios">
-			
-			<p id="mother-art-status-container">
-				<label>
-					ART Status
-				</label>
-				<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160119,160120,127750,1754,1067"
-					 answerLabels="Already on ART before starting ANC,Started on ART during this visit,Refused ART,Not started due to stockout,Unknown"
-					 answerSeparator="" />
-			</p>
-			
+
+
+				<p id="art-status">
+					<label>
+						Mother ART Status
+					</label>
+					<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="160119,160120,127750,1754,1067"
+						 answerLabels="Already on ART before starting ANC,Started on ART during this visit,Refused ART,Not started due to stockout,Unknown"
+						 answerSeparator="" />
+				</p>
+
+
 			<p>
 				<label>
 					ART Unique Number
@@ -72,7 +73,6 @@
 				<input type="text" size="15" />
 			</p>
 		</div>
-	</section>
 	
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Tests">
 		<div class="section-container">
@@ -107,6 +107,7 @@
 			</p>
 		</div>
 	</section>
+	</includeIf>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
 		<div class="section-container radios">
 			<p id="bf-container">
