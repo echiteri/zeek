@@ -83,6 +83,9 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty("patient.identifierRegex", ""));
 		properties.add(new GlobalProperty("patient.identifierSearchPattern", ""));
 		
+		// do not allow overlapping visits
+		properties.add(new GlobalProperty("visits.allowOverlappingVisits", "false"));
+		
 		//HTML Form Entry Settings
 		properties.add(new GlobalProperty("htmlformentry.showDateFormat", "false")); //Disable date format display on form
 		
