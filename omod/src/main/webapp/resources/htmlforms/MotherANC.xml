@@ -34,11 +34,6 @@
 					<!--Ensure VL sections are hidden and fields reset-->
 					hideVLContainer();
 				} else if(getValue('hiv-test.value') == 160546) {
-					jq('#test-result-container').removeClass('hidden');
-					jq('#test-result-container :input').prop('disabled', true);
-					/* Confirmed positive so enable the test results, disable all but positive that is selected */
-					jq('#test-result :radio[value=703]').prop('disabled', false);
-					jq('#test-result :radio[value=703]').prop('checked', true);
 					<!-- /* show art status container */-->
 					jq('#art-status :input').prop('disabled', false);
 					jq('#art-status').removeClass('hidden');
@@ -82,16 +77,6 @@
 					
 					<!--Just ensure VL container remains hidden-->
 					hideVLContainer();
-				}
-			});
-			jq('#recent-vl').click(function(){
-				if(getValue('recent-vl.value')==1301) {
-					jq('#viralload-container :input').prop('disabled', false);
-					jq('#viralload-container').removeClass('hidden');
-				}
-				else {
-					jq('#viralload-container').addClass('hidden');
-					jq('#viralload-container :input').val('');
 				}
 			});
 		
@@ -147,14 +132,46 @@
 			return date;
 		}
 	</script>
+	<lookup
+			complexExpression="#set( $first_visit_date = 0)" />
+	<lookup
+			complexExpression="#set( $syphilis_test_status = 0)" />
+	<ifMode mode="ENTER">
+		<lookup
+				complexExpression="#set( $hiv_status = $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		
+		<lookup
+				complexExpression="#set( $hiv_test_result = $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		<lookup
+				complexExpression="#set( $art_status = $fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		<lookup complexExpression="#set( $mode = 0)" />
+		<lookup
+				complexExpression="#set( $first_visit_date = $fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime)" />
+		<lookup complexExpression="#set ($show_menstural_date = 1)" />
+		<lookup
+				complexExpression="#set( $syphilis_test_status = $fn.latestObs('299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+	</ifMode>
+	<ifMode mode="EDIT">
+		<lookup
+				complexExpression="#set( $hiv_status = $fn.getObs($encounter,'161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
+		<lookup
+				complexExpression="#set( $hiv_test_result = $fn.getObs($encounter,'1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
+		<lookup
+				complexExpression="#set( $art_status = $fn.getObs($encounter,'160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
+		<lookup complexExpression="#set( $mode = 1)" />
+		<lookup
+				complexExpression="#set( $first_visit_date = $fn.getObs($encounter,'1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime)" />
+		<lookup complexExpression="#set ($show_menstural_date = 0)" />
+		<lookup
+				complexExpression="#set( $syphilis_result = $fn.getObs($encounter,'299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
+	
+	</ifMode>
 	
 	<h2>
 		<label>
 			Mother ANC Visit
 		</label>
 	</h2>
-	
-	<span id="existing-hiv-status"></span>
 	<section id="who-when-where">
 		<p id="who">
 			<label>
@@ -181,53 +198,23 @@
 		</p>
 	
 	</section>
-	<div>
-		Variables
-		<lookup complexExpression="#set( $first_visit = 0)" />
-		<lookup
-				complexExpression="#set( $show_syphilis_result = 1)" />
-			<ifMode mode="ENTER">
-				<lookup
-						complexExpression="#set( $hiv_status = $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-				<lookup
-						complexExpression="#set( $art_status = $fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-				<lookup complexExpression="#set( $mode = 0)" />
-				<lookup
-						complexExpression="#set( $first_visit = $fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime)" />
-				<lookup complexExpression="#set ($show_menstural_date = 1)" />
-				<lookup
-						complexExpression="#set( $syphilis_result = $fn.latestObs('299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-			</ifMode>
-			<ifMode mode="EDIT">
-				<lookup
-						complexExpression="#set( $hiv_status = $fn.getObs($encounter,'1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-				<lookup
-						complexExpression="#set( $art_status = $fn.getObs($encounter,'160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-				<lookup complexExpression="#set( $mode = 1)" />
-				<lookup complexExpression="#set ($show_menstural_date = 0)" />
-				<lookup
-						complexExpression="#set( $syphilis_result = $fn.getObs($encounter,'299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-				
-			</ifMode>
-	</div>
-	
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 	<div class="section-container">
 		<p class="narrow">
 			<label>
 				Last menstural period
 			</label>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; ($first_visit == 0)) || ($mode == 1)">
+				<includeIf velocityTest="($first_visit_date == 0)">
 					<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
-					<lookup complexExpression="#set( $show_menstural_date = 0)" />
 				</includeIf>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; ($show_menstural_date == 1))">
+				<excludeIf velocityTest="($first_visit_date == 0)">
 					<span id="lmp">
-						<lookup complexExpression="$first_visit" />
+						<lookup complexExpression="$first_visit_date" />
 					</span>
 					<script>
 						calculateEDD(jq.trim(jq('#lmp').text()));
 					</script>
-				</includeIf>
+				</excludeIf>
 		</p>
 		<p>
 			<label>Expected Date of Delivery</label>
@@ -237,52 +224,67 @@
 			<label>
 				Expected facility of delivery
 			</label>
-			<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			<includeIf velocityTest="($first_visit == 0)">
+				<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			</includeIf>
+			<excludeIf velocityTest="($first_visit == 0)">
+				<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
+			</excludeIf>
 		</p>
 	</div>
-	<br />
+	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
 		
 		<div id="art-status-container" class="section-container">
-			<includeIf velocityTest="(($mode == 0) &amp;&amp; ($hiv_status != 703)) || (($mode == 1))">
+			<p>
+				<includeIf velocityTest="($first_visit != 0)">
+							<label>Status from previous visits</label>
+								<includeIf velocityTest="($hiv_status.valueCoded == 160546)">
+									Previously known HIV Positive on <lookup complexExpression="$hiv_status.obsDatetime" />
+								</includeIf>
+								<includeIf velocityTest="($hiv_status.valueCoded == 1065)">
+									Test results: <lookup complexExpression="${hiv_test_result.valueCoded.name}" /> on <lookup complexExpression="${hiv_test_result.obsDatetime}" />
+								</includeIf>
+				</includeIf>
+			</p>
 			<p id="span-hiv-test-status">
-				<label>
-					HIV Test Status
-				</label>
-				
+				<excludeIf velocityTest="(($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160118))">
+					<label>
+						HIV Test Status
+					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="1065,1066,160546,1067"
 					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Previously known HIV Positive,Unknown"
 					 answerSeparator="" required="true" />
-				
-				
+				</excludeIf>
 			</p>
-			</includeIf>
-			<p id="test-result-container">
+			
+			<p id="test-result-container" class="hidden">
 				<label>
 					HIV Test Result
 				</label>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; ($hiv_status != 703)) || (($mode == 1))">
 					<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
 					 answerLabels="Negative,Positive,Unknown"
-					 answerSeparator="" />
-				</includeIf>
-				<includeIf velocityTest="($mode == 0) &amp;&amp; ($hiv_status == 703)">
-					Positive
-				</includeIf>
+					 answerSeparator="" required="true" />
 			</p>
 			<p id="art-status">
 				<label>
 					ART status
 				</label>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; (($art_status != 160119) || ($art_status != 160120) || ($art_status != 160018))) || (($mode == 1))">
+				<excludeIf velocityTest="(($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160018))">
 				<obs id="date_started_art" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="160120,160119,160018,1754,1067"
 					 answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown"
 					 answerSeparator="" />
+				</excludeIf>
+				<includeIf velocityTest="($art_status.valueCoded == 160120)">
+					Started ART during previous ANC visit
 				</includeIf>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; (($art_status == 160119) || ($art_status == 160120) || ($art_status == 160018)))">
-					<lookup complexExpression="$art_status" />
+				<includeIf velocityTest="($art_status.valueCoded == 160119)">
+					Already on ART
+				</includeIf>
+				<includeIf velocityTest="($art_status.valueCoded == 160118)">
+					Refused ART
 				</includeIf>
 			</p>
 			</div>
@@ -291,47 +293,10 @@
 					<label>
 						Most Recent Viral Load
 					</label>
-					<obs style="radio" conceptId="163310" id="recent-vl" answerConceptIds="1118, 1306, 1301,1067"
-						 answerLabels="No VL test done, Undetectable VL, VL detected. Please Specify VL below, Unknown"
+					<obs style="radio" conceptId="163310" id="recent-vl" answerConceptIds="1118, 1267, 1067"
+						 answerLabels="No VL test done, VL test ordered, Unknown"
 						 answerSeparator="" />
 				</p>
-				<p id="viralload-container" class="hidden">
-					<label>
-						Viral Load
-					</label>
-					<obs id="vl-result" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-				</p>
-		</div>
-	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Syphillis">
-		<div class="section-container">
-			<includeIf velocityTest="(($mode == 0) &amp;&amp; ((!$syphilis_result) || ($syphilis_result == 1067))) || (($mode == 1))">
-			<p>
-				<label>
-					Syphilis test status
-				</label>
-				<obs id="syphilis-test" style="radio" conceptId="1827" answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for syphilis, Not tested for syphilis, Unknown" answerSeparator="" />
-			</p>
-			</includeIf>
-			<p id="syphilustestresult-container">
-				<label>
-					Syphilis test result
-				</label>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; ((!$syphilis_result) || ($syphilis_result == 1067))) || (($mode == 1))">
-					<obs style="radio" conceptId="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1229,1228,1067"
-					 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
-					<lookup
-							complexExpression="#set( $show_syphilis_result = 0)" />
-				</includeIf>
-				<includeIf velocityTest="(($mode == 0) &amp;&amp; ($show_syphilis_result == 1))">
-					<lookup complexExpression="#if ($syphilis_result == 1229)
-  Negative
-#else
-  Positive
-#end" />
-				</includeIf>
-			</p>
 		</div>
 	</section>
 	<br />
