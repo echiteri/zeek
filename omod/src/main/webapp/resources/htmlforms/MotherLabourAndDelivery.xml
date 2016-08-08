@@ -67,7 +67,49 @@
 			Mother Labour and Delivery Form
 		</label>
 	</h2>
-	<section id="who-when-where">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
+		<div class="section-container">
+			<table>
+				<tr>
+					<th align="left">Age(Yrs)</th>
+					<th align="left" width="60%">Telephone Number</th>
+				</tr>
+				<tr>
+					<td><lookup expression="patient.age"/></td>
+					<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
+				</tr>
+			</table>
+			<br/>
+			<table>
+				<tr>
+					<th align="left">Recent HIV Status</th>
+					<th align="left" width="60%">Date of last HIV test</th>
+				</tr>
+				<tr>
+					<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
+					<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+				</tr>
+			</table>
+			<br/>
+			<table>
+				<tr>
+					<th align="left" width="40%">Total No of ANC Visits</th>
+					<th align="left" width="30%">Referral ANC Clinic</th>
+					<th align="left">ANC Provider Name</th>
+				</tr>
+				<tr>
+					<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
+					<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
+					<td>
+						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.givenName" />
+						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.familyName" />
+					</td>
+
+				</tr>
+			</table>
+		</div>
+	</section>
+	<section id="who-when-where" headerStyle="title" headerTag="legend" headerCode="Today's Visit">
 		<p id="who">
 			<label>
 				Attending Clinican
