@@ -248,7 +248,8 @@
 				</includeIf>
 			</p>
 			<p id="span-hiv-test-status">
-				<excludeIf velocityTest="(($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160118))">
+				<excludeIf
+						velocityTest="(($hiv_status.valueCoded == 160546) || ($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160118))">
 					<label>
 						HIV Test Status
 					</label>
