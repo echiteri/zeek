@@ -30,7 +30,7 @@
 			<label>
 				Attending Clinican
 			</label>
-			<encounterProvider />
+			<encounterProvider  default="currentUser"/>
 		</p>
 		<p id="where">
 			<label>
