@@ -67,71 +67,7 @@
 			Mother Labour and Delivery Form
 		</label>
 	</h2>
-	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()>0">
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
-		<div class="section-container">
-			<!--<table>
-				<tr>
-					<th align="left">Age(Yrs)</th>
-					<th align="left" width="60%">Telephone Number</th>
-				</tr>
-				<tr>
-					<td><lookup expression="patient.age"/></td>
-					<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
-				</tr>
-			</table>-->
-
-			<table>
-				<tr>
-					<th align="left">Recent HIV Test Result</th>
-					<th align="left" width="60%">Date of last HIV test</th>
-				</tr>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded == 1065">
-					<tr>
-						<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
-						<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-					</tr>
-				</includeIf>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==160546">
-					<tr>
-						<td>KNOWN POSITIVE</td>
-						<td width="60%"><lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-					</tr>
-				</includeIf>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1066">
-					<tr>
-						<td>NOT TESTED</td>
-						<td width="60%"><lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-					</tr>
-				</includeIf>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1067">
-					<tr>
-						<td>UNKNOWN</td>
-						<td width="60%"><lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-					</tr>
-				</includeIf>
-			</table>
-			<br/>
-			<table>
-				<tr>
-					<th align="left" width="40%">Total No of ANC Visits</th>
-					<th align="left" width="30%">Referral ANC Clinic</th>
-					<th align="left">ANC Provider Name</th>
-				</tr>
-				<tr>
-					<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
-					<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
-					<td>
-						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.givenName" />
-						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.familyName" />
-					</td>
-
-				</tr>
-			</table>
-		</div>
-	</section>
-	</includeIf>
-	<section id="who-when-where" headerStyle="title" headerTag="legend">
+	<section id="who-when-where" headerStyle="title" headerTag="legend" sectionTag="fieldset">
 		<p id="who">
 			<label>
 				Attending Clinican
@@ -156,9 +92,75 @@
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
+	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()>0">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
+		<div class="section-container">
+			<table>
+				<tr>
+					<th align="left">Age(Yrs)</th>
+					<th align="left" width="60%">Telephone Number</th>
+				</tr>
+				<tr>
+					<td><lookup expression="patient.age"/></td>
+					<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
+				</tr>
+			</table>
+
+			<table>
+				<tr>
+					<th align="left">Last HIV Status</th>
+					<th align="left" width="60%">Date of last HIV Test</th>
+				</tr>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded == 1065">
+					<tr>
+						<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
+						<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+					</tr>
+				</includeIf>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==160546">
+					<tr>
+						<td>KNOWN POSITIVE</td>
+						<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
+					</tr>
+				</includeIf>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1066">
+					<tr>
+						<td>NOT TESTED</td>
+						<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
+					</tr>
+				</includeIf>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1067">
+					<tr>
+						<td>UNKNOWN</td>
+						<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
+					</tr>
+				</includeIf>
+			</table>
+
+			<table>
+				<tr>
+					<th align="left" width="40%">Total No of ANC Visits</th>
+					<th align="left" width="30%">Referral ANC Clinic</th>
+					<th align="left">ANC Provider Name</th>
+				</tr>
+				<tr>
+					<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
+					<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
+					<td>
+						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.givenName" />
+						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.familyName" />
+					</td>
+
+				</tr>
+			</table>
+		</div>
+	</section>
+	</includeIf>
+
 
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
+			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
 			<p class="narrow">
 				<label>
 					Was this client booked at ANC?
@@ -172,6 +174,7 @@
 				</label>
 				<obs style="radio" conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true"/>
 			</p>
+			</includeIf>
 			<p>
 				<label>
 					ANC Client Number
@@ -193,9 +196,10 @@
 					<label>
 						HIV Test Status
 					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown"
-						 answerSeparator="" />
+					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="1065,1066,160546,1067"
+						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Previously known HIV Positive,Unknown"
+						 answerSeparator="" required="true" />
 				</p>
 				<p id="test-result-container" class="hidden">
 					<label>
@@ -250,8 +254,8 @@
 			</p>
 		</div>
 	</section>
-	<br />
-	<br />
+
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Exit Status">
 	<div class="section-container">
 		<p>
 			<label>
@@ -261,5 +265,6 @@
 				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" />
 		</p>
 	</div>
+	</section>
 	<submit class="confirm center" />
 </htmlform>
