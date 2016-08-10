@@ -165,14 +165,14 @@
 				<label>
 					Was this client booked at ANC?
 				</label>
-				<obs style="yes_no_dropdown"  conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answerSeparator="" />
+				<obs style="yes_no_dropdown" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" defaultValue="false" required="true" answerSeparator="" />
 				<br/>
 			</p>
 			<p>
 				<label>
 					Does the client have a pink book?
 				</label>
-				<obs style="radio" conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true"/>
+				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" defaultValue="1066" answerSeparator=""  required="true"/>
 			</p>
 			</includeIf>
 			<p>
