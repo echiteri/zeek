@@ -92,6 +92,32 @@
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
+	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()&lt;1">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
+			<div class="section-container">
+				<table>
+					<tr>
+						<th align="left">Age(Yrs)</th>
+						<th align="left" width="60%">Telephone Number</th>
+					</tr>
+					<tr>
+						<td><lookup expression="patient.age"/></td>
+						<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<th align="left">Booked Status</th>
+						<th align="left" width="60%">HIV Status</th>
+					</tr>
+					<tr>
+						<td>Unbooked</td>
+						<td width="60%">UNKNOWN</td>
+					</tr>
+				</table>
+			</div>
+		</section>
+	</includeIf>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()>0">
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
 		<div class="section-container">
@@ -161,7 +187,7 @@
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
-			<p class="narrow">
+			<p class="hidden">
 				<label>
 					Was this client booked at ANC?
 				</label>
