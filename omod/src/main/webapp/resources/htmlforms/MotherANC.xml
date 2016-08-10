@@ -217,23 +217,100 @@
 		</p>
 	
 	</section>
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title summary" headerCode="First ANC Visit Summary Information">
+			<div class="section-container">
+				<table>
+					<tr>
+						<th align="left">Age(Yrs)</th>
+						<th align="left" width="60%">Telephone Number</th>
+					</tr>
+					<tr>
+						<td><lookup expression="patient.age"/></td>
+						<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
+					</tr>
+				</table>
+				
+				<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
+					<script>
+						jq(function() {
+							<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
+							jq('legend.summary').html('ANC Visit Summary Information');
+						});
+					</script>
+					<table>
+						<tr>
+							<th align="left" width="40%">Last Menstral Period</th>
+							<th align="left" width="30%">Expected Date of Delivery</th>
+							<th align="left">Expected Facility of Delivery</th>
+						</tr>
+						<tr>
+							<td><lookup complexExpression="$first_visit_date" /></td>
+							<td><span id="edd"></span></td>
+							<td>
+								<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
+							</td>
+						
+						</tr>
+					</table>
+					<table>
+						<tr>
+							<th align="left">Last HIV Status</th>
+							<th align="left" width="60%">Date of last HIV Test</th>
+						</tr>
+						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded == 1065">
+							<tr>
+								<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
+								<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+							</tr>
+						</includeIf>
+						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==160546">
+							<tr>
+								<td>Previously known positive from another facility</td>
+								<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
+							</tr>
+						</includeIf>
+						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1066">
+							<tr>
+								<td>NOT TESTED</td>
+								<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
+							</tr>
+						</includeIf>
+						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1067">
+							<tr>
+								<td>UNKNOWN</td>
+								<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
+							</tr>
+						</includeIf>
+					</table>
+					
+					<table>
+						<tr>
+							<th align="left" width="40%">Previous ANC Visits</th>
+							<th align="left" width="30%">Last ANC Clinic</th>
+							<th align="left">ANC Provider Name</th>
+						</tr>
+						<tr>
+							<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
+							<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
+							<td>
+								<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.givenName" />
+								<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.familyName" />
+							</td>
+						
+						</tr>
+					</table>
+				</includeIf>
+			</div>
+		</section>
+	
+	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 	<div class="section-container">
 		<p class="narrow">
 			<label>
 				Last menstural period
 			</label>
-				<includeIf velocityTest="($first_visit_date == 0)">
 					<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
-				</includeIf>
-				<excludeIf velocityTest="($first_visit_date == 0)">
-					<span id="lmp">
-						<lookup complexExpression="$first_visit_date" />
-					</span>
-					<script>
-						calculateEDD(jq.trim(jq('#lmp').text()));
-					</script>
-				</excludeIf>
 		</p>
 		<p>
 			<label>Expected Date of Delivery</label>
@@ -243,17 +320,13 @@
 			<label>
 				Expected facility of delivery
 			</label>
-			<includeIf velocityTest="($first_visit_date == 0)">
 				<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" /> <!--
 				 only
 				 show admission locations -->
-			</includeIf>
-			<excludeIf velocityTest="($first_visit_date == 0)">
-				<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
-			</excludeIf>
 		</p>
 	</div>
 	</section>
+	</includeIf>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
 		
 		<div id="art-status-container" class="section-container">
@@ -261,7 +334,7 @@
 				<includeIf velocityTest="($first_visit != 0)">
 							<label>Status from previous visits</label>
 								<includeIf velocityTest="($hiv_status.valueCoded == 160546)">
-									Previously known HIV Positive on <lookup complexExpression="$hiv_status.obsDatetime" />
+									Previously known positive from another facility on <lookup complexExpression="$hiv_status.obsDatetime" />
 								</includeIf>
 								<includeIf velocityTest="($hiv_status.valueCoded == 1065)">
 									Test results: <lookup complexExpression="${hiv_test_result.valueCoded.name}" /> on <lookup complexExpression="${hiv_test_result.obsDatetime}" />
