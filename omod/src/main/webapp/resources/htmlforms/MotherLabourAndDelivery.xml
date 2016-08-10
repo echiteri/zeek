@@ -9,7 +9,7 @@
 		  formIcon="icon-medkit"
 		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
-	
+
 	<script type="text/javascript">
 		jq(function() {
 			<!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
@@ -61,15 +61,16 @@
 			});
 		});
 	</script>
-	
+
 	<h2>
 		<label>
 			Mother Labour and Delivery Form
 		</label>
 	</h2>
+	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()>0">
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
 		<div class="section-container">
-			<table>
+			<!--<table>
 				<tr>
 					<th align="left">Age(Yrs)</th>
 					<th align="left" width="60%">Telephone Number</th>
@@ -78,17 +79,37 @@
 					<td><lookup expression="patient.age"/></td>
 					<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
 				</tr>
-			</table>
-			<br/>
+			</table>-->
+
 			<table>
 				<tr>
-					<th align="left">Recent HIV Status</th>
+					<th align="left">Recent HIV Test Result</th>
 					<th align="left" width="60%">Date of last HIV test</th>
 				</tr>
-				<tr>
-					<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
-					<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-				</tr>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded == 1065">
+					<tr>
+						<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
+						<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+					</tr>
+				</includeIf>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==160546">
+					<tr>
+						<td>KNOWN POSITIVE</td>
+						<td width="60%"><lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+					</tr>
+				</includeIf>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1066">
+					<tr>
+						<td>NOT TESTED</td>
+						<td width="60%"><lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+					</tr>
+				</includeIf>
+				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1067">
+					<tr>
+						<td>UNKNOWN</td>
+						<td width="60%"><lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+					</tr>
+				</includeIf>
 			</table>
 			<br/>
 			<table>
@@ -109,7 +130,8 @@
 			</table>
 		</div>
 	</section>
-	<section id="who-when-where" headerStyle="title" headerTag="legend" headerCode="Today's Visit">
+	</includeIf>
+	<section id="who-when-where" headerStyle="title" headerTag="legend">
 		<p id="who">
 			<label>
 				Attending Clinican
@@ -134,7 +156,7 @@
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
-	
+
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
 			<p class="narrow">
@@ -193,7 +215,7 @@
 				</p>
 			</includeIf>
 
-			
+
 			<p id="infant-arv-status-container">
 				<label>
 					Infant Prophylaxis Status
