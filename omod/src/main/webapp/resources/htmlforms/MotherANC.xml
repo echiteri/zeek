@@ -80,13 +80,32 @@
 				}
 			});
 		
-			jq('#syphilis-test').click(function(){
-				if(getValue('syphilis-test.value')==1065) {
-					jq('#syphilustestresult-container').removeClass('hidden');
-				}
-				else {
-					jq('#syphilustestresult-container :input').attr('checked', false);
-					jq('#syphilustestresult-container').addClass('hidden');
+			jq('#mothers-visit-status').click(function(){
+				if(getValue('mothers-visit-status.value') == 161636) {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+		
+					jq('#next-visit-date').removeClass('hidden');
+					jq('#next-visit-date :input').attr('disabled', false);
+				} else if(getValue('mothers-visit-status.value') == 160034) {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+					jq('#patient-death-info').removeClass('hidden');
+					jq('#patient-death-info :input').attr('disabled', false);
+				} else if(getValue('mothers-visit-status.value') == 159492) {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+		
+					jq('#transfer-info').removeClass('hidden');
+					jq('#transfer-info :input').attr('disabled', false);
+					
+				} else {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
 				}
 			});
 			
@@ -224,10 +243,12 @@
 			<label>
 				Expected facility of delivery
 			</label>
-			<includeIf velocityTest="($first_visit == 0)">
-				<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			<includeIf velocityTest="($first_visit_date == 0)">
+				<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" /> <!--
+				 only
+				 show admission locations -->
 			</includeIf>
-			<excludeIf velocityTest="($first_visit == 0)">
+			<excludeIf velocityTest="($first_visit_date == 0)">
 				<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
 			</excludeIf>
 		</p>
@@ -303,14 +324,26 @@
 	<br />
 	<br />
 	<div class="section-container">
-		<p>
+		<p >
 			<label>
 				Mother's status after this visit
 			</label>
-			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+			<obs id="mothers-visit-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 				 answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" />
+				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" required="true" />
 		</p>
+		<div id="mother-visit-status-container">
+		<p id="next-visit-date" class="hidden narrow">
+			<label>Next Visit Date</label>
+			<obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+		</p>
+		<p id="transfer-info" class="hidden narrow">
+			<label>Transferred out to</label>
+			<obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+		</p>
+		<p id="patient-death-info" class="hidden">
+		</p>
+		</div>
 	</div>
 	<submit class="confirm center" />
 </htmlform>
