@@ -330,17 +330,6 @@
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
 		
 		<div id="art-status-container" class="section-container">
-			<p>
-				<includeIf velocityTest="($first_visit != 0)">
-							<label>Status from previous visits</label>
-								<includeIf velocityTest="($hiv_status.valueCoded == 160546)">
-									Previously known positive from another facility on <lookup complexExpression="$hiv_status.obsDatetime" />
-								</includeIf>
-								<includeIf velocityTest="($hiv_status.valueCoded == 1065)">
-									Test results: <lookup complexExpression="${hiv_test_result.valueCoded.name}" /> on <lookup complexExpression="${hiv_test_result.obsDatetime}" />
-								</includeIf>
-				</includeIf>
-			</p>
 			<p id="span-hiv-test-status">
 				<excludeIf
 						velocityTest="(($hiv_status.valueCoded == 160546) || ($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160118))">
@@ -402,8 +391,8 @@
 				Mother's status after this visit
 			</label>
 			<obs id="mothers-visit-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				 answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" required="true" />
+				 answerConceptIds="161636,159492,1067"
+				 answerLabels="Still in Care,Transferred Out, Unknown" answerSeparator="" required="true" />
 		</p>
 		<div id="mother-visit-status-container">
 		<p id="next-visit-date" class="hidden narrow">
