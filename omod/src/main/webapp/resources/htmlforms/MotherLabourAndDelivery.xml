@@ -59,6 +59,35 @@
 
 				}
 			});
+			jq('#mother-status').click(function(){
+				if(getValue('infant-status.value')==1065 &amp;&amp; getValue('mother-status.value')==161636){
+					jq('#pnc-facility :input').val('');
+					jq('#expected-post-natal-facility').removeClass('hidden');
+				}
+				if(getValue('mother-status.value') !=161636) {
+					jq('#pnc-facility :input').val('');
+					jq('#expected-post-natal-facility').addClass('hidden');
+				}
+			});
+
+			jq('#infant-status').click(function(){
+				if(getValue('infant-status.value')==1065 &amp;&amp; getValue('mother-status.value')==161636){
+					jq('#pnc-facility :input').val('');
+					jq('#expected-post-natal-facility').removeClass('hidden');
+				}
+				else if(getValue('infant-status.value')==1065) {
+					jq('#infant-arv-status-container :input').attr('checked', false);
+					jq('#infant-arv-status-container').removeClass('hidden');
+
+				}
+				else {
+					jq('#infant-arv-status-container :input').attr('checked', false);
+					jq('#infant-arv-status-container').addClass('hidden');
+					jq('#pnc-facility :input').val('');
+					jq('#expected-post-natal-facility').addClass('hidden');
+
+				}
+			});
 		});
 	</script>
 
@@ -215,7 +244,7 @@
 			</p>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Status at Delivery">
 		<div class="section-container">
 			<includeIf velocityTest="(($fn.latestObs(160117).valueCoded !=160119) &amp;&amp; ($fn.latestObs(160117).valueCoded !=160120))">
 				<p>
@@ -245,15 +274,6 @@
 				</p>
 			</includeIf>
 
-
-			<p id="infant-arv-status-container">
-				<label>
-					Infant Prophylaxis Status
-				</label>
-				<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
-					 answerLabels="ARV Prohylaxis daily up to 6 weeks,Refused ARV Prophylaxis,Stock-out of ARV"
-					 answerSeparator="" />
-			</p>
 			<p id="unique-art-number" class="hidden">
 				<label>
 					Unique ART Number(ePMS)
@@ -272,25 +292,44 @@
 				</label>
 				<input type="text" size="15" />
 			</p>
-			<p id="expected-post-natal-facility">
-				<label>
-					Expected post natal care facility
-				</label>
-				<input type="text" size="15" />
-			</p>
 		</div>
 	</section>
 
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Exit Status">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Mother Status">
 	<div class="section-container">
 		<p>
 			<label>
-				Mother's status after this visit
+				Mother's status
 			</label>
-			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" />
+			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
+				 answerLabels="Still in Care,Mother Died(Maternal Death),Transferred Out, Unknown" answerSeparator="" />
 		</p>
 	</div>
+	</section>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant Status">
+		<div class="section-container">
+			<p>
+				<label>
+					Infant Status
+				</label>
+				<obs id="infant-status" style="radio" conceptId="1571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,140396"
+					 answerLabels="Infant still alive,Infant Died(Neonatal Death),Still Birth" answerSeparator="" />
+			</p>
+			<p id="infant-arv-status-container" class="hidden">
+				<label>
+					Infant Prophylaxis Status
+				</label>
+				<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
+					 answerLabels="ARV Prohylaxis daily up to 6 weeks,Refused ARV Prophylaxis,Stock-out of ARV"
+					 answerSeparator="" />
+			</p>
+			<p id="expected-post-natal-facility" class="hidden">
+				<label>
+					Expected post natal care facility
+				</label>
+				<obs id="pnc-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			</p>
+		</div>
 	</section>
 	<submit class="confirm center" />
 </htmlform>
