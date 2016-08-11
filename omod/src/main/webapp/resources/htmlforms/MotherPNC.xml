@@ -17,7 +17,36 @@
 			jq('#encounterLocation, #encounterDate').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
-		});
+		
+			jq('#mothers-visit-status').click(function(){
+				if(getValue('mothers-visit-status.value') == 161636) {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+			
+					jq('#next-visit-date').removeClass('hidden');
+					jq('#next-visit-date :input').attr('disabled', false);
+				} else if(getValue('mothers-visit-status.value') == 160034) {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+					jq('#patient-death-info').removeClass('hidden');
+					jq('#patient-death-info :input').attr('disabled', false);
+				} else if(getValue('mothers-visit-status.value') == 159492) {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+					
+					jq('#transfer-info').removeClass('hidden');
+					jq('#transfer-info :input').attr('disabled', false);
+				
+				} else {
+					jq('#mother-visit-status-container p').addClass('hidden');
+					jq('#mother-visit-status-container :input').attr('disabled', true);
+					jq('#mother-visit-status-container :input').attr('checked', false);
+				}
+			});
+			});
 	</script>
 	
 	<h2>
@@ -128,15 +157,21 @@
 					Mother's status after this visit
 				</label>
 				<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="161636,160034,159492,1067"
-					 answerLabels="Still in Care,Patient Died,Transferred Out, Unknown" answerSeparator="" />
+					 answerConceptIds="161636,159492,1067"
+					 answerLabels="Still in Care,Transferred Out, Unknown" answerSeparator="" />
 			</p>
-			<p id="tca-container" class="narrow">
-				<label>
-					Date of Next Visit
-				</label>
-				<obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="return-visit-date" allowFutureDates="true" />
-			</p>
+			<div id="mother-visit-status-container">
+				<p id="next-visit-date" class="hidden narrow">
+					<label>Next Visit Date</label>
+					<obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+				</p>
+				<p id="transfer-info" class="hidden narrow">
+					<label>Transferred out to</label>
+					<obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+				</p>
+				<p id="patient-death-info" class="hidden">
+				</p>
+			</div>
 		</div>
 	</section>
 	<submit class="confirm center" />
