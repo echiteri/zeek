@@ -29,8 +29,9 @@ public class NamibiaHeaderFragmentRequestMapper implements FragmentRequestMapper
 				request.setProviderNameOverride("namibia");
 				request.setFragmentIdOverride("namibiaHeader");
 				log.info(request.toString());
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }

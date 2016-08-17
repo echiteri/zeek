@@ -30,8 +30,9 @@ public class NamibiaLoginPageRequestMapper implements PageRequestMapper {
 				request.setPageNameOverride("namibiaLogin");
 				
 				log.info(request.toString());
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }
