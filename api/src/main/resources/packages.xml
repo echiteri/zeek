@@ -15,11 +15,5 @@ Defines packages to be loaded by the Metadata Sharing module on startup of this 
 			<version>1</version>
 			<importMode>MIRROR</importMode>
 		</org.openmrs.module.emrapi.metadata.MetadataPackageConfig>
-		<org.openmrs.module.emrapi.metadata.MetadataPackageConfig>
-			<filenameBase>metadata/Namibia_Concepts</filenameBase>
-			<groupUuid>1438c557-1115-492c-9921-cab0e57dee01</groupUuid>
-			<version>1</version>
-			<importMode>MIRROR</importMode>
-		</org.openmrs.module.emrapi.metadata.MetadataPackageConfig>
 	</packages>
 </org.openmrs.module.emrapi.metadata.MetadataPackagesConfig>
