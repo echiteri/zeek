@@ -42,6 +42,7 @@
 		<metadatamappingVersion>1.0.2</metadatamappingVersion>
 		<metadatasharingVersion>1.2</metadatasharingVersion>
 		<referenceapplicationVersion>2.5-SNAPSHOT</referenceapplicationVersion>
+		<registrationAppVersion>1.5</registrationAppVersion>
 		<uicommonsVersion>1.8</uicommonsVersion>
 		<uiframeworkVersion>3.6</uiframeworkVersion>
 	</properties>
@@ -117,6 +118,13 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>referenceapplication-omod</artifactId>
 				<version>${referenceapplicationVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>registrationapp-omod</artifactId>
+				<version>${registrationAppVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 			

@@ -102,6 +102,11 @@
 		
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
+			<artifactId>registrationapp-omod</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
 			<artifactId>uiframework-omod</artifactId>
 		</dependency>
 	

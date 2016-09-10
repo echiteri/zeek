@@ -42,6 +42,9 @@
 			org.openmrs.module.referenceapplication
 		</require_module>
 		<require_module>
+			org.openmrs.module.registrationapp
+		</require_module>
+		<require_module>
 			org.openmrs.module.uiframework
 		</require_module>
 	</require_modules>
