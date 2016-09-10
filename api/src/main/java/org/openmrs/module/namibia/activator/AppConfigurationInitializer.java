@@ -11,7 +11,9 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.appframework.service.AppFrameworkService;
+import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.namibia.NamibiaConstants;
+import org.openmrs.module.namibia.metadata.NamibiaPatientIdentifierTypes;
 
 /**
  * Custom application configurations
@@ -88,6 +90,16 @@ public class AppConfigurationInitializer implements Initializer {
 		
 		//HTML Form Entry Settings
 		properties.add(new GlobalProperty("htmlformentry.showDateFormat", "false")); //Disable date format display on form
+		
+		// The ART unique as the primary identifier that needs to be displayed
+		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, NamibiaPatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid()));
+		
+		// other identifiers that can be used
+		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, NamibiaPatientIdentifierTypes
+				.NATIONAL_ID.uuid()));
+		
+		// disable the appointmentshedulingui which will confuse users
+		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
 		
 		return properties;
 	}
