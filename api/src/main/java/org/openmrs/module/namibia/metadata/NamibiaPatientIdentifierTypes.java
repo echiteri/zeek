@@ -7,6 +7,24 @@ import org.openmrs.module.metadatadeploy.descriptor.PatientIdentifierTypeDescrip
  */
 public class NamibiaPatientIdentifierTypes {
 	
+	public static PatientIdentifierTypeDescriptor NATIONAL_ID = new PatientIdentifierTypeDescriptor() {
+		
+		@Override
+		public String name() {
+			return "National ID";
+		}
+		
+		@Override
+		public String description() {
+			return "National ID or school ID";
+		}
+		
+		@Override
+		public String uuid() {
+			return "7b8f8a3c-e786-4ef1-ba1e-56a041a1a85b";
+		}
+	};
+	
 	public static PatientIdentifierTypeDescriptor ART_UNIQUE_NUMBER = new PatientIdentifierTypeDescriptor() {
 		
 		@Override
