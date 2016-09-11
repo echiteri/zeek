@@ -306,6 +306,15 @@
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 	<div class="section-container">
+		<p>
+			<label>
+				How many times have you been pregnant before?
+			</label>
+			<p class="narrow">
+				<obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+			</p>
+		</p>
+		
 		<p class="narrow">
 			<label>
 				Last menstural period
