@@ -95,11 +95,37 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, NamibiaPatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid()));
 		
 		// other identifiers that can be used
-		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, NamibiaPatientIdentifierTypes
-				.NATIONAL_ID.uuid()));
+		// properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES,
+		// NamibiaPatientIdentifierTypes.NATIONAL_ID.uuid()));
+		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, ""));
 		
 		// disable the appointmentshedulingui which will confuse users
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
+		
+		// configure the address layout template
+		properties.add(new GlobalProperty("layout.address.format", "<org.openmrs.layout.address.AddressTemplate>\n"
+				+ "    <nameMappings class=\"properties\">\n"
+				+ "      <property name=\"address2\" value=\"Address\"/> \n"
+				+ "      <property name=\"address1\" value=\"Town\"/>\n"
+				+ "      <property name=\"country\" value=\"Location.country\"/>\n"
+				+ "      <property name=\"stateProvince\" value=\"Region\"/>\n"
+				+ "    </nameMappings>\n"
+				+ "    <sizeMappings class=\"properties\">\n"
+				+ "      <property name=\"address2\" value=\"75\"/>\n"
+				+ "      <property name=\"address1\" value=\"25\"/>\n"
+				+ "      <property name=\"country\" value=\"10\"/>\n"
+				+ "      <property name=\"stateProvince\" value=\"20\"/>\n"
+				+ "    </sizeMappings>\n"
+				+ "    <lineByLineFormat>\n"
+				+ "<string>country</string>\n"
+				+ "<string>stateProvince </string>\n"
+				+ "<string>address1</string>\n"
+				+ "      <string>address2</string>\n"
+				+ "    </lineByLineFormat>\n"
+				+ "<elementDefaults class=\"properties\">\n"
+				+ "            <property name=\"country\" value=\"Namibia\"/>\n"
+				+ "        </elementDefaults>\n"
+				+ "  </org.openmrs.layout.address.AddressTemplate>"));
 		
 		return properties;
 	}
