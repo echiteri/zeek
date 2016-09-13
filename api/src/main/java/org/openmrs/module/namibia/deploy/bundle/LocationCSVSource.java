@@ -24,13 +24,12 @@ public class LocationCSVSource extends AbstractCsvResourceSource<Location> {
 	
 	@Override
 	protected Location parseLine(String[] line) throws Exception {
-		log.debug("processing " + line);
+		log.debug("processing location row " + Arrays.toString(line));
 		Collection<String> locationTags = new ArrayList<String>();
 		if (line[3] != null) {
 			locationTags = Arrays.asList(line[3].split(","));
 		}
 		Location location = CoreConstructors.location(line[0], line[0], line[1], line[2], locationTags);
-		log.debug("loading location " + location.toString());
 		return location;
 	}
 }
