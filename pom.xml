@@ -28,10 +28,11 @@
 	</scm>
 	
 	<properties>
-		<openMRSVersion>1.11.6</openMRSVersion>
+		<openMRSVersion>2.0.1-SNAPSHOT</openMRSVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- custom modules -->
+		<addresshierarchyVersion>2.9</addresshierarchyVersion>
 		<appframeworkVersion>2.8</appframeworkVersion>
 		<appuiVersion>1.6-SNAPSHOT</appuiVersion>
 		<emrapiVersion>1.12</emrapiVersion>
@@ -51,6 +52,13 @@
 		<dependencies>
 			
 			<!-- Begin OpenMRS modules -->
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>addresshierarchy-api</artifactId>
+				<version>${addresshierarchyVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>appframework-omod</artifactId>

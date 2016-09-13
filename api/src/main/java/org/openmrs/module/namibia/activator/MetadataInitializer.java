@@ -9,6 +9,7 @@ import org.openmrs.module.emrapi.utils.MetadataUtil;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.deploy.bundle.LocationMetadataBundle;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaAddressBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
 
 /**
@@ -35,6 +36,11 @@ public class MetadataInitializer implements Initializer {
 			log.info("installing locations");
 			deployService.installBundle(Context.getRegisteredComponents(LocationMetadataBundle.class).get(0));
 			log.info("locations installed");
+			
+			// install address hierarchy
+			log.info("installing address hierarchy");
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaAddressBundle.class).get(0));
+			log.info("Address hierarchy installed");
 			
 		}
 		catch (Exception e) {

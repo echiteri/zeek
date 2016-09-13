@@ -32,8 +32,14 @@
                   "type": "personAddress",
                   "label": "registrationapp.patient.address.question",
                   "widget": {
-                    "providerName": "uicommons",
-                    "fragmentId": "field/personAddress"
+                    "providerName": "registrationapp",
+                    "fragmentId": "field/personAddressWithHierarchy",
+                    "config": {
+                      "manualFields": [
+                        "address1",
+                        "address2"
+                      ]
+                    }
                   }
                 }
               ]

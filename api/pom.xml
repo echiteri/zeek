@@ -64,6 +64,11 @@
 		<!-- Custom dependencies -->
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
+			<artifactId>addresshierarchy-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
 			<artifactId>appframework-omod</artifactId>
 		</dependency>
 		
