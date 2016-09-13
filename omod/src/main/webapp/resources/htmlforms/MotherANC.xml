@@ -11,8 +11,64 @@
 		  formDisplayStyle="Standard">
 	
 	<script type="text/javascript">
-		jq(function() {
 		
+		jq(function() {
+		<!-- Validation rules -->
+		beforeSubmit.push(function() {
+		<!-- clear the previous errors -->
+		setValue('para.error', '');
+		setValue('lmp.error', '');
+		setValue('nextvisitDate.error', '');
+		setValue('test-result.error', '');
+		
+		var para = getValue('para.value');
+		var gravida = getValue('gravida.value');
+		<!-- the gravida must always be greater than or equal to para -->
+		if (gravida &lt; para) {
+		getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies
+		(gravida)').show();
+		return false;
+		}
+		
+		<!-- LNMP must be before the encounter date -->
+		var lmpDate = getValue('lmp.value');
+		var encounterDate = getValue('encounterDate.value');
+		if (encounterDate &lt; lmpDate) {
+		getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
+		encounterDate).show();
+		return false;
+		}
+		
+		<!-- if there is a test the test result is required -->
+		if (getValue('hiv-test.value') == 1065) {
+		var test_result = getValue('test-result.value');
+		if ((test_result == null) || (test_result = '')) {
+		getField('test-result.error').html('The results for the HIV test must be provided').show();
+		return false;
+		}
+		}
+		
+		<!-- check the date of the next visit -->
+		var nextvisitDate = getValue('nextvisitDate.value');
+		if (getValue('mothers-visit-status.value') == 161636) {
+		<!-- Mother is still in care so the next visit date is required -->
+		if (encounterDate &gt; nextvisitDate) {
+		getField('nextvisitDate.error').html('The date of the next visit must be after ' + encounterDate + ' the date of this
+		visit').show();
+		return false;
+		}
+		
+		<!-- also check that the next visit is not after the expected date of delivery -->
+		var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
+		if (nextvisitDate &gt; edd) {
+		getField('nextvisitDate.error').html('The date of the next visit cannot be after the expected delivery date of ' +
+		edd).show();
+		return false;
+		}
+		}
+		
+		return true;
+		});
 			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
 			encounter date -->
 			jq('#encounterLocation, #encounterDate').hide();
@@ -308,10 +364,18 @@
 	<div class="section-container">
 		<p>
 			<label>
-				How many times have you been pregnant before?
+				How many times have you been pregnant (Gravida)?
 			</label>
 			<p class="narrow">
-				<obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+				<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+			</p>
+		</p>
+		<p>
+			<label>
+				How many babies have you delivered before (Para)?
+			</label>
+			<p class="narrow">
+				<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
 			</p>
 		</p>
 		
@@ -337,6 +401,13 @@
 	</section>
 	</includeIf>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
+		<includeIf velocityTest="(($hiv_status.valueCoded == 160546) || ( $hiv_test_result == 703))">
+			<p>
+				<label>ART Number</label>
+				<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f" />
+			</p>
+		
+		</includeIf>
 		
 		<div id="art-status-container" class="section-container">
 			<p id="span-hiv-test-status">
@@ -357,8 +428,8 @@
 					HIV Test Result
 				</label>
 					<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-					 answerLabels="Negative,Positive,Unknown"
-					 answerSeparator="" required="true" />
+						 answerLabels="Negative,Positive,Unknown"
+						 answerSeparator="" />
 			</p>
 			<p id="art-status">
 				<label>
@@ -406,7 +477,7 @@
 		<div id="mother-visit-status-container">
 		<p id="next-visit-date" class="hidden narrow">
 			<label>Next Visit Date</label>
-			<obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+			<obs id="nextvisitDate" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
 		</p>
 		<p id="transfer-info" class="hidden narrow">
 			<label>Transferred out to</label>
