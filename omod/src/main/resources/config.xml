@@ -18,6 +18,9 @@
 	<!-- Required Modules -->
 	<require_modules>
 		<require_module>
+			org.openmrs.module.addresshierarchy
+		</require_module>
+		<require_module>
 			org.openmrs.module.appframework
 		</require_module>
 		<require_module>
