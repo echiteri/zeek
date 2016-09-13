@@ -17,9 +17,6 @@
     var OPENMRS_CONTEXT_PATH = '${ ui.contextPath() }';
 </script>
 
-
-${ui.includeFragment("referenceapplication", "infoAndErrorMessages")}
-
 <script type="text/javascript">
     jQuery(function () {
         updateSelectedOption = function () {
@@ -102,16 +99,20 @@ ${ui.includeFragment("referenceapplication", "infoAndErrorMessages")}
 
                 <p class="clear">
                     <label for="sessionLocation">
-                        ${ui.message("referenceapplication.login.sessionLocation")}: <span class="location-error"
-                                                                                           id="sessionLocationError"
-                                                                                           style="display: none">${ui.message("referenceapplication.login.error.locationRequired")}</span>
+                        ${ui.message("namibia.login.sessionLocation")}: <span class="location-error"
+                                                                              id="sessionLocationError"
+                                                                              style="display: none">${ui.message("namibia.login.error.locationRequired")}</span>
                     </label>
-                <ul id="sessionLocation" class="select">
+                    <span class="select-arrow left">
+                        <select name="sessionLocation" id="sessionLocation" class="select">
+                            <option value="">Select One</option>
                     <% locations.sort { ui.format(it) }.each { %>
-                    <li id="${it.name}" value="${it.id}">${ui.format(it)}</li>
+                            <option value="${it.id}">${ui.format(it)}</option>
                     <% } %>
-                </ul>
+                        </select>
+                    </span>
             </p>
+                ${ui.includeFragment("referenceapplication", "infoAndErrorMessages")}
 
                 <input type="hidden" id="sessionLocationInput" name="sessionLocation"
                     <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %>/>
