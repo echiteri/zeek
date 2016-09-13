@@ -25,8 +25,8 @@
 		var gravida = getValue('gravida.value');
 		<!-- the gravida must always be greater than or equal to para -->
 		if (gravida &lt; para) {
-		getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies
-		(gravida)').show();
+		getField('para.error').html('The number of babies delivered (para) must be greater than the number of
+		pregnancies (gravida)').show();
 		return false;
 		}
 		
@@ -53,16 +53,16 @@
 		if (getValue('mothers-visit-status.value') == 161636) {
 		<!-- Mother is still in care so the next visit date is required -->
 		if (encounterDate &gt; nextvisitDate) {
-		getField('nextvisitDate.error').html('The date of the next visit must be after ' + encounterDate + ' the date of this
-		visit').show();
+		getField('nextvisitDate.error').html('The date of the next visit must be after ' + encounterDate +
+		' the date of this visit').show();
 		return false;
 		}
 		
 		<!-- also check that the next visit is not after the expected date of delivery -->
 		var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
 		if (nextvisitDate &gt; edd) {
-		getField('nextvisitDate.error').html('The date of the next visit cannot be after the expected delivery date of ' +
-		edd).show();
+		getField('nextvisitDate.error').html('The date of the next visit cannot be after the expected delivery
+		date of ' + edd).show();
 		return false;
 		}
 		}
