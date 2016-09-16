@@ -30,8 +30,9 @@
 
         updateSelectedOption();
 
-        jQuery('#sessionLocation li').click(function () {
-            jQuery('#sessionLocationInput').val(jQuery(this).attr("value"));
+        jQuery('#sessionLocation').change(function () {
+            jQuery('#sessionLocationInput').val(jQuery(this).find(":selected").val());
+            alert("The elected option is " + jQuery('#sessionLocationInput').val());
             updateSelectedOption();
         });
 
@@ -104,7 +105,7 @@
                                                                               style="display: none">${ui.message("namibia.login.error.locationRequired")}</span>
                     </label>
                     <span class="select-arrow left">
-                        <select name="sessionLocation" id="sessionLocation" class="select">
+                        <select id="sessionLocation" class="select">
                             <option value="">Select One</option>
                     <% locations.sort { ui.format(it) }.each { %>
                             <option value="${it.id}">${ui.format(it)}</option>
@@ -116,8 +117,6 @@
 
                 <input type="hidden" id="sessionLocationInput" name="sessionLocation"
                     <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %>/>
-
-                <p></p>
 
                 <p>
                     <input id="loginButton" class="confirm" type="submit"
