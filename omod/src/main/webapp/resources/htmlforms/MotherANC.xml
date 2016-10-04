@@ -9,239 +9,12 @@
 		  formIcon="icon-medkit"
 		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
-	
-	<script type="text/javascript">
-		
+	<script>
 		jq(function() {
-		<!-- Validation rules -->
-		beforeSubmit.push(function() {
-		<!-- clear the previous errors -->
-		setValue('para.error', '');
-		setValue('lmp.error', '');
-		setValue('nextvisitDate.error', '');
-		setValue('test-result.error', '');
-		
-		var para = getValue('para.value');
-		var gravida = getValue('gravida.value');
-		<!-- the gravida must always be greater than or equal to para -->
-		if (gravida &lt; para) {
-		getField('para.error').html('The number of babies delivered (para) must be greater than the number of
-		pregnancies (gravida)').show();
-		return false;
-		}
-		
-		<!-- LNMP must be before the encounter date -->
-		var lmpDate = getValue('lmp.value');
-		var encounterDate = getValue('encounterDate.value');
-		if (encounterDate &lt; lmpDate) {
-		getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-		encounterDate).show();
-		return false;
-		}
-		
-		<!-- if there is a test the test result is required -->
-		if (getValue('hiv-test.value') == 1065) {
-		var test_result = getValue('test-result.value');
-		if ((test_result == null) || (test_result = '')) {
-		getField('test-result.error').html('The results for the HIV test must be provided').show();
-		return false;
-		}
-		}
-		
-		<!-- check the date of the next visit -->
-		var nextvisitDate = getValue('nextvisitDate.value');
-		if (getValue('mothers-visit-status.value') == 161636) {
-		<!-- Mother is still in care so the next visit date is required -->
-		if (encounterDate &gt; nextvisitDate) {
-		getField('nextvisitDate.error').html('The date of the next visit must be after ' + encounterDate +
-		' the date of this visit').show();
-		return false;
-		}
-		
-		<!-- also check that the next visit is not after the expected date of delivery -->
-		var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
-		if (nextvisitDate &gt; edd) {
-		getField('nextvisitDate.error').html('The date of the next visit cannot be after the expected delivery
-		date of ' + edd).show();
-		return false;
-		}
-		}
-		
-		return true;
+			<!-- Set the id value of the followup container from the class since the section tag does not have an id attribute-->
+			jq('.followup-container').attr('id', 'followup-container');
 		});
-			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
-			encounter date -->
-			jq('#encounterLocation, #encounterDate').hide();
-			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
-		
-		
-			<!-- When a patient tests or comes with a positive diagnosis then the test should show as such -->
-			jq('#hiv-test').click(function(){
-				if(getValue('hiv-test.value') == 1065) {
-					<!--/* tested at this facility - could be positive or negative */-->
-					jq('#test-result-container :input').prop('checked', false);
-					jq('#test-result-container').removeClass('hidden');
-					<!--Ensure art status container is hidden and no radio is checked-->
-					jq('#art-status :input').attr('checked', false);
-					jq('#test-result-container :input').prop('disabled', false);
-					jq('#art-status').addClass('hidden');
-					
-					<!--Ensure VL sections are hidden and fields reset-->
-					hideVLContainer();
-				} else if(getValue('hiv-test.value') == 160546) {
-					<!-- /* show art status container */-->
-					jq('#art-status :input').prop('disabled', false);
-					jq('#art-status').removeClass('hidden');
-					<!--Ensure VL sections are hidden and fields reset-->
-					hideVLContainer();
-				} else {
-					jq('#test-result-container :input').prop('checked', false);
-					jq('#test-result-container').addClass('hidden');
-					jq('#art-status :input').attr('checked', false);
-					jq('#art-status').addClass('hidden');
-					<!--Ensure VL sections are hidden and fields reset-->
-					hideVLContainer();
-				}
-			});
-		
-			jq('#test-result').click(function(){
-				if(getValue('test-result.value')==703) {
-					jq('#art-status :input').prop('disabled', false);
-					jq('#art-status').removeClass('hidden');
-					<!--Just ensure VL container remains hidden-->
-					hideVLContainer();
-				}
-				else {
-					jq('#art-status :input').attr('checked', false);
-					jq('#art-status').addClass('hidden');
-					<!--Just ensure VL container remains hidden-->
-					hideVLContainer();
-					}
-			});
-			
-			jq('#date_started_art').click(function(){
-				if(getValue('date_started_art.value')==160120 || getValue('date_started_art.value')==160119) {
-					jq('#viralloadstatus-container :input').prop('disabled', false);
-					jq('#viralloadstatus-container :input').attr('checked', false);
-					jq('#viralloadstatus-container').removeClass('hidden');
-				}
-				else {
-					jq('#viralloadstatus-container').addClass('hidden');
-					jq('#viralloadstatus-container :input').attr('disabled', true);
-					jq('#viralloadstatus-container :input').attr('checked', false);
-					
-					<!--Just ensure VL container remains hidden-->
-					hideVLContainer();
-				}
-			});
-		
-			jq('#mothers-visit-status').click(function(){
-				if(getValue('mothers-visit-status.value') == 161636) {
-					jq('#mother-visit-status-container p').addClass('hidden');
-					jq('#mother-visit-status-container :input').attr('disabled', true);
-					jq('#mother-visit-status-container :input').attr('checked', false);
-		
-					jq('#next-visit-date').removeClass('hidden');
-					jq('#next-visit-date :input').attr('disabled', false);
-				} else if(getValue('mothers-visit-status.value') == 160034) {
-					jq('#mother-visit-status-container p').addClass('hidden');
-					jq('#mother-visit-status-container :input').attr('disabled', true);
-					jq('#mother-visit-status-container :input').attr('checked', false);
-					jq('#patient-death-info').removeClass('hidden');
-					jq('#patient-death-info :input').attr('disabled', false);
-				} else if(getValue('mothers-visit-status.value') == 159492) {
-					jq('#mother-visit-status-container p').addClass('hidden');
-					jq('#mother-visit-status-container :input').attr('disabled', true);
-					jq('#mother-visit-status-container :input').attr('checked', false);
-		
-					jq('#transfer-info').removeClass('hidden');
-					jq('#transfer-info :input').attr('disabled', false);
-					
-				} else {
-					jq('#mother-visit-status-container p').addClass('hidden');
-					jq('#mother-visit-status-container :input').attr('disabled', true);
-					jq('#mother-visit-status-container :input').attr('checked', false);
-				}
-			});
-			
-			jq('#lmp :input[type=text]').change(function(){
-				jq('#edd').text(calculateEDD(getValue('lmp.value')));
-			});
-		
-			<!-- Trigger change and click events to ensure that the fields are hidden as expected -->
-			jq('#lmp :input[type=text]').change();
-			jq('#hiv-test').click();
-			jq('#syphilis-test').click();
-		});
-		
-		function hideVLContainer(){
-			jq('#viralloadstatus-container').addClass('hidden');
-			jq('#viralloadstatus-container :input').attr('disabled', true);
-			jq('#viralloadstatus-container :input').attr('checked', false);
-			
-			<!--Also make sure VL input widget is off -->
-			jq('#viralload-container').addClass('hidden');
-			jq('#viralload-container :input').val('');
-			
-		}
-		
-		<!--Function to calculate EDD-->
-		function calculateEDD(lmpDate){
-			if (!lmpDate.trim()) {
-				return "";
-			}
-			
-			<!--Based on (((lmp + 1 year)-3 months) + 7 days) algorithm-->
-			var lmpDate = new Date(lmpDate);
-			lmpDate.setYear(lmpDate.getFullYear() + 1);
-			lmpDate.setMonth(lmpDate.getMonth() - 3);
-			lmpDate.setDate(lmpDate.getDate() + 7);
-			var mm = lmpDate.getMonth() + 1;
-			var dd = lmpDate.getDate();
-			var yyyy = lmpDate.getFullYear();
-			mm = (mm &lt; 10) ? '0' + mm : mm;
-			dd = (dd &lt; 10) ? '0' + dd : dd;
-			
-			var date = dd + '/' + mm + '/' + yyyy;
-			return date;
-		}
 	</script>
-	<lookup
-			complexExpression="#set( $first_visit_date = 0)" />
-	<lookup
-			complexExpression="#set( $syphilis_test_status = 0)" />
-	<ifMode mode="ENTER">
-		<lookup
-				complexExpression="#set( $hiv_status = $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		
-		<lookup
-				complexExpression="#set( $hiv_test_result = $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		<lookup
-				complexExpression="#set( $art_status = $fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		<lookup complexExpression="#set( $mode = 0)" />
-		<lookup
-				complexExpression="#set( $first_visit_date = $fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime)" />
-		<lookup complexExpression="#set ($show_menstural_date = 1)" />
-		<lookup
-				complexExpression="#set( $syphilis_test_status = $fn.latestObs('299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-	</ifMode>
-	<ifMode mode="EDIT">
-		<lookup
-				complexExpression="#set( $hiv_status = $fn.getObs($encounter,'161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-		<lookup
-				complexExpression="#set( $hiv_test_result = $fn.getObs($encounter,'1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-		<lookup
-				complexExpression="#set( $art_status = $fn.getObs($encounter,'160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-		<lookup complexExpression="#set( $mode = 1)" />
-		<lookup
-				complexExpression="#set( $first_visit_date = $fn.getObs($encounter,'1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime)" />
-		<lookup complexExpression="#set ($show_menstural_date = 0)" />
-		<lookup
-				complexExpression="#set( $syphilis_result = $fn.getObs($encounter,'299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded)" />
-	
-	</ifMode>
-	
 	<h2>
 		<label>
 			Mother ANC Visit
@@ -252,17 +25,15 @@
 			<label>
 				Attending Clinican
 			</label>
-			<encounterProvider default="currentUser"/>
+			<encounterProvider default="currentUser" />
 		</p>
 		<p id="where">
 			<label>
 				Health Facility
 			</label>
 			<span id="currentLocation"></span>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only
-			show
-			Login
-			locations -->
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+							   tags="1" /> <!-- Only show Login locations -->
 		</p>
 		<p id="when">
 			<label>
@@ -271,221 +42,316 @@
 			<span id="visitDate"></span>
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
-	
 	</section>
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title summary" headerCode="First ANC Visit Summary Information">
-			<div class="section-container">
-				<table>
-					<tr>
-						<th align="left">Age(Yrs)</th>
-						<th align="left" width="60%">Telephone Number</th>
-					</tr>
-					<tr>
-						<td><lookup expression="patient.age"/></td>
-						<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
-					</tr>
-				</table>
+	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
+			<script>
+				jq(function() {
+					<!-- validation rules for this section -->
+					beforeSubmit.push(function() {
+						<!-- clear the previous errors -->
+						setValue('para.error', '');
+						setValue('lmp.error', '');
+						
+						var para = getValue('para.value');
+						var gravida = getValue('gravida.value');
+						<!-- the gravida must always be greater than or equal to para -->
+						if (gravida &lt; para) {
+							getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies (gravida)').show();
+							return false;
+						}
+						
+						<!-- LNMP must be before the encounter date -->
+						var lmpDate = getValue('lmp.value');
+						var encounterDate = getValue('encounterDate.value');
+						if (encounterDate &lt; lmpDate) {
+							getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
+				jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+							return false;
+						}
 				
-				<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
-					<script>
-						jq(function() {
-							<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
-							jq('legend.summary').html('ANC Visit Summary Information');
-						});
-					</script>
-					<table>
-						<tr>
-							<th align="left" width="40%">Last Menstral Period</th>
-							<th align="left" width="30%">Expected Date of Delivery</th>
-							<th align="left">Expected Facility of Delivery</th>
-						</tr>
-						<tr>
-							<td><lookup complexExpression="$first_visit_date" /></td>
-							<td><span id="edd"></span></td>
-							<td>
-								<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
-							</td>
+						<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
+						if (Math.abs(jq.datepicker.parseDate( "yy-mm-dd",getValue('encounterDate.value')) - jq.datepicker.parseDate( "yy-mm-dd",getValue('lmp.value')))/(1000 * 86400 * 7) > 35) {
+							getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' +
+				jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+							return false;
+						}
 						
-						</tr>
-					</table>
-					<table>
-						<tr>
-							<th align="left">Last HIV Status</th>
-							<th align="left" width="60%">Date of last HIV Test</th>
-						</tr>
-						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded == 1065">
-							<tr>
-								<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
-								<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-							</tr>
-						</includeIf>
-						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==160546">
-							<tr>
-								<td>Previously known positive from another facility</td>
-								<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
-							</tr>
-						</includeIf>
-						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1066">
-							<tr>
-								<td>NOT TESTED</td>
-								<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
-							</tr>
-						</includeIf>
-						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1067">
-							<tr>
-								<td>UNKNOWN</td>
-								<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
-							</tr>
-						</includeIf>
-					</table>
-					
-					<table>
-						<tr>
-							<th align="left" width="40%">Previous ANC Visits</th>
-							<th align="left" width="30%">Last ANC Clinic</th>
-							<th align="left">ANC Provider Name</th>
-						</tr>
-						<tr>
-							<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
-							<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
-							<td>
-								<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.givenName" />
-								<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.familyName" />
-							</td>
+						return true;
+					});
+					<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
+			encounter date -->
+					jq('#encounterLocation, #encounterDate').hide();
+					jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+					jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+				
+					jq('#lmp :input[type=text]').change(function(){
+						jq('#edd').text(calculateEDD(getValue('lmp.value')));
+					});
+				
+					<!--Function to calculate EDD-->
+					function calculateEDD(lmpDate){
+						if (!lmpDate.trim()) {
+							return "";
+						}
 						
-						</tr>
-					</table>
-				</includeIf>
+						<!--Based on (((lmp + 1 year)-3 months) + 7 days) algorithm-->
+						var lmpDate = new Date(lmpDate);
+						lmpDate.setYear(lmpDate.getFullYear() + 1);
+						lmpDate.setMonth(lmpDate.getMonth() - 3);
+						lmpDate.setDate(lmpDate.getDate() + 7);
+						var mm = lmpDate.getMonth() + 1;
+						var dd = lmpDate.getDate();
+						var yyyy = lmpDate.getFullYear();
+						mm = (mm &lt; 10) ? '0' + mm : mm;
+						dd = (dd &lt; 10) ? '0' + dd : dd;
+						
+						var date = dd + '/' + mm + '/' + yyyy;
+						return date;
+					}
+				});
+			</script>
+			<div class="section-container">
+				<p>
+					<label>
+						How many times have you been pregnant (Gravida)?
+					</label>
+					<p class="narrow horizontal">
+						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+					</p>
+				</p>
+				<p>
+					<label>
+						How many babies have you delivered before (Para)?
+					</label>
+					<p class="narrow">
+						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+					</p>
+				</p>
+				
+				<p class="narrow">
+					<label>
+						Last menstural period
+					</label>
+					<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
+				</p>
+				<p class="horizontal">
+					<label>Expected Date of Delivery</label>
+					<span id="edd"></span>
+				</p>
+				<p class="narrow">
+					<label>
+						Expected facility of delivery
+					</label>
+					<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" /> <!--only show admission locations -->
+				</p>
 			</div>
 		</section>
-	
-	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
-	<div class="section-container">
-		<p>
-			<label>
-				How many times have you been pregnant (Gravida)?
-			</label>
-			<p class="narrow">
-				<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
-			</p>
-		</p>
-		<p>
-			<label>
-				How many babies have you delivered before (Para)?
-			</label>
-			<p class="narrow">
-				<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
-			</p>
-		</p>
-		
-		<p class="narrow">
-			<label>
-				Last menstural period
-			</label>
-					<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
-		</p>
-		<p>
-			<label>Expected Date of Delivery</label>
-			<span id="edd"></span>
-		</p>
-		<p class="narrow">
-			<label>
-				Expected facility of delivery
-			</label>
-				<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" /> <!--
-				 only
-				 show admission locations -->
-		</p>
-	</div>
-	</section>
 	</includeIf>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV">
-		<includeIf velocityTest="(($hiv_status.valueCoded == 160546) || ( $hiv_test_result == 703))">
-			<p>
-				<label>ART Number</label>
-				<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f" />
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
+		<script>
+			jq(function() {
+				<!-- Validation rules for Testing and Initiation -->
+				beforeSubmit.push(function() {
+					<!-- clear the previous errors -->
+					setValue('hiv-test-result.error', '');
+					
+					<!-- if there is a test the test result is required -->
+					if (getValue('hiv-test.value') == 1065) {
+						var test_result = getValue('hiv-test-result.value');
+						if ((test_result == null) || (test_result = '')) {
+							getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
+							return false;
+						}
+					}
+					return true;
+				});
+				
+				<!-- Whether the client has been tested -->
+				jq('#hiv-test').click(function(){
+					if(getValue('hiv-test.value') == 1065) {
+						showContainer('#hiv-test-result-container');
+						hideContainer('#followup-container');
+						hideContainer('#not-tested-container');
+					} else {
+						hideContainer('#hiv-test-result-container');
+						showContainer('#not-tested-container');
+					}
+				});
+				<!-- reason for not testing -->
+				jq('#not-tested').click(function(){
+					if(getValue('not-tested.value') == 128453) {
+						showContainer('#refused-test-reason-container');
+						showContainer('#followup-container');
+					} else if (getValue('not-tested.value') == 1169) {
+						<!-- previously known positive -->
+						showContainer('#art-status-container');
+						hideContainer('#refused-test-reason-container');
+						showContainer('#followup-container');
+					} else {
+						hideContainer('#refused-test-reason-container');
+						showContainer('#followup-container');
+					}
+				});
+				<!-- reason for not testing -->
+				jq('#art-status').click(function(){
+					if (getValue('art-status.value') == 160119) {
+						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+					} else {
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						showContainer('#art-initiation-container');
+					}
+				});
+				jq('#hiv-test-result').click(function(){
+					if(getValue('hiv-test-result.value') == 703) {
+						<!-- positive result -->
+						showContainer('#art-initiation-container');
+						showContainer('#art-number-container');
+						hideContainer('#followup-container');
+					} else {
+						hideContainer('#art-initiation-container');
+						hideContainer('#art-number-container');
+						showContainer('#followup-container');
+					}
+				});
+				jq('#art-initiation').click(function(){
+					if(getValue('art-initiation.value') == 160120) {
+						showContainer('#art-number-container');
+						hideContainer('#refused-art-container');
+						<!-- set ART start date to today -->
+						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
+					} else if (getValue('art-initiation.value') == 160018) {
+						<!-- refused ART -->
+						showContainer('#refused-art-container');
+						hideContainer('#art-number-container');
+						setValue('art-start-date.value', '');
+					} else {
+						hideContainer('#refused-art-container');
+						hideContainer('#art-number-container');
+						setValue('art-start-date.value', '');
+					}
+					showContainer('#followup-container');
+				});
+			});
+		</script>
+		<div class="section-container">
+			<p id="hiv-test-container" class="horizontal">
+				<label>
+					HIV Test Status
+				</label>
+				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="1065,1066"
+					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
 			</p>
-		
-		</includeIf>
-		
-		<div id="art-status-container" class="section-container">
-			<p id="span-hiv-test-status">
-				<excludeIf
-						velocityTest="(($hiv_status.valueCoded == 160546) || ($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160118))">
-					<label>
-						HIV Test Status
-					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1065,1066,160546,1067"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Previously known HIV Positive,Unknown"
-					 answerSeparator="" required="true" />
-				</excludeIf>
+			<p id="not-tested-container" class="hidden">
+				<label>
+					Reason for not testing
+				</label>
+				<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="1169,128453,160352"
+					 answerLabels="Previously known positive, Refused test, Testing kit stockout" answerSeparator="" required="true" />
 			</p>
-			
-			<p id="test-result-container" class="hidden">
+			<p id="refused-test-reason-container" class="hidden">
+				<label>
+					Reason for refusing test
+				</label>
+				<obs conceptId="159602"/>
+			</p>
+			<p id="art-status-container" class="hidden">
+				<label>
+					ART Status
+				</label>
+				<obs id="art-status" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio"  answerConceptIds="160119,160118" answerLabels="Already on ART,Not on ART" answerSeparator=""/>
+			</p>
+			<p id="hiv-test-result-container" class="hidden horizontal">
 				<label>
 					HIV Test Result
 				</label>
-					<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-						 answerLabels="Negative,Positive,Unknown"
-						 answerSeparator="" />
-			</p>
-			<p id="art-status">
-				<label>
-					ART status
-				</label>
-				<excludeIf velocityTest="(($art_status.valueCoded == 160119) || ($art_status.valueCoded == 160120) || ($art_status.valueCoded == 160018))">
-				<obs id="date_started_art" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160120,160119,160018,1754,1067"
-					 answerLabels="Started ART during this visit,Already on ART,Refused ART,Not started due to stockout,Unknown"
+				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
-				</excludeIf>
-				<includeIf velocityTest="($art_status.valueCoded == 160120)">
-					Started ART during previous ANC visit
-				</includeIf>
-				<includeIf velocityTest="($art_status.valueCoded == 160119)">
-					Already on ART
-				</includeIf>
-				<includeIf velocityTest="($art_status.valueCoded == 160118)">
-					Refused ART
-				</includeIf>
 			</p>
-			</div>
-			<div id="viral-load-container" class="section-container">
-				<p id="viralloadstatus-container" class="hidden">
-					<label>
-						Most Recent Viral Load
-					</label>
-					<obs style="radio" conceptId="163310" id="recent-vl" answerConceptIds="1118, 1267, 1067"
-						 answerLabels="No VL test done, VL test ordered, Unknown"
-						 answerSeparator="" />
-				</p>
+			<p id="art-initiation-container" class="hidden">
+			<label>
+				ART status
+			</label>
+				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="160120,160018,1754,1067"
+					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
+			</p>
+			<p id="art-number-container" class="hidden narrow">
+					<label>ART Number</label>
+					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f" />
+			</p>
+			<p id="refused-art-container" class="hidden">
+				<label>Reason for Refusing ART initiation</label>
+				<obs id="refused-art" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			</p>
+			<p id="art-startdate-container" class="hidden narrow">
+				<label>ART Start Date</label>
+				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			</p>
 		</div>
 	</section>
-	<br />
-	<br />
-	<div class="section-container">
-		<p >
-			<label>
-				Mother's status after this visit
-			</label>
-			<obs id="mothers-visit-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				 answerConceptIds="161636,159492,1067"
-				 answerLabels="Still in Care,Transferred Out, Unknown" answerSeparator="" required="true" />
-		</p>
-		<div id="mother-visit-status-container">
-		<p id="next-visit-date" class="hidden narrow">
-			<label>Next Visit Date</label>
-			<obs id="nextvisitDate" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
-		</p>
-		<p id="transfer-info" class="hidden narrow">
-			<label>Transferred out to</label>
-			<obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
-		</p>
-		<p id="patient-death-info" class="hidden">
-		</p>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container hidden">
+		<script>
+			jq(function() {
+				jq('#transfer-out').click(function(){
+					if (getValue('transfer-out.value') == 1065) {
+						showContainer('#transfer-out-to-container');
+					} else {
+						hideContainer('#transfer-out-to-container');
+					}
+				});
+				<!-- Validation rules for follow up -->
+				beforeSubmit.push(function() {
+					setValue('transfer-out-to.error', '');
+					setValue('next-visit-date.error', '');
+					<!-- check the date of the next visit -->
+					var next_visit_date = getValue('next-visit-date.value');
+					
+					<!-- next visit date must be after the current visit date -->
+					if (encounterDate &gt; next_visit_date) {
+						getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate)) + ' the date of this visit').show();
+						return false;
+					}
+				
+					<!-- also check that the next visit is not after the expected date of delivery -->
+					var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
+					alert('Next visit date ' + next_visit_date + ' edd ' + edd);
+					if (next_visit_date &gt; edd) {
+						getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + jq('#edd').text()).show();
+						return false;
+					}
+			
+					if (!jq('#transfer-out-to-container').hasClass('hidden')) {
+						<!-- the transfer  out location is required -->
+						if (getValue('transfer-out-to.value') == '') {
+							getField('transfer-out-to.error').html('Please enter the facility to which the patient is to transfer to').show();
+							return false;
+						}
+					}
+					return true;
+				});
+			});
+		</script>
+		<div class="section-container">
+			<p id="next-visit-date-container" class="narrow">
+				<label>Next Visit Date</label>
+				<obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" required="true" />
+			</p>
+			<p id="transfer-out-container">
+				<label>Facility of next appointment</label>
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1065" answerLabels="This facility,Transfer" answerSeparator=""  />
+			</p>
+			<p id="transfer-out-to-container" class="hidden">
+				<label>Transfer to</label>
+				<obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+			</p>
 		</div>
-	</div>
+	</section><br />
 	<submit class="confirm center" />
 </htmlform>

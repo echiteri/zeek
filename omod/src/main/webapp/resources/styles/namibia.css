@@ -31,7 +31,6 @@ header {
     display: block;
 }
 
-
 #data-collection {
     display: inline-block;
     width: 58%;
@@ -57,7 +56,7 @@ header {
 
 .section-container input[type="checkbox"] {
     margin: 0px 5px; /*changed values to vertical, horizontal*/
-    top:5px; /*added to offset the checkbox position to line up*/
+    top: 5px; /*added to offset the checkbox position to line up*/
 }
 
 .section-container label { /*new definition to override labels inside section-containers*/
@@ -74,6 +73,16 @@ textarea {
 
 p > label:first-child {
     font-size: 18px;
-    font-weight:bold;
+    font-weight: bold;
     color: #242563;
+}
+
+/* Align the radio buttons to be placed horizontally on forms */
+.horizontal input[type="checkbox"], .horizontal input[type="radio"], .horizontal input[type="text"] {
+    float: none;
+    display: inline-block;
+}
+
+.horizontal label {
+    display: inline-block;
 }
