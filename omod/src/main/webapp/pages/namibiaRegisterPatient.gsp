@@ -76,7 +76,7 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
     var breadcrumbs = _.compact(_.flatten([
         { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
         ${ breadcrumbMiddle },
-        { label: "${ ui.message("registrationapp.registration.label") }", link: "${ ui.pageLink("registrationapp", "registerPatient") }" }
+        { label: "${ ui.message("namibia.registrationapp.registerpatient.label") }", link: "${ ui.pageLink("registrationapp", "registerPatient") }" }
     ]));
 
     var testFormStructure = "${formStructure}";
@@ -168,7 +168,7 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
             def questions = section.questions
         %>
             <section id="${section.id}" class="non-collapsible">
-                <span id="${section.id}_label" class="title">${section.id == 'demographics' ? ui.message("registrationapp.patient.demographics.label") : ui.message(section.label)}</span>
+                <span id="${section.id}_label" class="title">${section.id == 'demographics' ? ui.message("namibia.registrationapp.patient.demographics.label") : ui.message(section.label)}</span>
 
                     <!-- hardcoded name, gender, and birthdate are added for the demographics section -->
                     <% if (section.id == 'demographics') { %>
@@ -177,7 +177,6 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
 
                             <legend>${ui.message("registrationapp.patient.name.label")}</legend>
                             <div>
-                                <h3>${ui.message("namibia.registrationapp.patient.name.question")}</h3>
 
                                 <% nameTemplate.lines.each { line ->
                                     // go through each line in the template and find the first name token; assumption is there is only one name token per line
@@ -219,7 +218,7 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
 
                         <fieldset id="demographics-gender">
                             <legend id="genderLabel">${ ui.message("namibia.emr.gender") }</legend>
-                            <h3>${ui.message("registrationapp.patient.gender.question")}</h3>
+                            <h3>${ui.message("namibia.registrationapp.patient.gender.question")}</h3>
                             ${ ui.includeFragment("uicommons", "field/dropDown", [
                                     id: "gender",
                                     formFieldName: "gender",
@@ -234,8 +233,7 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
                         </fieldset>
 
                         <fieldset id="demographics-birthdate" class="multiple-input-date date-required no-future-date">
-                            <legend id="birthdateLabel">${ui.message("registrationapp.patient.birthdate.label")}</legend>
-                            <h3>${ui.message("registrationapp.patient.birthdate.question")}</h3>
+                            <legend id="birthdateLabel">${ui.message("namibia.registrationapp.patient.birthdate.label")}</legend>
                             ${ ui.includeFragment("uicommons", "field/multipleInputDate", [
                                     label: "",
                                     formFieldName: "birthdate",
