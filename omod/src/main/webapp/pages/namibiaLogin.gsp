@@ -32,7 +32,6 @@
 
         jQuery('#sessionLocation').change(function () {
             jQuery('#sessionLocationInput').val(jQuery(this).find(":selected").val());
-            alert("The elected option is " + jQuery('#sessionLocationInput').val());
             updateSelectedOption();
         });
 
