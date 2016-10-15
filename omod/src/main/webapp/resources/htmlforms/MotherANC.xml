@@ -13,6 +13,82 @@
 		jq(function() {
 			<!-- Set the id value of the followup container from the class since the section tag does not have an id attribute-->
 			jq('.followup-container').attr('id', 'followup-container');
+			
+			
+			beforeSubmit.push(function() {
+				<!-- validation rules for Pregancy information -->
+				<!-- clear the previous errors -->
+				setValue('para.error', '');
+				setValue('lmp.error', '');
+				
+				var para = getValue('para.value');
+				var gravida = getValue('gravida.value');
+				<!-- the gravida must always be greater than or equal to para -->
+				if (gravida &lt; para) {
+					getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies (gravida)').show();
+					return false;
+				}
+				
+				<!-- LNMP must be before the encounter date -->
+				var lmpDate = getValue('lmp.value');
+				var encounterDate = getValue('encounterDate.value');
+				if (encounterDate &lt; lmpDate) {
+					getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
+		jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+					return false;
+				}
+		
+				<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
+				if (Math.abs(jq.datepicker.parseDate( "yy-mm-dd",getValue('encounterDate.value')) - jq.datepicker.parseDate( "yy-mm-dd",getValue('lmp.value')))/(1000 * 86400 * 7) > 35) {
+					getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' +
+		jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+					return false;
+				}
+		
+				<!-- Validation rules for Testing and Initiation -->
+				<!-- clear the previous errors -->
+				setValue('hiv-test-result.error', '');
+				
+				<!-- if there is a test the test result is required -->
+				if (getValue('hiv-test.value') == 1065) {
+					var test_result = getValue('hiv-test-result.value');
+					if ((test_result == null) || (test_result = '')) {
+						getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
+						return false;
+					}
+				}
+		
+				<!-- Validation rules for follow up -->
+				setValue('transfer-out-to.error', '');
+				setValue('next-visit-date.error', '');
+				<!-- check the date of the next visit -->
+				var next_visit_date = getValue('next-visit-date.value');
+				
+				<!-- next visit date must be after the current visit date -->
+				if (encounterDate &gt; next_visit_date) {
+					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate)) + ' the date of this visit').show();
+					return false;
+				}
+			
+				<!-- also check that the next visit is not after the expected date of delivery -->
+				var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
+				
+				if (next_visit_date &gt; edd) {
+					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + jq('#edd').text()).show();
+					return false;
+				}
+		
+				if (!jq('#transfer-out-to-container').hasClass('hidden')) {
+					<!-- the transfer  out location is required -->
+					if (getValue('transfer-out-to.value') == '') {
+						getField('transfer-out-to.error').html('Please enter the facility to which the patient is to transfer to').show();
+						return false;
+					}
+				}
+		
+				return true;
+			});
+			
 		});
 	</script>
 	<h2>
@@ -47,38 +123,7 @@
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 			<script>
 				jq(function() {
-					<!-- validation rules for this section -->
-					beforeSubmit.push(function() {
-						<!-- clear the previous errors -->
-						setValue('para.error', '');
-						setValue('lmp.error', '');
-						
-						var para = getValue('para.value');
-						var gravida = getValue('gravida.value');
-						<!-- the gravida must always be greater than or equal to para -->
-						if (gravida &lt; para) {
-							getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies (gravida)').show();
-							return false;
-						}
-						
-						<!-- LNMP must be before the encounter date -->
-						var lmpDate = getValue('lmp.value');
-						var encounterDate = getValue('encounterDate.value');
-						if (encounterDate &lt; lmpDate) {
-							getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-				jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
-							return false;
-						}
-				
-						<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
-						if (Math.abs(jq.datepicker.parseDate( "yy-mm-dd",getValue('encounterDate.value')) - jq.datepicker.parseDate( "yy-mm-dd",getValue('lmp.value')))/(1000 * 86400 * 7) > 35) {
-							getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' +
-				jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
-							return false;
-						}
-						
-						return true;
-					});
+					
 					<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
 			encounter date -->
 					jq('#encounterLocation, #encounterDate').hide();
@@ -151,27 +196,10 @@
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
 		<script>
 			jq(function() {
-				<!-- Validation rules for Testing and Initiation -->
-				beforeSubmit.push(function() {
-					<!-- clear the previous errors -->
-					setValue('hiv-test-result.error', '');
-					
-					<!-- if there is a test the test result is required -->
-					if (getValue('hiv-test.value') == 1065) {
-						var test_result = getValue('hiv-test-result.value');
-						if ((test_result == null) || (test_result = '')) {
-							getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
-							return false;
-						}
-					}
-					return true;
-				});
-				
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						hideContainer('#followup-container');
 						hideContainer('#not-tested-container');
 					} else {
 						hideContainer('#hiv-test-result-container');
@@ -182,15 +210,12 @@
 				jq('#not-tested').click(function(){
 					if(getValue('not-tested.value') == 128453) {
 						showContainer('#refused-test-reason-container');
-						showContainer('#followup-container');
 					} else if (getValue('not-tested.value') == 1169) {
 						<!-- previously known positive -->
 						showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
-						showContainer('#followup-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
-						showContainer('#followup-container');
 					}
 				});
 				<!-- reason for not testing -->
@@ -210,11 +235,9 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
-						hideContainer('#followup-container');
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
-						showContainer('#followup-container');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -233,7 +256,6 @@
 						hideContainer('#art-number-container');
 						setValue('art-start-date.value', '');
 					}
-					showContainer('#followup-container');
 				});
 			});
 		</script>
@@ -258,7 +280,7 @@
 				<label>
 					Reason for refusing test
 				</label>
-				<obs conceptId="159602"/>
+				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			</p>
 			<p id="art-status-container" class="hidden">
 				<label>
@@ -284,11 +306,11 @@
 			</p>
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Number</label>
-					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f" />
+					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
 			</p>
 			<p id="refused-art-container" class="hidden">
 				<label>Reason for Refusing ART initiation</label>
-				<obs id="refused-art" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 			</p>
 			<p id="art-startdate-container" class="hidden narrow">
 				<label>ART Start Date</label>
@@ -296,7 +318,7 @@
 			</p>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container hidden">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container">
 		<script>
 			jq(function() {
 				jq('#transfer-out').click(function(){
@@ -305,36 +327,6 @@
 					} else {
 						hideContainer('#transfer-out-to-container');
 					}
-				});
-				<!-- Validation rules for follow up -->
-				beforeSubmit.push(function() {
-					setValue('transfer-out-to.error', '');
-					setValue('next-visit-date.error', '');
-					<!-- check the date of the next visit -->
-					var next_visit_date = getValue('next-visit-date.value');
-					
-					<!-- next visit date must be after the current visit date -->
-					if (encounterDate &gt; next_visit_date) {
-						getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate)) + ' the date of this visit').show();
-						return false;
-					}
-				
-					<!-- also check that the next visit is not after the expected date of delivery -->
-					var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
-					alert('Next visit date ' + next_visit_date + ' edd ' + edd);
-					if (next_visit_date &gt; edd) {
-						getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + jq('#edd').text()).show();
-						return false;
-					}
-			
-					if (!jq('#transfer-out-to-container').hasClass('hidden')) {
-						<!-- the transfer  out location is required -->
-						if (getValue('transfer-out-to.value') == '') {
-							getField('transfer-out-to.error').html('Please enter the facility to which the patient is to transfer to').show();
-							return false;
-						}
-					}
-					return true;
 				});
 			});
 		</script>
@@ -345,7 +337,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1065" answerLabels="This facility,Transfer" answerSeparator=""  />
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1065" answerLabels="This facility,Transfer" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
