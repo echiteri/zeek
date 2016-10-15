@@ -7,14 +7,24 @@
 		  formUILocation="patientDashboard.visitActions"
 		  formOrder="1"
 		  formIcon="icon-medkit"
-		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
+		  formShowIf="(patient.person.age &gt; 120"
 		  formDisplayStyle="Standard">
 	<script>
 		jq(function() {
 			<!-- Set the id value of the followup container from the class since the section tag does not have an id attribute-->
 			jq('.followup-container').attr('id', 'followup-container');
-			
-			
+		
+			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
+			encounter date -->
+			jq('#encounterLocation, #encounterDate').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+		
+			<!-- EDD computation -->
+			jq('#lmp :input[type=text]').change(function(){
+				jq('#edd').text(calculateEDD(getValue('lmp.value')));
+			});
+		
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
 				<!-- clear the previous errors -->
@@ -88,8 +98,28 @@
 		
 				return true;
 			});
-			
 		});
+		
+		<!--Function to calculate EDD-->
+		function calculateEDD(lmp){
+			if (!lmp.trim()) {
+				return "";
+			}
+			
+			<!--Based on (((lmp + 1 year)-3 months) + 7 days) algorithm-->
+			var lmpDate = new Date(lmp);
+			lmpDate.setYear(lmpDate.getFullYear() + 1);
+			lmpDate.setMonth(lmpDate.getMonth() - 3);
+			lmpDate.setDate(lmpDate.getDate() + 7);
+			var mm = lmpDate.getMonth() + 1;
+			var dd = lmpDate.getDate();
+			var yyyy = lmpDate.getFullYear();
+			mm = (mm &lt; 10) ? '0' + mm : mm;
+			dd = (dd &lt; 10) ? '0' + dd : dd;
+			
+			var date = dd + '/' + mm + '/' + yyyy;
+			return date;
+		}
 	</script>
 	<h2>
 		<label>
@@ -121,41 +151,6 @@
 	</section>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
-			<script>
-				jq(function() {
-					
-					<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
-			encounter date -->
-					jq('#encounterLocation, #encounterDate').hide();
-					jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-					jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
-				
-					jq('#lmp :input[type=text]').change(function(){
-						jq('#edd').text(calculateEDD(getValue('lmp.value')));
-					});
-				
-					<!--Function to calculate EDD-->
-					function calculateEDD(lmpDate){
-						if (!lmpDate.trim()) {
-							return "";
-						}
-						
-						<!--Based on (((lmp + 1 year)-3 months) + 7 days) algorithm-->
-						var lmpDate = new Date(lmpDate);
-						lmpDate.setYear(lmpDate.getFullYear() + 1);
-						lmpDate.setMonth(lmpDate.getMonth() - 3);
-						lmpDate.setDate(lmpDate.getDate() + 7);
-						var mm = lmpDate.getMonth() + 1;
-						var dd = lmpDate.getDate();
-						var yyyy = lmpDate.getFullYear();
-						mm = (mm &lt; 10) ? '0' + mm : mm;
-						dd = (dd &lt; 10) ? '0' + dd : dd;
-						
-						var date = dd + '/' + mm + '/' + yyyy;
-						return date;
-					}
-				});
-			</script>
 			<div class="section-container">
 				<p>
 					<label>
@@ -192,6 +187,96 @@
 				</p>
 			</div>
 		</section>
+	</includeIf>
+	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
+		
+		<lookup
+				complexExpression="#set( $hiv_test_status = $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		
+		<!-- Subsequent ANC visit -->
+		<!-- TODO: Need to find a way of checking that this encounter is after the EDD so that multiple pregancies are handled -->
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title summary" headerCode="First ANC Visit Summary Information">
+			<script>
+				jq(function() {
+					<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
+					jq('legend.summary').html('ANC Visit Summary Information');
+					<!-- Show the EDD -->
+					jq('#edd').text(calculateEDD(jq('#lmp').text()));
+				});
+			</script>
+			<div class="section-container">
+				<table>
+					<tr>
+						<th align="left">Age (Years)</th>
+						<th colspan="2" align="left" width="60%">Telephone Number</th>
+					</tr>
+					<tr>
+						<td><lookup expression="patient.age"/></td>
+						<td colspan="2" width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
+					</tr>
+						<tr>
+							<th align="left" width="40%">Date of Last Known Menstral Period (LNMP)</th>
+							<th align="left" width="30%">Expected Date of Delivery (EDD)</th>
+							<th align="left">Expected Facility of Delivery</th>
+						</tr>
+						<tr>
+							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
+							<td><span id="edd"></span></td>
+							<td>
+								<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
+							</td>
+						
+						</tr>
+						<tr>
+							<th align="left">Last HIV Status</th>
+							<th align="left">Date of last HIV Test
+							</th>
+							<th>ART Status</th>
+						</tr>
+						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 1065">
+							<tr>
+								<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
+								<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+								<td></td>
+							</tr>
+						</includeIf>
+						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 160546">
+							<tr>
+								<td>Previously known positive from another facility</td>
+								<td width="60%"></td>
+								<td></td>
+							</tr>
+						</includeIf>
+						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 1066">
+							<tr>
+								<td>NOT TESTED</td>
+								<td width="60%"></td>
+								<td></td>
+							</tr>
+						</includeIf>
+						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 1067">
+							<tr>
+								<td>UNKNOWN</td>
+								<td width="60%"></td>
+								<td></td>
+							</tr>
+						</includeIf>
+						<tr>
+							<th align="left" width="40%">Previous ANC Visits</th>
+							<th align="left" width="30%">Last ANC Clinic</th>
+							<th align="left">Last ANC Provider</th>
+						</tr>
+						<tr>
+							<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
+							<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
+							<td>
+								
+							</td>
+						</tr>
+					</table>
+			</div>
+		</section>
+		
 	</includeIf>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
 		<script>
