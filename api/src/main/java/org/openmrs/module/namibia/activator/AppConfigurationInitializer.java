@@ -14,6 +14,8 @@ import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.emrapi.EmrApiConstants;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.metadata.NamibiaPatientIdentifierTypes;
+import org.openmrs.scheduler.SchedulerService;
+import org.openmrs.scheduler.TaskDefinition;
 
 /**
  * Custom application configurations
@@ -28,6 +30,7 @@ public class AppConfigurationInitializer implements Initializer {
 		
 		AdministrationService administrationService = Context.getAdministrationService();
 		AppFrameworkService appFrameworkService = Context.getService(AppFrameworkService.class);
+		SchedulerService schedulerService = Context.getSchedulerService();
 		
 		try {
 			// disable elements not needed on the home screen
@@ -42,6 +45,11 @@ public class AppConfigurationInitializer implements Initializer {
 			
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
+			
+			// start the Auto Close Visits task
+			TaskDefinition autoCloseVisitsTask = (TaskDefinition) schedulerService.getTaskByName("Auto Close Visits Task");
+			autoCloseVisitsTask.setStartOnStartup(true);
+			schedulerService.saveTaskDefinition(autoCloseVisitsTask);
 		}
 		catch (Exception e) {
 			Module mod = ModuleFactory.getModuleById(NamibiaConstants.MODULE_ID);
