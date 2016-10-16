@@ -7,7 +7,7 @@
 		  formUILocation="patientDashboard.visitActions"
 		  formOrder="1"
 		  formIcon="icon-medkit"
-		  formShowIf="(patient.person.age &gt; 120"
+		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
 	<script>
 		jq(function() {
@@ -28,31 +28,33 @@
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
 				<!-- clear the previous errors -->
-				setValue('para.error', '');
-				setValue('lmp.error', '');
-				
-				var para = getValue('para.value');
-				var gravida = getValue('gravida.value');
-				<!-- the gravida must always be greater than or equal to para -->
-				if (gravida &lt; para) {
-					getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies (gravida)').show();
-					return false;
-				}
-				
-				<!-- LNMP must be before the encounter date -->
-				var lmpDate = getValue('lmp.value');
-				var encounterDate = getValue('encounterDate.value');
-				if (encounterDate &lt; lmpDate) {
-					getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-		jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
-					return false;
-				}
-		
-				<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
-				if (Math.abs(jq.datepicker.parseDate( "yy-mm-dd",getValue('encounterDate.value')) - jq.datepicker.parseDate( "yy-mm-dd",getValue('lmp.value')))/(1000 * 86400 * 7) > 35) {
-					getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' +
-		jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
-					return false;
+				if (getField('para.value') != null) {
+					setValue('para.error', '');
+					setValue('lmp.error', '');
+					
+					var para = getValue('para.value');
+					var gravida = getValue('gravida.value');
+					<!-- the gravida must always be greater than or equal to para -->
+					if (gravida &lt; para) {
+						getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies (gravida)').show();
+						return false;
+					}
+					
+					<!-- LNMP must be before the encounter date -->
+					var lmpDate = getValue('lmp.value');
+					var encounterDate = getValue('encounterDate.value');
+					if (encounterDate &lt; lmpDate) {
+						getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
+			jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+						return false;
+					}
+			
+					<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
+					if (Math.abs(jq.datepicker.parseDate( "yy-mm-dd",getValue('encounterDate.value')) - jq.datepicker.parseDate( "yy-mm-dd",getValue('lmp.value')))/(1000 * 86400 * 7) > 35) {
+						getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' +
+			jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+						return false;
+					}
 				}
 		
 				<!-- Validation rules for Testing and Initiation -->
@@ -190,9 +192,10 @@
 	</includeIf>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
 		
-		<lookup
-				complexExpression="#set( $hiv_test_status = $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		
+		<lookup complexExpression="#set( $hiv_test_status = $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		<lookup complexExpression="#set( $hiv_test_result = $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		<lookup complexExpression="#set( $no_test_reason = $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+		<lookup complexExpression="#set( $art_status = $fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
 		<!-- Subsequent ANC visit -->
 		<!-- TODO: Need to find a way of checking that this encounter is after the EDD so that multiple pregancies are handled -->
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title summary" headerCode="First ANC Visit Summary Information">
@@ -227,38 +230,42 @@
 							</td>
 						
 						</tr>
-						<tr>
-							<th align="left">Last HIV Status</th>
-							<th align="left">Date of last HIV Test
-							</th>
-							<th>ART Status</th>
-						</tr>
-						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 1065">
+						
+						<includeIf velocityTest="$hiv_test_status.valueCoded.conceptId == 1065">
+							<tr>
+								<th align="left">Last HIV Status</th>
+								<th align="left">Date of last HIV Test
+								</th>
+								<th>ART Initiation Status</th>
+							</tr>
 							<tr>
 								<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
-								<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-								<td></td>
+								<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
+								<td><lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
 							</tr>
 						</includeIf>
-						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 160546">
+						<includeIf velocityTest="$hiv_test_status.valueCoded.conceptId == 1066">
 							<tr>
-								<td>Previously known positive from another facility</td>
-								<td width="60%"></td>
-								<td></td>
+								<th align="left">Last HIV Status</th>
+								<th colspan="2" align="left">Reason for Not Testing
+								</th>
 							</tr>
-						</includeIf>
-						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 1066">
 							<tr>
-								<td>NOT TESTED</td>
-								<td width="60%"></td>
-								<td></td>
-							</tr>
-						</includeIf>
-						<includeIf velocityTest="$hiv_status.valueCoded.conceptId == 1067">
-							<tr>
-								<td>UNKNOWN</td>
-								<td width="60%"></td>
-								<td></td>
+								<td>Not Tested</td>
+								<td colspan="2">
+									<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 1169">
+										Previously known positive
+									
+									</includeIf>
+									<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 160352">
+										Testing kit stockout
+									
+									</includeIf>
+									<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 128453">
+										Refused Test - <lookup	complexExpression="$fn.latestObs('160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
+									
+									</includeIf>
+								</td>
 							</tr>
 						</includeIf>
 						<tr>
@@ -286,9 +293,21 @@
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
 						hideContainer('#not-tested-container');
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
 					} else {
 						hideContainer('#hiv-test-result-container');
 						showContainer('#not-tested-container');
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
 					}
 				});
 				<!-- reason for not testing -->
@@ -305,7 +324,7 @@
 				});
 				<!-- reason for not testing -->
 				jq('#art-status').click(function(){
-					if (getValue('art-status.value') == 160119) {
+					if (getValue('art-status.value')) {
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -345,34 +364,42 @@
 			});
 		</script>
 		<div class="section-container">
-			<p id="hiv-test-container" class="horizontal">
-				<label>
-					HIV Test Status
-				</label>
-				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1065,1066"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
-			</p>
-			<p id="not-tested-container" class="hidden">
-				<label>
-					Reason for not testing
-				</label>
-				<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1169,128453,160352"
-					 answerLabels="Previously known positive, Refused test, Testing kit stockout" answerSeparator="" required="true" />
-			</p>
-			<p id="refused-test-reason-container" class="hidden">
-				<label>
-					Reason for refusing test
-				</label>
-				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-			</p>
-			<p id="art-status-container" class="hidden">
-				<label>
-					ART Status
-				</label>
-				<obs id="art-status" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio"  answerConceptIds="160119,160118" answerLabels="Already on ART,Not on ART" answerSeparator=""/>
-			</p>
+			<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 1169 || $hiv_test_result.valueCoded.conceptId == 703">
+				<includeIf velocityTest="$art_status.valueCoded.conceptId == 1066">
+					<!-- Show ART Status container if the client has been tested but not yet initiated on ART -->
+					<script>
+						jq(function() {
+							showContainer('#art-initiation-container');
+						});
+					</script>
+				</includeIf>
+			</includeIf>
+			<!-- Do not show ART testing if previously known positive, tested positive -->
+			<excludeIf velocityTest="$hiv_test_result.valueCoded.conceptId == 703 || $no_test_reason.valueCoded.conceptId == 1169">
+				<p id="hiv-test-container" class="horizontal">
+					<label>
+						HIV Test Status
+					</label>
+					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="1065,1066"
+						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
+				</p>
+				<p id="not-tested-container" class="hidden">
+					<label>
+						Reason for not testing
+					</label>
+					<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="1169,160352,128453"
+						 answerLabels="Previously known positive, Testing kit stockout, Refused test" answerSeparator="" />
+				</p>
+				<p id="refused-test-reason-container" class="hidden">
+					<label>
+						Reason for refusing test
+					</label>
+					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				</p>
+			</excludeIf>
+			
 			<p id="hiv-test-result-container" class="hidden horizontal">
 				<label>
 					HIV Test Result
@@ -381,9 +408,15 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
+			<p id="art-status-container" class="hidden horizontal" >
+				<label>
+					Already on ART Treatment?
+				</label>
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no" />
+			</p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
-				ART status
+				ART Initiation
 			</label>
 				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="160120,160018,1754,1067"
