@@ -9,6 +9,7 @@ import org.openmrs.module.emrapi.utils.MetadataUtil;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.deploy.bundle.LocationMetadataBundle;
+import org.openmrs.module.namibia.deploy.bundle.LocationTagMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaAddressBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
 
@@ -31,6 +32,11 @@ public class MetadataInitializer implements Initializer {
 			log.info("Installing standard metadata using the packages.xml file");
 			MetadataUtil.setupStandardMetadata(getClass().getClassLoader());
 			log.info("Standard metadata installed");
+			
+			// install locations
+			log.info("installing tags");
+			deployService.installBundle(Context.getRegisteredComponents(LocationTagMetadataBundle.class).get(0));
+			log.info("location tags installed");
 			
 			// install locations
 			log.info("installing locations");

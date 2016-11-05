@@ -5,7 +5,7 @@ import org.openmrs.module.metadatadeploy.descriptor.PatientIdentifierTypeDescrip
 /**
  * Definition of patient identifiers
  */
-public class NamibiaPatientIdentifierTypes {
+public class PatientIdentifierTypes {
 	
 	public static PatientIdentifierTypeDescriptor NATIONAL_ID = new PatientIdentifierTypeDescriptor() {
 		

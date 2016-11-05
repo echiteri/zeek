@@ -1,17 +1,18 @@
 package org.openmrs.module.namibia.deploy.bundle;
 
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
+import org.openmrs.module.namibia.metadata.LocationTags;
 import org.springframework.stereotype.Component;
 
 /**
- * Deploys location tags and the locations from CSV source
+ * Deploys location tags
  */
 @Component
-public class LocationMetadataBundle extends AbstractMetadataBundle {
+public class LocationTagMetadataBundle extends AbstractMetadataBundle {
 	
 	@Override
 	public void install() throws Exception {
-		// health facility locations
-		install(new LocationCSVSource("metadata/health_locations_2.csv"));
+		// location tags
+		install(LocationTags.DELIVERY_LOCATION_TAG);
 	}
 }
