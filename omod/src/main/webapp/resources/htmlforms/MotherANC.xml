@@ -41,18 +41,17 @@
 					}
 					
 					<!-- LNMP must be before the encounter date -->
-					var lmpDate = getValue('lmp.value');
-					var encounterDate = getValue('encounterDate.value');
+					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
+					var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
 					if (encounterDate &lt; lmpDate) {
 						getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-			jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+		encounterDate).show();
 						return false;
 					}
 			
 					<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
-					if (Math.abs(jq.datepicker.parseDate( "yy-mm-dd",getValue('encounterDate.value')) - jq.datepicker.parseDate( "yy-mm-dd",getValue('lmp.value')))/(1000 * 86400 * 7) > 35) {
-						getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' +
-			jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate))).show();
+					if (Math.abs(encounterDate - lmpDate)/(1000 * 86400 * 7) > 35) {
+						getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' + encounterDate).show();
 						return false;
 					}
 				}
@@ -74,19 +73,18 @@
 				setValue('transfer-out-to.error', '');
 				setValue('next-visit-date.error', '');
 				<!-- check the date of the next visit -->
-				var next_visit_date = getValue('next-visit-date.value');
+				var next_visit_date = new Date(changeFieldDateToJavascriptDate(getValue('next-visit-date.value')));
 				
 				<!-- next visit date must be after the current visit date -->
 				if (encounterDate &gt; next_visit_date) {
-					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + jq.datepicker.formatDate('dd/mm/yy', jq.datepicker.parseDate('yy-mm-dd',encounterDate)) + ' the date of this visit').show();
+					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + encounterDate + ' the date of this visit').show();
 					return false;
 				}
 			
 				<!-- also check that the next visit is not after the expected date of delivery -->
-				var edd = jq.datepicker.formatDate('yy-mm-dd', jq.datepicker.parseDate('dd/mm/yy', jq('#edd').text()));
-				
+				var edd = new Date(jq('#edd').text());
 				if (next_visit_date &gt; edd) {
-					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + jq('#edd').text()).show();
+					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + edd).show();
 					return false;
 				}
 		
@@ -119,7 +117,7 @@
 			mm = (mm &lt; 10) ? '0' + mm : mm;
 			dd = (dd &lt; 10) ? '0' + dd : dd;
 			
-			var date = dd + '/' + mm + '/' + yyyy;
+			var date = mm + '/' + dd + '/' + yyyy;
 			return date;
 		}
 	</script>
@@ -185,7 +183,7 @@
 					<label>
 						Expected facility of delivery
 					</label>
-					<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" /> <!--only show admission locations -->
+					<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> <!--only show delivery locations -->
 				</p>
 			</div>
 		</section>
@@ -365,8 +363,8 @@
 		</script>
 		<div class="section-container">
 			<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 1169 || $hiv_test_result.valueCoded.conceptId == 703">
-				<includeIf velocityTest="$art_status.valueCoded.conceptId == 1066">
-					<!-- Show ART Status container if the client has been tested but not yet initiated on ART -->
+				<includeIf velocityTest="$art_status.valueCoded.conceptId != 1065">
+					<!-- Show ART Status container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
 							showContainer('#art-initiation-container');
@@ -408,6 +406,7 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
+				
 			<p id="art-status-container" class="hidden horizontal" >
 				<label>
 					Already on ART Treatment?
@@ -433,7 +432,78 @@
 			<p id="art-startdate-container" class="hidden narrow">
 				<label>ART Start Date</label>
 				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<script>
+					jq(function(){
+						jq('#art-start-date :input[type=text]').change(function(){
+							
+							var art_start_date = getValue('art-start-date.value');
+							var visit_date = getValue('encounterDate.value');
+							
+							if (art_start_date != '') {
+								<!-- check that the ART start date is not after the visit date -->
+								if (art_start_date &gt; visit_date) {
+									alert('The ART start date cannot be after the date of this visit ' +  changeFieldDateToJavascriptDate(visit_date));
+								} else {
+									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
+									<!-- Show the viral load container if the ART start date is more than 6 months before today -->
+									var months = Math.round(diff/(86400000 * 30));
+									if (months > 6) {
+										showContainer('#recent-viral-load-container');
+									}
+								}
+							}
+						});
+					});
+				</script>
+				
 			</p>
+				<p id="recent-viral-load-container" class="hidden">
+					<label>
+						Most Recent Viral Load
+					</label>
+					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1118, 1267, 1067"
+						 answerLabels="Not done, VL test ordered, Unknown"
+						 answerSeparator="" />
+					<script>
+						jq(function() {
+							jq('#recent-viral-load-container').click(function(){
+								if (getValue('recent-viral-load.value') == 1301) {
+									showContainer('#viral-load-copies-container');
+								} else {
+									hideContainer('#viral-load-copies-container');
+								}
+							});
+						});
+					</script>
+					
+				</p>
+			<lookup complexExpression="#set( $viral_load_test_ordered = $fn.latestObs('163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+			<lookup complexExpression="#set( $viral_load_test_result = $fn.latestObs('1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
+			<includeIf velocityTest="$viral_load_test_ordered.valueCoded == 1267">
+				<!-- TODO: Add handling for the second viral load result -->
+			<p id="viral-load-results-container">
+				<label>Viral Load Results</label>
+				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
+					 answerLabels="Detected,Not Detected, Poor Sample Quality"/>
+				<script>
+						jq(function() {
+							jq('#viral-load-results').click(function(){
+								if (getValue('recent-viral-results.value') == 1301) {
+									showContainer('#viral-load-copies-container');
+								} else {
+									hideContainer('#viral-load-copies-container');
+								}
+							});
+						});
+					</script>
+			</p><br/>
+			<p id="viral-load-copies-container" class="narrow">
+				Viral Load (copies/ml)
+				
+				<obs id="viral-load-copies" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+			
+			</p>
+			</includeIf>
 		</div>
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container">

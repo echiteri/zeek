@@ -22,3 +22,11 @@ function showContainer(container) {
     jq(container + ' :input').attr('disabled', false);
     jq(container + ' :input').prop('checked', false);
 }
+
+/**
+ + * Changes a field date in the format yy-mm-dd to dd/mm/yy which eas
+ + * @param dateValue
+ + */
+function changeFieldDateToJavascriptDate(dateValue) {
+    return jq.datepicker.formatDate('mm/dd/yy', jq.datepicker.parseDate('yy-mm-dd', dateValue));
+}
