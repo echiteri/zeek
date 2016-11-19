@@ -12,6 +12,6 @@ public class LocationMetadataBundle extends AbstractMetadataBundle {
 	@Override
 	public void install() throws Exception {
 		// health facility locations
-		install(new LocationCSVSource("metadata/health_locations_2.csv"));
+		install(new LocationCSVSource("metadata/health_locations_3.csv"));
 	}
 }
