@@ -28,7 +28,7 @@
 	</scm>
 	
 	<properties>
-		<openMRSVersion>2.0.1-SNAPSHOT</openMRSVersion>
+		<openMRSVersion>2.0.1</openMRSVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- custom modules -->
@@ -42,7 +42,7 @@
 		<metadatadeployVersion>1.7</metadatadeployVersion>
 		<metadatamappingVersion>1.0.2</metadatamappingVersion>
 		<metadatasharingVersion>1.2</metadatasharingVersion>
-		<referenceapplicationVersion>2.5-SNAPSHOT</referenceapplicationVersion>
+		<referenceapplicationVersion>2.5</referenceapplicationVersion>
 		<registrationAppVersion>1.5</registrationAppVersion>
 		<uicommonsVersion>1.8</uicommonsVersion>
 		<uiframeworkVersion>3.6</uiframeworkVersion>
