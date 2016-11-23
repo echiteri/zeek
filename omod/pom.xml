@@ -114,33 +114,6 @@
 	
 	<build>
 		<finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/webapp</directory>
-				<excludes>
-					<exclude>resources</exclude>
-				</excludes>
-				<targetPath>web/module</targetPath>
-			</resource>
-			<resource>
-				<directory>src/main/webapp</directory>
-				<includes>
-					<include>resources</include>
-				</includes>
-				<targetPath>web/module</targetPath>
-			</resource>
-		</resources>
-		
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<filtering>true</filtering>
-			</testResource>
-		</testResources>
 		
 		<pluginManagement>
 			<plugins>
@@ -230,6 +203,26 @@
 							<excludeTransitive>true</excludeTransitive>
 							<includes>**/*</includes>
 							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.openmrs.maven.plugins</groupId>
+				<artifactId>openmrs-sdk-maven-plugin</artifactId>
+				<version>3.4.5</version>
+				<executions>
+					<execution>
+						<id>build-distro</id>
+						<phase>install</phase>
+						<goals>
+							<goal>build-distro</goal>
+						</goals>
+						<configuration>
+							<dir>omod/target/docker</dir>
+							<bundled>true</bundled>
+							<distro>api/src/main/resources/openmrs-distro.properties</distro>
 						</configuration>
 					</execution>
 				</executions>
