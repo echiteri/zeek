@@ -222,7 +222,7 @@
 						<configuration>
 							<dir>omod/target/docker</dir>
 							<bundled>true</bundled>
-							<distro>api/src/main/resources/openmrs-distro.properties</distro>
+							<distro>${project.build.directory}/classes/openmrs-distro.properties</distro>
 						</configuration>
 					</execution>
 				</executions>
