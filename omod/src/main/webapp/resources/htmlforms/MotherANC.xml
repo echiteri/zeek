@@ -189,11 +189,6 @@
 		</section>
 	</includeIf>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
-		
-		<lookup complexExpression="#set( $hiv_test_status = $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		<lookup complexExpression="#set( $hiv_test_result = $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		<lookup complexExpression="#set( $no_test_reason = $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-		<lookup complexExpression="#set( $art_status = $fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
 		<!-- Subsequent ANC visit -->
 		<!-- TODO: Need to find a way of checking that this encounter is after the EDD so that multiple pregancies are handled -->
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title summary" headerCode="First ANC Visit Summary Information">
@@ -229,7 +224,7 @@
 						
 						</tr>
 						
-						<includeIf velocityTest="$hiv_test_status.valueCoded.conceptId == 1065">
+						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th align="left">Date of last HIV Test
@@ -242,7 +237,7 @@
 								<td><lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
 							</tr>
 						</includeIf>
-						<includeIf velocityTest="$hiv_test_status.valueCoded.conceptId == 1066">
+						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066">
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -251,15 +246,15 @@
 							<tr>
 								<td>Not Tested</td>
 								<td colspan="2">
-									<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 1169">
+									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 										Previously known positive
 									
 									</includeIf>
-									<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 160352">
+									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 160352">
 										Testing kit stockout
 									
 									</includeIf>
-									<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 128453">
+									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 128453">
 										Refused Test - <lookup	complexExpression="$fn.latestObs('160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
 									
 									</includeIf>
@@ -362,8 +357,8 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$no_test_reason.valueCoded.conceptId == 1169 || $hiv_test_result.valueCoded.conceptId == 703">
-				<includeIf velocityTest="$art_status.valueCoded.conceptId != 1065">
+			<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065">
 					<!-- Show ART Status container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
@@ -373,7 +368,7 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$hiv_test_result.valueCoded.conceptId == 703 || $no_test_reason.valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 				<p id="hiv-test-container" class="horizontal">
 					<label>
 						HIV Test Status
