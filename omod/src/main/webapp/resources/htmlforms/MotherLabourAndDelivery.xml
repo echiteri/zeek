@@ -1,4 +1,4 @@
-<htmlform formName="Labour &amp; Delivery Form"
+<htmlform formName="Labour and Delivery Form"
 		  formDescription="A visit for a mother for Labour and Delivery services"
 		  formEncounterType="2678423c-0523-4d76-b0da-18177b439eed"
 		  formUuid="1e5614d6-5306-11e6-beb8-9e71128cae77"
@@ -17,83 +17,18 @@
 			jq('#encounterLocation, #encounterDate').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
-
-			<!--/* When a patient tests or comes with a positive diagnosis then the test should show as such */-->
-			jq('#hiv-test').click(function(){
-
-				if(getValue('hiv-test.value') == 1065) {
-					<!--/* tested at this facility - could be positive or negative */-->
-					jq('#test-result-container :input').prop('checked', false);
-					jq('#test-result-container').removeClass('hidden');
-					<!--Ensure art status container is hidden and no radio is checked-->
-					jq('#art-status :input').attr('checked', false);
-					jq('#test-result-container :input').prop('disabled', false);
-					jq('#art-status').addClass('hidden');
-
-				} else if(getValue('hiv-test.value') == 160546) {
-					jq('#test-result-container').removeClass('hidden');
-					jq('#test-result-container :input').prop('disabled', true);
-					/* Confirmed positive so enable the test results, disable all but positive that is selected */
-					jq('#test-result :radio[value=703]').prop('disabled', false);
-					jq('#test-result :radio[value=703]').prop('checked', true);
-					<!-- /* show art status container */-->
-					jq('#art-status :input').prop('disabled', false);
-					jq('#art-status').removeClass('hidden');
-				} else {
-					jq('#test-result-container :input').prop('checked', false);
-					jq('#test-result-container').addClass('hidden');
-					jq('#art-status :input').attr('checked', false);
-					jq('#art-status').addClass('hidden');
-				}
-			});
-
-			jq('#test-result').click(function(){
-				if(getValue('test-result.value')==703) {
-					jq('#art-status :input').prop('disabled', false);
-					jq('#art-status').removeClass('hidden');
-
-					}
-					else {
-					jq('#art-status :input').attr('checked', false);
-					jq('#art-status').addClass('hidden');
-
-				}
-			});
-			jq('#mother-status').click(function(){
-				if(getValue('infant-status.value')==1065 &amp;&amp; getValue('mother-status.value')==161636){
-					jq('#pnc-facility :input').val('');
-					jq('#expected-post-natal-facility').removeClass('hidden');
-				}
-				if(getValue('mother-status.value') !=161636) {
-					jq('#pnc-facility :input').val('');
-					jq('#expected-post-natal-facility').addClass('hidden');
-				}
-			});
-
-			jq('#infant-status').click(function(){
-				if(getValue('infant-status.value')==1065 &amp;&amp; getValue('mother-status.value')==161636){
-					jq('#pnc-facility :input').val('');
-					jq('#expected-post-natal-facility').removeClass('hidden');
-				}
-				else if(getValue('infant-status.value')==1065) {
-					jq('#infant-arv-status-container :input').attr('checked', false);
-					jq('#infant-arv-status-container').removeClass('hidden');
-
-				}
-				else {
-					jq('#infant-arv-status-container :input').attr('checked', false);
-					jq('#infant-arv-status-container').addClass('hidden');
-					jq('#pnc-facility :input').val('');
-					jq('#expected-post-natal-facility').addClass('hidden');
-
-				}
-			});
 		});
 	</script>
-
+	
+	<style>
+		#summary th {
+			text-align: left;
+			white-space: nowrap;
+		}
+	</style>
 	<h2>
 		<label>
-			Mother Labour and Delivery Form
+			Labour and Delivery Form
 		</label>
 	</h2>
 	<section id="who-when-where" headerStyle="title" headerTag="legend" sectionTag="fieldset">
@@ -121,102 +56,62 @@
 			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 		</p>
 	</section>
-	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()&lt;1">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
-			<div class="section-container">
-				<table>
-					<tr>
-						<th align="left">Age(Yrs)</th>
-						<th align="left" width="60%">Telephone Number</th>
-					</tr>
-					<tr>
-						<td><lookup expression="patient.age"/></td>
-						<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
-					</tr>
-				</table>
-				<table>
-					<tr>
-						<th align="left">Booked Status</th>
-						<th align="left" width="60%">HIV Status</th>
-					</tr>
-					<tr>
-						<td>Unbooked</td>
-						<td width="60%">UNKNOWN</td>
-					</tr>
-				</table>
-			</div>
-		</section>
-	</includeIf>
-	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()>0">
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Admission Information">
 		<div class="section-container">
-			<table>
+			<table id="summary">
 				<tr>
-					<th align="left">Age(Yrs)</th>
-					<th align="left" width="60%">Telephone Number</th>
+					<th>Age (Yrs)</th>
+					<th>Telephone Number</th>
+					<th>No of ANC Visits</th>
 				</tr>
 				<tr>
 					<td><lookup expression="patient.age"/></td>
-					<td width="60%"><lookup expression="personAttributes.get('Telephone Number')"/></td>
-				</tr>
-			</table>
-
-			<table>
-				<tr>
-					<th align="left">Last HIV Status</th>
-					<th align="left" width="60%">Date of last HIV Test</th>
-				</tr>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded == 1065">
-					<tr>
-						<td><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
-						<td width="60%"><lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" /></td>
-					</tr>
-				</includeIf>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==160546">
-					<tr>
-						<td>KNOWN POSITIVE</td>
-						<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
-					</tr>
-				</includeIf>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1066">
-					<tr>
-						<td>NOT TESTED</td>
-						<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
-					</tr>
-				</includeIf>
-				<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded==1067">
-					<tr>
-						<td>UNKNOWN</td>
-						<td width="60%"><!--<lookup	complexExpression="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime" />--></td>
-					</tr>
-				</includeIf>
-			</table>
-
-			<table>
-				<tr>
-					<th align="left" width="40%">Total No of ANC Visits</th>
-					<th align="left" width="30%">Referral ANC Clinic</th>
-					<th align="left">ANC Provider Name</th>
-				</tr>
-				<tr>
+					<td><lookup expression="personAttributes.get('Telephone Number')"/></td>
 					<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
+				</tr>
+				<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
+				<tr>
+					<th>HIV Status</th>
+					<th>ART Status</th>
+					<th>ART Number</th>
+				</tr>
+				<tr>
+					<td>
+						
+					<!-- Start with Previously known Positive -->
+					<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+						Previously Known Positive
+					</includeIf>
+					<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
+						<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+					</includeIf>
+					</td>
+					<td>
+						<lookup	expression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+					</td>
+					<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
+				</tr>
+				<tr>
+					<th>Last ANC Visit Date</th>
+					<th>Referral ANC Clinic</th>
+					<th>ANC Provider Name</th>
+				</tr>
+				<tr>
+					<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').encounterDatetime"/></td>
 					<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
 					<td>
-						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.givenName" />
-						<lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').creator.Person.PersonName.familyName" />
+						<lookup	complexExpression="#foreach($encounterProvider in $fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').encounterProviders) $encounterProvider.provider.person.personName #end" />
+						
 					</td>
-
 				</tr>
+				</includeIf>
 			</table>
 		</div>
 	</section>
-	</includeIf>
-
-
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
-			<p class="hidden">
+			<p>
 				<label>
 					Was this client booked at ANC?
 				</label>
@@ -230,13 +125,14 @@
 				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" defaultValue="1066" answerSeparator=""  required="true"/>
 			</p>
 			</includeIf>
-			<p>
+			<p id="anc-number-container" class="narrow">
 				<label>
 					ANC Client Number
 				</label>
 				<obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 			</p>
-			<p>
+			
+			<p class="narrow">
 				<label>
 					Delivery Number
 				</label>
@@ -244,83 +140,138 @@
 			</p>
 		</div>
 	</section>
+	<!--
+	Show the HIV testing questions if
+	- No HIV Test was done during antenatal
+	- Not tested because of test kit stockout
+	- TODO: Add a test when the last test was negative, and its more than 6 months since that test
+	-->
+	<includeIf velocityTest="!$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') ">
+			
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Status at Delivery">
+		<script>
+			jq(function() {
+				<!-- Whether the client has been tested -->
+				jq('#hiv-test').click(function(){
+					if(getValue('hiv-test.value') == 1065) {
+						showContainer('#hiv-test-result-container');
+						hideContainer('#not-tested-container');
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+					} else {
+						hideContainer('#hiv-test-result-container');
+						showContainer('#not-tested-container');
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+					}
+				});
+				<!-- reason for not testing -->
+				jq('#not-tested').click(function(){
+					if(getValue('not-tested.value') == 128453) {
+						showContainer('#refused-test-reason-container');
+					} else if (getValue('not-tested.value') == 1169) {
+						<!-- previously known positive -->
+						showContainer('#art-status-container');
+						hideContainer('#refused-test-reason-container');
+					} else {
+						hideContainer('#refused-test-reason-container');
+					}
+				});
+				<!-- reason for not testing -->
+				jq('#art-status').click(function(){
+					if (getValue('art-status.value')) {
+						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+					} else {
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						showContainer('#art-initiation-container');
+					}
+				});
+				jq('#hiv-test-result').click(function(){
+					if(getValue('hiv-test-result.value') == 703) {
+						<!-- positive result -->
+						showContainer('#art-initiation-container');
+						showContainer('#art-number-container');
+					} else {
+						hideContainer('#art-initiation-container');
+						hideContainer('#art-number-container');
+					}
+				});
+			});
+		</script>
 		<div class="section-container">
-			<includeIf velocityTest="(($fn.latestObs(160117).valueCoded !=160119) &amp;&amp; ($fn.latestObs(160117).valueCoded !=160120))">
-				<p>
-					<label>
-						HIV Test Status
-					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066,160546,1067"
-						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Previously known HIV Positive,Unknown"
-						 answerSeparator="" required="true" />
-				</p>
-				<p id="test-result-container" class="hidden">
-					<label>
-						HIV Test Result
-					</label>
-					<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-						 answerLabels="Negative,Positive,Unknown" answerSeparator="" />
-				</p>
-				<p id="art-status" class="hidden">
-					<label>
-						Mother ART Status
-					</label>
-					<obs style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="160119,160120,127750,1754,1067"
-						 answerLabels="Already on ART before starting ANC,Started on ART during labour and delivery,Refused ART,Not started due to stockout,Unknown"
-						 answerSeparator="" />
-				</p>
-			</includeIf>
-
-			<p id="unique-art-number" class="hidden">
+			<!-- Do not show the testing if
+				- client is previously known positive
+				- client refused test
+				- client tested and test was positive or negative
+			-->
+			
+			
+			<p id="hiv-test-container" class="horizontal">
 				<label>
-					Unique ART Number(ePMS)
+					HIV Test Status
 				</label>
-				<input type="text" size="15" />
+				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="1065,1066"
+					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
 			</p>
-			<p id="edt-art-number">
+			<p id="not-tested-container" class="hidden">
 				<label>
-					EDT ART Number
+					Reason for not testing
 				</label>
-				<input type="text" size="15" />
+				<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="1169,160352,128453"
+					 answerLabels="Previously known positive, Testing kit stockout, Refused test" answerSeparator="" />
 			</p>
-			<p id="pmtct-number">
+			<p id="refused-test-reason-container" class="hidden">
 				<label>
-					Child PMTCT Unique No
+					Reason for refusing test
 				</label>
-				<input type="text" size="15" />
+				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+			</p>
+			<p id="hiv-test-result-container" class="hidden horizontal">
+				<label>
+					HIV Test Result
+				</label>
+				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+					 answerLabels="Negative,Positive,Unknown"
+					 answerSeparator="" />
 			</p>
 		</div>
 	</section>
-
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Mother Status">
+	</includeIf>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Mother and Infant Status">
 	<div class="section-container">
 		<p>
 			<label>
 				Mother's status
 			</label>
 			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Mother Died(Maternal Death),Transferred Out, Unknown" answerSeparator="" />
+				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out, Unknown" answerSeparator="" required="true"/>
 		</p>
-	</div>
-	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant Status">
-		<div class="section-container">
 			<p>
 				<label>
 					Infant Status
 				</label>
 				<obs id="infant-status" style="radio" conceptId="1571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,140396"
-					 answerLabels="Infant still alive,Infant Died(Neonatal Death),Still Birth" answerSeparator="" />
+					 answerLabels="Infant still alive,Infant Died (Neonatal Death),Still Birth" answerSeparator="" required="true" />
 			</p>
 			<p id="infant-arv-status-container" class="hidden">
 				<label>
 					Infant Prophylaxis Status
 				</label>
 				<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
-					 answerLabels="ARV Prohylaxis daily up to 6 weeks,Refused ARV Prophylaxis,Stock-out of ARV"
+					 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis"
 					 answerSeparator="" />
 			</p>
 			<p id="expected-post-natal-facility" class="hidden">
