@@ -9,16 +9,7 @@ header {
 
 #who-when-where {
     margin-bottom: 6px;
-    border-bottom: 1px solid #ccc;
-}
-
-#who-when-where p {
-    display: inline-block;
-    padding-right: 20px;
-}
-
-#where > input[type=text] {
-    display: inline-block;
+    border: none
 }
 
 .narrow {
@@ -59,7 +50,7 @@ header {
     top: 5px; /*added to offset the checkbox position to line up*/
 }
 
-.section-container label { /*new definition to override labels inside section-containers*/
+.section-container label { /*new definition to override labels inside section-containers */
     margin: 0px;
 }
 
@@ -71,7 +62,7 @@ textarea {
     width: 95%;
 }
 
-p > label:first-child {
+td > label:first-child, p > label:first-child {
     font-size: 18px;
     font-weight: bold;
     color: #242563;
@@ -86,3 +77,15 @@ p > label:first-child {
 .horizontal label {
     display: inline-block;
 }
+
+/* Increase the size of the breadcrumbs */
+#breadcrumbs {
+    font-size: 1.1em;
+}
+
+/* Hide the visit buttons on the General actions tab */
+#org\.openmrs\.module\.coreapps\.createVisit, #org\.openmrs\.module\.coreapps\.createRetrospectiveVisit, #org\.openmrs\.module\.coreapps\.mergeVisits, #chartsearch\.chartSearchLink {
+    display: none;
+}
+
+
