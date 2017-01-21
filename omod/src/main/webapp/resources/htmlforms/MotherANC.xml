@@ -4,10 +4,10 @@
 		  formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
 		  formVersion="0.9"
 		  formAddMetadata="yes"
-		  formUILocation="patientDashboard.visitActions"
+		  formUILocation="patientDashboard.overallActions"
 		  formOrder="1"
 		  formIcon="icon-medkit"
-		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
+		  formShowIf="patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
 	<script>
 		jq(function() {
@@ -16,9 +16,8 @@
 		
 			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
 			encounter date -->
-			jq('#encounterLocation, #encounterDate').hide();
+			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		
 			<!-- EDD computation -->
 			jq('#lmp :input[type=text]').change(function(){
@@ -123,32 +122,35 @@
 	</script>
 	<h2>
 		<label>
-			Mother ANC Visit
+			Mother ANC Visit - This is a test
 		</label>
 	</h2>
-	<section id="who-when-where">
-		<p id="who">
-			<label>
-				Attending Clinican
-			</label>
-			<encounterProvider default="currentUser" />
-		</p>
-		<p id="where">
-			<label>
-				Health Facility
-			</label>
-			<span id="currentLocation"></span>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-							   tags="1" /> <!-- Only show Login locations -->
-		</p>
-		<p id="when">
-			<label>
-				Visit Date
-			</label>
-			<span id="visitDate"></span>
-			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-		</p>
-	</section>
+	<table id="who-when-where">
+		<tbody>
+			<tr>
+				<td>
+					<label>
+						Attending Clinican
+					</label>
+					<encounterProvider default="currentUser" />
+				</td>
+				<td>
+					<label>
+						Health Facility
+					</label>
+					<span id="currentLocation"></span>
+					<encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+									   tags="1" /> <!-- Only show Login locations -->
+				</td>
+				<td>
+					<label name="encounterDate">
+						Visit Date
+					</label>
+					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 			<div class="section-container">
@@ -183,7 +185,7 @@
 					<label>
 						Expected facility of delivery
 					</label>
-					<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> <!--only show delivery locations -->
+					<obs required="true" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> <!--only show delivery locations -->
 				</p>
 			</div>
 		</section>
@@ -219,7 +221,7 @@
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td><span id="edd"></span></td>
 							<td>
-								<lookup expression="fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
+								<lookup complexExpression="$fn.getLocation($fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText)" />
 							</td>
 						
 						</tr>
@@ -255,7 +257,7 @@
 									
 									</includeIf>
 									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 128453">
-										Refused Test - <lookup	complexExpression="$fn.latestObs('160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText" />
+										Refused Test : <lookup	complexExpression="#set($refuse_reason = $fn.latestObs('160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText) $!{refuse_reason}" />
 									
 									</includeIf>
 								</td>

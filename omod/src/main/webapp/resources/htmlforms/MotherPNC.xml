@@ -4,10 +4,10 @@
 		  formUuid="e6b67aa4-6c59-4470-8ad5-b994efeda553"
 		  formVersion="0.9"
 		  formAddMetadata="yes"
-		  formUILocation="patientDashboard.visitActions"
+		  formUILocation="patientDashboard.overallActions"
 		  formOrder="10"
 		  formIcon="icon-medkit"
-		  formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
+		  formShowIf="patient.person.dead==false &amp;&amp; patient.person.gender=='F' &amp;&amp; patient.person.age &gt; 12"
 		  formDisplayStyle="Standard">
 	
 	<script type="text/javascript">
@@ -32,31 +32,32 @@
 			Mother Post-Natal Care Form
 		</label>
 	</h2>
-	<section id="who-when-where" headerStyle="title" headerTag="legend" sectionTag="fieldset">
-		<p id="who">
-			<label>
-				Attending Clinican
-			</label>
-			<encounterProvider  default="currentUser"/>
-		</p>
-		<p id="where">
-			<label>
-				Health Facility
-			</label>
-			<span id="currentLocation"></span>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="1" /> <!-- Only
-			show
-			Login
-			locations -->
-		</p>
-		<p id="when">
-			<label>
-				Visit Date
-			</label>
-			<span id="visitDate"></span>
-			<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
-		</p>
-	</section>
+	<table id="who-when-where">
+		<tbody>
+			<tr>
+				<td>
+					<label>
+						Attending Clinican
+					</label>
+					<encounterProvider default="currentUser" />
+				</td>
+				<td>
+					<label>
+						Health Facility
+					</label>
+					<span id="currentLocation"></span>
+					<encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+									   tags="1" /> <!-- Only show Login locations -->
+				</td>
+				<td>
+					<label name="encounterDate">
+						Visit Date
+					</label>
+					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Summary Information">
 		<div class="section-container">
 			<table id="summary">
