@@ -78,6 +78,9 @@ public class AppConfigurationInitializer implements Initializer {
 		// set the name of the application
 		properties.add(new GlobalProperty("application.name", "Namibia PMTCT Tracker"));
 		
+		// mapping for creating visits without encounters to the default facility visit type
+		properties.add(new GlobalProperty("emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap", "default:7b0f5697-27e3-40c4-8bae-f4049abfb4ed"));
+		
 		// Remove validation for names
 		properties.add(new GlobalProperty("patient.nameValidationRegex", ""));
 		
@@ -93,6 +96,9 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty("patient.identifierRegex", ""));
 		properties.add(new GlobalProperty("patient.identifierSearchPattern", ""));
 		
+		// attributes being displayed on the search widget
+		properties.add(new GlobalProperty("patient.listingAttributeTypes", "Telephone Number"));
+		
 		// do not allow overlapping visits
 		properties.add(new GlobalProperty("visits.allowOverlappingVisits", "false"));
 		
@@ -103,12 +109,16 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid()));
 		
 		// other identifiers that can be used
-		// properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES,
-		// PatientIdentifierTypes.NATIONAL_ID.uuid()));
 		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, ""));
 		
 		// disable the appointmentshedulingui which will confuse users
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
+		
+		// the name of the custom registration app
+		properties.add(new GlobalProperty("registrationapp.customRegistrationAppId", "namibia.registrationapp.registerPatient"));
+		
+		// enable the register patient button to appear on the search widget
+		properties.add(new GlobalProperty("coreapps.showRegisterPatientOnSearchWidget", "true"));
 		
 		return properties;
 	}
