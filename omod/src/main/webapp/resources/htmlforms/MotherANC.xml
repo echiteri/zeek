@@ -122,7 +122,7 @@
 	</script>
 	<h2>
 		<label>
-			Mother ANC Visit - This is a test
+			Mother ANC Visit
 		</label>
 	</h2>
 	<table id="who-when-where">
@@ -221,7 +221,7 @@
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td><span id="edd"></span></td>
 							<td>
-								<lookup complexExpression="$fn.getLocation($fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText)" />
+								<lookup complexExpression="$fn.location($fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText).name" />
 							</td>
 						
 						</tr>
