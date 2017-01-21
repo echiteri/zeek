@@ -136,6 +136,11 @@
         </form>
 
     </div>
+    <div>
+
+            ${ui.message("namibia.version.label")} &nbsp; &nbsp;
+            &#169; 2017 All Rights Reserved <a href="http://www.mhss.gov.na/" target="_blank" title="Ministry of Health and Social Services">Ministry of Health and Social Services</a>
+    </div>
 </div>
 
 <div id="cannotLoginPopup" class="dialog" style="display: none">
@@ -151,6 +156,7 @@
         <button class="confirm">${ui.message("referenceapplication.okay")}</button>
     </div>
 </div>
+
 
 </body>
 </html>
