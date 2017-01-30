@@ -42,7 +42,8 @@ public class AppConfigurationInitializer implements Initializer {
 			appFrameworkService.disableApp("xforms.formentry");
 			// disable form entry extension in active visits
 			appFrameworkService.disableExtension("xforms.formentry.cfpd");
-			
+			// disable the default find patient app to provide one which allows searching for patients at the footer of the search for patients page
+			appFrameworkService.disableApp("coreapps.findPatient");
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
 			
