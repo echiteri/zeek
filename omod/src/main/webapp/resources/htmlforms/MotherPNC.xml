@@ -14,7 +14,7 @@
 		jq(function() {
 			<!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
 			encounter date */-->
-			jq('#encounterLocation, #encounterDate').hide();
+			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		});
@@ -22,8 +22,8 @@
 	
 	<style>
 		#summary th {
-		text-align: left;
-		white-space: nowrap;
+			text-align: left;
+			white-space: nowrap;
 		}
 	</style>
 	
@@ -217,7 +217,7 @@
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
 			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
-				<p id="hiv-test-container" class="horizontal">
+				<p id="hiv-test-container">
 					<label>
 						HIV Test Status
 					</label>
@@ -241,7 +241,7 @@
 				</p>
 			</excludeIf>
 			
-			<p id="hiv-test-result-container" class="hidden horizontal">
+			<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
 				</label>
@@ -250,7 +250,7 @@
 					 answerSeparator="" />
 			</p>
 				
-			<p id="art-status-container" class="hidden horizontal" >
+			<p id="art-status-container" class="hidden" >
 				<label>
 					Already on ART Treatment?
 				</label>

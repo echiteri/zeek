@@ -28,6 +28,10 @@ public class MetadataInitializer implements Initializer {
 			deployService.installBundle(Context.getRegisteredComponents(NamibiaPatientIdentifierTypeBundle.class).get(0));
 			log.info("Patient identifiers installed");
 			
+			log.info("Installing person attribute types");
+			// deployService.installBundle(Context.getRegisteredComponents(NamibiaPersonAttributeTypeBundle.class).get(0));
+			log.info("Person attribute types installed");
+			
 			// install Metadata sharing paclages
 			log.info("Installing standard metadata using the packages.xml file");
 			MetadataUtil.setupStandardMetadata(getClass().getClassLoader());

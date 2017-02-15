@@ -5,7 +5,7 @@
 	
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>namibia</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<packaging>pom</packaging>
 	<name>Namibia PMTCT</name>
 	<description>Module for Namibia PMTCT support</description>
@@ -65,6 +65,7 @@
 		<reportingcompatibilityVersion>2.0.1</reportingcompatibilityVersion>
 		<reportingrestVersion>1.6</reportingrestVersion>
 		<reportingVersion>0.10.6</reportingVersion>
+		<reportingUIVersion>1.2</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
 		<uicommonsVersion>2.2-SNAPSHOT</uicommonsVersion>
 		<uiframeworkVersion>3.10-SNAPSHOT</uiframeworkVersion>

@@ -88,4 +88,15 @@ td > label:first-child, p > label:first-child {
     display: none;
 }
 
+.standout {
+    font-weight: bold;
+    color: blue;
+}
+
+.obs-field label {
+    margin-left: 1.1em;
+}
+
+
+
 

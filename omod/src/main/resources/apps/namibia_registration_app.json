@@ -61,8 +61,41 @@
                     }
                   },
                   "cssClasses": [
-                    "number", "regex"
+                    "number",
+                    "regex"
                   ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "otherDemographic",
+          "label": "namibia.person.otherdemographic.label",
+          "questions": [
+            {
+              "legend": "namibia.person.otherdemographic.label",
+              "id": "legend.otherdemographic",
+              "fields": [
+                {
+                  "type": "personAttribute",
+                  "label": "namibia.registrationapp.person.mothermaidenname.question",
+                  "formFieldName": "mothermaidenname",
+                  "uuid": "8d871f2a-c2cc-11de-8d13-0010c6dffd0f",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text"
+                  }
+                },
+                {
+                  "type": "personAttribute",
+                  "label": "namibia.registrationapp.person.placeofbirth.question",
+                  "formFieldName": "placeofbirth",
+                  "uuid": "b01e7d1c-bb4e-4347-9142-5401a8658d96",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text"
+                  }
                 }
               ]
             }

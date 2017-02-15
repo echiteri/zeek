@@ -14,9 +14,16 @@
 		jq(function() {
 			<!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
 			encounter date */-->
-			jq('#encounterLocation, #encounterDate').hide();
+			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+		
+			beforeSubmit.push(function() {
+				<!-- validation rules -->
+				<!-- Breast feeding status only required if mother and baby are alive -->
+				<!-- TODO: Add required checks for breast feeding status when the mother and baby are alive -->
+				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
+			});
 		});
 	</script>
 	
@@ -126,18 +133,11 @@
 				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" defaultValue="1066" answerSeparator=""  required="true"/>
 			</p>
 			</includeIf>
-			<p id="anc-number-container" class="narrow">
+			<p id="pregnancy-number-container" class="narrow">
 				<label>
-					ANC Client Number
+					PTracker Pregnancy ID
 				</label>
 				<obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-			</p>
-			
-			<p class="narrow">
-				<label>
-					Delivery Number
-				</label>
-				<input type="text" size="14" />
 			</p>
 		</div>
 	</section>
@@ -145,7 +145,7 @@
 	Show the HIV testing questions if
 	- No HIV Test was done during antenatal
 	- Not tested because of test kit stockout
-	- TODO: Add a test when the last test was negative, and its more than 6 months since that test
+	- TODO: Add a test when the last test was negative, and its more than 3 months since that test
 	-->
 	<includeIf velocityTest="!$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') ">
 			
@@ -182,17 +182,23 @@
 						<!-- previously known positive -->
 						showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-initiatin-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-initiatin-container');
 					}
 				});
-				<!-- reason for not testing -->
+				<!-- ART Status -->
 				jq('#art-status').click(function(){
-					if (getValue('art-status.value')) {
+					if (getValue('art-status.value') == 'true') {
+						<!-- Already on ART -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
+						<!-- Enusre ART start date is empty -->
+						setValue('art-start-date.value', '');
 						hideContainer('#art-initiation-container');
 					} else {
+						<!-- Not yet on ART so initialize -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						showContainer('#art-initiation-container');
@@ -208,6 +214,23 @@
 						hideContainer('#art-number-container');
 					}
 				});
+				jq('#art-initiation').click(function(){
+					if(getValue('art-initiation.value') == 160120) {
+						showContainer('#art-number-container');
+						hideContainer('#refused-art-container');
+						<!-- set ART start date to today -->
+						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
+					} else if (getValue('art-initiation.value') == 160018) {
+						<!-- refused ART -->
+						showContainer('#refused-art-container');
+						hideContainer('#art-number-container');
+						setValue('art-start-date.value', '');
+					} else {
+						hideContainer('#refused-art-container');
+						hideContainer('#art-number-container');
+						setValue('art-start-date.value', '');
+					}
+				});
 			});
 		</script>
 		<div class="section-container">
@@ -218,7 +241,7 @@
 			-->
 			
 			
-			<p id="hiv-test-container" class="horizontal">
+			<p id="hiv-test-container" class="">
 				<label>
 					HIV Test Status
 				</label>
@@ -240,13 +263,58 @@
 				</label>
 				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			</p>
-			<p id="hiv-test-result-container" class="hidden horizontal">
+			<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
 				</label>
 				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
+			</p>
+			<p id="art-status-container" class="hidden" >
+				<label>
+					Already on ART treatment?
+				</label>
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
+			</p>
+			<p id="art-initiation-container" class="hidden">
+			<label>
+				ART initiation
+			</label>
+				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="160120,160018,1754,1067"
+					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
+			</p>
+			<p id="art-number-container" class="hidden narrow">
+					<label>ART Unique Number</label>
+					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+			</p>
+			<p id="refused-art-container" class="hidden">
+				<label>Reason for refusing ART initiation</label>
+				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			</p>
+			<p id="art-startdate-container" class="hidden narrow">
+				<label>ART start date</label>
+				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<script>
+					jq(function(){
+						jq('#art-start-date :input[type=text]').change(function(){
+							
+							var art_start_date = getValue('art-start-date.value');
+							var visit_date = getValue('encounterDate.value');
+							
+							if (art_start_date != '') {
+								<!-- check that the ART start date is not after the visit date -->
+								if (art_start_date &gt; visit_date) {
+									alert('The ART start date cannot be after the date of this visit ' +  changeFieldDateToJavascriptDate(visit_date));
+								} else {
+									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
+								}
+							}
+						});
+					});
+				</script>
+				
 			</p>
 		</div>
 	</section>
@@ -260,14 +328,48 @@
 			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
 				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out, Unknown" answerSeparator="" required="true"/>
 		</p>
+		<script>
+			jq(function(){
+				jq('#mother-status').click(function(){
+					<!-- Hide breast feeding status if the mother died -->
+					if (getValue('mother-status.value') == 160034) {
+						hideContainer('#breastfeeding-container');
+					} else {
+						if (getValue('infant-status.value') == '' || getValue('infant-status.value') == 151849) {
+							showContainer('#breastfeeding-container');
+						}
+					}
+				});
+				
+				jq('#infant-status').click(function(){
+					<!-- hide breast feeding and prophylaxis status if baby died -->
+					if (getValue('infant-status.value') == 151849) {
+						showContainer('#breastfeeding-container');
+						showContainer('#infant-arv-prophylaxis-container');
+					} else {
+						hideContainer('#breastfeeding-container');
+						hideContainer('#infant-arv-prophylaxis-container');
+					}
+				});
+			});
+		</script>
+		
 			<p>
 				<label>
 					Infant Status
 				</label>
-				<obs id="infant-status" style="radio" conceptId="1571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,140396"
-					 answerLabels="Infant still alive,Infant Died (Neonatal Death),Still Birth" answerSeparator="" required="true" />
+				<obs id="infant-status" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872"
+					 answerLabels="Infant born alive,Infant Died (Neonatal Death),Still Birth" answerSeparator="" required="true" />
 			</p>
-			<p id="infant-arv-status-container" class="hidden">
+			<p id="breastfeeding-container">
+				<label>
+					Breastfeeding Status
+				</label>
+				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="5526,1595,6046,1067"
+					 answerLabels="Exclusive Breastfeeding, Replacement Breasfeeding, Mixed Breastfeeding, Unknown" answerSeparator=""/>
+			</p>
+			<p id="infant-arv-prophylaxis-container">
 				<label>
 					Infant Prophylaxis Status
 				</label>
@@ -275,11 +377,11 @@
 					 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis"
 					 answerSeparator="" />
 			</p>
-			<p id="expected-post-natal-facility" class="hidden">
+			<p id="expected-post-natal-facility">
 				<label>
 					Expected post natal care facility
 				</label>
-				<obs id="pnc-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="pnc-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2"/>
 			</p>
 		</div>
 	</section>

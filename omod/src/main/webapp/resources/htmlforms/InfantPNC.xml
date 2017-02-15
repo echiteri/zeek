@@ -14,7 +14,7 @@
 		jq(function() {
 			<!--/* Show the current location and visit date while hiding the encounter location drop down and date picker for
 		encounter date */-->
-			jq('#encounterLocation, #encounterDate').hide();
+			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		});

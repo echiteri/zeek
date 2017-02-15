@@ -156,9 +156,9 @@
 			<div class="section-container">
 				<p>
 					<label>
-						How many times have you been pregnant (Gravida)?
+						How many times have you been pregnant, including current pregnancy (Gravida)?
 					</label>
-					<p class="narrow horizontal">
+					<p class="narrow">
 						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
 					</p>
 				</p>
@@ -171,15 +171,17 @@
 					</p>
 				</p>
 				
-				<p class="narrow">
+				<p>
 					<label>
-						Last menstural period
+						Date of last known menstural period (LNMP)
 					</label>
-					<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
+					<p class="narrow">
+						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
+					</p>
 				</p>
-				<p class="horizontal">
-					<label>Expected Date of Delivery</label>
-					<span id="edd"></span>
+				<p>
+					<label>Estimated date of delivery (EDD)</label>
+					<span id="edd" class="standout" style="margin-left: 10px;"></span>
 				</p>
 				<p class="narrow">
 					<label>
@@ -313,17 +315,23 @@
 						<!-- previously known positive -->
 						showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-initiatin-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-initiatin-container');
 					}
 				});
-				<!-- reason for not testing -->
+				<!-- ART Status -->
 				jq('#art-status').click(function(){
-					if (getValue('art-status.value')) {
+					if (getValue('art-status.value') == 'true') {
+						<!-- Already on ART -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
+						<!-- Enusre ART start date is empty -->
+						setValue('art-start-date.value', '');
 						hideContainer('#art-initiation-container');
 					} else {
+						<!-- Not yet on ART so initialize -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						showContainer('#art-initiation-container');
@@ -371,9 +379,9 @@
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
 			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
-				<p id="hiv-test-container" class="horizontal">
+				<p id="hiv-test-container">
 					<label>
-						HIV Test Status
+						HIV test status
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065,1066"
@@ -395,39 +403,39 @@
 				</p>
 			</excludeIf>
 			
-			<p id="hiv-test-result-container" class="hidden horizontal">
+			<p id="hiv-test-result-container" class="hidden">
 				<label>
-					HIV Test Result
+					HIV test result
 				</label>
 				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
 				
-			<p id="art-status-container" class="hidden horizontal" >
+			<p id="art-status-container" class="hidden" >
 				<label>
-					Already on ART Treatment?
+					Already on ART treatment?
 				</label>
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no" />
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
 			</p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
-				ART Initiation
+				ART initiation
 			</label>
 				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="160120,160018,1754,1067"
 					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
 			</p>
 			<p id="art-number-container" class="hidden narrow">
-					<label>ART Number</label>
+					<label>ART Unique Number</label>
 					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
 			</p>
 			<p id="refused-art-container" class="hidden">
-				<label>Reason for Refusing ART initiation</label>
+				<label>Reason for refusing ART initiation</label>
 				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 			</p>
 			<p id="art-startdate-container" class="hidden narrow">
-				<label>ART Start Date</label>
+				<label>ART start date</label>
 				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				<script>
 					jq(function(){
@@ -454,19 +462,22 @@
 				</script>
 				
 			</p>
-				<p id="recent-viral-load-container" class="hidden">
+				<p id="recent-viral-load-container" class="">
 					<label>
-						Most Recent Viral Load
-					</label>
-					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1118, 1267, 1067"
-						 answerLabels="Not done, VL test ordered, Unknown"
+						Has the patient had a recent viral load test? 					</label>
+					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
+						 answerLabels="Yes, No, Unknown"
 						 answerSeparator="" />
 					<script>
 						jq(function() {
-							jq('#recent-viral-load-container').click(function(){
-								if (getValue('recent-viral-load.value') == 1301) {
-									showContainer('#viral-load-copies-container');
+							jq('#recent-viral-load').click(function(){
+								if (getValue('recent-viral-load.value') == 1267) {
+									showContainer('#viral-load-results-container');
+									showContainer('#viral-load-test-date-container');
+									hideContainer('#viral-load-copies-container');
 								} else {
+									hideContainer('#viral-load-results-container');
+									hideContainer('#viral-load-test-date-container');
 									hideContainer('#viral-load-copies-container');
 								}
 							});
@@ -474,18 +485,21 @@
 					</script>
 					
 				</p>
-			<lookup complexExpression="#set( $viral_load_test_ordered = $fn.latestObs('163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-			<lookup complexExpression="#set( $viral_load_test_result = $fn.latestObs('1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-			<includeIf velocityTest="$viral_load_test_ordered.valueCoded == 1267">
+			
 				<!-- TODO: Add handling for the second viral load result -->
-			<p id="viral-load-results-container">
-				<label>Viral Load Results</label>
+			<p id="viral-load-test-date-container" class="narrow hidden">
+				<label>Viral load test date</label>
+				<obs conceptId="163281" id="viral-load-test-date"/>
+			</p>
+			<p id="viral-load-results-container" class="hidden">
+				<label>Viral load results</label>
 				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
-					 answerLabels="Detected,Not Detected, Poor Sample Quality"/>
+					 answerSeparator=""
+					 answerLabels="Target Detected,Not Detected, Sample Rejected"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){
-								if (getValue('recent-viral-results.value') == 1301) {
+								if (getValue('viral-load-results.value') == 1301) {
 									showContainer('#viral-load-copies-container');
 								} else {
 									hideContainer('#viral-load-copies-container');
@@ -494,13 +508,12 @@
 						});
 					</script>
 			</p><br/>
-			<p id="viral-load-copies-container" class="narrow">
-				Viral Load (copies/ml)
+			<p id="viral-load-copies-container" class="narrow hidden">
+				<label>Viral load</label>
 				
-				<obs id="viral-load-copies" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="viral-load-copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			
 			</p>
-			</includeIf>
 		</div>
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container">
