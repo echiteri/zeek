@@ -44,6 +44,11 @@ public class AppConfigurationInitializer implements Initializer {
 			appFrameworkService.disableExtension("xforms.formentry.cfpd");
 			// disable the default find patient app to provide one which allows searching for patients at the footer of the search for patients page
 			appFrameworkService.disableApp("coreapps.findPatient");
+			
+			// disable apps on the Clinican facing dashboard
+			appFrameworkService.disableApp("coreapps.mostRecentVitals");
+			appFrameworkService.disableApp("coreapps.diagnoses");
+
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
 			
@@ -107,19 +112,13 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty("htmlformentry.showDateFormat", "false")); //Disable date format display on form
 		
 		// The ART unique as the primary identifier that needs to be displayed
-		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid()));
+		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, PatientIdentifierTypes.PTRACKER_NUMBER.uuid()));
 		
 		// other identifiers that can be used
-		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, ""));
+		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid()));
 		
 		// disable the appointmentshedulingui which will confuse users
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
-		
-		// the name of the custom registration app
-		properties.add(new GlobalProperty("registrationapp.customRegistrationAppId", "namibia.registrationapp.registerPatient"));
-		
-		// enable the register patient button to appear on the search widget
-		properties.add(new GlobalProperty("coreapps.showRegisterPatientOnSearchWidget", "true"));
 		
 		return properties;
 	}

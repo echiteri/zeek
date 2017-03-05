@@ -1,0 +1,36 @@
+[
+  {
+    "id": "org.openmrs.module.namibia.patientDashboard",
+    "label": "Patient Dashboard",
+    "icon": "icon-user",
+    "extensions": [
+      {
+        "id": "org.openmrs.module.namibia.patientDashboard.demographics",
+        "extensionPointId": "patientDashboard.firstColumnFragments",
+        "extensionParams": {
+          "provider": "registrationapp",
+          "fragment": "summary/section",
+          "fragmentConfig": {
+            "sectionId": "demographics",
+            "appId": "namibia.registrationapp.registerPatient"
+          }
+        }
+      },{
+        "id": "org.openmrs.module.namibia.patientDashboard.contactInfo",
+        "extensionPointId": "patientDashboard.firstColumnFragments",
+        "extensionParams": {
+          "provider": "registrationapp",
+          "fragment": "summary/section",
+          "fragmentConfig": {
+            "sectionId": "contactInfo",
+            "appId": "namibia.registrationapp.registerPatient"
+          }
+        }
+      }
+    ],
+    "config": {
+      "appId": "namibia.registrationapp.registerPatient",
+      "patientId": "{{patient.id}}"
+    }
+  }
+]
