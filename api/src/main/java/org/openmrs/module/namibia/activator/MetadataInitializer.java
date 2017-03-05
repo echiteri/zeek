@@ -12,6 +12,7 @@ import org.openmrs.module.namibia.deploy.bundle.LocationMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.LocationTagMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaAddressBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaPersonAttributeTypeBundle;
 
 /**
  * Initializer for metadata
@@ -29,7 +30,7 @@ public class MetadataInitializer implements Initializer {
 			log.info("Patient identifiers installed");
 			
 			log.info("Installing person attribute types");
-			// deployService.installBundle(Context.getRegisteredComponents(NamibiaPersonAttributeTypeBundle.class).get(0));
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaPersonAttributeTypeBundle.class).get(0));
 			log.info("Person attribute types installed");
 			
 			// install Metadata sharing paclages

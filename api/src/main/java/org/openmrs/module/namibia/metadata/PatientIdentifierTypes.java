@@ -25,16 +25,16 @@ public class PatientIdentifierTypes {
 		}
 	};
 	
-	public static PatientIdentifierTypeDescriptor EDT_ART_NUMBER = new PatientIdentifierTypeDescriptor() {
+	public static PatientIdentifierTypeDescriptor PREGNANCY_NUMBER = new PatientIdentifierTypeDescriptor() {
 		
 		@Override
 		public String name() {
-			return "EDT ART Number";
+			return "Pregnancy Number";
 		}
 		
 		@Override
 		public String description() {
-			return "EDT ART Number";
+			return "Pregnancy Number";
 		}
 		
 		@Override
@@ -43,16 +43,16 @@ public class PatientIdentifierTypes {
 		}
 	};
 	
-	public static PatientIdentifierTypeDescriptor CHILD_PMTCT_NUMBER = new PatientIdentifierTypeDescriptor() {
+	public static PatientIdentifierTypeDescriptor PTRACKER_NUMBER = new PatientIdentifierTypeDescriptor() {
 		
 		@Override
 		public String name() {
-			return "Child PMTCT Unique No";
+			return "PTracker Number";
 		}
 		
 		@Override
 		public String description() {
-			return "Child PMTCT Unique No";
+			return "PTracker Number";
 		}
 		
 		@Override
