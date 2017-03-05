@@ -120,17 +120,13 @@
 		<div class="section-container">
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
 			<p>
-				<label>
-					Was this client booked at ANC?
-				</label>
-				<obs style="yes_no_dropdown" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" defaultValue="false" required="true" answerSeparator="" />
-				<br/>
+				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked at ANC?" />
 			</p>
 			<p>
 				<label>
 					Does the client have a pink book?
 				</label>
-				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" defaultValue="1066" answerSeparator=""  required="true"/>
+				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
 			</p>
 			</includeIf>
 			<p id="pregnancy-number-container" class="narrow">
