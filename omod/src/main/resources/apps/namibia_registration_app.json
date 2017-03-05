@@ -74,8 +74,8 @@
           "label": "namibia.person.otherdemographic.label",
           "questions": [
             {
-              "legend": "namibia.person.otherdemographic.label",
-              "id": "legend.otherdemographic",
+              "legend": "namibia.registrationapp.person.mothermaidenname.label",
+              "id": "mothermaidenname.label",
               "fields": [
                 {
                   "type": "personAttribute",
@@ -85,8 +85,17 @@
                   "widget": {
                     "providerName": "uicommons",
                     "fragmentId": "field/text"
-                  }
-                },
+                  },
+                  "cssClasses": [
+                    "required"
+                  ]
+                }
+              ]
+            },
+            {
+              "legend": "namibia.registrationapp.person.placeofbirth.label",
+              "id": "placeofbirth.label",
+              "fields": [
                 {
                   "type": "personAttribute",
                   "label": "namibia.registrationapp.person.placeofbirth.question",
@@ -95,7 +104,10 @@
                   "widget": {
                     "providerName": "uicommons",
                     "fragmentId": "field/text"
-                  }
+                  },
+                  "cssClasses": [
+                    "required"
+                  ]
                 }
               ]
             }
