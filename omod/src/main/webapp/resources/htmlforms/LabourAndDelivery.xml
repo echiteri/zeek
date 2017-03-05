@@ -135,7 +135,7 @@
 			</includeIf>
 			<p id="pregnancy-number-container" class="narrow">
 				<label>
-					PTracker Pregnancy ID
+					PTracker Pregnancy Number
 				</label>
 				<obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 			</p>
@@ -321,6 +321,21 @@
 	</includeIf>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Mother and Infant Status">
 	<div class="section-container">
+		<script>
+			jq(function(){
+				jq('#birth-count').click(function(){
+					var babies = getValue('birth-count.value');
+					for (i=0; i &lt; 10; i++) {
+						if (i &lt; babies) {
+							showContainer('#' + (i +1) + '-toggleContainer');
+						} else {
+							<!-- hide the rest of the containers just in case a higher number was selected before -->
+							hideContainer('#' + (i +1) + '-toggleContainer');
+						}
+					}
+				});
+			});
+		</script>
 		<p>
 			<label>
 				Mother's status
@@ -328,6 +343,11 @@
 			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
 				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out, Unknown" answerSeparator="" required="true"/>
 		</p>
+		<p>
+			<label>Number of babies born from this pregnancy</label>
+			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9" answerLabels="1,2,3,4,5,6,7,8,9"/>
+		</p>
+		
 		<script>
 			jq(function(){
 				jq('#mother-status').click(function(){
@@ -354,29 +374,83 @@
 			});
 		</script>
 		
-			<p>
-				<label>
-					Infant Status
-				</label>
-				<obs id="infant-status" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872"
-					 answerLabels="Infant born alive,Infant Died (Neonatal Death),Still Birth" answerSeparator="" required="true" />
-			</p>
-			<p id="breastfeeding-container">
-				<label>
-					Breastfeeding Status
-				</label>
-				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="5526,1595,6046,1067"
-					 answerLabels="Exclusive Breastfeeding, Replacement Breasfeeding, Mixed Breastfeeding, Unknown" answerSeparator=""/>
-			</p>
-			<p id="infant-arv-prophylaxis-container">
-				<label>
-					Infant Prophylaxis Status
-				</label>
-				<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
-					 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis"
-					 answerSeparator="" />
-			</p>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" class="hidden">
+					<h3>Child # {n}</h3>
+					<table>
+						<tbody>
+							<tr>
+								<td>
+										<p>
+											<label>Gender</label>
+											<patient field="gender" />
+										</p>
+								</td>
+								<td>
+									<p class="narrow">
+										<label>Date of Birth</label>
+										<patient field="birthDate" />
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>
+										<label>
+											Infant Status
+										</label>
+										<obs id="infant-status" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872"
+											 answerLabels="Infant born alive,Infant Died (Neonatal Death),Still Birth" answerSeparator=""/>
+									</p>
+								</td>
+								<td>
+									<p id="breastfeeding-container">
+										<label>
+											Breastfeeding Status
+										</label>
+										<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+											 answerConceptIds="5526,1595"
+											 answerLabels="Exclusive Breastfeeding, Replacement feeding" answerSeparator=""/>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p id="infant-arv-prophylaxis-container">
+										<label>
+											Infant Prophylaxis Status
+										</label>
+										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
+											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis"
+											 answerSeparator="" />
+									</p>
+								</td>
+								<td>
+									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</template>
+				<render n="1" />
+				<render n="2" />
+				<render n="3" />
+				<render n="4" />
+				<render n="5" />
+				<render n="6" />
+				<render n="7" />
+				<render n="8" />
+				<render n="9" />
+		</repeat>
+				
+		
+			
+		</div>
+	</section>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Post Natal Followup">
+		<div class="section-container">
 			<p id="expected-post-natal-facility">
 				<label>
 					Expected post natal care facility

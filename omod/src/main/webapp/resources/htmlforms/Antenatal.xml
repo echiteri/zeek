@@ -148,12 +148,14 @@
 					</label>
 					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 				</td>
+				<td><label>PTracker Pregnancy Number</label><obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 			</tr>
 		</tbody>
 	</table>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 			<div class="section-container">
+				
 				<p>
 					<label>
 						How many times have you been pregnant, including current pregnancy (Gravida)?
@@ -413,10 +415,11 @@
 			</p>
 				
 			<p id="art-status-container" class="hidden" >
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox"/>
 				<label>
-					Already on ART treatment?
+					Select if already on ART treatment
 				</label>
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
+				
 			</p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
@@ -462,7 +465,7 @@
 				</script>
 				
 			</p>
-				<p id="recent-viral-load-container" class="">
+				<p id="recent-viral-load-container" class="hidden">
 					<label>
 						Has the patient had a recent viral load test? 					</label>
 					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"

@@ -124,6 +124,11 @@
 					</includeIf>
 				</includeIf>
 			</table>
+			<br/>
+			<p id="postnatal-visit-number-container">
+				<label>Is this your first postnatal visit</label>
+				<obs conceptId="159893AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="1,2" answerLabels="Yes, No" style="radio" answerSeparator="" required="true" />
+			</p>
 		</div>
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
@@ -219,7 +224,7 @@
 			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 				<p id="hiv-test-container">
 					<label>
-						HIV Test Status
+						HIV test status
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065,1066"
@@ -243,7 +248,7 @@
 			
 			<p id="hiv-test-result-container" class="hidden">
 				<label>
-					HIV Test Result
+					HIV test result
 				</label>
 				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
 					 answerLabels="Negative,Positive,Unknown"
@@ -251,10 +256,11 @@
 			</p>
 				
 			<p id="art-status-container" class="hidden" >
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
 				<label>
-					Already on ART Treatment?
+					Select if already on ART treatment
 				</label>
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no" />
+				
 			</p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
@@ -302,17 +308,20 @@
 			</p>
 				<p id="recent-viral-load-container" class="hidden">
 					<label>
-						Most Recent Viral Load
-					</label>
-					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1118, 1267, 1067"
-						 answerLabels="Not done, VL test ordered, Unknown"
+						Has the patient had a recent viral load test? 					</label>
+					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
+						 answerLabels="Yes, No, Unknown"
 						 answerSeparator="" />
 					<script>
 						jq(function() {
-							jq('#recent-viral-load-container').click(function(){
-								if (getValue('recent-viral-load.value') == 1301) {
-									showContainer('#viral-load-copies-container');
+							jq('#recent-viral-load').click(function(){
+								if (getValue('recent-viral-load.value') == 1267) {
+									showContainer('#viral-load-results-container');
+									showContainer('#viral-load-test-date-container');
+									hideContainer('#viral-load-copies-container');
 								} else {
+									hideContainer('#viral-load-results-container');
+									hideContainer('#viral-load-test-date-container');
 									hideContainer('#viral-load-copies-container');
 								}
 							});
@@ -320,18 +329,21 @@
 					</script>
 					
 				</p>
-			<lookup complexExpression="#set( $viral_load_test_ordered = $fn.latestObs('163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-			<lookup complexExpression="#set( $viral_load_test_result = $fn.latestObs('1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))" />
-			<includeIf velocityTest="$viral_load_test_ordered.valueCoded == 1267">
+			
 				<!-- TODO: Add handling for the second viral load result -->
-			<p id="viral-load-results-container">
-				<label>Viral Load Results</label>
+			<p id="viral-load-test-date-container" class="narrow hidden">
+				<label>Viral load test date</label>
+				<obs conceptId="163281" id="viral-load-test-date"/>
+			</p>
+			<p id="viral-load-results-container" class="hidden">
+				<label>Viral load results</label>
 				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
-					 answerLabels="Detected,Not Detected, Poor Sample Quality"/>
+					 answerSeparator=""
+					 answerLabels="Target Detected,Not Detected, Sample Rejected"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){
-								if (getValue('recent-viral-results.value') == 1301) {
+								if (getValue('viral-load-results.value') == 1301) {
 									showContainer('#viral-load-copies-container');
 								} else {
 									hideContainer('#viral-load-copies-container');
@@ -340,13 +352,12 @@
 						});
 					</script>
 			</p><br/>
-			<p id="viral-load-copies-container" class="narrow">
-				Viral Load (copies/ml)
+			<p id="viral-load-copies-container" class="narrow hidden">
+				<label>Viral load</label>
 				
-				<obs id="viral-load-copies" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="viral-load-copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			
 			</p>
-			</includeIf>
 		</div>
 	</section>
 	
