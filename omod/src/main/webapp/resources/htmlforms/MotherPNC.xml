@@ -17,6 +17,12 @@
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+		
+			beforeSubmit.push(function() {
+				<!-- if this is not the first PNC visit then the date of the first PNC visit is required -->
+				if () {
+				}
+			});
 		});
 	</script>
 	
@@ -127,7 +133,24 @@
 			<br/>
 			<p id="postnatal-visit-number-container">
 				<label>Is this your first postnatal visit</label>
-				<obs conceptId="159893AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answers="1,2" answerLabels="Yes, No" style="radio" answerSeparator="" required="true" />
+				<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" required="true" />
+				<script>
+					jq(function() {
+						jq('#postnatal-visit-number').click(function(){
+							if (getValue('postnatal-visit-number.value') == 164180) {
+								hideContainer('#first-postnatal-visit-date-container');
+								setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
+							} else {
+								showContainer('#first-postnatal-visit-date-container');
+								setValue('first-postnatal-visit-date.value', '');
+							}
+						});
+					});
+				</script>
+			</p>
+			<p id="first-postnatal-visit-date-container" class="hidden narrow">
+				<label>First Postnatal Visit Date</label>
+				<obs conceptId="163260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-postnatal-visit-date" />
 			</p>
 		</div>
 	</section>
@@ -373,7 +396,7 @@
 			</p>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
 			jq(function() {
 				jq('#transfer-out').click(function(){
@@ -392,7 +415,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1065" answerLabels="This facility,Transfer" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065" answerLabels="This facility,In Transit,Transfer" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>

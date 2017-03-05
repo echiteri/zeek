@@ -519,7 +519,7 @@
 			</p>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup" sectionStyle="followup-container">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
 			jq(function() {
 				jq('#transfer-out').click(function(){
@@ -538,7 +538,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1065" answerLabels="This facility,Transfer" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065" answerLabels="This facility,In Transit,Transfer" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
