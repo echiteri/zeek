@@ -53,21 +53,35 @@
 	</table>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Summary Information">
 	<div class="section-container">
-		
-		<table>
-		<tr>
-			<th>Mother</th>
-			<th>Telephone Number</th>
-		</tr>
-			<tr>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
-		<p>
-			<label>Mother</label>
-			<relationship type="8d91a210-c2cc-11de-8d13-0010c6dffd0f" whoAmI="B" required="true" changeExistingRelationship="true"></relationship>
-		</p>
+		<lookup complexExpression="#foreach ( $relationship in $relationshipList )
+										#if( $relationship.relationshipType.aIsToB == 'Parent' )
+											  #if( !($relationship.personA.patientId == $patient.patientId ))
+												 #if( $relationship.personA.gender == 'F' )
+														#set ($mother = $relationship.personA)
+												 #end
+											  #end
+										#end
+									#end "/>
+		<includeIf velocityTest="$mother">
+			<table>
+				<tr>
+					<th>Mother</th>
+					<th>ART Status</th>
+					<th>Telephone Number</th>
+				</tr>
+				<tr>
+					<td><lookup expression="mother.personName" /> </td>
+					<td></td>
+					<td><lookup expression="mother.getAttribute('Telephone Number')" /></td>
+				</tr>
+			</table>
+		</includeIf>
+		<includeIf velocityTest="!$mother">
+			<p>
+				<label>Mother</label>
+				<relationship type="8d91a210-c2cc-11de-8d13-0010c6dffd0f" whoAmI="B" required="true" changeExistingRelationship="true"></relationship>
+			</p>
+		</includeIf>
 	</div>
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Exposure and Prophylaxis Information">
