@@ -17,16 +17,7 @@
     ],
     "extensions": [
       {
-        "id": "namibia.homepageLink",
-        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
-        "type": "link",
-        "label": "Reports",
-        "url": "namibia/reports.page",
-        "icon": "icon-book",
-        "order": 110
-      },
-      {
-        "id": "Missed Appointment Report",
+        "id": "org.openmrs.module.namibia.reports.missedappointment",
         "extensionPointId": "org.openmrs.module.namibia.reports.facility",
         "type": "link",
         "label": "Missed ANC and PNC appointments",
@@ -34,7 +25,7 @@
         "order": 5
       },
       {
-        "id": "PMTCT Antenatal Clinic (ANC) Monthly Summary Form",
+        "id": "org.openmrs.module.namibia.reports.ancmonthlysummary",
         "extensionPointId": "org.openmrs.module.namibia.reports.monthly",
         "type": "link",
         "label": "PMTCT Antenatal Clinic (ANC) Monthly Summary Form",
@@ -42,7 +33,7 @@
         "order": 5
       },
       {
-        "id": "PMTCT Maternity (L&D) Monthly Summary Form",
+        "id": "org.openmrs.module.namibia.reports.maternitymonthlysummary",
         "extensionPointId": "org.openmrs.module.namibia.reports.monthly",
         "type": "link",
         "label": "PMTCT Maternity (L&D) Monthly Summary Form",
