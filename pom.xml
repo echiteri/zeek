@@ -33,7 +33,7 @@
 		
 		<!-- custom modules -->
 		<addresshierarchyVersion>2.9</addresshierarchyVersion>
-		<adminuiVersion>1.2</adminuiVersion>
+		<adminuiVersion>1.2.1</adminuiVersion>
 		<allergyuiVersion>1.6</allergyuiVersion>
 		<appframeworkVersion>2.9</appframeworkVersion>
 		<appointmentschedulingVersion>1.7.0</appointmentschedulingVersion>
