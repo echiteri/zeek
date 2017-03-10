@@ -133,16 +133,16 @@
 			<br/>
 			<p id="postnatal-visit-number-container">
 				<label>Is this your first postnatal visit</label>
-				<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" required="true" />
+				<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" required="true" />
 				<script>
 					jq(function() {
 						jq('#postnatal-visit-number').click(function(){
-							if (getValue('postnatal-visit-number.value') == 164180) {
-								hideContainer('#first-postnatal-visit-date-container');
-								setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
-							} else {
+							if (getValue('postnatal-visit-number.value') == 164180) { <!-- Show 'First postnatal visit date' when this is not the first visit -->
 								showContainer('#first-postnatal-visit-date-container');
 								setValue('first-postnatal-visit-date.value', '');
+							} else {
+								hideContainer('#first-postnatal-visit-date-container');
+								setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
 							}
 						});
 					});
@@ -250,16 +250,16 @@
 						HIV test status
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066"
-						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
+						 answerConceptIds="1065,1066,1067"
+						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
 				</p>
 				<p id="not-tested-container" class="hidden">
 					<label>
 						Reason for not testing
 					</label>
 					<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1169,160352,128453"
-						 answerLabels="Previously known positive, Testing kit stockout, Refused test" answerSeparator="" />
+						 answerConceptIds="1169,160352,128453,1067"
+						 answerLabels="Previously known positive, Testing kit stockout, Refused test, Unknown" answerSeparator="" />
 				</p>
 				<p id="refused-test-reason-container" class="hidden">
 					<label>
@@ -415,7 +415,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065" answerLabels="This facility,In Transit,Transfer" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
