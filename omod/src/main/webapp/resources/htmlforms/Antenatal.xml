@@ -290,7 +290,7 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-					if(getValue('hiv-test.value') != 1065) { <!-- TODO: don't show HIV test result if not tested for HIV during this visit -->
+					if(getValue('hiv-test.value') != 1065) { <!-- don't show HIV test result if not tested for HIV during this visit -->
 						hideContainer('#hiv-test-result-container');
 						showContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');
