@@ -264,6 +264,7 @@
 										Refused Test : <lookup	complexExpression="#set($refuse_reason = $fn.latestObs('160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText) $!{refuse_reason}" />
 									
 									</includeIf>
+
 								</td>
 							</tr>
 						</includeIf>
@@ -289,9 +290,9 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-					if(getValue('hiv-test.value') == 1065) {
-						showContainer('#hiv-test-result-container');
-						hideContainer('#not-tested-container');
+					if(getValue('hiv-test.value') != 1065) { <!-- don't show HIV test result if not tested for HIV during this visit -->
+						hideContainer('#hiv-test-result-container');
+						showContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
@@ -299,8 +300,8 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
 					} else {
-						hideContainer('#hiv-test-result-container');
-						showContainer('#not-tested-container');
+						showContainer('#hiv-test-result-container');
+						hideContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
@@ -386,16 +387,16 @@
 						HIV test status
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066"
-						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
+						 answerConceptIds="1065,1066,1067"
+						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
 				</p>
 				<p id="not-tested-container" class="hidden">
 					<label>
 						Reason for not testing
 					</label>
 					<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1169,160352,128453"
-						 answerLabels="Previously known positive, Testing kit stockout, Refused test" answerSeparator="" />
+						 answerConceptIds="1169,160352,128453,1067"
+						 answerLabels="Previously known positive, Testing kit stockout, Refused test, Unknown" answerSeparator="" />
 				</p>
 				<p id="refused-test-reason-container" class="hidden">
 					<label>
@@ -538,7 +539,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065" answerLabels="This facility,In Transit,Transfer" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
