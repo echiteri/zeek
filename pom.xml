@@ -35,7 +35,7 @@
 		<addresshierarchyVersion>2.9</addresshierarchyVersion>
 		<adminuiVersion>1.2.1</adminuiVersion>
 		<allergyuiVersion>1.6</allergyuiVersion>
-		<appframeworkVersion>2.9</appframeworkVersion>
+		<appframeworkVersion>2.10-SNAPSHOT</appframeworkVersion>
 		<appointmentschedulingVersion>1.7.0</appointmentschedulingVersion>
 		<appointmentschedulinguiVersion>1.4.0</appointmentschedulinguiVersion>
 		<appuiVersion>1.8-SNAPSHOT</appuiVersion>
@@ -70,7 +70,7 @@
 		<uicommonsVersion>2.2-SNAPSHOT</uicommonsVersion>
 		<uiframeworkVersion>3.9</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
-		<webservices.restVersion>2.16</webservices.restVersion>
+		<webservices.restVersion>2.18.0-SNAPSHOT</webservices.restVersion>
 		<xformsVersion>4.3.9</xformsVersion>
 	</properties>
 	
