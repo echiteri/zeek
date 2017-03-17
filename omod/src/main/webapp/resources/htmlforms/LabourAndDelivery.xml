@@ -121,6 +121,12 @@
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
 			<p>
 				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked at ANC?" />
+				<!--<p>
+					<label>
+						Was this client booked at ANC?
+					</label>
+					<obs style="radio" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
+				</p> -->
 			</p>
 			<p>
 				<label>
