@@ -48,6 +48,11 @@ public class AppConfigurationInitializer implements Initializer {
 			// disable apps on the Clinican facing dashboard
 			appFrameworkService.disableApp("coreapps.mostRecentVitals");
 			appFrameworkService.disableApp("coreapps.diagnoses");
+			appFrameworkService.disableApp("coreapps.latestObsForConceptList");
+			appFrameworkService.disableApp("coreapps.obsAcrossEncounters");
+			appFrameworkService.disableApp("coreapps.obsGraph");
+			appFrameworkService.disableApp("coreapps.visitByEncounterType");
+			appFrameworkService.disableApp("coreapps.visits");
 
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());

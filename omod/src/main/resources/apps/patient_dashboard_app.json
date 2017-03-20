@@ -1,11 +1,11 @@
 [
   {
-    "id": "org.openmrs.module.namibia.patientDashboard",
-    "label": "Patient Dashboard",
+    "id": "namibia.registrationSummary",
+    "label": "Registration Summary",
     "icon": "icon-user",
     "extensions": [
       {
-        "id": "org.openmrs.module.namibia.patientDashboard.demographics",
+        "id": "org.openmrs.module.namibia.registrationSummary.demographics",
         "extensionPointId": "patientDashboard.firstColumnFragments",
         "extensionParams": {
           "provider": "registrationapp",
@@ -15,8 +15,9 @@
             "appId": "namibia.registrationapp.registerPatient"
           }
         }
-      },{
-        "id": "org.openmrs.module.namibia.patientDashboard.contactInfo",
+      },
+      {
+        "id": "org.openmrs.module.namibia.registrationSummary.contactInfo",
         "extensionPointId": "patientDashboard.firstColumnFragments",
         "extensionParams": {
           "provider": "registrationapp",
@@ -26,11 +27,48 @@
             "appId": "namibia.registrationapp.registerPatient"
           }
         }
+      },
+      {
+        "id": "org.openmrs.module.namibia.registrationSummary.otherDemographics",
+        "extensionPointId": "patientDashboard.firstColumnFragments",
+        "extensionParams": {
+          "provider": "registrationapp",
+          "fragment": "summary/section",
+          "fragmentConfig": {
+            "sectionId": "otherDemographic",
+            "appId": "namibia.registrationapp.registerPatient"
+          }
+        }
       }
     ],
     "config": {
       "appId": "namibia.registrationapp.registerPatient",
       "patientId": "{{patient.id}}"
     }
+  },
+  {
+    "id": "namibia.visitByEncounterType",
+    "instanceOf": "coreapps.template.dashboardWidget",
+    "description": "coreapps.visitByEncounterType.app.description",
+    "order": 10,
+    "config": {
+      "widget": "visitbyencountertype",
+      "icon": "icon-group",
+      "label": "Recent Visits",
+      "maxRecords": "5",
+      "maxAge": "12m",
+      "combineEncounterTypes": "true"
+    },
+    "extensions": [
+      {
+        "id": "org.openmrs.module.coreapps.mostRecentVitals.clinicianDashboardFirstColumn",
+        "appId": "namibia.visitByEncounterType",
+        "extensionPointId": "patientDashboard.secondColumnFragments",
+        "extensionParams": {
+          "provider": "coreapps",
+          "fragment": "dashboardwidgets/dashboardWidget"
+        }
+      }
+    ]
   }
 ]

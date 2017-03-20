@@ -325,8 +325,9 @@
 	<div class="section-container">
 		<script>
 			jq(function(){
+			var babies = 0;
 				jq('#birth-count').click(function(){
-					var babies = getValue('birth-count.value');
+					babies = getValue('birth-count.value');
 					for (i=0; i &lt; 10; i++) {
 						if (i &lt; babies) {
 							showContainer('#' + (i +1) + '-toggleContainer');
@@ -335,6 +336,23 @@
 							hideContainer('#' + (i +1) + '-toggleContainer');
 						}
 					}
+				});
+				jq(function(){
+					jq('#mother-status').click(function(){
+						<!-- Hide breast feeding status if the mother died -->
+						if (getValue('mother-status.value') == 160034) {
+							for (i=0; i &lt; 10; i++) {
+								hideContainer('#breastfeeding-container-' + i );
+							}
+						} else {
+							for (i=0; i &lt; 10; i++) {
+								if (getValue('infant-status-' + i + '.value') == '' || getValue('infant-status-' + i + '.value') == 151849) {
+									showContainer('#breastfeeding-container-' + 1);
+								}
+							}
+							
+						}
+					});
 				});
 			});
 		</script>
@@ -350,36 +368,29 @@
 			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9" answerLabels="1,2,3,4,5,6,7,8,9"/>
 		</p>
 		
-		<script>
-			jq(function(){
-				jq('#mother-status').click(function(){
-					<!-- Hide breast feeding status if the mother died -->
-					if (getValue('mother-status.value') == 160034) {
-						hideContainer('#breastfeeding-container');
-					} else {
-						if (getValue('infant-status.value') == '' || getValue('infant-status.value') == 151849) {
-							showContainer('#breastfeeding-container');
-						}
-					}
-				});
-				
-				jq('#infant-status').click(function(){
-					<!-- hide breast feeding and prophylaxis status if baby died -->
-					if (getValue('infant-status.value') == 151849) {
-						showContainer('#breastfeeding-container');
-						showContainer('#infant-arv-prophylaxis-container');
-					} else {
-						hideContainer('#breastfeeding-container');
-						hideContainer('#infant-arv-prophylaxis-container');
-					}
-				});
-			});
-		</script>
+		
 		
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" class="hidden">
 					<h3>Child # {n}</h3>
+					<script>
+						jq(function(){
+						
+							jq('#infant-status-{n}').click(function(){
+								<!-- hide breast feeding and prophylaxis status if baby died -->
+								if (getValue('infant-status-{n}.value') == 151849) {
+									showContainer('#breastfeeding-container-{n}');
+									showContainer('#infant-arv-prophylaxis-container-{n}');
+									hideContainer('#infant-death-date-container-{n}');
+								} else {
+									hideContainer('#breastfeeding-container-{n}');
+									hideContainer('#infant-arv-prophylaxis-container-{n}');
+									showContainer('#infant-death-date-container-{n}');
+								}
+							});
+						});
+					</script>
 					<table>
 						<tbody>
 							<tr>
@@ -398,16 +409,16 @@
 							</tr>
 							<tr>
 								<td>
-									<p>
+									<p id="infant-status-container-{n}">
 										<label>
 											Infant Status
 										</label>
-										<obs id="infant-status" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872"
-											 answerLabels="Infant born alive,Infant Died (Neonatal Death),Still Birth" answerSeparator=""/>
+										<obs id="infant-status-{n}" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872"
+											 answerLabels="Infant alive,Infant Died (Neonatal Death),Still Birth" answerSeparator=""/>
 									</p>
 								</td>
 								<td>
-									<p id="breastfeeding-container">
+									<p id="breastfeeding-container-{n}">
 										<label>
 											Breastfeeding Status
 										</label>
@@ -419,9 +430,9 @@
 							</tr>
 							<tr>
 								<td>
-									<p id="infant-arv-prophylaxis-container">
+									<p id="infant-arv-prophylaxis-container-{n}">
 										<label>
-											Infant Prophylaxis Status
+											Infant Recieved ARV
 										</label>
 										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
 											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis"
@@ -429,7 +440,10 @@
 									</p>
 								</td>
 								<td>
-									
+									<p id="infant-death-date-container-{n}" class="hidden">
+										<label>Date of Death</label>
+										<obs id="infant-death-date-{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+									</p>
 								</td>
 							</tr>
 						</tbody>
