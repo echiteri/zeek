@@ -35,15 +35,15 @@
 		<addresshierarchyVersion>2.9</addresshierarchyVersion>
 		<adminuiVersion>1.2.1</adminuiVersion>
 		<allergyuiVersion>1.6</allergyuiVersion>
-		<appframeworkVersion>2.10-SNAPSHOT</appframeworkVersion>
+		<appframeworkVersion>2.10.0</appframeworkVersion>
 		<appointmentschedulingVersion>1.7.0</appointmentschedulingVersion>
 		<appointmentschedulinguiVersion>1.4.0</appointmentschedulinguiVersion>
 		<appuiVersion>1.8-SNAPSHOT</appuiVersion>
 		<calculationVersion>1.2</calculationVersion>
 		<chartsearchVersion>2.0</chartsearchVersion>
-		<coreappsVersion>1.11.2-SNAPSHOT</coreappsVersion>
+		<coreappsVersion>1.12.0</coreappsVersion>
 		<dataexchangeVersion>1.3.2</dataexchangeVersion>
-		<dataintegrityVersion>4.2.3</dataintegrityVersion>
+		<dataintegrityVersion>4.3.0</dataintegrityVersion>
 		<emrapiVersion>1.21.0</emrapiVersion>
 		<eventVersion>2.5</eventVersion>
 		<fhirVersion>1.6</fhirVersion>
@@ -64,13 +64,13 @@
 		<registrationcoreVersion>1.6</registrationcoreVersion>
 		<reportingcompatibilityVersion>2.0.1</reportingcompatibilityVersion>
 		<reportingrestVersion>1.6</reportingrestVersion>
-		<reportingVersion>0.10.6</reportingVersion>
+		<reportingVersion>0.11.0</reportingVersion>
 		<reportingUIVersion>1.2</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
-		<uicommonsVersion>2.2-SNAPSHOT</uicommonsVersion>
-		<uiframeworkVersion>3.9</uiframeworkVersion>
+		<uicommonsVersion>2.2.0</uicommonsVersion>
+		<uiframeworkVersion>3.10.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
-		<webservices.restVersion>2.18.0-SNAPSHOT</webservices.restVersion>
+		<webservices.restVersion>2.18.0</webservices.restVersion>
 		<xformsVersion>4.3.9</xformsVersion>
 	</properties>
 	
