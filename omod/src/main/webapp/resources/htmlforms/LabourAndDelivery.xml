@@ -382,11 +382,13 @@
 								if (getValue('infant-status-{n}.value') == 151849) {
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-arv-prophylaxis-container-{n}');
+									showContainer('#infant-birth-date-{n}');
 									hideContainer('#infant-death-date-container-{n}');
 								} else {
 									hideContainer('#breastfeeding-container-{n}');
 									hideContainer('#infant-arv-prophylaxis-container-{n}');
 									showContainer('#infant-death-date-container-{n}');
+									hideContainer('#infant-birth-date-{n}');
 								}
 							});
 						});
@@ -401,7 +403,7 @@
 										</p>
 								</td>
 								<td>
-									<p class="narrow">
+									<p id="infant-birth-date-{n}" class="narrow">
 										<label>Date of Birth</label>
 										<patient field="birthDate" />
 									</p>
