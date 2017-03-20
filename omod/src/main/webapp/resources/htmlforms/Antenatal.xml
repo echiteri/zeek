@@ -330,13 +330,21 @@
 						<!-- Already on ART -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						<!-- Enusre ART start date is empty -->
+						<!-- Enusre ART start date is empty-->
 						setValue('art-start-date.value', '');
+						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
+						showContainer('#viral-load-test-date-container');
+						showContainer('#viral-load-results-container');
+						showContainer('#viral-load-copies');
 						hideContainer('#art-initiation-container');
 					} else {
 						<!-- Not yet on ART so initialize -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies');
 						showContainer('#art-initiation-container');
 					}
 				});
@@ -455,10 +463,12 @@
 								} else {
 									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
 									<!-- Show the viral load container if the ART start date is more than 6 months before today -->
-									var months = Math.round(diff/(86400000 * 30));
-									if (months > 6) {
+
+									<!-- just show the viral load container -->
+									<!--var months = Math.round(diff/(86400000 * 30));
+									if (months > 6) {-->
 										showContainer('#recent-viral-load-container');
-									}
+									<!--}-->
 								}
 							}
 						});
@@ -468,7 +478,7 @@
 			</p>
 				<p id="recent-viral-load-container" class="hidden">
 					<label>
-						Has the patient had a recent viral load test? 					</label>
+						Viral Load test done? 					</label>
 					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
 						 answerLabels="Yes, No, Unknown"
 						 answerSeparator="" />
@@ -478,19 +488,19 @@
 								if (getValue('recent-viral-load.value') == 1267) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
-									hideContainer('#viral-load-copies-container');
+									showContainer('#viral-load-copies-container');
 								} else {
 									hideContainer('#viral-load-results-container');
 									hideContainer('#viral-load-test-date-container');
 									hideContainer('#viral-load-copies-container');
-								}
-							});
-						});
-					</script>
-					
-				</p>
-			
-				<!-- TODO: Add handling for the second viral load result -->
+        }
+    });
+});
+</script>
+
+</p>
+
+<!-- TODO: Add handling for the second viral load result -->
 			<p id="viral-load-test-date-container" class="narrow hidden">
 				<label>Viral load test date</label>
 				<obs conceptId="163281" id="viral-load-test-date"/>
