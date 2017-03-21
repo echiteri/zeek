@@ -279,9 +279,9 @@
 			</p>
 				
 			<p id="art-status-container" class="hidden" >
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no" />
 				<label>
-					Select if already on ART treatment
+					Are you still on treatment?
 				</label>
 				
 			</p>
