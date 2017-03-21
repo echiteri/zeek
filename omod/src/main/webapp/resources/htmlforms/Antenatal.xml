@@ -390,6 +390,15 @@
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
 			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+
+				<p id="pretest-counselled-container">
+					<label>
+						Pre-Test Counselled
+					</label>
+					<obs id="pretest-counselled" style="radio" conceptId="163760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="1065,1066,1067"
+						 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
+				</p>
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
@@ -421,6 +430,14 @@
 				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
+			</p>
+			<p id="posttest-counselled-container">
+				<label>
+					Post-Test Counselled
+				</label>
+				<obs id="pretest-counselled" style="radio" conceptId="159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="1065,1066,1067"
+					 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
 			</p>
 				
 			<p id="art-status-container" class="hidden" >
