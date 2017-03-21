@@ -248,8 +248,8 @@
 					HIV Test Status
 				</label>
 				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1065,1066"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit" answerSeparator="" required="true" />
+					 answerConceptIds="1065,1066,1067"
+					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown" answerSeparator="" required="true" />
 			</p>
 			<p id="not-tested-container" class="hidden">
 				<label>
