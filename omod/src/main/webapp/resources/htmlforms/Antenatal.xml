@@ -191,6 +191,12 @@
 					</label>
 					<obs required="true" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> <!--only show delivery locations -->
 				</p>
+				<p class="narrow">
+					<label>
+						Specify other facility
+					</label>
+						<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="text" />
+				</p>
 			</div>
 		</section>
 	</includeIf>
