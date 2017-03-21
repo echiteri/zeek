@@ -19,9 +19,19 @@
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		
 			beforeSubmit.push(function() {
-				<!-- if this is not the first PNC visit then the date of the first PNC visit is required -->
-				if () {
+				var first_postnatal_date = getValue('first-postnatal-visit-date.value');
+				var current_date = new Date();
+				if (first_postnatal_date != '') {
+						<!-- check the date of the First Postnatal Visit-->
+						var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(first_postnatal_date)) - current_date);
+						var years = Math.round(diff/(86400000 * 365)); <!-- years -->
+						if (years > 2) {
+							getField('first-postnatal-visit-date.error').html('The PNC visit date must not be more than 2 years back').show();
+							return false;
+						}
 				}
+
+				return true;
 			});
 		});
 	</script>
