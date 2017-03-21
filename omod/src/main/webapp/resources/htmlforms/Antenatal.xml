@@ -175,7 +175,7 @@
 				
 				<p>
 					<label>
-						Date of last known menstural period (LNMP)
+						Date of last normal menstrual period (LNMP)
 					</label>
 					<p class="narrow">
 						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
