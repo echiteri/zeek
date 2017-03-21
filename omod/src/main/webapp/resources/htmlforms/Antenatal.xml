@@ -447,11 +447,10 @@
 			</p>
 				
 			<p id="art-status-container" class="hidden" >
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
 				<label>
 					Are you still on treatment?
 				</label>
-				
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
 			</p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
