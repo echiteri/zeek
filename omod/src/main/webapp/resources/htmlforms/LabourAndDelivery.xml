@@ -147,8 +147,8 @@
 					<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
 				</p>
 				<p id="delivery-date-container" class="narrow">
-					<label>Delivery Date and time</label>
-					<obs id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" answerConceptIds="1065,1066,1067,1111" answerLabels="Date, HH, MIN, Sec"/>
+					<label>Delivery Date and time</label>1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+					<obs id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
 				</p>
 			</includeIf>
 
