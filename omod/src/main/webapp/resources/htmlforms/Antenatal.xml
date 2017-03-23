@@ -185,18 +185,18 @@
 					<label>Estimated date of delivery (EDD)</label>
 					<span id="edd" class="standout" style="margin-left: 10px;"></span>
 				</p>
-				<p class="narrow">
+				<!-- <p class="narrow">
 					<label>
 						Expected facility of delivery
 					</label>
-					<obs required="true" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> <!--only show delivery locations -->
-				</p>
+					<obs required="true" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> --> <!--only show delivery locations -->
+				<!-- </p>
 				<p class="narrow">
 					<label>
 						Specify other facility
 					</label>
 						<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="text" />
-				</p>
+				</p> -->
 			</div>
 		</section>
 	</includeIf>
@@ -225,14 +225,14 @@
 						<tr>
 							<th align="left" width="40%">Date of Last Known Menstral Period (LNMP)</th>
 							<th align="left" width="30%">Expected Date of Delivery (EDD)</th>
-							<th align="left">Expected Facility of Delivery</th>
+							<!-- <th align="left">Expected Facility of Delivery</th> -->
 						</tr>
 						<tr>
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td><span id="edd"></span></td>
-							<td>
+							<!--<td>
 								<lookup complexExpression="$fn.location($fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText).name" />
-							</td>
+							</td>-->
 						
 						</tr>
 						

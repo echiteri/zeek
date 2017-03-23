@@ -16,7 +16,7 @@ public class NamibiaAddressBundle extends AddressBundle {
 	public List<AddressComponent> getAddressComponents() {
 		List<AddressComponent> l = new ArrayList<AddressComponent>();
 		l.add(new AddressComponent(AddressField.COUNTRY, "Country", 10, "Namibia", true));
-		l.add(new AddressComponent(AddressField.STATE_PROVINCE, "Region", 20, null, true));
+		l.add(new AddressComponent(AddressField.STATE_PROVINCE, "District", 20, null, true));
 		l.add(new AddressComponent(AddressField.ADDRESS_1, "Location", 25, null, false));
 		l.add(new AddressComponent(AddressField.ADDRESS_2, "Address", 75, null, false));
 		
