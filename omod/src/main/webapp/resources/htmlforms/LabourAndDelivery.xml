@@ -119,7 +119,13 @@
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
-			<p>
+				<p id="pregnancy-number-container" class="narrow">
+					<label>
+						PTracker Pregnancy Number
+					</label>
+					<obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				</p>
+				<p>
 				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked at ANC?" />
 				<!--<p>
 					<label>
@@ -134,13 +140,18 @@
 				</label>
 				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
 			</p>
+				<p>
+					<label>
+						Does the client have a pink book?
+					</label>
+					<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
+				</p>
+				<p id="delivery-date-container" class="narrow">
+					<label>Delivery Date and time</label>
+					<obs id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" answerConceptIds="1065,1066,1067,1111" answerLabels="Date, HH, MIN, Sec"/>
+				</p>
 			</includeIf>
-			<p id="pregnancy-number-container" class="narrow">
-				<label>
-					PTracker Pregnancy Number
-				</label>
-				<obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-			</p>
+
 		</div>
 	</section>
 	<!--
