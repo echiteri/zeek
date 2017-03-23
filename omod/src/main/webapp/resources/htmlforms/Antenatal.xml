@@ -567,7 +567,7 @@
 		<div class="section-container">
 			<p id="next-visit-date-container" class="narrow">
 				<label>Next Visit Date</label>
-				<obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" required="true" />
+				<obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>

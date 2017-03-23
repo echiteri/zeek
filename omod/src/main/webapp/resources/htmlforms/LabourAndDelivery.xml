@@ -415,18 +415,18 @@
 										<label>
 											Infant Status
 										</label>
-										<obs id="infant-status-{n}" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872"
-											 answerLabels="Infant alive,Infant Died (Neonatal Death),Still Birth" answerSeparator=""/>
+										<obs id="infant-status-{n}" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872,1067"
+											 answerLabels="Infant alive,Infant Died (Neonatal Death),Still Birth, Unknown" answerSeparator=""/>
 									</p>
 								</td>
 								<td>
 									<p id="breastfeeding-container-{n}">
 										<label>
-											Breastfeeding Status
+											Infant Feeding at discharge
 										</label>
 										<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptIds="5526,1595"
-											 answerLabels="Exclusive Breastfeeding, Replacement feeding" answerSeparator=""/>
+											 answerConceptIds="5526,1595,1067"
+											 answerLabels="EBF=Exclusive Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
 									</p>
 								</td>
 							</tr>
@@ -436,8 +436,8 @@
 										<label>
 											Infant Recieved ARV
 										</label>
-										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754"
-											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis"
+										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754,1067"
+											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Unknown"
 											 answerSeparator="" />
 									</p>
 								</td>
@@ -467,7 +467,7 @@
 			
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Post Natal Followup">
+	<!--<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Post Natal Followup">
 		<div class="section-container">
 			<p id="expected-post-natal-facility">
 				<label>
@@ -476,6 +476,6 @@
 				<obs id="pnc-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2"/>
 			</p>
 		</div>
-	</section>
+	</section>-->
 	<submit class="confirm center" />
 </htmlform>
