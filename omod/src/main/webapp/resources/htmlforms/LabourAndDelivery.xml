@@ -121,13 +121,13 @@
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
 				<p id="delivery-date-container" class="narrow">
 					<label>Admission Date and time</label>
-					<obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+					<obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" class="narrow"/>
 				</p>
 				<p id="pregnancy-number-container" class="narrow">
 					<label>
 						PTracker Pregnancy Number
 					</label>
-					<obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+					<obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				</p>
 				<p>
 				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked at ANC?" />
@@ -392,12 +392,14 @@
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-arv-prophylaxis-container-{n}');
 									showContainer('#infant-birth-date-{n}');
+									showContainer('#child-number-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
 								} else {
 									hideContainer('#breastfeeding-container-{n}');
 									hideContainer('#infant-arv-prophylaxis-container-{n}');
 									showContainer('#infant-death-date-container-{n}');
 									hideContainer('#infant-birth-date-{n}');
+									hideContainer('#child-number-container-{n}');
 								}
 							});
 						});
@@ -454,6 +456,14 @@
 									<p id="infant-death-date-container-{n}" class="hidden">
 										<label>Date of Death</label>
 										<obs id="infant-death-date-{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+									</p>
+								</td>
+							</tr>
+							<tr id="child-number-container-{n}">
+								<td>
+									<p class="narrow">
+										<label>PTracker child Number</label>
+										<obs id="child-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 									</p>
 								</td>
 							</tr>
