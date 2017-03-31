@@ -239,7 +239,7 @@
 			<plugin>
 				<groupId>org.openmrs.maven.plugins</groupId>
 				<artifactId>openmrs-sdk-maven-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.2</version>
 				<executions>
 					<execution>
 						<id>build-distro</id>
@@ -251,6 +251,9 @@
 							<dir>${project.build.directory}/docker</dir>
 							<bundled>true</bundled>
 							<distro>${project.build.directory}/classes/openmrs-distro.properties</distro>
+							<batchAnswers>
+								<param>n</param>
+							</batchAnswers>
 						</configuration>
 					</execution>
 				</executions>
