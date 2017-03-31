@@ -23,6 +23,7 @@
 				<!-- Breast feeding status only required if mother and baby are alive -->
 				<!-- TODO: Add required checks for breast feeding status when the mother and baby are alive -->
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
+				return true;
 			});
 		});
 	</script>
@@ -374,7 +375,8 @@
 		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>
-			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9" answerLabels="1,2,3,4,5,6,7,8,9"/>
+            <!-- TODO: add the numbers from 2 to 9 once, figure out how to add the render tags dynamically. Rendered forms left unfilled stops the form from submitting -->
+			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1" answerLabels="1"/>
 		</p>
 		
 		
@@ -472,14 +474,15 @@
 				</div>
 			</template>
 				<render n="1" />
-				<render n="2" />
+                <!-- TODO: figure out how to add the render tags dynamically. Rendered forms left unfilled stops the form from submitting -->
+				<!-- <render n="2" />
 				<render n="3" />
 				<render n="4" />
 				<render n="5" />
 				<render n="6" />
 				<render n="7" />
 				<render n="8" />
-				<render n="9" />
+				<render n="9" /> -->
 		</repeat>
 				
 		
