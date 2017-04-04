@@ -5,12 +5,12 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleFactory;
-import org.openmrs.module.emrapi.utils.MetadataUtil;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.deploy.bundle.LocationMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.LocationTagMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaAddressBundle;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaEncounterTypeMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPersonAttributeTypeBundle;
 
@@ -34,9 +34,9 @@ public class MetadataInitializer implements Initializer {
 			log.info("Person attribute types installed");
 			
 			// install Metadata sharing paclages
-			log.info("Installing standard metadata using the packages.xml file");
-			MetadataUtil.setupStandardMetadata(getClass().getClassLoader());
-			log.info("Standard metadata installed");
+			log.info("Installing encounter types");
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaEncounterTypeMetadataBundle.class).get(0));
+			log.info("Encounter Types installed");
 			
 			// install locations
 			log.info("installing tags");
