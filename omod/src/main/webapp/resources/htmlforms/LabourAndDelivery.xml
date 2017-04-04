@@ -168,38 +168,44 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						hideContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');
+						<!-- hideContainer('#not-tested-container'); TODO: to remove
+						hideContainer('#refused-test-reason-container');-->
 						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
-					} else {
-						hideContainer('#hiv-test-result-container');
-						showContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
-						hideContainer('#art-number-container');
-						hideContainer('#art-startdate-container');
-						hideContainer('#art-initiation-container');
-						hideContainer('#refused-art-container');
-					}
-				});
-				<!-- reason for not testing -->
-				jq('#not-tested').click(function(){
-					if(getValue('not-tested.value') == 128453) {
-						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) {
+					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
 						showContainer('#art-status-container');
+						hideContainer('#hiv-test-result-container');
+					}else {
+						hideContainer('#hiv-test-result-container');
+						<!-- showContainer('#not-tested-container'); TODO: to remove
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+					}
+				});
+			<!-- TODO: this 'reason for not testing' section will be removed since it can't be filled from the register -->
+				<!-- reason for not testing -->
+				<!-- jq('#not-tested').click(function(){
+					if(getValue('not-tested.value') == 128453) {
+						showContainer('#refused-test-reason-container');
+					} else if (getValue('not-tested.value') == 1169) { -->
+						<!-- previously known positive -->
+						<!--showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-initiatin-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-initiatin-container');
 					}
-				});
+				});-->
+			<!-- TODO: 'reason for not testing' ends ... -->
 				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value') == 'true') {
@@ -211,9 +217,9 @@
 						hideContainer('#art-initiation-container');
 					} else {
 						<!-- Not yet on ART so initialize -->
-						hideContainer('#art-number-container');
-						hideContainer('#art-startdate-container');
-						showContainer('#art-initiation-container');
+						<!-- hideContainer('#art-number-container'); -->
+						<!-- hideContainer('#art-startdate-container'); -->
+						<!-- showContainer('#art-initiation-container'); -->
 					}
 				});
 				jq('#hiv-test-result').click(function(){
@@ -258,9 +264,11 @@
 					HIV Test Status
 				</label>
 				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown" answerSeparator="" required="true" />
+					 answerConceptIds="1065,1169,1066,1067"
+					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown"
+					  answerSeparator="" required="true" />
 			</p>
+			<!-- TODO: to remove
 			<p id="not-tested-container" class="hidden">
 				<label>
 					Reason for not testing
@@ -275,6 +283,7 @@
 				</label>
 				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			</p>
+			-->
 			<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
