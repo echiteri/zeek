@@ -130,21 +130,15 @@
 					</label>
 					<obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				</p>
-				<p>
+				<!--<p>
 				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
-			</p>
+			</p>-->
 			<p>
 				<label>
-					Does the client have a pink book?
+                    Was this client booked (Does Client have a pink book?) at ANC?
 				</label>
 				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
 			</p>
-				<p>
-					<label>
-						Does the client have a pink book?
-					</label>
-					<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
-				</p>
 				<p id="delivery-date-container" class="narrow">
 					<label>Delivery Date and time</label>
 					<obs id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
