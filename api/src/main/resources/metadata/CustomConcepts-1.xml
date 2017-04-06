@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <!-- Concept sets for the information for babies in the Labor and Delivery -->
+    <concept concept_id="86771" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae221"/>
+    <concept concept_id="86772" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae222"/>
+    <concept concept_id="86773" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae223"/>
+    <concept concept_id="86774" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae224"/>
+    <concept concept_id="86775" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae225"/>
+    <concept concept_id="86776" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae226"/>
+    <concept concept_id="86777" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae227"/>
+    <concept concept_id="86778" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae228"/>
+    <concept concept_id="86779" retired="false" datatype_id="4" class_id="10" is_set="true" creator="1" date_created="2017-04-05 20:24:15" uuid="8fe7ad7a-494d-4799-bf72-9f58fbdae229"/>
+
+    <concept_name concept_name_id="99986771" concept_id="86771" name="Labor and Delivery Registration Details for Child 1" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da1" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986772" concept_id="86772" name="Labor and Delivery Registration Details for Child 2" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da2" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986773" concept_id="86773" name="Labor and Delivery Registration Details for Child 3" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da3" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986774" concept_id="86774" name="Labor and Delivery Registration Details for Child 4" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da4" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986775" concept_id="86775" name="Labor and Delivery Registration Details for Child 5" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da5" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986776" concept_id="86776" name="Labor and Delivery Registration Details for Child 6" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da6" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986777" concept_id="86777" name="Labor and Delivery Registration Details for Child 7" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da7" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986778" concept_id="86778" name="Labor and Delivery Registration Details for Child 8" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da8" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+    <concept_name concept_name_id="99986779" concept_id="86779" name="Labor and Delivery Registration Details for Child 9" locale="en" creator="1" date_created="2017-04-05 20:24:15"  voided="false"  uuid="08cbee51-2a27-4177-b142-367b730a6da9" concept_name_type="FULLY_SPECIFIED" locale_preferred="true"/>
+
+    <!-- Adding the infant status to the different concept sets on the Labor and Delivery page -->
+    <concept_set concept_set_id="9992283" concept_id="1587" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf1" sort_weight="1"/>
+    <concept_set concept_set_id="9992284" concept_id="164802" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a1" sort_weight="2"/>
+    <concept_set concept_set_id="9992285" concept_id="159917" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf31" sort_weight="3"/>
+    <concept_set concept_set_id="9992286" concept_id="1151" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209391" sort_weight="4"/>
+    <concept_set concept_set_id="9992287" concept_id="1148" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3021" sort_weight="5"/>
+    <concept_set concept_set_id="9992281" concept_id="1543" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a1" sort_weight="6"/>
+    <concept_set concept_set_id="9992282" concept_id="161655" concept_set="86771" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc1" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992288" concept_id="1587" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf2" sort_weight="1"/>
+    <concept_set concept_set_id="9992289" concept_id="164802" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a2" sort_weight="2"/>
+    <concept_set concept_set_id="9992290" concept_id="159917" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf32" sort_weight="3"/>
+    <concept_set concept_set_id="9992291" concept_id="1151" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209392" sort_weight="4"/>
+    <concept_set concept_set_id="9992292" concept_id="1148" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3022" sort_weight="5"/>
+    <concept_set concept_set_id="9992293" concept_id="1543" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a2" sort_weight="6"/>
+    <concept_set concept_set_id="9992294" concept_id="161655" concept_set="86772" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc2" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992295" concept_id="1587" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf3" sort_weight="1"/>
+    <concept_set concept_set_id="9992296" concept_id="164802" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a3" sort_weight="2"/>
+    <concept_set concept_set_id="9992297" concept_id="159917" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf33" sort_weight="3"/>
+    <concept_set concept_set_id="9992298" concept_id="1151" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209393" sort_weight="4"/>
+    <concept_set concept_set_id="9992299" concept_id="1148" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3023" sort_weight="5"/>
+    <concept_set concept_set_id="9992300" concept_id="1543" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a3" sort_weight="6"/>
+    <concept_set concept_set_id="9992301" concept_id="161655" concept_set="86773" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc3" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992280" concept_id="1587" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf4" sort_weight="1"/>
+    <concept_set concept_set_id="9992302" concept_id="164802" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a4" sort_weight="2"/>
+    <concept_set concept_set_id="9992303" concept_id="159917" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf34" sort_weight="3"/>
+    <concept_set concept_set_id="9992304" concept_id="1151" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209394" sort_weight="4"/>
+    <concept_set concept_set_id="9992305" concept_id="1148" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3024" sort_weight="5"/>
+    <concept_set concept_set_id="9992306" concept_id="1543" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a4" sort_weight="6"/>
+    <concept_set concept_set_id="9992307" concept_id="161655" concept_set="86774" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc4" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992308" concept_id="1587" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf5" sort_weight="1"/>
+    <concept_set concept_set_id="9992309" concept_id="164802" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a5" sort_weight="2"/>
+    <concept_set concept_set_id="9992310" concept_id="159917" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf35" sort_weight="3"/>
+    <concept_set concept_set_id="9992311" concept_id="1151" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209395" sort_weight="4"/>
+    <concept_set concept_set_id="9992312" concept_id="1148" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3025" sort_weight="5"/>
+    <concept_set concept_set_id="9992313" concept_id="1543" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a5" sort_weight="6"/>
+    <concept_set concept_set_id="9992314" concept_id="161655" concept_set="86775" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc5" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992315" concept_id="1587" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf6" sort_weight="1"/>
+    <concept_set concept_set_id="9992316" concept_id="164802" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a6" sort_weight="2"/>
+    <concept_set concept_set_id="9992317" concept_id="159917" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf36" sort_weight="3"/>
+    <concept_set concept_set_id="9992318" concept_id="1151" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209396" sort_weight="4"/>
+    <concept_set concept_set_id="9992319" concept_id="1148" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3026" sort_weight="5"/>
+    <concept_set concept_set_id="9992320" concept_id="1543" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a6" sort_weight="6"/>
+    <concept_set concept_set_id="9992321" concept_id="161655" concept_set="86776" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc6" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992322" concept_id="1587" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf7" sort_weight="1"/>
+    <concept_set concept_set_id="9992323" concept_id="164802" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a7" sort_weight="2"/>
+    <concept_set concept_set_id="9992324" concept_id="159917" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf37" sort_weight="3"/>
+    <concept_set concept_set_id="9992325" concept_id="1151" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209397" sort_weight="4"/>
+    <concept_set concept_set_id="9992326" concept_id="1148" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3027" sort_weight="5"/>
+    <concept_set concept_set_id="9992327" concept_id="1543" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a7" sort_weight="6"/>
+    <concept_set concept_set_id="9992328" concept_id="161655" concept_set="86777" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc7" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992329" concept_id="1587" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf8" sort_weight="1"/>
+    <concept_set concept_set_id="9992330" concept_id="164802" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a8" sort_weight="2"/>
+    <concept_set concept_set_id="9992331" concept_id="159917" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf38" sort_weight="3"/>
+    <concept_set concept_set_id="9992332" concept_id="1151" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209398" sort_weight="4"/>
+    <concept_set concept_set_id="9992333" concept_id="1148" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3028" sort_weight="5"/>
+    <concept_set concept_set_id="9992334" concept_id="1543" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a8" sort_weight="6"/>
+    <concept_set concept_set_id="9992335" concept_id="161655" concept_set="86778" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc8" sort_weight="7"/>
+
+    <concept_set concept_set_id="9992336" concept_id="1587" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="584735d7-04d7-42bb-8148-fb946c7fbcf9" sort_weight="1"/>
+    <concept_set concept_set_id="9992337" concept_id="164802" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="0b71dc05-a7ad-41a8-93aa-6170e69235a9" sort_weight="2"/>
+    <concept_set concept_set_id="9992338" concept_id="159917" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="8109b3b8-a715-4256-aef0-a672200abf39" sort_weight="3"/>
+    <concept_set concept_set_id="9992339" concept_id="1151" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="7fecf43e-31ab-4ed3-963d-163567209399" sort_weight="4"/>
+    <concept_set concept_set_id="9992340" concept_id="1148" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="52816ab3-529c-49e4-999c-cb8821da3029" sort_weight="5"/>
+    <concept_set concept_set_id="9992341" concept_id="1543" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="bc719d68-dac1-400d-9dcf-c12b358fb4a9" sort_weight="6"/>
+    <concept_set concept_set_id="9992342" concept_id="161655" concept_set="86779" creator="1" date_created="2017-04-05 20:24:15" uuid="a3f3b861-609c-49f5-982d-105d67a97cc9" sort_weight="7"/>
+
+</dataset>
