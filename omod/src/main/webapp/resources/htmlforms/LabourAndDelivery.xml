@@ -131,7 +131,7 @@
 					<obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				</p>
 				<p>
-				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked at ANC?" />
+				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
 			</p>
 			<p>
 				<label>
