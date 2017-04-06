@@ -373,13 +373,13 @@
                      answerLabels="Target Detected,Not Detected, Sample Rejected"/>
                 <script>
                     jq(function() {
-                    jq('#viral-load-results').click(function(){
-                    if (getValue('viral-load-results.value') == 1301) {
-                    showContainer('#viral-load-copies-container');
-                    } else {
-                    hideContainer('#viral-load-copies-container');
-                    }
-                    });
+                        jq('#viral-load-results').click(function(){
+                            if (getValue('viral-load-results.value') == 1301) {
+                                showContainer('#viral-load-copies-container');
+                            } else {
+                                hideContainer('#viral-load-copies-container');
+                            }
+                        });
                     });
                 </script>
             </p><br/>
