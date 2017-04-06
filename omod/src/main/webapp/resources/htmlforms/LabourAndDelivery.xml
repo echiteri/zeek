@@ -168,29 +168,31 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container'); TODO: to remove
-						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
-						showContainer('#art-status-container');
+                        showContainer('#art-number-container');
+                        showContainer('#art-startdate-container');
+                        <!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container'); TODO: to remove
-						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
 					}
 				});
-			<!-- TODO: this 'reason for not testing' section will be removed since it can't be filled from the register -->
+			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
 				<!-- reason for not testing -->
 				<!-- jq('#not-tested').click(function(){
 					if(getValue('not-tested.value') == 128453) {
@@ -268,7 +270,7 @@
 					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown"
 					  answerSeparator="" required="true" />
 			</p>
-			<!-- TODO: to remove
+			<!-- TODO: to remove code cleanup after UAT
 			<p id="not-tested-container" class="hidden">
 				<label>
 					Reason for not testing
@@ -292,12 +294,15 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
-			<p id="art-status-container" class="hidden" >
-				<label>
+            <!-- TODO: to remove code cleanup after UAT
+            <p id="art-status-container" class="hidden" >
+
+                <label>
                     Are you still on treatment?
-				</label>
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
-			</p>
+                </label>
+                <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+
+            </p> -->
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation
