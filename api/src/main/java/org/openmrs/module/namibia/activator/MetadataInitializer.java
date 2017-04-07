@@ -13,6 +13,7 @@ import org.openmrs.module.namibia.deploy.bundle.NamibiaAddressBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaEncounterTypeMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPersonAttributeTypeBundle;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaProgramsBundle;
 
 /**
  * Initializer for metadata
@@ -52,6 +53,11 @@ public class MetadataInitializer implements Initializer {
 			log.info("installing address hierarchy");
 			deployService.installBundle(Context.getRegisteredComponents(NamibiaAddressBundle.class).get(0));
 			log.info("Address hierarchy installed");
+			
+			// install programs
+			log.info("installing programs");
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaProgramsBundle.class).get(0));
+			log.info("Programs installed");
 			
 		}
 		catch (Exception e) {
