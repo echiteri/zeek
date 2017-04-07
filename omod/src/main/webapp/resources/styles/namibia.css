@@ -97,6 +97,11 @@ td > label:first-child, p > label:first-child {
     margin-left: 1.1em;
 }
 
-
+/* highlight entered data in the forms */
+span.value {
+    color: blue;
+    font-weight: bold;
+    font-size: 18px;
+}
 
 
