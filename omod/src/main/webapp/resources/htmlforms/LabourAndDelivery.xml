@@ -345,17 +345,17 @@
                      answerSeparator="" />
                 <script>
                     jq(function() {
-                    jq('#recent-viral-load').click(function(){
-                    if (getValue('recent-viral-load.value') == 1267) {
-                    showContainer('#viral-load-results-container');
-                    showContainer('#viral-load-test-date-container');
-                    showContainer('#viral-load-copies-container');
-                    } else {
-                    hideContainer('#viral-load-results-container');
-                    hideContainer('#viral-load-test-date-container');
-                    hideContainer('#viral-load-copies-container');
-                    }
-                    });
+                        jq('#recent-viral-load').click(function(){
+                            if (getValue('recent-viral-load.value') == 1267) {
+                                showContainer('#viral-load-results-container');
+                                showContainer('#viral-load-test-date-container');
+                                showContainer('#viral-load-copies-container');
+                            } else {
+                                hideContainer('#viral-load-results-container');
+                                hideContainer('#viral-load-test-date-container');
+                                hideContainer('#viral-load-copies-container');
+                            }
+                        });
                     });
                 </script>
 
@@ -373,13 +373,13 @@
                      answerLabels="Target Detected,Not Detected, Sample Rejected"/>
                 <script>
                     jq(function() {
-                    jq('#viral-load-results').click(function(){
-                    if (getValue('viral-load-results.value') == 1301) {
-                    showContainer('#viral-load-copies-container');
-                    } else {
-                    hideContainer('#viral-load-copies-container');
-                    }
-                    });
+                        jq('#viral-load-results').click(function(){
+                            if (getValue('viral-load-results.value') == 1301) {
+                                showContainer('#viral-load-copies-container');
+                            } else {
+                                hideContainer('#viral-load-copies-container');
+                            }
+                        });
                     });
                 </script>
             </p><br/>
@@ -431,8 +431,8 @@
 			<label>
 				Mother's status
 			</label>
-			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out, Unknown" answerSeparator="" required="true"/>
+			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1692,1067"
+				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out (Still Alive), Discharged (Still Alive), Unknown" answerSeparator="" required="true"/>
 		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>

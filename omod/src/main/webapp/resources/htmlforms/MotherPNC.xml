@@ -339,10 +339,10 @@
 								} else {
 									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
 									<!-- Show the viral load container if the ART start date is more than 6 months before today -->
-									var months = Math.round(diff/(86400000 * 30));
-									if (months > 6) {
+									<!-- var months = Math.round(diff/(86400000 * 30));
+									if (months > 6) { -->
 										showContainer('#recent-viral-load-container');
-									}
+									<!-- } -->
 								}
 							}
 						});
