@@ -35,9 +35,9 @@ public class MetadataInitializer implements Initializer {
 			log.info("Person attribute types installed");
 			
 			// install Metadata sharing paclages
-			log.info("Installing standard metadata using the packages.xml file");
-			MetadataUtil.setupStandardMetadata(getClass().getClassLoader());
-			log.info("Standard metadata installed");
+			log.info("Installing encounter types");
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaEncounterTypeMetadataBundle.class).get(0));
+			log.info("Encounter Types installed");
 			
 			// install locations
 			log.info("installing tags");
@@ -57,6 +57,11 @@ public class MetadataInitializer implements Initializer {
 			DataImporter dataImporter = Context.getRegisteredComponent("dataImporter", DataImporter.class);
 			dataImporter.importData("metadata/CustomConcepts-1.xml");
 			log.info("Custom concepts imported");
+			
+			// install programs
+			log.info("installing programs");
+			deployService.installBundle(Context.getRegisteredComponents(NamibiaProgramsBundle.class).get(0));
+			log.info("Programs installed");
 			
 		}
 		catch (Exception e) {

@@ -138,21 +138,15 @@
 					</label>
 					<obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				</p>
-				<p>
-				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked at ANC?" />
-			</p>
+				<!--<p>
+				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
+			</p>-->
 			<p>
 				<label>
-					Does the client have a pink book?
+                    Was this client booked (Does Client have a pink book?) at ANC?
 				</label>
 				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
 			</p>
-				<p>
-					<label>
-						Does the client have a pink book?
-					</label>
-					<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
-				</p>
 				<p id="delivery-date-container" class="narrow">
 					<label>Delivery Date and time</label>
 					<obs id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
@@ -176,38 +170,46 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						hideContainer('#not-tested-container');
+						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
-					} else {
+					} else if (getValue('hiv-test.value') == 1169) {
+						<!-- previously known positive -->
+                        showContainer('#art-number-container');
+                        showContainer('#art-startdate-container');
+                        <!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
-						showContainer('#not-tested-container');
+					}else {
+						hideContainer('#hiv-test-result-container');
+						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
 					}
 				});
+			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
 				<!-- reason for not testing -->
-				jq('#not-tested').click(function(){
+				<!-- jq('#not-tested').click(function(){
 					if(getValue('not-tested.value') == 128453) {
 						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) {
+					} else if (getValue('not-tested.value') == 1169) { -->
 						<!-- previously known positive -->
-						showContainer('#art-status-container');
+						<!--showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-initiatin-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-initiatin-container');
 					}
-				});
+				});-->
+			<!-- TODO: 'reason for not testing' ends ... -->
 				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value') == 'true') {
@@ -219,9 +221,9 @@
 						hideContainer('#art-initiation-container');
 					} else {
 						<!-- Not yet on ART so initialize -->
-						hideContainer('#art-number-container');
-						hideContainer('#art-startdate-container');
-						showContainer('#art-initiation-container');
+						<!-- hideContainer('#art-number-container'); -->
+						<!-- hideContainer('#art-startdate-container'); -->
+						<!-- showContainer('#art-initiation-container'); -->
 					}
 				});
 				jq('#hiv-test-result').click(function(){
@@ -266,9 +268,11 @@
 					HIV Test Status
 				</label>
 				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1065,1066,1067"
-					 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown" answerSeparator="" required="true" />
+					 answerConceptIds="1065,1169,1066,1067"
+					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown"
+					  answerSeparator="" required="true" />
 			</p>
+			<!-- TODO: to remove code cleanup after UAT
 			<p id="not-tested-container" class="hidden">
 				<label>
 					Reason for not testing
@@ -283,6 +287,7 @@
 				</label>
 				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			</p>
+			-->
 			<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
@@ -291,12 +296,15 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
-			<p id="art-status-container" class="hidden" >
-				<label>
+            <!-- TODO: to remove code cleanup after UAT
+            <p id="art-status-container" class="hidden" >
+
+                <label>
                     Are you still on treatment?
-				</label>
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
-			</p>
+                </label>
+                <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+
+            </p> -->
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation
@@ -329,6 +337,7 @@
 									alert('The ART start date cannot be after the date of this visit ' +  changeFieldDateToJavascriptDate(visit_date));
 								} else {
 									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
+                                    showContainer('#recent-viral-load-container');
 								}
 							}
 						});
@@ -336,6 +345,58 @@
 				</script>
 				
 			</p>
+            <p id="recent-viral-load-container" class="hidden">
+                <label>
+                    Viral Load test done? 					</label>
+                <obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
+                     answerLabels="Yes, No, Unknown"
+                     answerSeparator="" />
+                <script>
+                    jq(function() {
+                        jq('#recent-viral-load').click(function(){
+                            if (getValue('recent-viral-load.value') == 1267) {
+                                showContainer('#viral-load-results-container');
+                                showContainer('#viral-load-test-date-container');
+                                showContainer('#viral-load-copies-container');
+                            } else {
+                                hideContainer('#viral-load-results-container');
+                                hideContainer('#viral-load-test-date-container');
+                                hideContainer('#viral-load-copies-container');
+                            }
+                        });
+                    });
+                </script>
+
+            </p>
+
+            <!-- TODO: Add handling for the second viral load result -->
+            <p id="viral-load-test-date-container" class="narrow hidden">
+                <label>Viral load test date</label>
+                <obs conceptId="163281" id="viral-load-test-date"/>
+            </p>
+            <p id="viral-load-results-container" class="hidden">
+                <label>Viral load results</label>
+                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
+                     answerSeparator=""
+                     answerLabels="Target Detected,Not Detected, Sample Rejected"/>
+                <script>
+                    jq(function() {
+                        jq('#viral-load-results').click(function(){
+                            if (getValue('viral-load-results.value') == 1301) {
+                                showContainer('#viral-load-copies-container');
+                            } else {
+                                hideContainer('#viral-load-copies-container');
+                            }
+                        });
+                    });
+                </script>
+            </p><br/>
+            <p id="viral-load-copies-container" class="narrow hidden">
+                <label>Viral load</label>
+
+                <obs id="viral-load-copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+
+            </p>
 		</div>
 	</section>
 	</includeIf>
@@ -380,8 +441,8 @@
 			<label>
 				Mother's status
 			</label>
-			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1067"
-				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out, Unknown" answerSeparator="" required="true"/>
+			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1692,1067"
+				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out (Still Alive), Discharged (Still Alive), Unknown" answerSeparator="" required="true"/>
 		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>

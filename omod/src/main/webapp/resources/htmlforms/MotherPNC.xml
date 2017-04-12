@@ -171,48 +171,56 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						hideContainer('#not-tested-container');
+						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
-					} else {
+					} else if (getValue('hiv-test.value') == 1169) {
+						<!-- previously known positive -->
+						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
+						<!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
-						showContainer('#not-tested-container');
+						}else {
+						hideContainer('#hiv-test-result-container');
+						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
 					}
 				});
+			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
 				<!-- reason for not testing -->
-				jq('#not-tested').click(function(){
+				<!--jq('#not-tested').click(function(){
 					if(getValue('not-tested.value') == 128453) {
 						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) {
+					} else if (getValue('not-tested.value') == 1169) { -->
 						<!-- previously known positive -->
-						showContainer('#art-status-container');
+					<!--	showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
 					}
-				});
-				<!-- reason for not testing -->
-				jq('#art-status').click(function(){
+				});-->
+			<!-- TODO: 'reason for not testing' ends ... -->
+				<!-- ART Status --> <!-- TODO: code cleanup after UAT 'art status section' will be removed since it can't be filled from the register -->
+				<!-- jq('#art-status').click(function(){
 					if (getValue('art-status.value')) {
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
-					} else {
-						hideContainer('#art-number-container');
-						hideContainer('#art-startdate-container');
-						showContainer('#art-initiation-container');
-					}
-				});
+					} else { -->
+						<!-- hideContainer('#art-number-container'); -->
+						<!-- hideContainer('#art-startdate-container'); -->
+						<!-- showContainer('#art-initiation-container'); -->
+					<!-- }
+				}); --> <!-- TODO: 'art status' ends ... -->
 				jq('#hiv-test-result').click(function(){
 					if(getValue('hiv-test-result.value') == 703) {
 						<!-- positive result -->
@@ -260,9 +268,10 @@
 						HIV test status
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
+						 answerConceptIds="1065,1169,1066,1067"
+						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
 				</p>
+				<!-- TODO: to remove code cleanup after UAT
 				<p id="not-tested-container" class="hidden">
 					<label>
 						Reason for not testing
@@ -276,7 +285,7 @@
 						Reason for refusing test
 					</label>
 					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-				</p>
+				</p>-->
 			</excludeIf>
 			
 			<p id="hiv-test-result-container" class="hidden">
@@ -288,13 +297,15 @@
 					 answerSeparator="" />
 			</p>
 				
+			<!-- TODO: to remove code cleanup after UAT
 			<p id="art-status-container" class="hidden" >
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no" />
+
 				<label>
 					Are you still on treatment?
 				</label>
+				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
 				
-			</p>
+			</p> -->
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART Initiation
@@ -328,10 +339,10 @@
 								} else {
 									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
 									<!-- Show the viral load container if the ART start date is more than 6 months before today -->
-									var months = Math.round(diff/(86400000 * 30));
-									if (months > 6) {
+									<!-- var months = Math.round(diff/(86400000 * 30));
+									if (months > 6) { -->
 										showContainer('#recent-viral-load-container');
-									}
+									<!-- } -->
 								}
 							}
 						});
@@ -406,6 +417,8 @@
 			</p>
 		</div>
 	</section>
+	<!--
+	TODO: code cleanup after UAT this section will be removed since it can't be filled from the register
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
 			jq(function() {
@@ -432,6 +445,7 @@
 				<obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
 			</p>
 		</div>
-	</section><br/>
+	</section>
+	--><br/>
 	<submit class="confirm center" />
 </htmlform>

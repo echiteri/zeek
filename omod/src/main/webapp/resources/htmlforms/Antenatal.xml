@@ -296,40 +296,48 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-					if(getValue('hiv-test.value') != 1065) { <!-- don't show HIV test result if not tested for HIV during this visit -->
-						hideContainer('#hiv-test-result-container');
-						showContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
-						hideContainer('#art-number-container');
-						hideContainer('#art-startdate-container');
-						hideContainer('#art-initiation-container');
-						hideContainer('#refused-art-container');
-					} else {
+					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						hideContainer('#not-tested-container');
+						<!-- hideContainer('#not-tested-container'); TODO: to remove  code cleanup after UAT
 						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');
+						hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
-					}
+					} else if (getValue('hiv-test.value') == 1169) {
+						<!-- previously known positive -->
+						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
+						<!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
+						hideContainer('#hiv-test-result-container');
+					}else {
+						hideContainer('#hiv-test-result-container');
+						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						hideContainer('#refused-test-reason-container');
+						hideContainer('#art-status-container');-->
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+			}
 				});
-				<!-- reason for not testing -->
-				jq('#not-tested').click(function(){
+			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
+			<!-- reason for not testing -->
+				<!-- jq('#not-tested').click(function(){
 					if(getValue('not-tested.value') == 128453) {
 						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) {
+					} else if (getValue('not-tested.value') == 1169) { -->
 						<!-- previously known positive -->
-						showContainer('#art-status-container');
+						<!-- showContainer('#art-status-container');
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-initiatin-container');
 					} else {
 						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-initiatin-container');
 					}
-				});
+				});-->
+			<!-- TODO: code cleanup after UAT 'reason for not testing' ends ... -->
 				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value') == 'true') {
@@ -410,9 +418,10 @@
 						HIV test status
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
+						 answerConceptIds="1065,1169,1066,1067"
+						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
 				</p>
+				<!-- TODO: to remove code cleanup after UAT
 				<p id="not-tested-container" class="hidden">
 					<label>
 						Reason for not testing
@@ -426,7 +435,7 @@
 						Reason for refusing test
 					</label>
 					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-				</p>
+				</p>-->
 			</excludeIf>
 			
 			<p id="hiv-test-result-container" class="hidden">
@@ -445,13 +454,16 @@
 					 answerConceptIds="1065,1066,1067"
 					 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
 			</p>
-				
-			<p id="art-status-container" class="hidden" >
-				<label>
-					Are you still on treatment?
-				</label>
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="yes_no"/>
-			</p>
+
+			<!-- TODO: to remove code cleanup after UAT
+            <p id="art-status-container" class="hidden" >
+
+                <label>
+                    Are you still on treatment?
+                </label>
+                <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+
+            </p> -->
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation

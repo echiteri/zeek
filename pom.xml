@@ -53,7 +53,7 @@
 		<htmlwidgetsVersion>1.7.2</htmlwidgetsVersion>
 		<idgenVersion>4.4.0</idgenVersion>
 		<legacyuiVersion>1.2.3</legacyuiVersion>
-		<metadatadeployVersion>1.8-SNAPSHOT</metadatadeployVersion>
+		<metadatadeployVersion>1.8.1</metadatadeployVersion>
 		<metadatamappingVersion>1.2.1</metadatamappingVersion>
 		<metadatasharingVersion>1.2.2</metadatasharingVersion>
 		<owaVersion>1.6.3</owaVersion>

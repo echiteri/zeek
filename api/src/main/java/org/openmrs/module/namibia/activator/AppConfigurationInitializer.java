@@ -37,6 +37,8 @@ public class AppConfigurationInitializer implements Initializer {
 			appFrameworkService.disableApp("coreapps.activeVisits");
 			// disable the reference app registration page and add one for Namibia
 			appFrameworkService.disableApp("referenceapplication.registrationapp.registerPatient");
+			// no vitals will be collected in PTracker at the start
+			appFrameworkService.disableApp("referenceapplication.vitals");
 			
 			// disable form entry app on the home page
 			appFrameworkService.disableApp("xforms.formentry");
