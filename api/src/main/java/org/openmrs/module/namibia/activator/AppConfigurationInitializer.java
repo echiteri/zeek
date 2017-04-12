@@ -87,7 +87,7 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
 		
 		// set the name of the application
-		properties.add(new GlobalProperty("application.name", "Namibia PMTCT Tracker"));
+		properties.add(new GlobalProperty("application.name", "Namibia PTracker"));
 		
 		// mapping for creating visits without encounters to the default facility visit type
 		properties.add(new GlobalProperty("emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap", "default:7b0f5697-27e3-40c4-8bae-f4049abfb4ed"));
@@ -116,11 +116,11 @@ public class AppConfigurationInitializer implements Initializer {
 		//HTML Form Entry Settings
 		properties.add(new GlobalProperty("htmlformentry.showDateFormat", "false")); //Disable date format display on form
 		
-		// The ART unique as the primary identifier that needs to be displayed
-		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, PatientIdentifierTypes.PTRACKER_NUMBER.uuid()));
+		// The OpenMRS ID with a check digit
+		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, "05a29f94-c0ed-11e2-94be-8c13b969e334"));
 		
 		// other identifiers that can be used
-		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid()));
+		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid() + "," + PatientIdentifierTypes.PTRACKER_NUMBER.uuid()));
 		
 		// disable the appointmentshedulingui which will confuse users
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));

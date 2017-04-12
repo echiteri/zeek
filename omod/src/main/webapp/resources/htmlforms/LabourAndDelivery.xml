@@ -41,6 +41,7 @@
 			});
 		</script>
 	</ifMode>
+	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.InfantRegistrationAtLaborAndDeliverySubmissionAction"/>
 	<h2>
 		<label>
 			Labour and Delivery Form
