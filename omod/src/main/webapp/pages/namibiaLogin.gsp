@@ -69,6 +69,14 @@
             <img src="${ui.resourceLink("namibia", "/images/namibia_coat_of_arms.png")}"/>
         </a>
     </div>
+    <div style="float: left;margin: 25px 0 10px 20px; color: #EFEF;width: 350px;">
+        <div style="padding-bottom: 10px;">
+            <span style="font-size: 1.2em; text-align: left;color: #FFFFFF;">Ministry of Health and
+            Social
+            Services</span>
+        </div>
+        <span style="color: #848484;font-size: 0.9em;float: left; width: 100%; text-align: center;">PMTCT Tracker</span>
+    </div>
 </header>
 
 <div id="body-wrapper">
