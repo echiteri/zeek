@@ -6,14 +6,15 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.dataexchange.DataImporter;
-import org.openmrs.module.emrapi.utils.MetadataUtil;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.deploy.bundle.LocationMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.LocationTagMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaAddressBundle;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaEncounterTypeMetadataBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPatientIdentifierTypeBundle;
 import org.openmrs.module.namibia.deploy.bundle.NamibiaPersonAttributeTypeBundle;
+import org.openmrs.module.namibia.deploy.bundle.NamibiaProgramsBundle;
 
 /**
  * Initializer for metadata
