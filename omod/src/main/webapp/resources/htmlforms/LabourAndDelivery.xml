@@ -456,14 +456,21 @@
 									showContainer('#infant-arv-prophylaxis-container-{n}');
 									showContainer('#infant-birth-date-{n}');
 									showContainer('#child-number-container-{n}');
+                                    <!--hideContainer('#still-birth-container-{n}');-->
 									hideContainer('#infant-death-date-container-{n}');
-								} else {
+								} else if (getValue('infant-status-{n}.value') == 125872){
+                                    showContainer('#still-birth-container-{n}');
+                                }else {
 									hideContainer('#breastfeeding-container-{n}');
 									hideContainer('#infant-arv-prophylaxis-container-{n}');
 									showContainer('#infant-death-date-container-{n}');
 									hideContainer('#infant-birth-date-{n}');
+                                    hideContainer('#still-birth-container-{n}');
 									hideContainer('#child-number-container-{n}');
 								}
+                                <!--if (getValue('infant-status-{n}.value') == 125872){
+                                    showContainer('#still-birth-container-{n}');
+                                }-->
 							});
 						});
 					</script>
@@ -502,6 +509,14 @@
 											 answerConceptIds="5526,1595,1067"
 											 answerLabels="EBF=Exclusive Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
 									</p>
+                                    <p id="still-birth-container-{n}" class="hidden">
+                                        <label>
+                                            Type of still birth
+                                        </label>
+                                        <obs style="radio" conceptId="125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                             answerConceptIds="159916,135436,1067"
+                                             answerLabels="Fresh , Macerated, Unknown" answerSeparator=""/>
+                                    </p>
 								</td>
 							</tr>
 							<tr>
