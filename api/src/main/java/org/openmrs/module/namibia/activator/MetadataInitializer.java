@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleFactory;
+import org.openmrs.module.dataexchange.DataImporter;
 import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.deploy.bundle.LocationMetadataBundle;
@@ -53,6 +54,10 @@ public class MetadataInitializer implements Initializer {
 			log.info("installing address hierarchy");
 			deployService.installBundle(Context.getRegisteredComponents(NamibiaAddressBundle.class).get(0));
 			log.info("Address hierarchy installed");
+			
+			DataImporter dataImporter = Context.getRegisteredComponent("dataImporter", DataImporter.class);
+			dataImporter.importData("metadata/CustomConcepts-1.xml");
+			log.info("Custom concepts imported");
 			
 			// install programs
 			log.info("installing programs");

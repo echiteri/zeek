@@ -101,6 +101,13 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
+				<artifactId>dataexchange-api</artifactId>
+				<version>${dataexchangeVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>emrapi-omod</artifactId>
 				<version>${emrapiVersion}</version>
 				<scope>provided</scope>
@@ -124,6 +131,13 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>htmlformentryui-api</artifactId>
 				<version>${htmlformentryuiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>idgen-api</artifactId>
+				<version>${idgenVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 			
