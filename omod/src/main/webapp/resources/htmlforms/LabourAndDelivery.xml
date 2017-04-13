@@ -34,6 +34,14 @@
 			white-space: nowrap;
 		}
 	</style>
+	<ifMode mode="EDIT">
+		<script>
+			jq(function() {
+			
+			});
+		</script>
+	</ifMode>
+	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.InfantRegistrationAtLaborAndDeliverySubmissionAction"/>
 	<h2>
 		<label>
 			Labour and Delivery Form
@@ -396,7 +404,7 @@
 	<div class="section-container">
 		<script>
 			jq(function(){
-			var babies = 0;
+				var babies = 0;
 				jq('#birth-count').click(function(){
 					babies = getValue('birth-count.value');
 					for (i=0; i &lt; 10; i++) {
@@ -425,6 +433,8 @@
 						}
 					});
 				});
+				<!-- Show the babies information by triggering a click on the number of babies field -->
+				jq('#birth-count').trigger("click");
 			});
 		</script>
 		<p>
@@ -436,8 +446,7 @@
 		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>
-            <!-- TODO: add the numbers from 2 to 9 once, figure out how to add the render tags dynamically. Rendered forms left unfilled stops the form from submitting -->
-			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1" answerLabels="1"/>
+			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9" answerLabels="1,2,3,4,5,6,7,8,9"/>
 		</p>
 		
 		
@@ -474,19 +483,20 @@
 							});
 						});
 					</script>
-					<table>
+					<obsgroup groupingConceptId="8677{n}">
+						<table>
 						<tbody>
 							<tr>
 								<td>
-										<p>
+										<p id="infant-gender-container-{n}">
 											<label>Gender</label>
-											<patient field="gender" />
+											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534" answerLabels="Female, Male" answerSeparator="" />
 										</p>
 								</td>
 								<td>
-									<p id="infant-birth-date-{n}" class="narrow">
+									<p id="infant-birth-date-container-{n}" class="narrow">
 										<label>Date of Birth</label>
-										<patient field="birthDate" />
+										<obs id="infant-birth-date-{n}" conceptId="164802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 									</p>
 								</td>
 							</tr>
@@ -538,7 +548,7 @@
 								</td>
 							</tr>
 							<tr id="child-number-container-{n}">
-								<td>
+								<td colspan="2">
 									<p class="narrow">
 										<label>PTracker child Number</label>
 										<obs id="child-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
@@ -547,18 +557,18 @@
 							</tr>
 						</tbody>
 					</table>
+					</obsgroup>
 				</div>
 			</template>
-				<render n="1" />
-                <!-- TODO: figure out how to add the render tags dynamically. Rendered forms left unfilled stops the form from submitting -->
-				<!-- <render n="2" />
-				<render n="3" />
-				<render n="4" />
-				<render n="5" />
-				<render n="6" />
-				<render n="7" />
-				<render n="8" />
-				<render n="9" /> -->
+			<render n="1" />
+			<render n="2" />
+			<render n="3" />
+			<render n="4" />
+			<render n="5" />
+			<render n="6" />
+			<render n="7" />
+			<render n="8" />
+			<render n="9" />
 		</repeat>
 				
 		
