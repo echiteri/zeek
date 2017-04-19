@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	
+	
+	
+	<visit visit_id="1001" patient_id="8" visit_type_id="1" date_started="2017-04-11 00:00:00.0" location_id="1" creator="1" date_created="2017-04-11 21:57:17.0" voided="false" uuid="62e24748-02f5-4c1f-b087-dc1cd8d1dda3"/>
+	
+	<encounter encounter_id="1001" encounter_type="1" patient_id="8" location_id="1" form_id="1" encounter_datetime="2017-04-12 14:35:31.0" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" visit_id="1001" uuid="7e10e3a3-ec80-4398-9f09-53081ee8dd3c"/>
+	
+	<obs obs_id="491" person_id="8" concept_id="86771" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="0fb444dc-cc81-47e5-9ff3-122c0ea6fe3f"/>
+	<obs obs_id="492" person_id="8" concept_id="1148" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" obs_group_id="491" value_coded="1065" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="dfe7d35d-e652-4506-bbbb-22b0db573f10"/>
+	<obs obs_id="493" person_id="8" concept_id="1151" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" obs_group_id="491" value_coded="5526" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="1fa2db29-9b07-44b5-a529-3a34e94aabfe"/>
+	<obs obs_id="494" person_id="8" concept_id="159917" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" obs_group_id="491" value_coded="151849" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="10980e1c-061e-4022-8dd2-113beaa8975b"/>
+	<obs obs_id="495" person_id="8" concept_id="164802" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" obs_group_id="491" value_datetime="2017-04-12 00:00:00.0" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="8cb9a78d-514c-4105-a40d-dd30cc2ebc3f"/>
+	<obs obs_id="496" person_id="8" concept_id="1587" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" obs_group_id="491" value_coded="1535" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="ed53eff7-be3b-44d7-bd61-06266b0528be"/>
+	<obs obs_id="497" person_id="8" concept_id="164803" encounter_id="1001" obs_datetime="2017-04-12 14:35:31.0" location_id="1" obs_group_id="491" value_text="PT23456" creator="1" date_created="2017-04-12 14:35:31.0" voided="false" uuid="4d2582d7-d830-4de3-82d2-941b7df8807b"/>
+</dataset>

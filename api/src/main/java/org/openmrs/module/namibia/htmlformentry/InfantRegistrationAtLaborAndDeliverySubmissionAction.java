@@ -2,6 +2,7 @@ package org.openmrs.module.namibia.htmlformentry;
 
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Obs;
@@ -27,10 +28,12 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionAction implements Cus
 	
 	private PatientService patientService;
 	private PersonService personService;
+	private IdentifierSourceService identifierSourceService;
 	
 	public InfantRegistrationAtLaborAndDeliverySubmissionAction() {
 		this.personService = Context.getPersonService();
 		this.patientService = Context.getPatientService();
+		this.identifierSourceService = Context.getService(IdentifierSourceService.class);
 	}
 	
 	@Override
@@ -53,11 +56,10 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionAction implements Cus
 						if (o.getValueCoded().getId().intValue() == 151849) {
 							// the child status is alive so will be registered
 							Patient baby = new Patient();
-							log.debug("Registering infant for obsgroup " + obs.getValueGroupId());
+							log.debug("Registering infant for obsgroup " + obs.getValueGroupId() + " from encounterId " + formEntrySession.getEncounter().getEncounterId());
 							Iterator j = obs.getGroupMembers(false).iterator();
 							while(j.hasNext()) {
 								Obs regData = (Obs) j.next();
-								System.out.println("The obs being processed is " + regData.toString());
 								if (regData.getConcept().getUuid().equals("164802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
 									// date of Birth
 									baby.setBirthdate(regData.getValueDate());
@@ -68,6 +70,18 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionAction implements Cus
 										baby.setGender("F");
 									} else {
 										baby.setGender("M");
+									}
+								}
+								if (regData.getConcept().getUuid().equals("164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
+									if (StringUtils.isNotBlank(regData.getValueText())) {
+										// create a new PTracker ID for the baby
+										PatientIdentifier infantPtrackerID = new PatientIdentifier();
+										infantPtrackerID.setIdentifierType(patientService.getPatientIdentifierTypeByUuid("4da0a3fe-e546-463f-81fa-084f098ff06c"));
+										// TODO: what location should be here?
+										infantPtrackerID.setLocation(formEntrySession.getEncounter().getLocation());
+										infantPtrackerID.setIdentifier(regData.getValueText());
+										
+										baby.addIdentifier(infantPtrackerID);
 									}
 								}
 							}
@@ -83,23 +97,20 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionAction implements Cus
 							patientIdentifier.setLocation(formEntrySession.getEncounter().getLocation());
 							
 							// Set the string
-							IdentifierSourceService iss = Context.getService(IdentifierSourceService.class);
-							IdentifierSource idSource = iss.getIdentifierSource(Integer.valueOf("1"));
-							patientIdentifier.setIdentifier(iss.generateIdentifier(idSource, null));
+							IdentifierSource idSource = identifierSourceService.getIdentifierSource(1);
+							patientIdentifier.setIdentifier(identifierSourceService.generateIdentifier(idSource, null));
 							
 							baby.addIdentifier(patientIdentifier);
 							
 							// save the baby
-							patientService.savePatient(baby);
-							log.debug("Infant saved with patientId " + baby.getPatientId());
+							baby = patientService.savePatient(baby);
 							
 							// add a relationship to the mother who is the current patient in the encounter
 							Relationship parentChild = new Relationship();
 							parentChild.setRelationshipType(personService.getRelationshipTypeByUuid("8d91a210-c2cc-11de-8d13-0010c6dffd0f"));
-							parentChild.setPersonA(formEntrySession.getPatient()); // the mother
+							parentChild.setPersonA(formEntrySession.getEncounter().getPatient().getPerson()); // the mother
 							parentChild.setPersonB(baby);
 							personService.saveRelationship(parentChild);
-							log.debug("Relationship created between mother with Id " + formEntrySession.getPatient().getPatientId() + " and child with Id " + baby.getPatientId());
 						}
 					}
 				}
