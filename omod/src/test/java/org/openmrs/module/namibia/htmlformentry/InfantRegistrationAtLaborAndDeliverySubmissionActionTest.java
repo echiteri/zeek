@@ -86,6 +86,22 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 	
 	@Test
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void testWithOneChildDead() throws Exception {
+		Encounter e = Context.getEncounterService().getEncounter(1003);
+		when(mockFormEntrySession.getEncounter()).thenReturn(e);
+		
+		infantRegistrationAtLaborAndDeliverySubmissionAction.applyAction(mockFormEntrySession);
+		
+		// infant details
+		List<Relationship> children = Context.getPersonService().getRelationshipsByPerson(e.getPatient().getPerson());
+		// there must be no child
+		Assert.assertEquals(0, children.size());
+		
+		deleteAllData();
+	}
+	
+	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void testWithMultiplChildren() throws Exception {
 		Encounter e = Context.getEncounterService().getEncounter(1002);
 		when(mockFormEntrySession.getEncounter()).thenReturn(e);

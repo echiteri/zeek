@@ -19,6 +19,9 @@
 	<person person_id="501" gender="F" birthdate="1976-08-25 00:00:00.0" birthdate_estimated="1" dead="false" creator="1" date_created="2006-01-18 00:00:00.0" voided="false" uuid="5946f880-b197-400b-9caa-a3c661d23042"/>
 	<patient patient_id="501" creator="1" date_created="2006-01-18 00:00:00.0" changed_by="1" date_changed="2008-08-18 12:25:57.0" voided="false" void_reason=""/>
 	
+	<person person_id="555" gender="F" birthdate="1986-08-25 00:00:00.0" birthdate_estimated="1" dead="false" creator="1" date_created="2006-01-18 00:00:00.0" voided="false" uuid="5946f880-b197-400b-9caa-a3c661d23043"/>
+	<patient patient_id="555" creator="1" date_created="2006-01-18 00:00:00.0" changed_by="1" date_changed="2008-08-18 12:25:57.0" voided="false" void_reason=""/>
+	
 		<patient_identifier_type  patient_identifier_type_id="1"  name="OpenMRS Identification Number"  description="Unique number used in OpenMRS"  creator="1"  date_created="2005-09-22 00:00:00"  required="0"  validator="org.openmrs.patient.impl.LuhnIdentifierValidator" location_behavior="NOT_USED" retired="0" uuid="8d793bee-c2cc-11de-8d13-0010c6dffd0f" />
 		<patient_identifier_type  patient_identifier_type_id="2"  name="Old Identification Number"  description="Number given out prior to the OpenMRS system (No check digit)"   creator="1"  date_created="2005-09-22 00:00:00"  required="0"      location_behavior="NOT_USED"  retired="0"  uuid="8d79403a-c2cc-11de-8d13-0010c6dffd0f"  />
 		<patient_identifier_type  patient_identifier_type_id="3"  name="OpenMRS ID"  description="OpenMRS patient identifier, with check-digit"     creator="1"  date_created="2016-07-24 20:45:42"  required="1"    validator="org.openmrs.module.idgen.validator.LuhnMod30IdentifierValidator"  location_behavior="NOT_USED"  retired="0"  uuid="05a29f94-c0ed-11e2-94be-8c13b969e334"  />
