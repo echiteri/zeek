@@ -81,5 +81,44 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 		PatientIdentifier pid = p.getPatientIdentifier(Context.getPatientService().getPatientIdentifierTypeByUuid("4da0a3fe-e546-463f-81fa-084f098ff06c"));
 		Assert.assertEquals("PTracker ID PT23456 - actual " + pid.getIdentifier(), "PT23456", pid.getIdentifier());
 		
+		deleteAllData();
+	}
+	
+	@Test
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	public void testWithMultiplChildren() throws Exception {
+		Encounter e = Context.getEncounterService().getEncounter(1002);
+		when(mockFormEntrySession.getEncounter()).thenReturn(e);
+		
+		infantRegistrationAtLaborAndDeliverySubmissionAction.applyAction(mockFormEntrySession);
+		
+		// infant details
+		List<Relationship> children = Context.getPersonService().getRelationshipsByPerson(e.getPatient().getPerson());
+		// there must be only one child
+		Assert.assertEquals(2, children.size());
+		
+		// loop through the children
+		for (int i=0; i < 2; i++) {
+			Person infant = children.get(i).getPersonB();
+			if (infant.getGender().equals("F")) {
+				// compare with the data for the male
+				Assert.assertEquals("DOB 2017-03-31 - actual " + infant.getBirthdate(), sdf.parse("2017-03-31"), infant.getBirthdate());
+				
+				// check the PTrackerID
+				Patient p = Context.getPatientService().getPatient(infant.getPersonId());
+				PatientIdentifier pid = p.getPatientIdentifier(Context.getPatientService().getPatientIdentifierTypeByUuid("4da0a3fe-e546-463f-81fa-084f098ff06c"));
+				Assert.assertEquals("PTracker ID PT23457 - actual " + pid.getIdentifier(), "PT23457", pid.getIdentifier());
+			} else {
+				// compare with the data for the female
+				Assert.assertEquals("DOB 2017-02-28 - actual " + infant.getBirthdate(), sdf.parse("2017-02-28"), infant.getBirthdate());
+				
+				// No PTrackerID
+				Patient p = Context.getPatientService().getPatient(infant.getPersonId());
+				PatientIdentifier pid = p.getPatientIdentifier(Context.getPatientService().getPatientIdentifierTypeByUuid("4da0a3fe-e546-463f-81fa-084f098ff06c"));
+				Assert.assertNull("PTracker ID is null ",pid);
+			}
+		}
+		
+		deleteAllData();
 	}
 }

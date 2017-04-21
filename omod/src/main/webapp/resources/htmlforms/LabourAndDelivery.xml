@@ -446,7 +446,7 @@
 		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>
-			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9" answerLabels="1,2,3,4,5,6,7,8,9"/>
+			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9,10" answerLabels="1,2,3,4,5,6,7,8,9,10"/>
 		</p>
 		
 		
