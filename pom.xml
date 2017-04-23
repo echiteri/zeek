@@ -101,6 +101,13 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
+				<artifactId>calculation-api</artifactId>
+				<version>${calculationVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>dataexchange-api</artifactId>
 				<version>${dataexchangeVersion}</version>
 				<scope>provided</scope>
@@ -129,6 +136,13 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlformentry-api-1.10</artifactId>
+				<version>${htmlformentryVersion}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>htmlformentryui-api</artifactId>
 				<version>${htmlformentryuiVersion}</version>
 				<scope>provided</scope>
@@ -138,6 +152,13 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>idgen-api</artifactId>
 				<version>${idgenVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>legacyui-omod</artifactId>
+				<version>${legacyuiVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 			
@@ -164,6 +185,13 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
+				<artifactId>providermanagement-api</artifactId>
+				<version>${providermanagementVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>referenceapplication-omod</artifactId>
 				<version>${referenceapplicationVersion}</version>
 				<scope>provided</scope>
@@ -178,6 +206,13 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
+				<artifactId>reporting-api</artifactId>
+				<version>${reportingVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
 				<artifactId>uicommons-omod</artifactId>
 				<version>${uicommonsVersion}</version>
 				<scope>provided</scope>
@@ -185,9 +220,37 @@
 			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
-				<artifactId>uiframework-omod</artifactId>
+				<artifactId>uiframework-api</artifactId>
 				<version>${uiframeworkVersion}</version>
 				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>webservices.rest-omod-2.0</artifactId>
+				<version>${webservices.restVersion}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>webservices.rest-omod-common</artifactId>
+				<version>${webservices.restVersion}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>serialization.xstream-api</artifactId>
+				<version>${serialization.xstreamVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>serialization.xstream-api-2.0</artifactId>
+				<version>${serialization.xstreamVersion}</version>
+				<scope>test</scope>
 			</dependency>
 			
 			<!-- End OpenMRS modules -->

@@ -119,7 +119,7 @@
 		
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
-			<artifactId>uiframework-omod</artifactId>
+			<artifactId>uiframework-api</artifactId>
 		</dependency>
 	
 	</dependencies>
