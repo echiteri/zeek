@@ -23,7 +23,29 @@
 				<!-- Breast feeding status only required if mother and baby are alive -->
 				<!-- TODO: Add required checks for breast feeding status when the mother and baby are alive -->
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
-				return true;
+				var babiesBorn = getValue('birth-count.value');
+				var isValid = true;
+				for (i=1; i &lt; 10; i++) {
+					setValue('infant-gender-' + i + '.error', '');
+					setValue('infant-birth-date-' + i + '.error', '');
+					setValue('infant-status-' + i + '.error', '');
+					if (i &lt;= babiesBorn) {
+						if (!getValue('infant-gender-' + i + '.value')) {
+							getField('infant-gender-' + i + '.error').html('Please select the gender').show();
+							isValid = false;
+						}
+						if (!getValue('infant-birth-date-' + i + '.value')) {
+							getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
+							isValid = false;
+						}
+						
+						if (!getValue('infant-status-' + i + '.value')) {
+							getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
+							isValid = false;
+						}
+					}
+				}
+				return isValid;
 			});
 		});
 	</script>
@@ -232,8 +254,13 @@
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
 					} else {
+						<!-- negative result -->
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
+						<!-- hide the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							hideContainer("#" + jq(this).attr("id"));
+						});
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -460,22 +487,26 @@
 						
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
-								if (getValue('infant-status-{n}.value') == 151849) {
+								if (getValue('infant-status-{n}.value') == 151849 || getValue('infant-status-{n}.value') == 1067) {
 									showContainer('#breastfeeding-container-{n}');
-									showContainer('#infant-arv-prophylaxis-container-{n}');
-									showContainer('#infant-birth-date-{n}');
+									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
-                                    <!--hideContainer('#still-birth-container-{n}');-->
-									hideContainer('#infant-death-date-container-{n}');
-								} else if (getValue('infant-status-{n}.value') == 125872){
-                                    showContainer('#still-birth-container-{n}');
-                                }else {
-									hideContainer('#breastfeeding-container-{n}');
-									hideContainer('#infant-arv-prophylaxis-container-{n}');
-									showContainer('#infant-death-date-container-{n}');
-									hideContainer('#infant-birth-date-{n}');
+						
                                     hideContainer('#still-birth-container-{n}');
+									hideContainer('#infant-death-date-container-{n}');
+								} else {
+									<!-- Baby died -->
+									<!-- Still Birth -->
+									if (getValue('infant-status-{n}.value') == 125872) {
+										showContainer('#still-birth-container-{n}');
+										
+									} else {
+										hideContainer('#still-birth-container-{n}');
+									}
+									hideContainer('#breastfeeding-container-{n}');
+									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
+									showContainer('#infant-death-date-container-{n}');
 								}
                                 <!--if (getValue('infant-status-{n}.value') == 125872){
                                     showContainer('#still-birth-container-{n}');
@@ -484,6 +515,7 @@
 						});
 					</script>
 					<obsgroup groupingConceptId="8677{n}">
+						<!-- TODO: Need to fix the layout of this table with the different options for mother death, HIV- status and baby died -->
 						<table>
 						<tbody>
 							<tr>
@@ -511,7 +543,7 @@
 									</p>
 								</td>
 								<td>
-									<p id="breastfeeding-container-{n}">
+									<p id="breastfeeding-container-{n}" class="breastfeeding">
 										<label>
 											Infant Feeding at discharge
 										</label>
@@ -531,29 +563,31 @@
 							</tr>
 							<tr>
 								<td>
-									<p id="infant-arv-prophylaxis-container-{n}">
+									<p id="infant-arv-prophylaxis-container-{n}" class="prophylaxis">
 										<label>
-											Infant Recieved ARV
+											Infant Received ARV
 										</label>
 										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754,1067"
 											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Unknown"
 											 answerSeparator="" />
 									</p>
-								</td>
-								<td>
-									<p id="infant-death-date-container-{n}" class="hidden">
+									<p id="infant-death-date-container-{n}" class="hidden narrow">
 										<label>Date of Death</label>
 										<obs id="infant-death-date-{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 									</p>
 								</td>
+								<td>
+								
+								</td>
 							</tr>
 							<tr id="child-number-container-{n}">
-								<td colspan="2">
+								<td>
 									<p class="narrow">
 										<label>PTracker child Number</label>
 										<obs id="child-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 									</p>
 								</td>
+								<td></td>
 							</tr>
 						</tbody>
 					</table>
@@ -570,9 +604,6 @@
 			<render n="8" />
 			<render n="9" />
 		</repeat>
-				
-		
-			
 		</div>
 	</section>
 	<!--<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Post Natal Followup">
