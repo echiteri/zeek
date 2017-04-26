@@ -367,11 +367,11 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
-						showContainer('#posttest-counselled-container');
+						<!-- showContainer('#posttest-counselled-container'); -->
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
-						hideContainer('#posttest-counselled-container');
+						<!-- hideContainer('#posttest-counselled-container'); -->
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -448,7 +448,7 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
-			<p id="posttest-counselled-container" class="hidden">
+			<p id="posttest-counselled-container">
 				<label>
 					Post-Test Counselled
 				</label>
@@ -585,7 +585,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator=""/>
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
