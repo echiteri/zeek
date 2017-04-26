@@ -29,14 +29,26 @@
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant-birth-date-' + i + '.error', '');
 					setValue('infant-status-' + i + '.error', '');
+					setValue('still-birth-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
 						if (!getValue('infant-gender-' + i + '.value')) {
 							getField('infant-gender-' + i + '.error').html('Please select the gender').show();
 							isValid = false;
 						}
-						if (!getValue('infant-birth-date-' + i + '.value')) {
-							getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
-							isValid = false;
+						<!-- Date of Birth is required for alive babies and those with unknown status -->
+						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 1067) {
+							if (!getValue('infant-birth-date-' + i + '.value')) {
+												getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
+								isValid = false;
+							}
+						} else {
+							<!-- For still births the type of still birth is required -->
+							if (getValue('infant-status-'+ i + '.value') == 125872) {
+								if (!getValue('still-birth-' + i + '.value')) {
+													getField('still-birth-' + i + '.error').html('Please enter the type of still birth').show();
+									isValid = false;
+								}
+							}
 						}
 						
 						if (!getValue('infant-status-' + i + '.value')) {
@@ -555,7 +567,7 @@
                                         <label>
                                             Type of still birth
                                         </label>
-                                        <obs style="radio" conceptId="125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                        <obs id="still-birth-{n}" style="radio" conceptId="125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                              answerConceptIds="159916,135436,1067"
                                              answerLabels="Fresh , Macerated, Unknown" answerSeparator=""/>
                                     </p>
