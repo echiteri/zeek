@@ -511,11 +511,12 @@
 									<!-- Still Birth -->
 									if (getValue('infant-status-{n}.value') == 125872) {
 										showContainer('#still-birth-container-{n}');
-										
+										hideContainer('#breastfeeding-container-{n}');
 									} else {
 										hideContainer('#still-birth-container-{n}');
+										showContainer('#breastfeeding-container-{n}');
 									}
-									hideContainer('#breastfeeding-container-{n}');
+									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
 									showContainer('#infant-death-date-container-{n}');
@@ -583,13 +584,13 @@
 											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Unknown"
 											 answerSeparator="" />
 									</p>
+									
+								</td>
+								<td>
 									<p id="infant-death-date-container-{n}" class="hidden narrow">
 										<label>Date of Death</label>
 										<obs id="infant-death-date-{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 									</p>
-								</td>
-								<td>
-								
 								</td>
 							</tr>
 							<tr id="child-number-container-{n}">
