@@ -67,7 +67,7 @@
 		<reportingVersion>0.11.0</reportingVersion>
 		<reportingUIVersion>1.2</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
-		<uicommonsVersion>2.2.0</uicommonsVersion>
+		<uicommonsVersion>2.2-SNAPSHOT</uicommonsVersion>
 		<uiframeworkVersion>3.10.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
 		<webservices.restVersion>2.18.0</webservices.restVersion>
