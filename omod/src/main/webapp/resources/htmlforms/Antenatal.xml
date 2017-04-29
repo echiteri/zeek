@@ -125,6 +125,7 @@
 			Mother ANC Visit
 		</label>
 	</h2>
+	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.MCHProgramManagementPostSubmissionAction"/>
 	<table id="who-when-where">
 		<tbody>
 			<tr>

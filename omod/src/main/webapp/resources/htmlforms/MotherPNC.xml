@@ -48,6 +48,7 @@
 			Mother Post-Natal Care Form
 		</label>
 	</h2>
+	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.MCHProgramManagementPostSubmissionAction"/>
 	<table id="who-when-where">
 		<tbody>
 			<tr>
