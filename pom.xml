@@ -49,7 +49,7 @@
 		<fhirVersion>1.6</fhirVersion>
 		<formentryappVersion>1.4.0</formentryappVersion>
 		<htmlformentryVersion>3.3.2</htmlformentryVersion>
-		<htmlformentryuiVersion>1.6.2</htmlformentryuiVersion>
+		<htmlformentryuiVersion>1.6.3-SNAPSHOT</htmlformentryuiVersion>
 		<htmlwidgetsVersion>1.7.2</htmlwidgetsVersion>
 		<idgenVersion>4.4.0</idgenVersion>
 		<legacyuiVersion>1.2.3</legacyuiVersion>
@@ -67,7 +67,7 @@
 		<reportingVersion>0.11.0</reportingVersion>
 		<reportingUIVersion>1.2</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
-		<uicommonsVersion>2.2-SNAPSHOT</uicommonsVersion>
+		<uicommonsVersion>2.2.1-SNAPSHOT</uicommonsVersion>
 		<uiframeworkVersion>3.10.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
 		<webservices.restVersion>2.18.0</webservices.restVersion>
