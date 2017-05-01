@@ -85,6 +85,49 @@
 	</div>
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Exposure and Prophylaxis Information">
+		<script>
+			jq(function() {
+
+				<!-- infant tested for HIV -->
+				jq('#infant-hiv-test').click(function(){
+					if (getValue('infant-hiv-test.value') == 1065) {
+						showContainer('#infant-test-type-container');
+					} else {
+						hideContainer('#infant-test-type-container');
+					}
+				});
+
+				<!-- type of test done -->
+				jq('#infant-test-type').click(function(){
+					if (getValue('infant-test-type.value') != 1067) {
+						showContainer('#test-result-container');
+					} else {
+						hideContainer('#test-result-container');
+					}
+				});
+				<!-- recorded test result for DNA PCR or Rapid Test -->
+				jq('#test-result').click(function(){
+						if (getValue('test-result.value') == 703) {
+							showContainer('#infant-art-number-container');
+							showContainer('#infant-art-link-container');
+						} else {
+							hideContainer('#infant-art-number-container');
+							hideContainer('#infant-art-link-container');
+						}
+					});
+				<!-- final test result -->
+				jq('#final-test-result').click(function(){
+					if (getValue('final-test-result.value') == 703) {
+							showContainer('#infant-art-number-container');
+							showContainer('#infant-art-link-container');
+						} else {
+							hideContainer('#infant-art-number-container');
+							hideContainer('#infant-art-link-container');
+						}
+					});
+
+			});
+		</script>
 		<div class="section-container">
 		<p class="narrow">
 			<label>
@@ -117,34 +160,43 @@
 				 answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
 		</p>
 
-		<p>
+		<p id="infant-hiv-test-container">
 			<label>
 				Was this infant tested for HIV during this visit?
 			</label>
-			<obs style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				 answerConceptIds="1065,1066,138571,1067" answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Previously Known HIV Positive, Unknown" answerSeparator=""/>
+			<obs id="infant-hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				 answerConceptIds="1065,1066,1067" answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown" answerSeparator=""/>
 		</p>
 
-		<p>
+		<p id="infant-test-type-container" class="hidden">
 			<label>
 				What kind of test was used?
 			</label>
-			<obs style="radio" conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
+			<obs id="infant-test-type" style="radio" conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
 		</p>
-		<p>
-			<label>
-				What was the final test result?
-			</label>
-			<obs style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
-		</p>
-		<p>
+			<p id="test-result-container" class="hidden">
+				<label>
+					What was the test result?
+				</label>
+				<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
+			</p>
+			<lookup complexExpression="#set ($age = $patient.person.age) "/>
+			<includeIf velocityTest="($age &gt; 1)"><!-- TODO: include if the age is more than or equals 18 months -->
+				<p id="final-test-result-container">
+					<label>
+						What was the final test result (18 months and over)?
+					</label> <!-- Child HIV antibody test result -->
+					<obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
+				</p>
+			</includeIf>
+		<p id="infant-art-link-container" class="hidden">
 			<label>
 				Was this infant linked to ART
 			</label>
-			<obs style="radio" conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
+			<obs id="infant-art-link" style="radio" conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
 		</p>
 
-		<p>
+		<p id="infant-art-number-container" class="hidden narrow">
 			<label>
 				Infant ART Number
 			</label>
