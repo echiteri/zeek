@@ -16,6 +16,8 @@
 	<concept  concept_id="164803"  retired="0"  datatype_id="3"  class_id="7"  is_set="0"  creator="1"  date_created="2017-02-18 20:25:32"  uuid="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 	<concept  concept_id="154223"  retired="0"  datatype_id="4"  class_id="4"  is_set="0"  creator="1"  date_created="2008-02-16 14:54:26"  uuid="154223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 	
+	<concept  concept_id="159937"  retired="0"  datatype_id="4"  class_id="11"  is_set="0"  creator="1"  date_created="2010-11-30 13:20:14"  uuid="159937AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+	
 	<person person_id="501" gender="F" birthdate="1976-08-25 00:00:00.0" birthdate_estimated="1" dead="false" creator="1" date_created="2006-01-18 00:00:00.0" voided="false" uuid="5946f880-b197-400b-9caa-a3c661d23042"/>
 	<patient patient_id="501" creator="1" date_created="2006-01-18 00:00:00.0" changed_by="1" date_changed="2008-08-18 12:25:57.0" voided="false" void_reason=""/>
 	
@@ -35,5 +37,17 @@
 	<idgen_identifier_source  id="1"  uuid="691eed12-c0f1-11e2-94be-8c13b969e334"  name="Generator for OpenMRS ID"   identifier_type="3"  creator="1"  date_created="2016-07-24 20:45:42" retired="0"/>
 	<idgen_seq_id_gen  id="1"  next_sequence_value="810078"  base_character_set="0123456789ACDEFGHJKLMNPRTUVWXY"  first_identifier_base="10000"  min_length="6"/>
 	<idgen_auto_generation_option  id="1"  identifier_type="3"  source="1"  manual_entry_enabled="0"  automatic_generation_enabled="1" />
+	
+	<encounter_type  encounter_type_id="1"  name="Discharge"  description="Indicates that a patient's inpatient care at the hospital is ending, and they are expected to leave soon."  creator="1"  date_created="2013-08-01 21:27:50"  uuid="181820aa-88c9-479b-9077-af92f5364329" retired="0" />
+	<encounter_type  encounter_type_id="2"  name="Mother ANC"  description="ANC visit by a mother"  creator="1"  date_created="2016-07-23 23:53:34"  uuid="2549af50-75c8-4aeb-87ca-4bb2cef6c69a" retired="0" />
+	<encounter_type  encounter_type_id="3"  name="Check Out"  description="The patient is explicitly leaving the hospital/clinic. (Usually no formal encounter is captured for this.)"  creator="1"  date_created="2013-08-02 08:14:43"  uuid="25a042b2-60bc-4940-a909-debd098b7d82" retired="0" />
+	<encounter_type  encounter_type_id="4"  name="Mother Labor and Delivery"  description="Labor and delivery visit by a mother"  creator="1"  date_created="2016-07-23 23:54:05"  uuid="2678423c-0523-4d76-b0da-18177b439eed" retired="0" />
+	<encounter_type  encounter_type_id="5"  name="Mother PNC"  description="Post natal visit by a mother"  creator="1"  date_created="2016-07-23 23:54:28"  uuid="269bcc7f-04f8-4ddc-883d-7a3a0d569aad" retired="0" />
+	<encounter_type  encounter_type_id="6"  name="Vitals"  description="For capturing vital signs"  creator="1"  date_created="2013-08-12 15:08:05"  uuid="67a71486-1a54-468f-ac3e-7091a9a79584" retired="0" />
+	<encounter_type  encounter_type_id="7"  name="Transfer"  description="Indicates that a patient is being transferred into a different department within the hospital. (Transfers out of the hospital should not use this encounter type.)"  creator="1"  date_created="2013-08-01 21:28:10"  uuid="7b68d557-85ef-4fc8-b767-4fa4f5eb5c23" retired="0" />
+	<encounter_type  encounter_type_id="8"  name="Infant PNC"  description="PNC visit by infant after birth"  creator="1"  date_created="2016-07-23 23:55:00"  uuid="af1f1b24-d2e8-4282-b308-0bf79b365584" retired="0"  />
+	<encounter_type  encounter_type_id="9"  name="Check In"  description="Indicates the patient has done the required paperwork and check-in to begin a visit to the clinic/hospital."  creator="1"  date_created="2013-08-02 08:13:23"  uuid="ca3aed11-1aa4-42a1-b85c-8332fc8001fc" retired="0" />
+	<encounter_type  encounter_type_id="10"  name="Visit Note"  description="Encounter where a full or abbreviated examination is done, usually leading to a presumptive or confirmed diagnosis, recorded by the examining clinician."  creator="1"  date_created="2013-08-02 08:16:06"  uuid="d7151f82-c1f3-4152-a605-2f9ea7414a79" retired="0" />
+	<encounter_type  encounter_type_id="11"  name="Admission"  description="Indicates that the patient has been admitted for inpatient care, and is not expected to leave the hospital unless discharged."  creator="1"  date_created="2013-08-01 21:27:27"  uuid="e22e39fd-7db2-45e7-80f1-60fa0d5a4378" retired="0" />
 
 </dataset>
