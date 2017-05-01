@@ -183,7 +183,7 @@
 			</p>
 				<p id="delivery-date-container" class="narrow">
 					<label>Delivery Date and time</label>
-					<obs id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+					<obs class="narrow" id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
 				</p>
 			</includeIf>
 
@@ -512,9 +512,11 @@
 									if (getValue('infant-status-{n}.value') == 125872) {
 										showContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
+										hideContainer('#infant-arv-prophylaxis-container-{n}');
 									} else {
 										hideContainer('#still-birth-container-{n}');
 										showContainer('#breastfeeding-container-{n}');
+										showContainer('#infant-arv-prophylaxis-container-{n}');
 									}
 									
 									hideContainer('#infant-birth-date-container-{n}');
@@ -562,7 +564,7 @@
 										</label>
 										<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 											 answerConceptIds="5526,1595,1067"
-											 answerLabels="EBF=Exclusive Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
+											 answerLabels="BF=Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
 									</p>
                                     <p id="still-birth-container-{n}" class="hidden">
                                         <label>

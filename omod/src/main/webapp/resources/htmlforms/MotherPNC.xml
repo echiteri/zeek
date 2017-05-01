@@ -418,8 +418,7 @@
 			</p>
 		</div>
 	</section>
-	<!--
-	TODO: code cleanup after UAT this section will be removed since it can't be filled from the register
+
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
 			jq(function() {
@@ -447,6 +446,6 @@
 			</p>
 		</div>
 	</section>
-	--><br/>
+	<br/>
 	<submit class="confirm center" />
 </htmlform>
