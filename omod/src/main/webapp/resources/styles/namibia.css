@@ -104,4 +104,10 @@ span.value {
     font-size: 18px;
 }
 
+/*
+ * Fix for Issue #38 removing edit capability for Encounters
+*/
+#encountersList .editEncounter {
+    display: none;
+}
 
