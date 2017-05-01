@@ -21,7 +21,7 @@
 		
 			<!-- EDD computation -->
 			jq('#lmp :input[type=text]').change(function(){
-				jq('#edd').text(calculateEDD(getValue('lmp.value')));
+				setValue('edd.value', calculateEDD(getValue('lmp.value')));
 			});
 		
 			beforeSubmit.push(function() {
@@ -44,13 +44,13 @@
 					var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
 					if (encounterDate &lt; lmpDate) {
 						getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-		encounterDate).show();
+		changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
 						return false;
 					}
 			
 					<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
 					if (Math.abs(encounterDate - lmpDate)/(1000 * 86400 * 7) > 35) {
-						getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' + encounterDate).show();
+						getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
 						return false;
 					}
 				}
@@ -76,14 +76,15 @@
 				
 				<!-- next visit date must be after the current visit date -->
 				if (encounterDate &gt; next_visit_date) {
-					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + encounterDate + ' the date of this visit').show();
+					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value')) + ' the date of this visit').show();
 					return false;
 				}
 			
 				<!-- also check that the next visit is not after the expected date of delivery -->
-				var edd = new Date(jq('#edd').text());
+				var edd = new Date(getValue('edd.value'));
+				alert('The EDD IS ' + edd);
 				if (next_visit_date &gt; edd) {
-					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + edd).show();
+					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
 					return false;
 				}
 		
@@ -116,7 +117,7 @@
 			mm = (mm &lt; 10) ? '0' + mm : mm;
 			dd = (dd &lt; 10) ? '0' + dd : dd;
 			
-			var date = mm + '/' + dd + '/' + yyyy;
+			var date = yyyy + '-' + mm + '-' + dd;
 			return date;
 		}
 	</script>
@@ -183,7 +184,9 @@
 				</p>
 				<p>
 					<label>Estimated date of delivery (EDD)</label>
-					<span id="edd" class="standout" style="margin-left: 10px;"></span>
+					<p class="narrow">
+						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" allowFutureDates="true" />
+					</p>
 				</p>
 				<!-- <p class="narrow">
 					<label>
