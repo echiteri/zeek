@@ -441,7 +441,7 @@
 					<!-- Show ART Status container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
-							showContainer('#art-initiation-container');
+							showContainer('#art-status-container');
 						});
 					</script>
 				</includeIf>
