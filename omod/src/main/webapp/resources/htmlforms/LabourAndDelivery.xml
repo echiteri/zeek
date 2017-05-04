@@ -162,11 +162,12 @@
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
 			<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
-					<!-- Show ART Status if the client has tested positive, is a previously known positive. Need to establish if still on care-->
+					<!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
 					<script>
 						jq(function() {
 							hideContainer('#hiv-test-container');
 							showContainer('#art-status-container');
+							showContainer('#art-initiation-container');
 						});
 					</script>
 			</includeIf>
