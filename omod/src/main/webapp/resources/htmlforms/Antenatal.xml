@@ -82,7 +82,7 @@
 			
 				<!-- also check that the next visit is not after the expected date of delivery -->
 				var edd = new Date(getValue('edd.value'));
-				alert('The EDD IS ' + edd);
+				<!-- alert('The EDD IS ' + edd); -->
 				if (next_visit_date &gt; edd) {
 					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
 					return false;
@@ -119,6 +119,21 @@
 			
 			var date = yyyy + '-' + mm + '-' + dd;
 			return date;
+		}
+		<!-- change display date format to namibia locale -->
+		function changeDisplayDateFormat(rawDate)
+		{
+			var monthShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+			];
+			var d = new Date(rawDate);
+			var mm = monthShort[d.getMonth()-1]; <!-- minus 1 due to list positioning -->
+			var dd = d.getDate();
+			var yyyy = d.getFullYear();
+			mm = (mm &lt; 10) ? '0' + mm : mm;
+			dd = (dd &lt; 10) ? '0' + dd : dd;
+			var formattedDate = dd + '/' + mm + '/' + yyyy;
+			return formattedDate;
 		}
 	</script>
 	<h2>
@@ -213,7 +228,8 @@
 					<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
 					jq('legend.summary').html('ANC Visit Summary Information');
 					<!-- Show the EDD -->
-					jq('#edd').text(calculateEDD(jq('#lmp').text()));
+					var eddDate =  changeDisplayDateFormat(calculateEDD(jq('#lmp').text()));
+					jq('#edd').text(eddDate);
 				});
 			</script>
 			<div class="section-container">
