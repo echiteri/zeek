@@ -536,15 +536,17 @@
 										showContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-death-date-container-{n}');
 									} else {
 										hideContainer('#still-birth-container-{n}');
 										showContainer('#breastfeeding-container-{n}');
 										showContainer('#infant-arv-prophylaxis-container-{n}');
+										showContainer('#infant-death-date-container-{n}');
 									}
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
-									showContainer('#infant-death-date-container-{n}');
+									<!-- showContainer('#infant-death-date-container-{n}'); #zeek: taken care of in the if statement above-->
 								}
                                 <!--if (getValue('infant-status-{n}.value') == 125872){
                                     showContainer('#still-birth-container-{n}');
@@ -577,7 +579,7 @@
 											Infant Status
 										</label>
 										<obs id="infant-status-{n}" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872,1067"
-											 answerLabels="Infant alive,Infant Died (Neonatal Death),Still Birth, Unknown" answerSeparator=""/>
+											 answerLabels="Infant alive,Infant Died (Neonatal Death),Stillbirth, Unknown" answerSeparator=""/>
 									</p>
 								</td>
 								<td>
