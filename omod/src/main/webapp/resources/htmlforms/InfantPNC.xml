@@ -92,8 +92,10 @@
 				jq('#infant-hiv-test').click(function(){
 					if (getValue('infant-hiv-test.value') == 1065) {
 						showContainer('#infant-test-type-container');
+						showContainer('#confirmatory-test-done-container');
 					} else {
 						hideContainer('#infant-test-type-container');
+						hideContainer('#confirmatory-test-done-container');
 					}
 				});
 
@@ -115,6 +117,16 @@
 							hideContainer('#infant-art-link-container');
 						}
 					});
+			<!-- final test result -->
+				jq('#confirmatory-test-done').click(function(){
+					if (getValue('confirmatory-test-done.value') == 1065) {
+						showContainer('#final-test-result-container');
+						showContainer('#final-test-result-container');
+					} else {
+						hideContainer('#final-test-result-container');
+						hideContainer('#final-test-result-container');
+					}
+				});
 				<!-- final test result -->
 				jq('#final-test-result').click(function(){
 					if (getValue('final-test-result.value') == 703) {
@@ -181,14 +193,20 @@
 				<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
 			</p>
 			<lookup complexExpression="#set ($age = $patient.person.age) "/>
-			<includeIf velocityTest="($age &gt; 1)"><!-- TODO: include if the age is more than or equals 18 months -->
-				<p id="final-test-result-container">
+			<!--  <includeIf velocityTest="($age &gt; 1)">TODO: include if the age is more than or equals 18 months -->
+				<p id="confirmatory-test-done-container" class="hidden">
+					<label>
+						Was a confirmatory test performed during this visit?
+					</label> <!-- Child HIV test performed -->
+					<obs id="confirmatory-test-done" style="radio" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
+				</p>
+				<p id="final-test-result-container" class="hidden">
 					<label>
 						What was the final test result (18 months and over)?
 					</label> <!-- Child HIV antibody test result -->
 					<obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
 				</p>
-			</includeIf>
+			<!-- </includeIf>  -->
 		<p id="infant-art-link-container" class="hidden">
 			<label>
 				Was this infant linked to ART
