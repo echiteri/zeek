@@ -170,30 +170,40 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-					if(getValue('hiv-test.value') == 1065) {
+						if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						<!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
+						showContainer('#art-status-container'); <!-- TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
-						}else {
+					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 					}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
@@ -211,17 +221,24 @@
 				});-->
 			<!-- TODO: 'reason for not testing' ends ... -->
 				<!-- ART Status --> <!-- TODO: code cleanup after UAT 'art status section' will be removed since it can't be filled from the register -->
-				<!-- jq('#art-status').click(function(){
+				jq('#art-status').click(function(){
 					if (getValue('art-status.value')) {
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
+						setValue('art-start-date.value', '');
+						showContainer('#recent-viral-load-container');
 						hideContainer('#art-initiation-container');
-					} else { -->
-						<!-- hideContainer('#art-number-container'); -->
-						<!-- hideContainer('#art-startdate-container'); -->
-						<!-- showContainer('#art-initiation-container'); -->
-					<!-- }
-				}); --> <!-- TODO: 'art status' ends ... -->
+					} else {
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						<!-- don't show viral load items if not on treatment -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
+						showContainer('#art-initiation-container');
+					 }
+				});
 				jq('#hiv-test-result').click(function(){
 					if(getValue('hiv-test-result.value') == 703) {
 						<!-- positive result -->
@@ -254,10 +271,11 @@
 		<div class="section-container">
 			<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065">
-					<!-- Show ART Status container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
+					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
 							showContainer('#art-initiation-container');
+							showContainer('#art-status-container');
 						});
 					</script>
 				</includeIf>
@@ -298,15 +316,13 @@
 					 answerSeparator="" />
 			</p>
 				
-			<!-- TODO: to remove code cleanup after UAT
+			<!-- TODO: to remove code cleanup after UAT-->
 			<p id="art-status-container" class="hidden" >
 
-				<label>
-					Are you still on treatment?
-				</label>
 				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+				<label>Are you still on treatment?</label>
 				
-			</p> -->
+			</p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART Initiation
@@ -363,7 +379,7 @@
 								if (getValue('recent-viral-load.value') == 1267) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
-									hideContainer('#viral-load-copies-container');
+									<!-- hideContainer('#viral-load-copies-container'); -->
 								} else {
 									hideContainer('#viral-load-results-container');
 									hideContainer('#viral-load-test-date-container');

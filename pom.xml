@@ -28,7 +28,7 @@
 	</scm>
 	
 	<properties>
-		<openmrsVersion>2.0.2</openmrsVersion>
+		<openmrsVersion>2.0.5</openmrsVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- custom modules -->
@@ -38,10 +38,10 @@
 		<appframeworkVersion>2.10.0</appframeworkVersion>
 		<appointmentschedulingVersion>1.7.0</appointmentschedulingVersion>
 		<appointmentschedulinguiVersion>1.4.0</appointmentschedulinguiVersion>
-		<appuiVersion>1.8-SNAPSHOT</appuiVersion>
+		<appuiVersion>1.8.0</appuiVersion>
 		<calculationVersion>1.2</calculationVersion>
 		<chartsearchVersion>2.0</chartsearchVersion>
-		<coreappsVersion>1.12.1-SNAPSHOT</coreappsVersion>
+		<coreappsVersion>1.13.0</coreappsVersion>
 		<dataexchangeVersion>1.3.2</dataexchangeVersion>
 		<dataintegrityVersion>4.3.0</dataintegrityVersion>
 		<emrapiVersion>1.21.0</emrapiVersion>
@@ -49,7 +49,7 @@
 		<fhirVersion>1.6</fhirVersion>
 		<formentryappVersion>1.4.0</formentryappVersion>
 		<htmlformentryVersion>3.3.2</htmlformentryVersion>
-		<htmlformentryuiVersion>1.6.3-SNAPSHOT</htmlformentryuiVersion>
+		<htmlformentryuiVersion>1.6.3</htmlformentryuiVersion>
 		<htmlwidgetsVersion>1.7.2</htmlwidgetsVersion>
 		<idgenVersion>4.4.0</idgenVersion>
 		<legacyuiVersion>1.2.3</legacyuiVersion>
@@ -67,7 +67,7 @@
 		<reportingVersion>0.11.0</reportingVersion>
 		<reportingUIVersion>1.2</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
-		<uicommonsVersion>2.2.1-SNAPSHOT</uicommonsVersion>
+		<uicommonsVersion>2.3.0</uicommonsVersion>
 		<uiframeworkVersion>3.10.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
 		<webservices.restVersion>2.18.0</webservices.restVersion>

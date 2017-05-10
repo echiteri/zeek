@@ -130,7 +130,7 @@
 					<td>
 						
 					<!-- Start with Previously known Positive -->
-					<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+					<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 						Previously Known Positive
 					</includeIf>
 					<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
@@ -161,10 +161,21 @@
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
 		<div class="section-container">
+			<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+					<!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
+					<script>
+						jq(function() {
+							hideContainer('#hiv-test-container');
+							showContainer('#art-status-container');
+							showContainer('#art-initiation-container');
+						});
+					</script>
+			</includeIf>
+
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
 				<p id="delivery-date-container" class="narrow">
 					<label>Admission Date and time</label>
-					<obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" class="narrow"/>
+					<obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
 				</p>
 				<p id="pregnancy-number-container" class="narrow">
 					<label>
@@ -195,7 +206,7 @@
 	- Not tested because of test kit stockout
 	- TODO: Add a test when the last test was negative, and its more than 3 months since that test
 	-->
-	<includeIf velocityTest="!$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') ">
+	<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 703 ||  $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') != 1169"> <!--#zeek - changed from: !$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') -->
 			
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Status at Delivery">
 		<script>
@@ -205,27 +216,37 @@
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
                         showContainer('#art-number-container');
                         showContainer('#art-startdate-container');
-                        <!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
+						showContainer('#art-status-container'); <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 					}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
@@ -252,11 +273,17 @@
 						showContainer('#art-startdate-container');
 						<!-- Enusre ART start date is empty -->
 						setValue('art-start-date.value', '');
+						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
 						hideContainer('#art-initiation-container');
 					} else {
 						<!-- Not yet on ART so initialize -->
-						<!-- hideContainer('#art-number-container'); -->
-						<!-- hideContainer('#art-startdate-container'); -->
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						<!-- don't show viral load items if not on treatment -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 						<!-- showContainer('#art-initiation-container'); -->
 					}
 				});
@@ -300,8 +327,8 @@
 				- client refused test
 				- client tested and test was positive or negative
 			-->
-			
-			
+
+
 			<p id="hiv-test-container" class="">
 				<label>
 					HIV Test Status
@@ -335,15 +362,13 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
-            <!-- TODO: to remove code cleanup after UAT
+
             <p id="art-status-container" class="hidden" >
 
-                <label>
-                    Are you still on treatment?
-                </label>
                 <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+				<label>Are you still on treatment?</label>
 
-            </p> -->
+            </p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation
@@ -396,7 +421,7 @@
                             if (getValue('recent-viral-load.value') == 1267) {
                                 showContainer('#viral-load-results-container');
                                 showContainer('#viral-load-test-date-container');
-                                showContainer('#viral-load-copies-container');
+                                <!-- showContainer('#viral-load-copies-container'); -->
                             } else {
                                 hideContainer('#viral-load-results-container');
                                 hideContainer('#viral-load-test-date-container');
@@ -487,8 +512,6 @@
 			<label>Number of babies born from this pregnancy</label>
 			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9,10" answerLabels="1,2,3,4,5,6,7,8,9,10"/>
 		</p>
-		
-		
 		
 		<repeat>
 			<template>

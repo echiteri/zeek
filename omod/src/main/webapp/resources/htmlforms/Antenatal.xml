@@ -82,7 +82,7 @@
 			
 				<!-- also check that the next visit is not after the expected date of delivery -->
 				var edd = new Date(getValue('edd.value'));
-				alert('The EDD IS ' + edd);
+				<!-- alert('The EDD IS ' + edd); -->
 				if (next_visit_date &gt; edd) {
 					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
 					return false;
@@ -119,6 +119,21 @@
 			
 			var date = yyyy + '-' + mm + '-' + dd;
 			return date;
+		}
+		<!-- change display date format to namibia locale -->
+		function changeDisplayDateFormat(rawDate)
+		{
+			var monthShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+			];
+			var d = new Date(rawDate);
+			var mm = monthShort[d.getMonth()-1]; <!-- minus 1 due to list positioning -->
+			var dd = d.getDate();
+			var yyyy = d.getFullYear();
+			mm = (mm &lt; 10) ? '0' + mm : mm;
+			dd = (dd &lt; 10) ? '0' + dd : dd;
+			var formattedDate = dd + '/' + mm + '/' + yyyy;
+			return formattedDate;
 		}
 	</script>
 	<h2>
@@ -213,7 +228,8 @@
 					<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
 					jq('legend.summary').html('ANC Visit Summary Information');
 					<!-- Show the EDD -->
-					jq('#edd').text(calculateEDD(jq('#lmp').text()));
+					var eddDate =  changeDisplayDateFormat(calculateEDD(jq('#lmp').text()));
+					jq('#edd').text(eddDate);
 				});
 			</script>
 			<div class="section-container">
@@ -253,7 +269,31 @@
 								<td><lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name" /></td>
 							</tr>
 						</includeIf>
-						<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066">
+						<includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
+												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> <!-- #zeek -:added for unknown -->
+							<tr>
+								<th align="left">Last HIV Status</th>
+								<th colspan="2" align="left">Reason for Not Testing
+								</th>
+							</tr>
+							<tr>
+								<td>Not Tested</td>
+								<td colspan="2">
+									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+										Previously known positive
+									
+									</includeIf>
+									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
+										Unknown <!-- #zeek -:added for unknown -->
+									</includeIf>
+
+								</td>
+							</tr>
+						</includeIf>
+					<!-- #zeek: disabled the display below because it is currently based on "Reason for not testing" which has been merged with
+						"HIV test status" above. Until tested and confirm, consider restoring the section below. -->
+					<!-- <includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
+												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> #zeek -:added for unknown
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -264,20 +304,23 @@
 								<td colspan="2">
 									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 										Previously known positive
-									
+
 									</includeIf>
 									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 160352">
 										Testing kit stockout
-									
+
 									</includeIf>
 									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 128453">
 										Refused Test : <lookup	complexExpression="#set($refuse_reason = $fn.latestObs('160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText) $!{refuse_reason}" />
-									
+
+									</includeIf>
+									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
+										Unknown #zeek -:added for unknown
 									</includeIf>
 
 								</td>
 							</tr>
-						</includeIf>
+						</includeIf>-->
 						<tr>
 							<th align="left" width="40%">Previous ANC Visits</th>
 							<th align="left" width="30%">Last ANC Clinic</th>
@@ -303,27 +346,37 @@
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove  code cleanup after UAT
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						<!-- showContainer('#art-status-container'); TODO: to remove code cleanup after UAT -->
+						showContainer('#art-status-container'); <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#art-status-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
 			}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
@@ -351,18 +404,19 @@
 						<!-- Enusre ART start date is empty-->
 						setValue('art-start-date.value', '');
 						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
-						showContainer('#viral-load-test-date-container');
+						<!--showContainer('#viral-load-test-date-container');
 						showContainer('#viral-load-results-container');
-						showContainer('#viral-load-copies');
+						showContainer('#viral-load-copies'); -->
 						hideContainer('#art-initiation-container');
 					} else {
 						<!-- Not yet on ART so initialize -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						<!-- don't show viral load items if not on treatment -->
 						hideContainer('#recent-viral-load-container');
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
-						hideContainer('#viral-load-copies');
+						hideContainer('#viral-load-copies-container');
 						showContainer('#art-initiation-container');
 					}
 				});
@@ -400,16 +454,17 @@
 		<div class="section-container">
 			<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065">
-					<!-- Show ART Status container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
+					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
+							showContainer('#art-status-container');
 							showContainer('#art-initiation-container');
 						});
 					</script>
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 
 				<p id="pretest-counselled-container">
 					<label>
@@ -442,34 +497,29 @@
 					</label>
 					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 				</p>-->
+				<p id="hiv-test-result-container" class="hidden">
+					<label>
+						HIV test result
+					</label>
+					<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+						 answerLabels="Negative,Positive,Unknown"
+						 answerSeparator="" />
+				</p>
+				<p id="posttest-counselled-container">
+					<label>
+						Post-Test Counselled
+					</label>
+					<obs id="pretest-counselled" style="radio" conceptId="159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="1065,1066,1067"
+						 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
+				</p>
 			</excludeIf>
-			
-			<p id="hiv-test-result-container" class="hidden">
-				<label>
-					HIV test result
-				</label>
-				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-					 answerLabels="Negative,Positive,Unknown"
-					 answerSeparator="" />
-			</p>
-			<p id="posttest-counselled-container">
-				<label>
-					Post-Test Counselled
-				</label>
-				<obs id="pretest-counselled" style="radio" conceptId="159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1065,1066,1067"
-					 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
-			</p>
 
-			<!-- TODO: to remove code cleanup after UAT
+			<!-- TODO: to remove code cleanup after UAT -->
             <p id="art-status-container" class="hidden" >
-
-                <label>
-                    Are you still on treatment?
-                </label>
                 <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
-
-            </p> -->
+				<label>Are you still on treatment?</label>
+            </p>
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation
@@ -528,7 +578,7 @@
 								if (getValue('recent-viral-load.value') == 1267) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
-									showContainer('#viral-load-copies-container');
+									<!--showContainer('#viral-load-copies-container');-->
 								} else {
 									hideContainer('#viral-load-results-container');
 									hideContainer('#viral-load-test-date-container');
