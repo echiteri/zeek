@@ -136,7 +136,11 @@
                     "config": {
                       "regex": "^[0-9]{10}$|^$"
                     }
-                  }
+                  },
+                  "cssClasses": [
+                    "number",
+                    "regex"
+                  ]
                 }
               ]
             }
