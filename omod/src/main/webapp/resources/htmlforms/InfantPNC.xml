@@ -92,10 +92,15 @@
 				jq('#infant-hiv-test').click(function(){
 					if (getValue('infant-hiv-test.value') == 1065) {
 						showContainer('#infant-test-type-container');
-						showContainer('#confirmatory-test-done-container');
+						<!-- showContainer('#confirmatory-test-done-container'); -->
 					} else {
 						hideContainer('#infant-test-type-container');
+						<!-- Don't keep the test result container when there is not type of test done-->
+						hideContainer('#test-result-container');
 						hideContainer('#confirmatory-test-done-container');
+						hideContainer('#final-test-result-container');
+						hideContainer('#infant-art-number-container');
+						hideContainer('#infant-art-link-container')
 					}
 				});
 
@@ -110,24 +115,29 @@
 				<!-- recorded test result for DNA PCR or Rapid Test -->
 				jq('#test-result').click(function(){
 						if (getValue('test-result.value') == 703) {
+
+							if (getValue('infant-test-type.value') == 844) {
+								showContainer('#confirmatory-test-done-container');
+							}else {
+								hideContainer('#confirmatory-test-done-container');
+							}
 							showContainer('#infant-art-number-container');
 							showContainer('#infant-art-link-container');
 						} else {
+							hideContainer('#confirmatory-test-done-container');
 							hideContainer('#infant-art-number-container');
 							hideContainer('#infant-art-link-container');
 						}
 					});
-			<!-- final test result -->
+			<!-- confirmatory test done -->
 				jq('#confirmatory-test-done').click(function(){
 					if (getValue('confirmatory-test-done.value') == 1065) {
 						showContainer('#final-test-result-container');
-						showContainer('#final-test-result-container');
 					} else {
-						hideContainer('#final-test-result-container');
 						hideContainer('#final-test-result-container');
 					}
 				});
-				<!-- final test result -->
+				<!-- final test result
 				jq('#final-test-result').click(function(){
 					if (getValue('final-test-result.value') == 703) {
 							showContainer('#infant-art-number-container');
@@ -136,7 +146,7 @@
 							hideContainer('#infant-art-number-container');
 							hideContainer('#infant-art-link-container');
 						}
-					});
+					});-->
 
 			});
 		</script>
