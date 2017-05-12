@@ -158,13 +158,14 @@
 			<!--<patient field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" />-->
 			<input type="text" size="15"/>
 		</p>
-		
-		<p>
+			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<p>
 			<label>
 				HIV Exposure Status
 			</label>
 			<obs style="radio" conceptId="5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="822,1066,1067" answerLabels="Currently Exposed,Currently Unexposed, Unknown" answerSeparator="" />
 		</p>
+			</excludeIf>
 
 		<p>
 			<label>
