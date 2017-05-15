@@ -466,14 +466,14 @@
 			<!-- Do not show ART testing if previously known positive, tested positive -->
 			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 
-				<p id="pretest-counselled-container">
+				<!--<p id="pretest-counselled-container">
 					<label>
 						Pre-Test Counselled
 					</label>
 					<obs id="pretest-counselled" style="radio" conceptId="163760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065,1066,1067"
 						 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
-				</p>
+				</p> -->
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
@@ -505,14 +505,15 @@
 						 answerLabels="Negative,Positive,Unknown"
 						 answerSeparator="" />
 				</p>
-				<p id="posttest-counselled-container">
+				<!-- <p id="posttest-counselled-container">
 					<label>
 						Post-Test Counselled
 					</label>
-					<obs id="pretest-counselled" style="radio" conceptId="159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					<obs id="posttest-counselled" style="radio" conceptId="159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065,1066,1067"
 						 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
-				</p>
+				</p> -->
+
 			</excludeIf>
 
 			<!-- TODO: to remove code cleanup after UAT -->

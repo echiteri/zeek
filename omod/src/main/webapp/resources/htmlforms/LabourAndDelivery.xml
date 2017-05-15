@@ -173,10 +173,10 @@
 			</includeIf>
 
 			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
-				<p id="delivery-date-container" class="narrow">
+				<!-- <p id="delivery-date-container" class="narrow">
 					<label>Admission Date and time</label>
 					<obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
-				</p>
+				</p> -->
 				<p id="pregnancy-number-container" class="narrow">
 					<label>
 						PTracker Pregnancy Number
@@ -192,10 +192,10 @@
 				</label>
 				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
 			</p>
-				<p id="delivery-date-container" class="narrow">
+				<!-- <p id="delivery-date-container" class="narrow">
 					<label>Delivery Date and time</label>
 					<obs class="narrow" id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
-				</p>
+				</p> -->
 			</includeIf>
 
 		</div>
@@ -536,15 +536,17 @@
 										showContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-death-date-container-{n}');
 									} else {
 										hideContainer('#still-birth-container-{n}');
 										showContainer('#breastfeeding-container-{n}');
 										showContainer('#infant-arv-prophylaxis-container-{n}');
+										showContainer('#infant-death-date-container-{n}');
 									}
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
-									showContainer('#infant-death-date-container-{n}');
+									<!-- showContainer('#infant-death-date-container-{n}'); #zeek: taken care of in the if statement above-->
 								}
                                 <!--if (getValue('infant-status-{n}.value') == 125872){
                                     showContainer('#still-birth-container-{n}');
@@ -577,7 +579,7 @@
 											Infant Status
 										</label>
 										<obs id="infant-status-{n}" style="radio" conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="151849,154223,125872,1067"
-											 answerLabels="Infant alive,Infant Died (Neonatal Death),Still Birth, Unknown" answerSeparator=""/>
+											 answerLabels="Infant alive,Infant Died (Neonatal Death),Stillbirth, Unknown" answerSeparator=""/>
 									</p>
 								</td>
 								<td>
