@@ -25,12 +25,14 @@ public class NamibiaPersonValidator extends PersonValidator {
 			Person person = (Person) target;
 			
 			if (person.getBirthdate() != null) {
-				
-				// reject if over 60 years
-				rejectDateIfBefore60YearsAgo(errors, person.getBirthdate(), "birthdate");
-				if (person.getGender().equals("M")) {
-					// no males over 5 years old
-					rejectDateIfBefore2YearsAgo(errors, person.getBirthdate(), "birthdate");
+				// Carry out the validation only at registration
+				if (person.getId() == null) {
+					// reject if over 60 years
+					rejectDateIfBefore60YearsAgo(errors, person.getBirthdate(), "birthdate");
+					if (person.getGender().equals("M")) {
+						// no males over 2 years old
+						rejectDateIfBefore2YearsAgo(errors, person.getBirthdate(), "birthdate");
+					}
 				}
 			}
 		}
@@ -53,7 +55,7 @@ public class NamibiaPersonValidator extends PersonValidator {
 	}
 	
 	/**
-	 * Rejects a date if it is before 5 years ago.
+	 * Rejects a date if it is before 2 years ago.
 	 *
 	 * @param errors the error object
 	 * @param date the date to check
