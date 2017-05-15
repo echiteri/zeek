@@ -30,7 +30,7 @@ public class NamibiaPersonValidator extends PersonValidator {
 				rejectDateIfBefore60YearsAgo(errors, person.getBirthdate(), "birthdate");
 				if (person.getGender().equals("M")) {
 					// no males over 5 years old
-					rejectDateIfBefore5YearsAgo(errors, person.getBirthdate(), "birthdate");
+					rejectDateIfBefore2YearsAgo(errors, person.getBirthdate(), "birthdate");
 				}
 			}
 		}
@@ -59,12 +59,12 @@ public class NamibiaPersonValidator extends PersonValidator {
 	 * @param date the date to check
 	 * @param dateField the name of the field
 	 */
-	private void rejectDateIfBefore5YearsAgo(Errors errors, Date date, String dateField) {
+	private void rejectDateIfBefore2YearsAgo(Errors errors, Date date, String dateField) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
-		c.add(Calendar.YEAR, -5);
+		c.add(Calendar.YEAR, -2);
 		if (OpenmrsUtil.compare(date, c.getTime()) < 0) {
-			errors.rejectValue(dateField, "The maximum age for a male patient is 5 years");
+			errors.rejectValue(dateField, "The maximum age for a male patient is 2 years");
 		}
 	}
 }
