@@ -71,7 +71,13 @@
 				</tr>
 				<tr>
 					<td><lookup expression="mother.personName" /> </td>
-					<td></td>
+					<td> <!-- #Steve: I am not sure if this picks any latest obs or for this client -->
+                        <includeIf velocityTest="$fn.latestObs('164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703
+                                || $fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703"> <!-- #zeek: todo: diplay either of the DNA or Rapid test results -->
+                            <!-- Currently displaying only DNA PCR test result -->
+                            <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                        </includeIf>
+                    </td>
 					<td><lookup expression="mother.getAttribute('Telephone Number')" /></td>
 				</tr>
 			</table>
@@ -106,23 +112,35 @@
 
 				<!-- type of test done -->
 				jq('#infant-test-type').click(function(){
-					if (getValue('infant-test-type.value') != 1067) {
-						showContainer('#test-result-container');
-					} else {
-						hideContainer('#test-result-container');
+					if (getValue('infant-test-type.value') == 844) {
+						showContainer('#dnapcr-test-result-container');
+                        hideContainer('#rapid-test-result-container');
+					} else if (getValue('infant-test-type.value') == 1042){
+                        showContainer('#rapid-test-result-container');
+                        hideContainer('#dnapcr-test-result-container');
+                    } else {
+						hideContainer('#dnapcr-test-result-container');
+						hideContainer('#rapid-test-result-container');
 					}
 				});
-				<!-- recorded test result for DNA PCR or Rapid Test -->
-				jq('#test-result').click(function(){
-						if (getValue('test-result.value') == 703) {
-
-							if (getValue('infant-test-type.value') == 844) {
-								showContainer('#confirmatory-test-done-container');
-							}else {
-								hideContainer('#confirmatory-test-done-container');
-							}
+				<!-- recorded test result for DNA PCR -->
+				jq('#dnapcr-test-result').click(function(){
+						if (getValue('dnapcr-test-result.value') == 703) {
+                            showContainer('#confirmatory-test-done-container');
 							showContainer('#infant-art-number-container');
 							showContainer('#infant-art-link-container');
+						} else {
+							hideContainer('#confirmatory-test-done-container');
+							hideContainer('#infant-art-number-container');
+							hideContainer('#infant-art-link-container');
+						}
+					});
+            <!-- recorded test result for Rapid Test -->
+				jq('#rapid-test-result').click(function(){
+						if (getValue('rapid-test-result.value') == 703) {
+							showContainer('#infant-art-number-container');
+							showContainer('#infant-art-link-container');
+                            hideContainer('#confirmatory-test-done-container');
 						} else {
 							hideContainer('#confirmatory-test-done-container');
 							hideContainer('#infant-art-number-container');
@@ -208,12 +226,20 @@
 			</label>
 			<obs id="infant-test-type" style="radio" conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
 		</p>
-			<p id="test-result-container" class="hidden">
+			<p id="dnapcr-test-result-container" class="hidden">
 				<label>
-					What was the test result?
+					What was the DNA PCR test result?
 				</label>
-				<obs id="test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
+				<obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+                     answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
 			</p>
+            <p id="rapid-test-result-container" class="hidden">
+                <label>
+                    What was the Rapid test result?
+                </label>
+                <obs id="rapid-test-result" style="radio" conceptId="164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+                     answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
+            </p>
 			<lookup complexExpression="#set ($age = $patient.person.age) "/>
 			<!--  <includeIf velocityTest="($age &gt; 1)">TODO: include if the age is more than or equals 18 months -->
 				<p id="confirmatory-test-done-container" class="hidden">
@@ -245,22 +271,22 @@
 		</p>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant and Mother statuses">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant statuses">
 		<div class="section-container radios">
 		<p>
 			<label>
 				Infant transfer status
 			</label>
-			<obs style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="160563,159492,1067" answerLabels="Transfer In, Transferred Out, Unknown" answerSeparator=""/>
+			<obs style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160563,159492,1067" answerLabels="Still in Care, Transfer In, Transferred Out, Unknown" answerSeparator=""/>
 		</p>
 
-		<p>
+		<!--<p>
 			<label>
 				Infant mother's status after this visit
 			</label>
 			<obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,159492,1067"
 				 answerLabels="Still in Care,Transferred Out, Unknown" answerSeparator=""/>
-		</p>
+		</p>-->
 	   </div>
 	</section>
 	<submit class="confirm center" />
