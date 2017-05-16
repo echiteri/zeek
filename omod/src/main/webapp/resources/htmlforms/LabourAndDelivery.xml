@@ -589,7 +589,7 @@
 										</label>
 										<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 											 answerConceptIds="5526,1595,1067"
-											 answerLabels="BF=Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
+											 answerLabels="EBF=Exclusive Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
 									</p>
                                     <p id="still-birth-container-{n}" class="hidden">
                                         <label>

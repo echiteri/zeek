@@ -440,8 +440,8 @@
 					Breastfeeding Status
 				</label>
 				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="5526,1595,6046,1067"
-					 answerLabels="Exclusive Breastfeeding, Replacement Breastfeeding, Mixed Breastfeeding, Unknown" answerSeparator="" required="true"/>
+					 answerConceptIds="5526,6046,159854,1067"
+					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Unknown" answerSeparator="" required="true"/>
 			</p>
 		</div>
 	</section>
