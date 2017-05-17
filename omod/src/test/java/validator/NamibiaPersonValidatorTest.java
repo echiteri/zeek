@@ -22,7 +22,7 @@ public class NamibiaPersonValidatorTest extends BaseModuleWebContextSensitiveTes
 	
 	@Test
 	public void validate_shouldFailForMoreThan60Years() throws Exception {
-		Patient pa = new Patient(1);
+		Patient pa = new Patient();
 		pa.setGender("F");
 		Calendar birth = Calendar.getInstance();
 		birth.setTime(new Date());
@@ -36,7 +36,7 @@ public class NamibiaPersonValidatorTest extends BaseModuleWebContextSensitiveTes
 	
 	@Test
 	public void validate_shouldFailForMalesMoreThan2Years() throws Exception {
-		Patient pa = new Patient(1);
+		Patient pa = new Patient();
 		pa.setGender("M");
 		Calendar birth = Calendar.getInstance();
 		birth.setTime(new Date());
@@ -50,7 +50,7 @@ public class NamibiaPersonValidatorTest extends BaseModuleWebContextSensitiveTes
 	
 	@Test
 	public void validate_shouldNotFailForNullBirthDate() throws Exception {
-		Patient pa = new Patient(1);
+		Patient pa = new Patient();
 		Errors errors = new BindException(pa, "patient");
 		namibiaPersonValidator.validate(pa, errors);
 		
