@@ -27,18 +27,7 @@
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
 				<!-- clear the previous errors -->
-				if (getField('para.value') != null) {
-					setValue('para.error', '');
-					setValue('lmp.error', '');
-					
-					var para = getValue('para.value');
-					var gravida = getValue('gravida.value');
-					<!-- the gravida must always be greater than or equal to para -->
-					if (gravida &lt; para) {
-						getField('para.error').html('The number of babies delivered (para) must be greater than the number of pregnancies (gravida)').show();
-						return false;
-					}
-					
+				if (getField('lnmp.value') != null) {
 					<!-- LNMP must be before the encounter date -->
 					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
 					var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
