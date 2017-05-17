@@ -155,10 +155,10 @@
 							jq('#postnatal-visit-number').click(function(){
 								if (getValue('postnatal-visit-number.value') == 164180) { <!-- Show 'First postnatal visit date' when this is not the first visit -->
 									<!-- showContainer('#first-postnatal-visit-date-container'); -->
-									setValue('first-postnatal-visit-date.value', getValue('encounterDate.value'));
+									<!-- setValue('first-postnatal-visit-date.value', getValue('encounterDate.value')); #zeek 17/5-->
 								} else {
-									hideContainer('#first-postnatal-visit-date-container');
-									setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
+									<!-- hideContainer('#first-postnatal-visit-date-container');
+									setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date())); #zeek 17/5 -->
 								}
 							});
 						});
