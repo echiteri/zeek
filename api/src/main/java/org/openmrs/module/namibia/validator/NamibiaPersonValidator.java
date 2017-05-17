@@ -25,7 +25,7 @@ public class NamibiaPersonValidator extends PersonValidator {
 			Person person = (Person) target;
 			
 			if (person.getBirthdate() != null) {
-				// Carry out the validation only at registration
+				// Carry out the validation only at registration of a new person
 				if (person.getId() == null) {
 					// reject if over 60 years
 					rejectDateIfBefore60YearsAgo(errors, person.getBirthdate(), "birthdate");
