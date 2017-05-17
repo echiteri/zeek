@@ -84,7 +84,7 @@ td > label:first-child, p > label:first-child {
 }
 
 /* Hide the visit buttons on the General actions tab */
-#org\.openmrs\.module\.coreapps\.createVisit, #org\.openmrs\.module\.coreapps\.createRetrospectiveVisit, #org\.openmrs\.module\.coreapps\.mergeVisits, #chartsearch\.chartSearchLink {
+#org\.openmrs\.module\.coreapps\.createVisit, #org\.openmrs\.module\.coreapps\.createRetrospectiveVisit, #org\.openmrs\.module\.coreapps\.mergeVisits, #chartsearch\.chartSearchLink, #referenceapplication\.realTime\.vitals, #referenceapplication\.realTime\.simpleVisitNote, #referenceapplication\.realTime\.simpleAdmission, #org\.openmrs\.module\.coreapps\.markPatientDead {
     display: none;
 }
 
