@@ -38,7 +38,7 @@ public abstract class AddressBundle extends VersionedMetadataBundle {
 	
 	@Override
 	protected void installEveryTime() throws Exception {
-		installAddressTemplate();
+		// do nothing
 	}
 	
 	@Override
@@ -46,16 +46,16 @@ public abstract class AddressBundle extends VersionedMetadataBundle {
 		
 		AddressHierarchyService service = Context.getService(AddressHierarchyService.class);
 		
-		// currently we only install the levels if they haven't been installed; no built-in way to edit anything other than
-		// "required" at this point
-		int numberOfLevels = service.getAddressHierarchyLevelsCount();
-		if (numberOfLevels == 0) {
-			installAddressHierarchyLevels();
-		} else {
-			updateRequiredProperty();
+		// delete all address hierarchy entries and levels since there is no way of updating them
+		service.deleteAllAddressHierarchyEntries();
+		// now delete the levels
+		for (AddressHierarchyLevel level: service.getAddressHierarchyLevels()) {
+			service.deleteAddressHierarchyLevel(level);
 		}
-		
+		// install afresh since there is no way of editing the levels
+		installAddressHierarchyLevels();
 		installAddressHierarchyEntries();
+		installAddressTemplate();
 	}
 	
 	/**
@@ -111,11 +111,15 @@ public abstract class AddressBundle extends VersionedMetadataBundle {
 	 */
 	public void updateRequiredProperty() {
 		AddressHierarchyService service = Context.getService(AddressHierarchyService.class);
-		log.info("Installing Address Levels");
+		log.info("Updating Address level required property");
 		for (AddressComponent component : getAddressComponents()) {
 			AddressHierarchyLevel level = service.getAddressHierarchyLevelByAddressField(component.getField());
-			level.setRequired(component.isRequiredInHierarchy());
-			service.saveAddressHierarchyLevel(level);
+			// this may happen if a new level is added
+			if (level != null) {
+				level.setRequired(component.isRequiredInHierarchy());
+				service.saveAddressHierarchyLevel(level);
+			}
+			
 		}
 	}
 	
@@ -124,7 +128,7 @@ public abstract class AddressBundle extends VersionedMetadataBundle {
 	 */
 	public void installAddressHierarchyEntries() {
 		log.info("Installing Address Hierarchy Entries");
-		Context.getService(AddressHierarchyService.class).deleteAllAddressHierarchyEntries();
+		
 		InputStream is = null;
 		try {
 			is = getClass().getClassLoader().getResourceAsStream(getAddressHierarchyEntryPath());
