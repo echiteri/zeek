@@ -138,7 +138,8 @@
 					</includeIf>
 					</td>
 					<td>
-						<lookup	expression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> Since
+						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 					</td>
 					<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
 				</tr>
@@ -166,7 +167,8 @@
 					<script>
 						jq(function() {
 							hideContainer('#hiv-test-container');
-							showContainer('#art-status-container');
+							<!-- showContainer('#art-status-container'); #zeek 17/5-->
+							showContainer('#recent-viral-load-container'); <!-- #zeek 17/5-->
 							showContainer('#art-initiation-container');
 						});
 					</script>
@@ -217,7 +219,7 @@
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#art-status-container'); #zeek 17/5 -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -231,13 +233,14 @@
 						<!-- previously known positive -->
                         showContainer('#art-number-container');
                         showContainer('#art-startdate-container');
-						showContainer('#art-status-container'); <!--TODO: to remove code cleanup after UAT -->
+						showContainer('#recent-viral-load-container'); <!-- #zeek 18/5 -->
+						<!-- showContainer('#art-status-container'); #zeek 17/5 --> <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#art-status-container'); #zeek 17/5-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -369,6 +372,7 @@
 				<label>Are you still on treatment?</label>
 
             </p>
+			<excludeIf velocityTest="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 160120">
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation
@@ -377,6 +381,7 @@
 					 answerConceptIds="160120,160018,1754,1067"
 					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
 			</p>
+
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>
 					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
@@ -409,6 +414,7 @@
 				</script>
 				
 			</p>
+			</excludeIf> <!-- #zeek 17/5 -->
             <p id="recent-viral-load-container" class="hidden">
                 <label>
                     Viral Load test done? 					</label>
