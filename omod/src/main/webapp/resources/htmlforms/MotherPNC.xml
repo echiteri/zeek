@@ -46,7 +46,7 @@
 	
 	<h2>
 		<label>
-			Mother Post-Natal Care Form
+            Mother - Postnatal Form
 		</label>
 	</h2>
 	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.MCHProgramManagementPostSubmissionAction"/>
