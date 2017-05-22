@@ -73,7 +73,7 @@
 					<td><lookup expression="mother.personName" /> </td>
 					<td> <!-- #Steve: I am not sure if this picks any latest obs or for this client -->
                         <includeIf velocityTest="$fn.latestObs('164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703
-                                || $fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703"> <!-- #zeek: todo: diplay either of the DNA or Rapid test results -->
+                                || $fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703"> <!-- todo: diplay either of the DNA or Rapid test results -->
                             <!-- Currently displaying only DNA PCR test result -->
                             <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
                         </includeIf>
@@ -102,7 +102,6 @@
 					} else {
 						hideContainer('#infant-test-type-container');
 						<!-- Don't keep the test result container when there is not type of test done-->
-                        <!-- #zeek 19/5 -->
                         hideContainer('#dnapcr-test-result-container');
                         hideContainer('#rapid-test-result-container');
 						hideContainer('#confirmatory-test-done-container');

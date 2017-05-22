@@ -260,7 +260,7 @@
 							</tr>
 						</includeIf>
 						<includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
-												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> <!-- #zeek -:added for unknown -->
+												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 ">
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -274,16 +274,16 @@
 									
 									</includeIf>
 									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
-										Unknown <!-- #zeek -:added for unknown -->
+										Unknown <!-- added for unknown -->
 									</includeIf>
 
 								</td>
 							</tr>
 						</includeIf>
-					<!-- #zeek: disabled the display below because it is currently based on "Reason for not testing" which has been merged with
+					<!-- disabled the display below because it is currently based on "Reason for not testing" which has been merged with
 						"HIV test status" above. Until tested and confirm, consider restoring the section below. -->
 					<!-- <includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
-												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> #zeek -:added for unknown
+												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> added for unknown
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -305,7 +305,7 @@
 
 									</includeIf>
 									<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
-										Unknown #zeek -:added for unknown
+										Unknown -:added for unknown
 									</includeIf>
 
 								</td>
@@ -337,7 +337,7 @@
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove  code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container');#zeek 18/5-->
+						<!-- hideContainer('#art-status-container');-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -351,14 +351,14 @@
 						<!-- previously known positive -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						showContainer('#recent-viral-load-container'); <!-- #zeek 18/5 -->
-						<!-- showContainer('#art-status-container'); #zeek 18/5--> <!--TODO: to remove code cleanup after UAT -->
+						showContainer('#recent-viral-load-container');
+						<!-- showContainer('#art-status-container'); --> <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); #zeek 18/5-->
+						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -448,8 +448,8 @@
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
-							<!-- showContainer('#art-status-container'); #zeek 18/5-->
-							showContainer('#recent-viral-load-container'); <!-- #zeek 18/5 -->
+							<!-- showContainer('#art-status-container'); -->
+							showContainer('#recent-viral-load-container');
 							showContainer('#art-initiation-container');
 						});
 					</script>
@@ -509,7 +509,7 @@
 			</excludeIf>
 
 			<!-- TODO: to remove code cleanup after UAT -->
-			<excludeIf velocityTest="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 160120">
+			<excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
             <p id="art-status-container" class="hidden" >
                 <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
@@ -560,7 +560,7 @@
 				</script>
 				
 			</p>
-			</excludeIf> <!-- #zeek 18/5 -->
+			</excludeIf>
 				<p id="recent-viral-load-container" class="hidden">
 					<label>
 						Viral Load test done? 					</label>

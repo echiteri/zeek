@@ -167,8 +167,8 @@
 					<script>
 						jq(function() {
 							hideContainer('#hiv-test-container');
-							<!-- showContainer('#art-status-container'); #zeek 17/5-->
-							showContainer('#recent-viral-load-container'); <!-- #zeek 17/5-->
+							<!-- showContainer('#art-status-container');-->
+							showContainer('#recent-viral-load-container');
 							showContainer('#art-initiation-container');
 						});
 					</script>
@@ -217,9 +217,9 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						<!-- hideContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); #zeek 17/5 -->
+						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -233,14 +233,14 @@
 						<!-- previously known positive -->
                         showContainer('#art-number-container');
                         showContainer('#art-startdate-container');
-						showContainer('#recent-viral-load-container'); <!-- #zeek 18/5 -->
-						<!-- showContainer('#art-status-container'); #zeek 17/5 --> <!--TODO: to remove code cleanup after UAT -->
+						showContainer('#recent-viral-load-container');
+						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						<!-- showContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); #zeek 17/5-->
+						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -365,14 +365,13 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
-
+            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
             <p id="art-status-container" class="hidden" >
 
                 <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
 
             </p>
-			<excludeIf velocityTest="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 160120">
 			<p id="art-initiation-container" class="hidden">
 			<label>
 				ART initiation
@@ -414,7 +413,7 @@
 				</script>
 				
 			</p>
-			</excludeIf> <!-- #zeek 17/5 -->
+			</excludeIf>
             <p id="recent-viral-load-container" class="hidden">
                 <label>
                     Viral Load test done? 					</label>
@@ -552,7 +551,7 @@
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
-									<!-- showContainer('#infant-death-date-container-{n}'); #zeek: taken care of in the if statement above-->
+									<!-- showContainer('#infant-death-date-container-{n}'); taken care of in the if statement above-->
 								}
                                 <!--if (getValue('infant-status-{n}.value') == 125872){
                                     showContainer('#still-birth-container-{n}');
