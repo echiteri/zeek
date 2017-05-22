@@ -143,9 +143,10 @@
                             if (getValue('rapid-test-result.value') == 703) {
                                 showContainer('#infant-art-number-container');
                                 showContainer('#infant-art-link-container');
-                                hideContainer('#confirmatory-test-done-container');
+                                showContainer('#confirmatory-test-done-container'); <!-- A positive RT requires a final confirmatory test done -->
                             } else {
                                 hideContainer('#confirmatory-test-done-container');
+                                hideContainer('#final-test-result-container'); <!-- don't show the final test result if RT is negative -->
                                 hideContainer('#infant-art-number-container');
                                 hideContainer('#infant-art-link-container');
                             }
@@ -190,7 +191,10 @@
                 <!--<patient field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" />-->
                 <input type="text" size="15"/>
             </p>
-            <excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+                <!--exclude if: Mother is P (703), KP (1169) and Infant exposed (822) -->
+            <excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 ||
+                                    $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 ||
+                                    $fn.latestObs('5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 822 ">
                 <p>
                     <label>
                         HIV Exposure Status
