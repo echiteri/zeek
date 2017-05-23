@@ -19,7 +19,8 @@
 			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
 		
 			beforeSubmit.push(function() {
-				var first_postnatal_date = getValue('first-postnatal-visit-date.value');
+				<!-- var first_postnatal_date = getValue('first-postnatal-visit-date.value'); -->
+				var first_postnatal_date = getValue('encounterDate.value');
 				var current_date = new Date();
 				if (first_postnatal_date != '') {
 						<!-- check the date of the First Postnatal Visit-->
@@ -45,7 +46,7 @@
 	
 	<h2>
 		<label>
-			Mother Post-Natal Care Form
+            Mother - Postnatal Form
 		</label>
 	</h2>
 	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.MCHProgramManagementPostSubmissionAction"/>
@@ -106,7 +107,8 @@
 							</includeIf>
 						</td>
 						<td>
-							<lookup	expression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+							<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> Since
+							<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 						</td>
 						<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
 					</tr>
@@ -142,27 +144,31 @@
 				</includeIf>
 			</table>
 			<br/>
-			<p id="postnatal-visit-number-container">
-				<label>Is this your first postnatal visit</label>
-				<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" required="true" />
-				<script>
-					jq(function() {
-						jq('#postnatal-visit-number').click(function(){
-							if (getValue('postnatal-visit-number.value') == 164180) { <!-- Show 'First postnatal visit date' when this is not the first visit -->
-								showContainer('#first-postnatal-visit-date-container');
-								setValue('first-postnatal-visit-date.value', '');
-							} else {
-								hideContainer('#first-postnatal-visit-date-container');
-								setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
-							}
+			<excludeIf velocityTest="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == '164180' ||
+ 									$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == '160530'">
+				<!-- only show below if the question was answered yes or no  -->
+				<p id="postnatal-visit-number-container">
+					<label>Is this your first postnatal visit</label>
+					<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" required="true" />
+					<script>
+						jq(function() {
+							jq('#postnatal-visit-number').click(function(){
+								if (getValue('postnatal-visit-number.value') == 164180) { <!-- Show 'First postnatal visit date' when this is not the first visit -->
+									<!-- showContainer('#first-postnatal-visit-date-container'); -->
+									<!-- setValue('first-postnatal-visit-date.value', getValue('encounterDate.value')); ->
+								} else {
+									<!-- hideContainer('#first-postnatal-visit-date-container');
+									setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date())); -->
+								}
+							});
 						});
-					});
-				</script>
-			</p>
-			<p id="first-postnatal-visit-date-container" class="hidden narrow">
-				<label>First Postnatal Visit Date</label>
-				<obs conceptId="163260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-postnatal-visit-date" />
-			</p>
+					</script>
+				</p>
+				<!-- <p id="first-postnatal-visit-date-container" class="hidden narrow">
+					<label>First Postnatal Visit Date</label>
+					<obs conceptId="163260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-postnatal-visit-date" />
+				</p> -->
+			</excludeIf>
 		</div>
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
@@ -172,9 +178,9 @@
 				jq('#hiv-test').click(function(){
 						if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						<!-- hideContainer('#not-tested-container'); TODO: to remove art-status code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -188,13 +194,14 @@
 						<!-- previously known positive -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						showContainer('#art-status-container'); <!-- TODO: to remove code cleanup after UAT -->
+						<!-- showContainer('#art-status-container');--> <!-- TODO: to remove code cleanup after UAT -->
+						showContainer('#recent-viral-load-container');
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#art-status-container'); #zeek 15/5-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -275,7 +282,8 @@
 					<script>
 						jq(function() {
 							showContainer('#art-initiation-container');
-							showContainer('#art-status-container');
+							<!-- showContainer('#art-status-container'); -->
+							showContainer('#recent-viral-load-container');
 						});
 					</script>
 				</includeIf>
@@ -317,24 +325,27 @@
 			</p>
 				
 			<!-- TODO: to remove code cleanup after UAT-->
+            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 
 				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
 				
 			</p>
-			<p id="art-initiation-container" class="hidden">
-			<label>
-				ART Initiation
-			</label>
-				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160120,160018,1754,1067"
-					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
-			</p>
-			<p id="art-number-container" class="hidden narrow">
-					<label>ART Number</label>
-					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
-			</p>
+
+				<p id="art-initiation-container" class="hidden">
+				<label>
+					ART Initiation
+				</label>
+					<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="160120,160018,1754,1067"
+						 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
+				</p>
+				<p id="art-number-container" class="hidden narrow">
+						<label>ART Number</label>
+						<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				</p>
+
 			<p id="refused-art-container" class="hidden">
 				<label>Reason for Refusing ART initiation</label>
 				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
@@ -367,6 +378,7 @@
 				</script>
 				
 			</p>
+			</excludeIf>
 				<p id="recent-viral-load-container" class="hidden">
 					<label>
 						Has the patient had a recent viral load test? 					</label>
@@ -429,8 +441,8 @@
 					Breastfeeding Status
 				</label>
 				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="5526,1595,6046,1067"
-					 answerLabels="Exclusive Breastfeeding, Replacement Breastfeeding, Mixed Breastfeeding, Unknown" answerSeparator="" required="true"/>
+					 answerConceptIds="5526,6046,159854,1067"
+					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Unknown" answerSeparator="" required="true"/>
 			</p>
 		</div>
 	</section>

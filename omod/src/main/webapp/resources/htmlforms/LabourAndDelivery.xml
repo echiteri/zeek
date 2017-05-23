@@ -138,7 +138,8 @@
 					</includeIf>
 					</td>
 					<td>
-						<lookup	expression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> Since
+						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 					</td>
 					<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
 				</tr>
@@ -166,7 +167,8 @@
 					<script>
 						jq(function() {
 							hideContainer('#hiv-test-container');
-							showContainer('#art-status-container');
+							<!-- showContainer('#art-status-container');-->
+							showContainer('#recent-viral-load-container');
 							showContainer('#art-initiation-container');
 						});
 					</script>
@@ -215,9 +217,9 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 1065) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						<!-- hideContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -231,13 +233,14 @@
 						<!-- previously known positive -->
                         showContainer('#art-number-container');
                         showContainer('#art-startdate-container');
-						showContainer('#art-status-container'); <!--TODO: to remove code cleanup after UAT -->
+						showContainer('#recent-viral-load-container');
+						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
+						<!-- showContainer('#not-tested-container');
 						hideContainer('#refused-test-reason-container');-->
-						hideContainer('#art-status-container');
+						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -362,7 +365,7 @@
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
-
+            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
             <p id="art-status-container" class="hidden" >
 
                 <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
@@ -377,6 +380,7 @@
 					 answerConceptIds="160120,160018,1754,1067"
 					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
 			</p>
+
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>
 					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
@@ -409,6 +413,7 @@
 				</script>
 				
 			</p>
+			</excludeIf>
             <p id="recent-viral-load-container" class="hidden">
                 <label>
                     Viral Load test done? 					</label>
@@ -546,7 +551,7 @@
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
-									<!-- showContainer('#infant-death-date-container-{n}'); #zeek: taken care of in the if statement above-->
+									<!-- showContainer('#infant-death-date-container-{n}'); taken care of in the if statement above-->
 								}
                                 <!--if (getValue('infant-status-{n}.value') == 125872){
                                     showContainer('#still-birth-container-{n}');
@@ -589,7 +594,7 @@
 										</label>
 										<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 											 answerConceptIds="5526,1595,1067"
-											 answerLabels="BF=Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
+											 answerLabels="EBF=Exclusive Breastfeeding, RF=Replacement feeding, Unknown" answerSeparator=""/>
 									</p>
                                     <p id="still-birth-container-{n}" class="hidden">
                                         <label>
