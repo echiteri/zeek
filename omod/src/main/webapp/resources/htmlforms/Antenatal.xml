@@ -1,4 +1,4 @@
-<htmlform formName="Mother - Antenatal Form"
+<htmlform formName="Antenatal Form"
 		  formDescription="A visit for a mother for ANC services"
 		  formEncounterType="2549af50-75c8-4aeb-87ca-4bb2cef6c69a"
 		  formUuid="12de5bc5-352e-4faf-9961-a2125085a75c"
@@ -127,7 +127,7 @@
 	</script>
 	<h2>
 		<label>
-			Mother - Antenatal Form
+			Antenatal Form
 		</label>
 	</h2>
 	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.MCHProgramManagementPostSubmissionAction"/>
