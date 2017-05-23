@@ -255,9 +255,11 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -328,7 +330,6 @@
 					 answerSeparator="" />
 			</p>
 				
-			<!-- TODO: to remove code cleanup after UAT-->
             <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 

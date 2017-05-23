@@ -299,10 +299,12 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
 					} else {
 						<!-- negative result -->
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						<!-- hide the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							hideContainer("#" + jq(this).attr("id"));

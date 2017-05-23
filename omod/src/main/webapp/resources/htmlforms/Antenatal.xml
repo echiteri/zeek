@@ -416,10 +416,12 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
 						<!-- showContainer('#posttest-counselled-container'); -->
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						<!-- hideContainer('#posttest-counselled-container'); -->
 					}
 				});
