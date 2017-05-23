@@ -138,8 +138,12 @@
 					</includeIf>
 					</td>
 					<td>
-						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> Since
-						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                        <includeIf velocityTest="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+                            <lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+                        </includeIf>
+                        <includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+                            Since <lookup	complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                        </includeIf>
 					</td>
 					<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
 				</tr>
