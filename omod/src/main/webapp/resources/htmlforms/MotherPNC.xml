@@ -99,7 +99,7 @@
 						<td>
 							
 							<!-- Start with Previously known Positive -->
-							<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 								Previously Known Positive
 							</includeIf>
 							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
@@ -157,7 +157,7 @@
 									<!-- showContainer('#first-postnatal-visit-date-container'); -->
 									<!-- setValue('first-postnatal-visit-date.value', getValue('encounterDate.value')); ->
 								} else {
-									<!-- hideContainer('#first-postnatal-visit-date-container');
+									 hideContainer('#first-postnatal-visit-date-container');
 									setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date())); -->
 								}
 							});
@@ -276,7 +276,7 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+			<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065">
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
@@ -289,7 +289,7 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
