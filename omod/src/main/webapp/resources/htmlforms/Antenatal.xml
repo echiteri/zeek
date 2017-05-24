@@ -477,7 +477,7 @@
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065,1169,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
+						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" />
 				</p>
 				<!-- TODO: to remove code cleanup after UAT
 				<p id="not-tested-container" class="hidden">
