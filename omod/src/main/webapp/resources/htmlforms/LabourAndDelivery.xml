@@ -313,7 +313,7 @@
 				jq('#art-initiation').click(function(){
 					if(getValue('art-initiation.value') == 160120) {
 						showContainer('#art-number-container');
-						showContainer('#art-initiation-container');
+						showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
 						<!-- set ART start date to today -->
 						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
@@ -321,7 +321,7 @@
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
-						hideContainer('#art-initiation-container');
+						hideContainer('#art-startdate-container');
 						setValue('art-start-date.value', '');
 					} else {
 						hideContainer('#refused-art-container');

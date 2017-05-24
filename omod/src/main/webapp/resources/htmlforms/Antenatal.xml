@@ -46,16 +46,19 @@
 		
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- clear the previous errors -->
-				setValue('hiv-test-result.error', '');
-				
-				<!-- if there is a test the test result is required -->
-				if (getValue('hiv-test.value') == 1065) {
-					var test_result = getValue('hiv-test-result.value');
-					if ((test_result == null) || (test_result = '')) {
-						getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
-						return false;
+				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test-result.error', '');
+
+					<!-- if there is a test the test result is required -->
+					if (getValue('hiv-test.value') == 1065) {
+							var test_result = getValue('hiv-test-result.value');
+							if ((test_result == null) || (test_result = '')) {
+								getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
+								return false;
+							}
 					}
 				}
+
 		
 				<!-- Validation rules for follow up -->
 				setValue('transfer-out-to.error', '');
