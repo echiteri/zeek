@@ -99,7 +99,7 @@
 						<td>
 							
 							<!-- Start with Previously known Positive -->
-							<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 								Previously Known Positive
 							</includeIf>
 							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
@@ -107,8 +107,12 @@
 							</includeIf>
 						</td>
 						<td>
-							<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> Since
-							<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                            <includeIf velocityTest="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+                                <lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+                            </includeIf>
+                            <includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+                                Since <lookup	complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                            </includeIf>
 						</td>
 						<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
 					</tr>
@@ -157,7 +161,7 @@
 									<!-- showContainer('#first-postnatal-visit-date-container'); -->
 									<!-- setValue('first-postnatal-visit-date.value', getValue('encounterDate.value')); ->
 								} else {
-									<!-- hideContainer('#first-postnatal-visit-date-container');
+									 hideContainer('#first-postnatal-visit-date-container');
 									setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date())); -->
 								}
 							});
@@ -251,9 +255,11 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -276,8 +282,8 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
-				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065">
+			<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
 						jq(function() {
@@ -289,7 +295,7 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
@@ -324,7 +330,6 @@
 					 answerSeparator="" />
 			</p>
 				
-			<!-- TODO: to remove code cleanup after UAT-->
             <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 

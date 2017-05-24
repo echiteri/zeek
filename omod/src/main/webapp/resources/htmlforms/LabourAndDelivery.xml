@@ -138,8 +138,12 @@
 					</includeIf>
 					</td>
 					<td>
-						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> Since
-						<lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                        <includeIf velocityTest="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+                            <lookup	complexExpression="$fn.latestObs('160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
+                        </includeIf>
+                        <includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+                            Since <lookup	complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                        </includeIf>
 					</td>
 					<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
 				</tr>
@@ -295,10 +299,12 @@
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
 					} else {
 						<!-- negative result -->
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						<!-- hide the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							hideContainer("#" + jq(this).attr("id"));
