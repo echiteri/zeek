@@ -235,8 +235,9 @@
 						hideContainer('#viral-load-copies-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
-                        showContainer('#art-number-container');
-                        showContainer('#art-startdate-container');
+                        <!-- showContainer('#art-number-container');
+                        showContainer('#art-startdate-container'); -->
+                        showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
@@ -314,6 +315,7 @@
 				jq('#art-initiation').click(function(){
 					if(getValue('art-initiation.value') == 160120) {
 						showContainer('#art-number-container');
+						showContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
 						<!-- set ART start date to today -->
 						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
@@ -321,6 +323,7 @@
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-initiation-container');
 						setValue('art-start-date.value', '');
 					} else {
 						hideContainer('#refused-art-container');
