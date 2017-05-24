@@ -193,7 +193,6 @@
             </p>
                 <!--exclude if: Mother is P (703), KP (1169) and Infant exposed (822) -->
             <excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 ||
-                                    $fn.latestObs('159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 ||
                                     $fn.latestObs('5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 822 ">
                 <p>
                     <label>
