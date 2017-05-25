@@ -26,6 +26,22 @@
           "label": "registrationapp.patient.contactInfo.label",
           "questions": [
             {
+              "legend": "PTracker ID",
+              "fields": [
+                {
+                  "type": "identifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question",
+                  "widget": {
+                    "providerName": "registrationapp",
+                    "fragmentId": "field/allowManualIdentifier",
+                    "config": {
+                      "identifierTypeName": "PTracker Number"
+                    }
+                  }
+                }
+              ]
+            },
+            {
               "legend": "Person.address",
               "fields": [
                 {
