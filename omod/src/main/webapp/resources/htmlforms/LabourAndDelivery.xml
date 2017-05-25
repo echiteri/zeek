@@ -164,48 +164,46 @@
 			</table>
 		</div>
 	</section>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
-		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
-					<!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
-					<script>
-						jq(function() {
-							hideContainer('#hiv-test-container');
-							<!-- showContainer('#art-status-container');-->
-							showContainer('#recent-viral-load-container');
-							showContainer('#art-initiation-container');
-						});
-					</script>
-			</includeIf>
-
-			<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
-				<!-- <p id="delivery-date-container" class="narrow">
-					<label>Admission Date and time</label>
-					<obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
-				</p> -->
-				<p id="pregnancy-number-container" class="narrow">
-					<label>
-						PTracker Pregnancy Number
-					</label>
-					<obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-				</p>
-				<!--<p>
-				<obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
-			</p>-->
-			<p>
-				<label>
-                    Was this client booked (Does Client have a pink book?) at ANC?
-				</label>
-				<obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""  required="true" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
-			</p>
-				<!-- <p id="delivery-date-container" class="narrow">
-					<label>Delivery Date and time</label>
-					<obs class="narrow" id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
-				</p> -->
-			</includeIf>
-
-		</div>
-	</section>
+    <includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+        <!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
+        <script>
+            jq(function() {
+            hideContainer('#hiv-test-container');
+            <!-- showContainer('#art-status-container');-->
+            showContainer('#recent-viral-load-container');
+            showContainer('#art-initiation-container');
+            });
+        </script>
+    </includeIf>
+    <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
+        <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
+            <div class="section-container">
+                    <!-- <p id="delivery-date-container" class="narrow">
+                        <label>Admission Date and time</label>
+                        <obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
+                    </p> -->
+                    <p id="pregnancy-number-container" class="narrow">
+                        <label>
+                            PTracker Pregnancy Number
+                        </label>
+                        <obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+                    </p>
+                    <!--<p>
+                    <obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
+                </p>-->
+                <p>
+                    <label>
+                        Was this client booked (Does Client have a pink book?) at ANC?
+                    </label>
+                    <obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown"/>
+                </p>
+                    <!-- <p id="delivery-date-container" class="narrow">
+                        <label>Delivery Date and time</label>
+                        <obs class="narrow" id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+                    </p> -->
+            </div>
+        </section>
+    </includeIf>
 	<!--
 	Show the HIV testing questions if
 	- No HIV Test was done during antenatal
@@ -235,8 +233,9 @@
 						hideContainer('#viral-load-copies-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
-                        showContainer('#art-number-container');
-                        showContainer('#art-startdate-container');
+                        <!-- showContainer('#art-number-container');
+                        showContainer('#art-startdate-container'); -->
+                        showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
@@ -314,6 +313,7 @@
 				jq('#art-initiation').click(function(){
 					if(getValue('art-initiation.value') == 160120) {
 						showContainer('#art-number-container');
+						showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
 						<!-- set ART start date to today -->
 						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
@@ -321,6 +321,7 @@
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						setValue('art-start-date.value', '');
 					} else {
 						hideContainer('#refused-art-container');
@@ -345,7 +346,7 @@
 				<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="1065,1169,1066,1067"
 					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown"
-					  answerSeparator="" required="true" />
+					  answerSeparator="" />
 			</p>
 			<!-- TODO: to remove code cleanup after UAT
 			<p id="not-tested-container" class="hidden">

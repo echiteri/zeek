@@ -153,7 +153,7 @@
 				<!-- only show below if the question was answered yes or no  -->
 				<p id="postnatal-visit-number-container">
 					<label>Is this your first postnatal visit</label>
-					<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" required="true" />
+					<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" />
 					<script>
 						jq(function() {
 							jq('#postnatal-visit-number').click(function(){
@@ -196,8 +196,9 @@
 						hideContainer('#viral-load-copies-container');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
-						showContainer('#art-number-container');
-						showContainer('#art-startdate-container');
+						<!-- showContainer('#art-number-container');
+						showContainer('#art-startdate-container');-->
+                        showContainer('#art-initiation-container');
 						<!-- showContainer('#art-status-container');--> <!-- TODO: to remove code cleanup after UAT -->
 						showContainer('#recent-viral-load-container');
 						hideContainer('#hiv-test-result-container');
@@ -265,6 +266,7 @@
 				jq('#art-initiation').click(function(){
 					if(getValue('art-initiation.value') == 160120) {
 						showContainer('#art-number-container');
+                        showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
 						<!-- set ART start date to today -->
 						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
@@ -272,6 +274,7 @@
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						setValue('art-start-date.value', '');
 					} else {
 						hideContainer('#refused-art-container');
@@ -302,7 +305,7 @@
 					</label>
 					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065,1169,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" required="true" />
+						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" />
 				</p>
 				<!-- TODO: to remove code cleanup after UAT
 				<p id="not-tested-container" class="hidden">
