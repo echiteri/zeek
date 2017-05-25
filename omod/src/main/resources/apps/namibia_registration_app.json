@@ -22,25 +22,30 @@
       "afterCreatedUrl": "/coreapps/clinicianfacing/patient.page?patientId={{patientId}}",
       "sections": [
         {
-          "id": "contactInfo",
-          "label": "registrationapp.patient.contactInfo.label",
+          "id": "PTrackerIDSection",
+          "label": "namibia.registrationapp.patient.ptrackerid.label",
           "questions": [
             {
-              "legend": "PTracker ID",
+              "legend": "namibia.registrationapp.patient.ptrackerid.label",
               "fields": [
                 {
-                  "type": "identifier",
+                  "type": "patientIdentifier",
                   "label": "namibia.registrationapp.patient.ptrackerid.question",
+                  "formFieldName": "ptrackerId",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06c",
                   "widget": {
-                    "providerName": "registrationapp",
-                    "fragmentId": "field/allowManualIdentifier",
-                    "config": {
-                      "identifierTypeName": "PTracker Number"
-                    }
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text"
                   }
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "id": "contactInfo",
+          "label": "registrationapp.patient.contactInfo.label",
+          "questions": [
             {
               "legend": "Person.address",
               "fields": [
