@@ -30,3 +30,11 @@ function showContainer(container) {
 function changeFieldDateToJavascriptDate(dateValue) {
     return jq.datepicker.formatDate('mm/dd/yy', jq.datepicker.parseDate('yy-mm-dd', dateValue));
 }
+
+/* Custom Javascript running on page load */
+jq(document).ready(function(){
+    // change the text of the primary identifier to PTrackerID
+    jq('em:contains("Patient ID")').text("PTracker ID");
+
+})
+
