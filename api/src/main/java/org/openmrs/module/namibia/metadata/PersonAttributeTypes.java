@@ -79,5 +79,49 @@ public class PersonAttributeTypes {
 			return "782fa156-be08-4fa1-afac-16719afad516";
 		}
 	};
-	
+
+	public static PersonAttributeTypeDescriptor NAME_OF_NEXT_OF_KIN = new PersonAttributeTypeDescriptor() {
+		@Override
+		public double sortWeight() {
+			return 15;
+		}
+
+		@Override
+		public String name() {
+			return "Name of Next of Kin";
+		}
+
+		@Override
+		public String description() {
+			return "The name of the client's next of kin";
+		}
+
+		public String uuid() {
+			return "dc0cf7a8-dede-4c3d-9db4-730900aedd1a";
+		}
+	};
+
+	public static PersonAttributeTypeDescriptor NEXT_OF_KIN_CONTACT_NO = new PersonAttributeTypeDescriptor() {
+		@Override
+		public double sortWeight() {
+			return 20;
+		}
+
+		@Override
+		public Class<?> format() {return String.class; }
+
+		@Override
+		public String name() {
+			return "Next of Kin Contact No";
+		}
+
+		@Override
+		public String description() {
+			return "The name of the client's next of kin";
+		}
+
+		public String uuid() {
+			return "d135bf7c-6ddd-4636-be22-fbd334a8f134";
+		}
+	};
 }
