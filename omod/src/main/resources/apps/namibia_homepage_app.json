@@ -16,7 +16,7 @@
             }
         ],
         "config": {
-            "showRegistrationLink": "namibia.registrationapp.registerPatient"
+            "registrationAppLink": "registrationapp/registerPatient.page?appId=namibia.registrationapp.registerPatient"
         }
     }
 ]

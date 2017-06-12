@@ -56,7 +56,7 @@
       "icon": "icon-group",
       "label": "Recent Visits",
       "maxRecords": "5",
-      "maxAge": "12m",
+      "maxAge": "36m",
       "combineEncounterTypes": "true"
     },
     "extensions": [

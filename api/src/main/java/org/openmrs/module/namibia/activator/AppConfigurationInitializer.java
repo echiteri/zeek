@@ -6,12 +6,15 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.GlobalProperty;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.emrapi.EmrApiConstants;
+import org.openmrs.module.metadatamapping.MetadataTermMapping;
+import org.openmrs.module.metadatamapping.api.MetadataMappingService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.metadata.PatientIdentifierTypes;
 import org.openmrs.scheduler.SchedulerService;
@@ -44,6 +47,8 @@ public class AppConfigurationInitializer implements Initializer {
 			appFrameworkService.disableApp("xforms.formentry");
 			// disable form entry extension in active visits
 			appFrameworkService.disableExtension("xforms.formentry.cfpd");
+			// Sticky Note
+			appFrameworkService.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.stickyNote");
 			// disable the default find patient app to provide one which allows searching for patients at the footer of the search for patients page
 			appFrameworkService.disableApp("coreapps.findPatient");
 			
@@ -119,10 +124,18 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty("htmlformentry.showDateFormat", "false")); //Disable date format display on form
 		
 		// The OpenMRS ID with a check digit
-		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, "05a29f94-c0ed-11e2-94be-8c13b969e334"));
+		MetadataMappingService metadataMappingService = Context.getService(MetadataMappingService.class);
+		MetadataTermMapping primaryIdentifierTypeMapping = metadataMappingService.getMetadataTermMapping(EmrApiConstants.EMR_METADATA_SOURCE_NAME, EmrApiConstants.PRIMARY_IDENTIFIER_TYPE);
+		PatientIdentifierType ptrackerId = Context.getPatientService().getPatientIdentifierTypeByUuid(PatientIdentifierTypes.PTRACKER_NUMBER.uuid());
+		
+		//overwrite if not set yet
+		if(!ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())){
+			primaryIdentifierTypeMapping.setMappedObject(ptrackerId);
+			metadataMappingService.saveMetadataTermMapping(primaryIdentifierTypeMapping);
+		}
 		
 		// other identifiers that can be used
-		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid() + "," + PatientIdentifierTypes.PTRACKER_NUMBER.uuid()));
+		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid() ));
 		
 		// disable the appointmentshedulingui which will confuse users
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
