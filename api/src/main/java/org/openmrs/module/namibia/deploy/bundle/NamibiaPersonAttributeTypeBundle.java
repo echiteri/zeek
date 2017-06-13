@@ -18,6 +18,8 @@ public class NamibiaPersonAttributeTypeBundle extends AbstractMetadataBundle {
 		install(PersonAttributeTypes.MOTHER_MAIDEN_NAME);
 		install(PersonAttributeTypes.PLACE_OF_BIRTH);
 		install(PersonAttributeTypes.PREGNANCY_COUNT);
+		install(PersonAttributeTypes.NAME_OF_NEXT_OF_KIN);
+		install(PersonAttributeTypes.NEXT_OF_KIN_CONTACT_NO);
 		
 		log.info("PersonAttributeTypes installed");
 	}
