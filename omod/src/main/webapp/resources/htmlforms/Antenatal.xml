@@ -65,7 +65,6 @@
 				setValue('next-visit-date.error', '');
 				<!-- check the date of the next visit -->
 				var next_visit_date = new Date(changeFieldDateToJavascriptDate(getValue('next-visit-date.value')));
-				
 				<!-- next visit date must be after the current visit date -->
 				if (encounterDate &gt; next_visit_date) {
 					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value')) + ' the date of this visit').show();
@@ -73,12 +72,15 @@
 				}
 			
 				<!-- also check that the next visit is not after the expected date of delivery -->
+
 				var edd = new Date(getValue('edd.value'));
-				<!-- alert('The EDD IS ' + edd); -->
-				if (next_visit_date &gt; edd) {
-					getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
-					return false;
+				if (Date.parse(edd)) { <!-- For followup ANC visit, the edd will be empty, check to avoid 'invalid argument' js exception -->
+					if (next_visit_date &gt; edd) {
+						getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
+						return false;
+					}
 				}
+
 		
 				if (!jq('#transfer-out-to-container').hasClass('hidden')) {
 					<!-- the transfer  out location is required -->
@@ -157,7 +159,7 @@
 					</label>
 					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
 				</td>
-				<td><label>PTracker Pregnancy Number</label><obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+				<!-- <td><label>PTracker Pregnancy Number</label><obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td> -->
 			</tr>
 		</tbody>
 	</table>
