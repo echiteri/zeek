@@ -41,7 +41,7 @@
 		<appuiVersion>1.8.0</appuiVersion>
 		<calculationVersion>1.2</calculationVersion>
 		<chartsearchVersion>2.0</chartsearchVersion>
-		<coreappsVersion>1.14.0-SNAPSHOT</coreappsVersion>
+		<coreappsVersion>1.12.0</coreappsVersion>
 		<dataexchangeVersion>1.3.2</dataexchangeVersion>
 		<dataintegrityVersion>4.3.0</dataintegrityVersion>
 		<emrapiVersion>1.21.0</emrapiVersion>
@@ -68,8 +68,8 @@
 		<reportingVersion>1.12.0</reportingVersion>
 		<reportingUIVersion>1.3.0</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
-		<uicommonsVersion>2.4.0-SNAPSHOT</uicommonsVersion>
-		<uiframeworkVersion>3.12.0-SNAPSHOT</uiframeworkVersion>
+		<uicommonsVersion>2.3.0</uicommonsVersion>
+		<uiframeworkVersion>3.11.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
 		<webservices.restVersion>2.19.0</webservices.restVersion>
 		<xformsVersion>4.3.9</xformsVersion>
