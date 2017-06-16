@@ -25,6 +25,7 @@
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
 				var babiesBorn = getValue('birth-count.value');
 				var isValid = true;
+				var regex = /^[0-9]{5}[A-S]{1}[0-9]{5,6}$$/;
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant-birth-date-' + i + '.error', '');
@@ -53,6 +54,15 @@
 						
 						if (!getValue('infant-status-' + i + '.value')) {
 							getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
+							isValid = false;
+						}
+
+						if (!getValue('child-number-' + i + '.value')) {
+							getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
+							isValid = false;
+						}
+						if(!regex.test(getValue('child-number-' + i + '.value'))){
+							getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
 							isValid = false;
 						}
 					}
@@ -635,8 +645,8 @@
 							<tr id="child-number-container-{n}">
 								<td>
 									<p class="narrow">
-										<label>PTracker child Number</label>
-										<obs id="child-number" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+										<label>Infant PTracker ID</label>
+										<obs id="child-number-{n}" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 									</p>
 								</td>
 								<td></td>
