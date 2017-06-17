@@ -25,6 +25,7 @@
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
 				var babiesBorn = getValue('birth-count.value');
 				var isValid = true;
+				var regex = /^[0-9]{5}[A-S]{1}[0-9]{5,6}$$/;
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant-birth-date-' + i + '.error', '');
@@ -53,6 +54,15 @@
 						
 						if (!getValue('infant-status-' + i + '.value')) {
 							getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
+							isValid = false;
+						}
+
+						if (!getValue('child-number-' + i + '.value')) {
+							getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
+							isValid = false;
+						}
+						if(!regex.test(getValue('child-number-' + i + '.value'))){
+							getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
 							isValid = false;
 						}
 					}
@@ -181,14 +191,14 @@
                     <!-- <p id="delivery-date-container" class="narrow">
                         <label>Admission Date and time</label>
                         <obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
-                    </p> -->
+                    </p>
                     <p id="pregnancy-number-container" class="narrow">
                         <label>
                             PTracker Pregnancy Number
                         </label>
                         <obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                     </p>
-                    <!--<p>
+                    <p>
                     <obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
                 </p>-->
                 <p>
@@ -311,7 +321,7 @@
 					}
 				});
 				jq('#art-initiation').click(function(){
-					if(getValue('art-initiation.value') == 160120) {
+					if(getValue('art-initiation.value') == 160120 || getValue('art-initiation.value') == 160119) {
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
@@ -384,8 +394,8 @@
 				ART initiation
 			</label>
 				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160120,160018,1754,1067"
-					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
+					 answerConceptIds="160119,160120,160018,1754,1067"
+					 answerLabels="Currently taking ARV,Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
 			</p>
 
 			<p id="art-number-container" class="hidden narrow">
@@ -635,8 +645,8 @@
 							<tr id="child-number-container-{n}">
 								<td>
 									<p class="narrow">
-										<label>PTracker child Number</label>
-										<obs id="child-number" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+										<label>Infant PTracker ID</label>
+										<obs id="child-number-{n}" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 									</p>
 								</td>
 								<td></td>

@@ -446,7 +446,7 @@
 					}
 				});
 				jq('#art-initiation').click(function(){
-					if(getValue('art-initiation.value') == 160120) {
+					if(getValue('art-initiation.value') == 160120 || getValue('art-initiation.value') == 160119) {
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
@@ -543,8 +543,8 @@
 				ART initiation
 			</label>
 				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160120,160018,1754,1067"
-					 answerLabels="Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
+					 answerConceptIds="160119,160120,160018,1754,1067"
+					 answerLabels="Currently taking ARV,Started ART during this visit,Refused ART,Not started due to stockout,Unknown" answerSeparator="" />
 			</p>
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>

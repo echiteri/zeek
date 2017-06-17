@@ -35,8 +35,14 @@
                   "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06c",
                   "widget": {
                     "providerName": "uicommons",
-                    "fragmentId": "field/text"
-                  }
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^[0-9]{5}[A-S]{1}[0-9]{5,6}$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex"
+                  ]
                 }
               ]
             }
@@ -78,7 +84,7 @@
                     "providerName": "uicommons",
                     "fragmentId": "field/text",
                     "config": {
-                      "regex": "^[0-9]{10}$|^$"
+                      "regex": "^[0-9]{8,10}$|^$"
                     }
                   },
                   "cssClasses": [
@@ -123,7 +129,7 @@
                     "providerName": "uicommons",
                     "fragmentId": "field/text",
                     "config": {
-                      "regex": "^[0-9]{10}$|^$"
+                      "regex": "^[0-9]{8,10}$|^$"
                     }
                   },
                   "cssClasses": [
