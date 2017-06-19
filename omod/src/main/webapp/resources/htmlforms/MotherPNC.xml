@@ -151,23 +151,23 @@
 			<excludeIf velocityTest="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == '164180' ||
  									$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == '160530'">
 				<!-- only show below if the question was answered yes or no  -->
-				<p id="postnatal-visit-number-container">
+				<!--<p id="postnatal-visit-number-container">
 					<label>Is this your first postnatal visit</label>
 					<obs id="postnatal-visit-number" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" />
-					<script>
-						jq(function() {
+					<script>-->
+						<!-- jq(function() {
 							jq('#postnatal-visit-number').click(function(){
-								if (getValue('postnatal-visit-number.value') == 164180) { <!-- Show 'First postnatal visit date' when this is not the first visit -->
+								if (getValue('postnatal-visit-number.value') == 164180) { --><!-- Show 'First postnatal visit date' when this is not the first visit -->
 									<!-- showContainer('#first-postnatal-visit-date-container'); -->
 									<!-- setValue('first-postnatal-visit-date.value', getValue('encounterDate.value')); ->
 								} else {
 									 hideContainer('#first-postnatal-visit-date-container');
 									setValue('first-postnatal-visit-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date())); -->
-								}
+								<!--}
 							});
 						});
 					</script>
-				</p>
+				</p>-->
 				<!-- <p id="first-postnatal-visit-date-container" class="hidden narrow">
 					<label>First Postnatal Visit Date</label>
 					<obs conceptId="163260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-postnatal-visit-date" />
