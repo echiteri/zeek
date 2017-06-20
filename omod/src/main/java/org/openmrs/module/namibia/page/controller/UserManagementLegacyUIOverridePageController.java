@@ -14,6 +14,6 @@ public class UserManagementLegacyUIOverridePageController {
 
 	@RequestMapping({"admin/patients/index.htm", "/findPatient.htm"})
 	public String overrideHomepage() {
-		return "forward:/coreapps/findpatient/findPatient.page?app=coreapps.findPatient";
+		return "forward:/coreapps/findpatient/findPatient.page?app=namibia.findPatient";
 	}
 }
