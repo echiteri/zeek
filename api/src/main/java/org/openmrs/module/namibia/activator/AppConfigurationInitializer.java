@@ -128,8 +128,8 @@ public class AppConfigurationInitializer implements Initializer {
 		MetadataTermMapping primaryIdentifierTypeMapping = metadataMappingService.getMetadataTermMapping(EmrApiConstants.EMR_METADATA_SOURCE_NAME, EmrApiConstants.PRIMARY_IDENTIFIER_TYPE);
 		PatientIdentifierType ptrackerId = Context.getPatientService().getPatientIdentifierTypeByUuid(PatientIdentifierTypes.PTRACKER_NUMBER.uuid());
 		
-		//overwrite if not set yet
-		if(!ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())){
+		//overwrite if not set yet or if null
+		if(ptrackerId != null || !ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())){
 			primaryIdentifierTypeMapping.setMappedObject(ptrackerId);
 			metadataMappingService.saveMetadataTermMapping(primaryIdentifierTypeMapping);
 		}
