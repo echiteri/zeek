@@ -81,8 +81,8 @@ public class NamibiaPMTCTActivator implements ModuleActivator {
 	
 	public List<Initializer> getInitializers() {
 		List<Initializer> l = new ArrayList<Initializer>();
-		l.add(new AppConfigurationInitializer());
 		l.add(new MetadataInitializer());
+		l.add(new AppConfigurationInitializer());
 		l.add(new HtmlFormsInitializer());
 		return l;
 	}
