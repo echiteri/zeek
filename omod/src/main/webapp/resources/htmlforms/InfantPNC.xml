@@ -292,9 +292,11 @@
             <div class="section-container radios">
             <p>
                 <label>
-                    Infant transfer status
+                    Infant outcome status
                 </label>
-                <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160563,159492,1067" answerLabels="Still in Care, Transfer In, Transferred Out, Unknown" answerSeparator=""/>
+                <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="161636,160563,159492,5240,159,1067"
+                     answerLabels="Still in Care, Transfer In, Transferred Out, Lost to follow, Deceased, Unknown" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="hidden">
                 <label>Transferred in from</label>
