@@ -207,16 +207,26 @@
                 <label>
                     ARV Prophylaxis status
                 </label>
-                <obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                <obs id="infant-prophylaxis-status" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
+            </p>
+            <p id="infant-prophylaxis-adherence-container" class="hidden">
+                <label>ARV Adherence</label>
+                <obs style="radio" conceptId="1658AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="159405,159406,159407,1067" answerLabels="Good,Fair,Poor,Unknown" answerSeparator=""/>
             </p>
 
             <p id="infant-ctx-status-container">
                 <label>
                     CTX Prophylaxis status
                 </label>
-                <obs style="radio" conceptId="162229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                <obs id="infant-ctx-status" style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
+            </p>
+            <p id="infant-ctx-adherence-container" class="hidden">
+                <label>CTX Adherence</label>
+                <obs style="radio" conceptId="162229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="159405,159406,159407,1067" answerLabels="Good,Fair,Poor,Unknown" answerSeparator=""/>
             </p>
 
             <p id="infant-hiv-test-container">
@@ -288,22 +298,23 @@
             </p>
             <p id="transfer-in-from-container" class="hidden">
                 <label>Transferred in from</label>
-                <obs id="transfer-in-from" conceptId="160535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+                <obs conceptId="160535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
             </p>
             <p id="transfer-out-to-container" class="hidden">
                 <label>Transfered out to</label>
-                <obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+                <obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
             </p>
             <p id="transfer-in-date-container" class="hidden narrow">
                 <label> Transfer in date </label>
-                <obs id="transfer-date" conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+                <obs conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
             </p>
             <p id="transfer-out-date-container" class="hidden narrow">
                 <label> Transfer out date </label>
-                <obs id="transfer-date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+                <obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
             </p>
         <script>
             jq(function() {
+                <!-- show facility transfer from and to and dates for infant transfers -->
                 jq('#infant-transfer-status').click(function(){
                     if (getValue('infant-transfer-status.value') == 160563) {
                         showContainer('#transfer-in-from-container');
@@ -320,6 +331,21 @@
                     } else {
                         hideContainer('#transfer-out-to-container');
                         hideContainer('#transfer-out-date-container');
+                    }
+                });
+            <!-- Show adherence for ARV and CTX if the infant is recieving any -->
+                jq('#infant-prophylaxis-status').click(function(){
+                    if (getValue('infant-prophylaxis-status.value') == 1065) {
+                        showContainer('#infant-prophylaxis-adherence-container');
+                    } else {
+                        hideContainer('#infant-prophylaxis-adherence-container');
+                    }
+                });
+                jq('#infant-ctx-status').click(function(){
+                    if (getValue('infant-ctx-status.value') == 1065) {
+                        showContainer('#infant-ctx-adherence-container');
+                    } else {
+                        hideContainer('#infant-ctx-adherence-container');
                     }
                 });
             });
