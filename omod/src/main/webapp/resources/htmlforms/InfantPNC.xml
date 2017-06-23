@@ -257,7 +257,7 @@
                     </p>
                     <p id="final-test-result-container" class="hidden">
                         <label>
-                            What was the final test result (18 months and over)?
+                            What was the final test result for the confirmatory test?
                         </label> <!-- Child HIV antibody test result -->
                         <obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
                     </p>
@@ -284,8 +284,46 @@
                 <label>
                     Infant transfer status
                 </label>
-                <obs style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160563,159492,1067" answerLabels="Still in Care, Transfer In, Transferred Out, Unknown" answerSeparator=""/>
+                <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160563,159492,1067" answerLabels="Still in Care, Transfer In, Transferred Out, Unknown" answerSeparator=""/>
             </p>
+            <p id="transfer-in-from-container" class="hidden">
+                <label>Transferred in from</label>
+                <obs id="transfer-in-from" conceptId="160535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+            </p>
+            <p id="transfer-out-to-container" class="hidden">
+                <label>Transfered out to</label>
+                <obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+            </p>
+            <p id="transfer-in-date-container" class="hidden narrow">
+                <label> Transfer in date </label>
+                <obs id="transfer-date" conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+            </p>
+            <p id="transfer-out-date-container" class="hidden narrow">
+                <label> Transfer out date </label>
+                <obs id="transfer-date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+            </p>
+        <script>
+            jq(function() {
+                jq('#infant-transfer-status').click(function(){
+                    if (getValue('infant-transfer-status.value') == 160563) {
+                        showContainer('#transfer-in-from-container');
+                        showContainer('#transfer-in-date-container');
+                    } else {
+                        hideContainer('#transfer-in-from-container');
+                        hideContainer('#transfer-in-date-container');
+                    }
+                });
+                jq('#infant-transfer-status').click(function(){
+                    if (getValue('infant-transfer-status.value') == 159492) {
+                        showContainer('#transfer-out-to-container');
+                        showContainer('#transfer-out-date-container');
+                    } else {
+                        hideContainer('#transfer-out-to-container');
+                        hideContainer('#transfer-out-date-container');
+                    }
+                });
+            });
+        </script>
 
             <!--<p>
                 <label>
