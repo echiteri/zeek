@@ -511,6 +511,8 @@
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						<!-- hideContainer('#posttest-counselled-container'); -->
+						<!-- clear data in case it is not HIV +ve -->
+						setValue('art-start-date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){

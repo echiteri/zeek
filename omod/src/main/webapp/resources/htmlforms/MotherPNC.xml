@@ -195,6 +195,8 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
+						setValue('art-start-date.value', '');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
@@ -217,6 +219,8 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
+						setValue('art-start-date.value', '');
 					}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
