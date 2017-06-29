@@ -239,11 +239,17 @@
 						<tr>
 							<th align="left" width="40%">Date of Last Known Menstral Period (LNMP)</th>
 							<th align="left" width="30%">Expected Date of Delivery (EDD)</th>
+							<th align="left">Date of last HIV Test</th>
 							<!-- <th align="left">Expected Facility of Delivery</th> -->
 						</tr>
 						<tr>
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td><span id="edd"></span></td>
+							<td>
+								<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+									<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+								</includeIf>
+							</td>
 							<!--<td>
 								<lookup complexExpression="$fn.location($fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText).name" />
 							</td>-->
@@ -251,15 +257,15 @@
 						</tr>
 						
 						<!-- <includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065"> [this prevents this section from showing]-->
-							<tr>
+							<!-- todo: Show HIV and ART status if the encounter facility is similar to patient last encounter facility-->
+							<!-- <tr>
 								<th align="left">Last HIV Status</th>
-								<th align="left">Date of last HIV Test
-								</th>
-								<th>ART Initiation Status</th>
+								<th align="left">Date of last HIV Test</th>
+								<th>ART Initiation Status </th>
 							</tr>
 							<tr>
 								<td>
-									<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+									 <includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
 										<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/>
 									</includeIf>
 								</td>
@@ -276,7 +282,7 @@
 										Since <lookup	complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 									</includeIf>
 								</td>
-							</tr>
+							</tr> todo: above ends here-->
 						<!-- </includeIf> -->
 						<includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
 												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 ">
