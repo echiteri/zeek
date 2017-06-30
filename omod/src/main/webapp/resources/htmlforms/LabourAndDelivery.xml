@@ -323,6 +323,7 @@
 						jq(".prophylaxis").each(function(){
 							hideContainer("#" + jq(this).attr("id"));
 						});
+						setValue('art-start-date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){

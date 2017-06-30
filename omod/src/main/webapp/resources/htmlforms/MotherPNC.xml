@@ -196,7 +196,6 @@
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
 						<!-- clear the art date -->
-						setValue('art-start-date.value', '');
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
@@ -220,7 +219,6 @@
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
 						<!-- clear the art date -->
-						setValue('art-start-date.value', '');
 					}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
@@ -266,6 +264,7 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						setValue('art-start-date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
