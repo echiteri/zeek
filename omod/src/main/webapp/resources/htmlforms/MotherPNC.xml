@@ -90,16 +90,17 @@
 					<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
 				</tr>
 				<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
-					<tr>
+					<!-- todo: Show HIV and ART status if the encounter facility is similar to patient last encounter facility-->
+					<!-- <tr>
 						<th>HIV Status</th>
 						<th>ART Status</th>
 						<th>ART Number</th>
-					</tr>
-					<tr>
-						<td>
+					</tr> -->
+					<!-- <tr>
+						<td> -->
 							
 							<!-- Start with Previously known Positive -->
-							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+							<!-- <includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 								Previously Known Positive
 							</includeIf>
 							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
@@ -115,7 +116,7 @@
                             </includeIf>
 						</td>
 						<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
-					</tr>
+					</tr> todo: above ends here -->
 					
 					<tr>
 						<th>Last ANC Visit Date</th>
@@ -194,6 +195,7 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
 					} else if (getValue('hiv-test.value') == 1169) {
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
@@ -216,6 +218,7 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
 					}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
@@ -261,6 +264,7 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						setValue('art-start-date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
