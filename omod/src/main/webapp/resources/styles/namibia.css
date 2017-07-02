@@ -111,3 +111,11 @@ span.value {
     display: none;
 }
 
+.required label {
+    font-weight: bold;
+}
+.required label:after {
+    color: #ee070b;
+    content: ' *';
+    display:inline;
+}

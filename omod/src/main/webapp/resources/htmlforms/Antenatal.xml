@@ -27,7 +27,7 @@
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
 				<!-- clear the previous errors -->
-				if (getField('lnmp.value') != null) {
+				if (getField('lmp.value') != null) {
 					<!-- LNMP must be before the encounter date -->
 					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
 					var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
@@ -88,6 +88,35 @@
 						getField('transfer-out-to.error').html('Please enter the facility to which the patient is to transfer to').show();
 						return false;
 					}
+				}
+				<!-- Validate pregnancy details -->
+				<!-- if ($('#gravida').length > 0) { --><!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				<!-- setValue('gravida.error', ''); -->
+
+				<!-- if there is a test the test result is required -->
+				if (getValue('antenatal-visit-type.value') == 164180 || getValue('antenatal-visit-type.value') == 1067) {
+					setValue('gravida.error', '');
+					setValue('para.error', '');
+					setValue('lmp.error', '');
+					setValue('edd.error', '');
+
+					if (!getValue('gravida.value')) {
+						getField('gravida.error').html('Gravida must be provided').show();
+						return false;
+					}
+					if (!getValue('para.value')) {
+						getField('para.error').html('Para must be provided').show();
+						return false;
+					}
+					if (!getValue('lmp.value')) {
+						getField('lmp.error').html('LMP must be provided').show();
+						return false;
+					}
+					if (!getValue('edd.value')) {
+						getField('edd.error').html('Edd must be provided').show();
+						return false;
+					}
+					<!-- } -->
 				}
 		
 				return true;
@@ -166,36 +195,69 @@
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
 		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
 			<div class="section-container">
-				
-				<p>
-					<label>
+				<p id="antenatal-visit-type-container">
+					<label>Is this your first antenatal visit</label>
+					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" />
+					<script>
+						jq(function() {
+							jq('#antenatal-visit-type').click(function(){
+								if (getValue('antenatal-visit-type.value') == 164180 || getValue('antenatal-visit-type.value') == 1067){
+									showContainer('#gravida-container-label');
+									showContainer('#gravida-container-input');
+									showContainer('#para-container-label');
+									showContainer('#para-container-input');
+									showContainer('#lmp-container-label');
+									showContainer('#lmp-container-input');
+									showContainer('#edd-container-label');
+									showContainer('#edd-container-input');
+								} else {
+									hideContainer('#gravida-container-label');
+									hideContainer('#gravida-container-input');
+									hideContainer('#para-container-label');
+									hideContainer('#para-container-input');
+									hideContainer('#lmp-container-label');
+									hideContainer('#lmp-container-input');
+									hideContainer('#edd-container-label');
+									hideContainer('#edd-container-input');
+									<!-- Clear the previous values -->
+									setValue('gravida.value', '');
+									setValue('para.value', '');
+									setValue('lmp.value', '');
+									setValue('edd.value', '');
+								}
+							});
+						});
+					</script>
+				</p>
+				<p id="gravida-container-label" class="required hidden">
+					<label >
 						How many times have you been pregnant, including current pregnancy (Gravida)?
 					</label>
-					<p class="narrow">
-						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+					<p class="narrow hidden" id="gravida-container-input">
+						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 					</p>
 				</p>
-				<p>
+				<p id="para-container-label" class="required hidden">
 					<label>
 						How many babies have you delivered before (Para)?
 					</label>
-					<p class="narrow">
-						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" />
+					<p class="narrow hidden" id="para-container-input">
+						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 					</p>
 				</p>
 				
-				<p>
+				<p id="lmp-container-label" class="required hidden">
 					<label>
 						Date of last normal menstrual period (LNMP)
 					</label>
-					<p class="narrow">
-						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" required="true" />
+					<p class="narrow hidden" id="lmp-container-input">
+						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
 					</p>
 				</p>
-				<p>
+				<p id="edd-container-label" class="required hidden">
 					<label>Estimated date of delivery (EDD)</label>
-					<p class="narrow">
-						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" allowFutureDates="true" />
+					<p class="narrow hidden" id="edd-container-input">
+						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
 					</p>
 				</p>
 				<!-- <p class="narrow">
@@ -449,6 +511,8 @@
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						<!-- hideContainer('#posttest-counselled-container'); -->
+						<!-- clear data in case it is not HIV +ve -->
+						setValue('art-start-date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
