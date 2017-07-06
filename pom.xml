@@ -62,7 +62,7 @@
 		<referenceapplicationVersion>2.6.0</referenceapplicationVersion>
 		<referenceapplicationmetadataVersion>2.6.0</referenceapplicationmetadataVersion>
 		<registrationAppVersion>1.9.0</registrationAppVersion>
-		<registrationcoreVersion>1.7.1</registrationcoreVersion>
+		<registrationcoreVersion>1.7.2-SNAPSHOT</registrationcoreVersion>
 		<reportingcompatibilityVersion>2.0.2</reportingcompatibilityVersion>
 		<reportingrestVersion>1.8.0</reportingrestVersion>
 		<reportingVersion>1.12.0</reportingVersion>
@@ -202,6 +202,13 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>registrationapp-omod</artifactId>
 				<version>${registrationAppVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>registrationcore-api</artifactId>
+				<version>${registrationcoreVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 			
