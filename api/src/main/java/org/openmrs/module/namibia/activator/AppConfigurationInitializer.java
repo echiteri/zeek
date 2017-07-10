@@ -17,6 +17,7 @@ import org.openmrs.module.metadatamapping.MetadataTermMapping;
 import org.openmrs.module.metadatamapping.api.MetadataMappingService;
 import org.openmrs.module.namibia.NamibiaConstants;
 import org.openmrs.module.namibia.metadata.PatientIdentifierTypes;
+import org.openmrs.module.registrationcore.RegistrationCoreConstants;
 import org.openmrs.scheduler.SchedulerService;
 import org.openmrs.scheduler.TaskDefinition;
 
@@ -119,6 +120,9 @@ public class AppConfigurationInitializer implements Initializer {
 		
 		// do not allow overlapping visits
 		properties.add(new GlobalProperty("visits.allowOverlappingVisits", "false"));
+		
+		// Set estimated dates of birth at registration to be computed from July
+		properties.add(new GlobalProperty(RegistrationCoreConstants.GP_BIRTHDATE_ESTIMATION_START_MONTH, "6"));
 		
 		//HTML Form Entry Settings
 		properties.add(new GlobalProperty("htmlformentry.showDateFormat", "false")); //Disable date format display on form
