@@ -523,6 +523,11 @@
 							}
 							
 						}
+						if (getValue('mother-status.value') == 1692) {
+							showContainer('#discharge-date-container');
+						}else {
+							hideContainer('#discharge-date-container');
+						}
 					});
 				});
 				<!-- Show the babies information by triggering a click on the number of babies field -->
@@ -536,11 +541,15 @@
 			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1692,1067"
 				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out (Still Alive), Discharged (Still Alive), Unknown" answerSeparator="" required="true"/>
 		</p>
+		<p id="discharge-date-container" class="narrow hidden">
+			<label>Discharge Date</label>
+			<obs style="date" id="discharge-date" conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>
 			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9,10" answerLabels="1,2,3,4,5,6,7,8,9,10"/>
 		</p>
-		
+
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" class="hidden">

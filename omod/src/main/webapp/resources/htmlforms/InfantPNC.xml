@@ -295,8 +295,8 @@
                     Infant outcome status
                 </label>
                 <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="161636,160563,159492,5240,159,1067"
-                     answerLabels="Still in Care, Transfer In, Transferred Out, Lost to follow, Deceased, Unknown" answerSeparator=""/>
+                     answerConceptIds="161636,160563,159492,5240,160432,1067"
+                     answerLabels="Still in Care, Transfer In, Transferred Out, Lost to Follow Up, Dead, Unknown" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="hidden">
                 <label>Transferred in from</label>
@@ -314,10 +314,15 @@
                 <label> Transfer out date </label>
                 <obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
             </p>
+            <p id="infant-death-date-container" class="hidden narrow">
+                <label>Date of Death</label>
+                <obs id="infant-death-date" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+            </p>
         <script>
             jq(function() {
                 <!-- show facility transfer from and to and dates for infant transfers -->
                 jq('#infant-transfer-status').click(function(){
+            <!-- Transferred in -->
                     if (getValue('infant-transfer-status.value') == 160563) {
                         showContainer('#transfer-in-from-container');
                         showContainer('#transfer-in-date-container');
@@ -325,8 +330,7 @@
                         hideContainer('#transfer-in-from-container');
                         hideContainer('#transfer-in-date-container');
                     }
-                });
-                jq('#infant-transfer-status').click(function(){
+            <!-- Transferred Out -->
                     if (getValue('infant-transfer-status.value') == 159492) {
                         showContainer('#transfer-out-to-container');
                         showContainer('#transfer-out-date-container');
@@ -334,7 +338,14 @@
                         hideContainer('#transfer-out-to-container');
                         hideContainer('#transfer-out-date-container');
                     }
+            <!-- Dead -->
+                    if (getValue('infant-transfer-status.value') == 160432) {
+                        showContainer('#infant-death-date-container');
+                    } else {
+                        hideContainer('#infant-death-date-container');
+                    }
                 });
+
             <!-- Show adherence for ARV and CTX if the infant is recieving any -->
                 jq('#infant-prophylaxis-status').click(function(){
                     if (getValue('infant-prophylaxis-status.value') == 1065) {

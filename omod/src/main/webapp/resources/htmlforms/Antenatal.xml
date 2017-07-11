@@ -37,9 +37,9 @@
 						return false;
 					}
 			
-					<!-- The LMP date cannot be more than 36 weeks before the visit date for ANC -->
-					if (Math.abs(encounterDate - lmpDate)/(1000 * 86400 * 7) > 35) {
-						getField('lmp.error').html('The date of the last menstral period cannot be more than 36 weeks before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+					<!-- The LMP date cannot be more than 44 weeks before the visit date for ANC -->
+					if (Math.abs(encounterDate - lmpDate)/(1000 * 86400 * 7) > 43) {
+						getField('lmp.error').html('The date of the last menstral period cannot be more than 44 weeks before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
 						return false;
 					}
 				}
@@ -197,7 +197,7 @@
 			<div class="section-container">
 				<p id="antenatal-visit-type-container">
 					<label>Is this your first antenatal visit</label>
-					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530,1067" answerLabels="Yes,No,Unknown" style="radio" answerSeparator="" />
+					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
 					<script>
 						jq(function() {
 							jq('#antenatal-visit-type').click(function(){
