@@ -179,10 +179,14 @@
         <!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
         <script>
             jq(function() {
-            hideContainer('#hiv-test-container');
-            <!-- showContainer('#art-status-container');-->
-            showContainer('#recent-viral-load-container');
-            showContainer('#art-initiation-container');
+				hideContainer('#hiv-test-container');
+				<!-- showContainer('#art-status-container');-->
+				showContainer('#recent-viral-load-container');
+				showContainer('#art-initiation-container');
+				<!-- Show the prophylaxis for the infants if mother is KP -->
+				jq(".prophylaxis").each(function(){
+					showContainer("#" + jq(this).attr("id"));
+				});
             });
         </script>
     </includeIf>
@@ -252,6 +256,10 @@
 						showContainer('#recent-viral-load-container');
 						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
+						<!-- Show the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							showContainer("#" + jq(this).attr("id"));
+						});
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container');
@@ -314,6 +322,10 @@
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
+						<!-- show the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							showContainer("#" + jq(this).attr("id"));
+						});
 					} else {
 						<!-- negative result -->
 						hideContainer('#art-initiation-container');
@@ -640,7 +652,7 @@
 							</tr>
 							<tr>
 								<td>
-									<p id="infant-arv-prophylaxis-container-{n}" class="prophylaxis">
+									<p id="infant-arv-prophylaxis-container-{n}" class="hidden prophylaxis">
 										<label>
 											Infant Received ARV
 										</label>
