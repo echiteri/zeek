@@ -94,7 +94,7 @@
 					<!-- <tr>
 						<th>HIV Status</th>
 						<th>ART Status</th>
-						<th>ART Number</th>
+						<th>ART Unique Number</th>
 					</tr> -->
 					<!-- <tr>
 						<td> -->
@@ -354,7 +354,7 @@
 						 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout or ART,Unknown" answerSeparator="" />
 				</p>
 				<p id="art-number-container" class="hidden narrow">
-						<label>ART Number</label>
+						<label>ART Unique Number</label>
 						<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
 				</p>
 
