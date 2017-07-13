@@ -686,9 +686,9 @@
 			</p>
 			<p id="viral-load-results-container" class="hidden">
 				<label>Viral load results</label>
-				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
+				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
 					 answerSeparator=""
-					 answerLabels="Target Detected,Not Detected, Sample Rejected"/>
+					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results Pending"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){
