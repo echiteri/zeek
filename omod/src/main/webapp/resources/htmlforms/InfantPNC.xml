@@ -318,10 +318,21 @@
                 <label>Date of Death</label>
                 <obs id="infant-death-date" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
             </p>
+            <p id="next-visit-date-container" class="hidden narrow">
+                <label>Next visit date </label>
+                <obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/>
+            </p>
         <script>
             jq(function() {
                 <!-- show facility transfer from and to and dates for infant transfers -->
                 jq('#infant-transfer-status').click(function(){
+            <!-- Still in care -->
+                    if (getValue('infant-transfer-status.value') == 161636 ||
+                        getValue('infant-transfer-status.value') == 160563  ) {
+                        showContainer('#next-visit-date-container');
+                    } else {
+                        hideContainer('#next-visit-date-container');
+                    }
             <!-- Transferred in -->
                     if (getValue('infant-transfer-status.value') == 160563) {
                         showContainer('#transfer-in-from-container');

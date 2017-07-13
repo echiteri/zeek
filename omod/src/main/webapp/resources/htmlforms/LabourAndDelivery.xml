@@ -33,7 +33,7 @@
 					setValue('still-birth-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
 						if (!getValue('infant-gender-' + i + '.value')) {
-							getField('infant-gender-' + i + '.error').html('Please select the gender').show();
+							getField('infant-gender-' + i + '.error').html('Please select the sex').show();
 							isValid = false;
 						}
 						<!-- Date of Birth is required for alive babies and those with unknown status -->
@@ -610,7 +610,7 @@
 							<tr>
 								<td>
 										<p id="infant-gender-container-{n}">
-											<label>Gender</label>
+											<label>Sex</label>
 											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534" answerLabels="Female, Male" answerSeparator="" />
 										</p>
 								</td>
