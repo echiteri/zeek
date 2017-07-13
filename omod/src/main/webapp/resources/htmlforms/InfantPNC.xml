@@ -66,18 +66,18 @@
 			<table>
 				<tr>
 					<th>Mother</th>
-					<th>ART Status</th>
+					<!-- <th>ART Status</th> TODO: display only for client in the current facility-->
 					<th>Telephone Number</th>
 				</tr>
 				<tr>
 					<td><lookup expression="mother.personName" /> </td>
-					<td> <!-- #Steve: I am not sure if this picks any latest obs or for this client -->
-                        <includeIf velocityTest="$fn.latestObs('164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703
-                                || $fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703"> <!-- todo: diplay either of the DNA or Rapid test results -->
+                    <!-- <td> #Steve: I am not sure if this picks any latest obs or for this client -->
+                        <!-- <includeIf velocityTest="$fn.latestObs('164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703
+                                || $fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703"> --> <!-- todo: diplay either of the DNA or Rapid test results -->
                             <!-- Currently displaying only DNA PCR test result -->
-                            <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
-                        </includeIf>
-                    </td>
+                            <!-- <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+                        </includeIf> -->
+                    <!-- </td> -->
 					<td><lookup expression="mother.getAttribute('Telephone Number')" /></td>
 				</tr>
 			</table>
