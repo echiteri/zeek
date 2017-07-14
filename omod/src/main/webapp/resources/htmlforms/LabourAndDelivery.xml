@@ -33,7 +33,7 @@
 					setValue('still-birth-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
 						if (!getValue('infant-gender-' + i + '.value')) {
-							getField('infant-gender-' + i + '.error').html('Please select the gender').show();
+							getField('infant-gender-' + i + '.error').html('Please select the sex').show();
 							isValid = false;
 						}
 						<!-- Date of Birth is required for alive babies and those with unknown status -->
@@ -179,10 +179,14 @@
         <!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
         <script>
             jq(function() {
-            hideContainer('#hiv-test-container');
-            <!-- showContainer('#art-status-container');-->
-            showContainer('#recent-viral-load-container');
-            showContainer('#art-initiation-container');
+				hideContainer('#hiv-test-container');
+				<!-- showContainer('#art-status-container');-->
+				showContainer('#recent-viral-load-container');
+				showContainer('#art-initiation-container');
+				<!-- Show the prophylaxis for the infants if mother is KP -->
+				jq(".prophylaxis").each(function(){
+					showContainer("#" + jq(this).attr("id"));
+				});
             });
         </script>
     </includeIf>
@@ -252,6 +256,10 @@
 						showContainer('#recent-viral-load-container');
 						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
+						<!-- Show the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							showContainer("#" + jq(this).attr("id"));
+						});
 					}else {
 						hideContainer('#hiv-test-result-container');
 						<!-- showContainer('#not-tested-container');
@@ -314,6 +322,10 @@
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
+						<!-- show the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							showContainer("#" + jq(this).attr("id"));
+						});
 					} else {
 						<!-- negative result -->
 						hideContainer('#art-initiation-container');
@@ -468,9 +480,9 @@
             </p>
             <p id="viral-load-results-container" class="hidden">
                 <label>Viral load results</label>
-                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
+                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
                      answerSeparator=""
-                     answerLabels="Target Detected,Not Detected, Sample Rejected"/>
+                     answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending"/>
                 <script>
                     jq(function() {
                         jq('#viral-load-results').click(function(){
@@ -523,6 +535,11 @@
 							}
 							
 						}
+						if (getValue('mother-status.value') == 1692) {
+							showContainer('#discharge-date-container');
+						}else {
+							hideContainer('#discharge-date-container');
+						}
 					});
 				});
 				<!-- Show the babies information by triggering a click on the number of babies field -->
@@ -536,11 +553,15 @@
 			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1692,1067"
 				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out (Still Alive), Discharged (Still Alive), Unknown" answerSeparator="" required="true"/>
 		</p>
+		<p id="discharge-date-container" class="narrow hidden">
+			<label>Discharge Date</label>
+			<obs style="date" id="discharge-date" conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>
 			<obs id="birth-count" conceptId="1568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true" answers="1,2,3,4,5,6,7,8,9,10" answerLabels="1,2,3,4,5,6,7,8,9,10"/>
 		</p>
-		
+
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" class="hidden">
@@ -589,7 +610,7 @@
 							<tr>
 								<td>
 										<p id="infant-gender-container-{n}">
-											<label>Gender</label>
+											<label>Sex</label>
 											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534" answerLabels="Female, Male" answerSeparator="" />
 										</p>
 								</td>
@@ -631,7 +652,7 @@
 							</tr>
 							<tr>
 								<td>
-									<p id="infant-arv-prophylaxis-container-{n}" class="prophylaxis">
+									<p id="infant-arv-prophylaxis-container-{n}" class="hidden prophylaxis">
 										<label>
 											Infant Received ARV
 										</label>
