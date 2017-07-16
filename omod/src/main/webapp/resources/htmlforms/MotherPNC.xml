@@ -452,11 +452,28 @@
 				<label>
 					Breastfeeding Status
 				</label>
-				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="5526,6046,159854,1067"
-					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Unknown" answerSeparator="" required="true"/>
+				<obs id="breastfeeding" style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="5526,6046,159854,5622,1067"
+					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Other, Unknown" answerSeparator="" required="true"/>
+			</p>
+			<p id="other-breastfeeding-container" class="hidden narrow">
+				<label>
+					Other infant feeding method
+				</label>
+				<obs style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			</p>
 		</div>
+		<script>
+			jq(function() {
+				jq('#breastfeeding').click(function(){
+					if (getValue('breastfeeding.value') == 5622) {
+						showContainer('#other-breastfeeding-container');
+					} else {
+						hideContainer('#other-breastfeeding-container');
+					}
+				});
+			});
+		</script>
 	</section>
 
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
