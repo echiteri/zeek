@@ -2920,9 +2920,10 @@ ul.left-menu li .arrow {
 }
 /* line 113, ../../../compass/sass-external/uicommons-scss/fragments/_main-content.scss */
 #encountersList .encounter-details li:last-child > div {
-  margin-left: -3px;
+  /*margin-left: -3px;
   border: none;
-  background: #f9f9f9;
+  background: #f9f9f9;*/
+  display: none;
 }
 /* line 119, ../../../compass/sass-external/uicommons-scss/fragments/_main-content.scss */
 #encountersList .encounter-details li:last-child > .details-action {

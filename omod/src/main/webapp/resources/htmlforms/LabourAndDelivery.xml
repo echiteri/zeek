@@ -25,7 +25,7 @@
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
 				var babiesBorn = getValue('birth-count.value');
 				var isValid = true;
-				var regex = /^[0-9]{5}[A-S]{1}[0-9]{6,7}$$/;
+				var regex = /^[0-9]{5}[A-S]{1}[0-9]{6,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant-birth-date-' + i + '.error', '');
@@ -354,6 +354,7 @@
 					} else {
 						hideContainer('#refused-art-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						setValue('art-start-date.value', '');
 					}
 				});
@@ -413,7 +414,7 @@
 			</label>
 				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="160119,160120,160018,1754,1067"
-					 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout or ART,Unknown" answerSeparator="" />
+					 answerLabels="Already on ART,Started on ART during Labour and Delivery,Refused ART,Not started due to stockout of ART,Unknown" answerSeparator="" />
 			</p>
 
 			<p id="art-number-container" class="hidden narrow">

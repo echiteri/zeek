@@ -208,25 +208,25 @@
                     ARV Prophylaxis status
                 </label>
                 <obs id="infant-prophylaxis-status" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
+                     answerConceptIds="1065,1066,160121,1067" answerLabels="Received ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
             </p>
             <p id="infant-prophylaxis-adherence-container" class="hidden">
                 <label>ARV Adherence</label>
                 <obs style="radio" conceptId="1658AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="159405,159406,159407,1067" answerLabels="Good,Fair,Poor,Unknown" answerSeparator=""/>
+                     answerConceptIds="159405,159406,159407,1256,1067" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Unknown" answerSeparator=""/>
             </p>
 
             <p id="infant-ctx-status-container">
                 <label>
                     CTX Prophylaxis status
                 </label>
-                <obs id="infant-ctx-status" style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="1065,1066,160121,1067" answerLabels="Receiving CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
+                <obs id="infant-ctx-status" style="radio" conceptId="162229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="1065,1066,160121,1067" answerLabels="Received CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
             </p>
             <p id="infant-ctx-adherence-container" class="hidden">
                 <label>CTX Adherence</label>
-                <obs style="radio" conceptId="162229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="159405,159406,159407,1067" answerLabels="Good,Fair,Poor,Unknown" answerSeparator=""/>
+                <obs style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="159405,159406,159407,1256,1067" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Unknown" answerSeparator=""/>
             </p>
 
             <p id="infant-hiv-test-container">

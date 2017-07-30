@@ -531,6 +531,7 @@
 					} else {
 						hideContainer('#refused-art-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						setValue('art-start-date.value', '');
 					}
 				});
@@ -614,7 +615,7 @@
 			</label>
 				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 					 answerConceptIds="160119,160120,160018,1754,1067"
-					 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout or ART,Unknown" answerSeparator="" />
+					 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout of ART,Unknown" answerSeparator="" />
 			</p>
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>
