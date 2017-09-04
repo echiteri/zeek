@@ -43,7 +43,7 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 	@Before
 	public void setup() throws Exception {
 		executeDataSet("baseTestData.xml");
-		executeDataSet("metadata/CustomConcepts-1.xml");
+		executeDataSet("metadata/CustomConcepts-2.xml");
 		executeDataSet("infantRegistrationAtLandD.xml");
 		mockFormEntrySession = mock(FormEntrySession.class);
 		mockFormEntryContext = mock(FormEntryContext.class);
