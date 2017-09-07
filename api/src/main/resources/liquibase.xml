@@ -11,6 +11,10 @@
 	<changeSet id="concept_mapping_data_migration-06092017-0846" author="ssmusoke">
 		<comment>Migration of data to match new concept mappings</comment>
 		<sql>
+			# 164401	HIV test performed to 164930 Was a confirmatory test performed on this visit
+			# This comes to the top since the concept 164401 on the Infant PNC is to be migrated to HIV test status
+			UPDATE obs SET concept_id = 164930 WHERE concept_id = 164401;
+			
 			# 161558 - Patient tested for sexually transmitted diseases in current visit to 164401 - HIV Test Performed
 			
 			# Answer migrations
@@ -55,7 +59,6 @@
 			# 1148 Infant Received ARV answer 1065 Yes to 164918 ARV Prophylaxis daily up to 6 weeks
 			UPDATE obs SET value_coded = 164918 WHERE value_coded = 1065 AND concept_id = 1148;
 			
-			
 			# 5303 HIV Exposure Status to 164921 CHILDS CURRENT HIV STATUS
 			# Answer migrations
 			# 822 Exposure to HIV to 164920 - Currently Exposed
@@ -90,9 +93,6 @@
 			
 			# 162087 Test name to 164929 Child HIV Test
 			UPDATE obs SET concept_id = 164929 WHERE concept_id = 162087;
-			
-			# 164401	HIV test performed to 164930 Was a confirmatory test performed on this visit
-			UPDATE obs SET concept_id = 164930 WHERE concept_id = 164401;
 			
 			# 159811	Enrolled in HIV care program to 164931 Linked to ART
 			UPDATE obs SET concept_id = 164931 WHERE concept_id = 159811;

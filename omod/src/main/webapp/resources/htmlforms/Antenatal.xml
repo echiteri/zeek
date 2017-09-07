@@ -318,7 +318,7 @@
 						
 						</tr>
 						
-						<!-- <includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065"> [this prevents this section from showing]-->
+						<!-- <includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065"> [this prevents this section from showing]-->
 							<!-- todo: Show HIV and ART status if the encounter facility is similar to patient last encounter facility-->
 							<!-- <tr>
 								<th align="left">Last HIV Status</th>
@@ -346,8 +346,8 @@
 								</td>
 							</tr> todo: above ends here-->
 						<!-- </includeIf> -->
-						<includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
-												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 ">
+						<includeIf velocityTest="($fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164913)
+												|| $fn.latestObs('	164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 ">
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -356,11 +356,11 @@
 							<tr>
 								<td>Not Tested</td>
 								<td colspan="2">
-									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+									<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 										Previously known positive
 									
 									</includeIf>
-									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
+									<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
 										Unknown <!-- added for unknown -->
 									</includeIf>
 
@@ -369,8 +369,8 @@
 						</includeIf>
 					<!-- disabled the display below because it is currently based on "Reason for not testing" which has been merged with
 						"HIV test status" above. Until tested and confirm, consider restoring the section below. -->
-					<!-- <includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
-												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> added for unknown
+					<!-- <includeIf velocityTest="($fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
+												|| $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> added for unknown
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -538,7 +538,7 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
@@ -551,7 +551,7 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 
 				<!--<p id="pretest-counselled-container">
 					<label>
@@ -565,8 +565,8 @@
 					<label>
 						HIV test status
 					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1169,1066,1067"
+					<obs id="hiv-test" style="radio" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="164912,164911,164913,1067"
 						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" />
 				</p>
 				<!-- TODO: to remove code cleanup after UAT
