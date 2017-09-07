@@ -51,22 +51,22 @@
 			
 			# Change the default name of the concept i.e., the FULLY QUALIFIED NAME
 			# 5596 from Estimated date of confinement to Estimated date of delivery
-			UPDATE concept_name SET concept_name_type = NULL AND locale_preferred = 0 WHERE concept_name_id = 2732;
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 2732;
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 91593;
 			# 159599 from Antiretrovial treatment start date to ART Start Date
-			UPDATE concept_name SET concept_name_type = NULL AND locale_preferred = 0 WHERE concept_name_id = 106945;
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 106945;
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 107886;
 			# 856 from HIV Viral Load to Viral Load
-			UPDATE concept_name SET concept_name_type = NULL AND locale_preferred = 0 WHERE concept_name_id = 898;
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 898;
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id =100036;
 			# 151849 from Liveborn, Unspecified Whether Single, Twin or Muliple to Liveborn
-			UPDATE concept_name SET concept_name_type = NULL AND locale_preferred = 0 WHERE concept_name_id = 51415;
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 51415;
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 107439;
 			# 159854 from Supplemental feeding methods to Complementary Feeding
-			UPDATE concept_name SET concept_name_type = NULL AND locale_preferred = 0 WHERE concept_name_id = 107340;
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 107340;
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 140028;
 			# 844 from HIV DNA POLYMERASE CHAIN REACTION to DNA PCR
-			UPDATE concept_name SET concept_name_type = NULL AND locale_preferred = 0 WHERE concept_name_id = 884;
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 884;
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 90888;
 		</sql>
 	</changeSet>
