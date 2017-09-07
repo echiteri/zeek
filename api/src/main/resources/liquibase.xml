@@ -8,5 +8,66 @@
 		See http://www.liquibase.org/manual/home#available_database_refactorings
 		for a list of supported elements and attributes
 	-->
-
+	<changeSet id="namibia-05092017-0036" author="ssmusoke">
+		<comment>Rename concept names to match the forms</comment>
+		<sql>
+			# Concept renaming
+			# 164180 to New ANC Visit
+			UPDATE concept_name SET name = 'New ANC Visit' WHERE concept_name_id = 140083;
+			# 160530 to Return ANC Visit
+			UPDATE concept_name SET name = 'Return ANC Visit' WHERE concept_name_id = 108840;
+			# 160119 to Already on ART
+			UPDATE concept_name SET name = 'Already on ART' WHERE concept_name_id = 107851;
+			# 160120 to Initiated on ART
+			UPDATE concept_name SET name = 'Taking Inititated ARVs' WHERE concept_name_id = 107853;
+			# 160018 to Refused ART
+			UPDATE concept_name SET name = 'Refused ART' WHERE concept_name_id = 107643;
+			# 163310 from HIV Viral Load Status to Viral Load Test Done
+			UPDATE concept_name SET name = 'Viral Load Test Done' WHERE concept_name_id = 135870;
+			# 1305 to Viral Load Results
+			UPDATE concept_name SET name = 'Viral Load Results' WHERE concept_name_id = 1392;
+			# 1301 to Target Detected
+			UPDATE concept_name SET name = 'Target Detected' WHERE concept_name_id = 1388;
+			# 1306 to Not Detected
+			UPDATE concept_name SET name = 'Not Detected' WHERE concept_name_id = 1395;
+			# 1304 to Sample Rejected
+			UPDATE concept_name SET name = 'Sample Rejected' WHERE concept_name_id = 1391;
+			# 159971 to Results Pending
+			UPDATE concept_name SET name = 'Results Pending' WHERE concept_name_id = 107532;
+			# 161636 from Active Status to Still in Care
+			UPDATE concept_name SET name = 'Still in Care' WHERE concept_name_id = 123622;
+			# 1641 from Discharge Date-Time to Discharge Date
+			UPDATE concept_name SET name = 'Discharge Date' WHERE concept_name_id = 1921;
+			# 1658 from ANTIRETROVIRAL ADHERENCE IN PAST MONTH to ARV Adherence
+			UPDATE concept_name SET name = 'ARV Adherence' WHERE concept_name_id = 1938;
+			# 1256 from START DRUGS to Staring Prophylaxis on this visit
+			UPDATE concept_name SET name = 'Starting Propylaxis on this visit' WHERE concept_name_id = 1335;
+			# 1042 from HIV ENZYME IMMUNOASSAY, QUALITATIVE to Rapid Test
+			UPDATE concept_name SET name = 'Rapid Test' WHERE concept_name_id = 1099;
+			# 1754 from Medications Unavailable to Stockout
+			UPDATE concept_name SET name = 'Stock Out' WHERE concept_name_id = 2034;
+			# 1148 rename from TOTAL MATERNAL TO CHILD TRANSMISSION PROPHYLAXIS to ARV Prophylaxis Status
+			UPDATE concept_name SET name = 'ARV Prophylaxis Status' WHERE concept_name_id = 1224;
+			
+			# Change the default name of the concept i.e., the FULLY QUALIFIED NAME
+			# 5596 from Estimated date of confinement to Estimated date of delivery
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 2732;
+			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 91593;
+			# 159599 from Antiretrovial treatment start date to ART Start Date
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 106945;
+			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 107886;
+			# 856 from HIV Viral Load to Viral Load
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 898;
+			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id =100036;
+			# 151849 from Liveborn, Unspecified Whether Single, Twin or Muliple to Liveborn
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 51415;
+			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 107439;
+			# 159854 from Supplemental feeding methods to Complementary Feeding
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 107340;
+			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 140028;
+			# 844 from HIV DNA POLYMERASE CHAIN REACTION to DNA PCR
+			UPDATE concept_name SET concept_name_type = NULL, locale_preferred = 0 WHERE concept_name_id = 884;
+			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 90888;
+		</sql>
+	</changeSet>
 </databaseChangeLog>
