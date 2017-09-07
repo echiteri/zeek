@@ -11,17 +11,17 @@
 	<changeSet id="concept_mapping_data_migration-06092017-0846" author="ssmusoke">
 		<comment>Migration of data to match new concept mappings</comment>
 		<sql>
-			# 16155 - Patient tested for sexually transmitted diseases in current visit to 164401 - HIV Test Performed
+			# 161558 - Patient tested for sexually transmitted diseases in current visit to 164401 - HIV Test Performed
 			
 			# Answer migrations
 			# Yes - 1065 to 164912
-			UPDATE obs SET value_coded = 164912 WHERE value_coded = 1065 AND concept_id = 16155;
+			UPDATE obs SET value_coded = 164912 WHERE value_coded = 1065 AND concept_id = 161558;
 			# 1169 - HIV Positive to 164911 Previously known positive
-			UPDATE obs SET value_coded = 164911 WHERE value_coded = 1169 AND concept_id = 16155;
+			UPDATE obs SET value_coded = 164911 WHERE value_coded = 1169 AND concept_id = 161558;
 			# 1066 - No to 164913 Not tested for HIV during this period
-			UPDATE obs SET value_coded = 164913 WHERE value_coded = 1066 AND concept_id = 16155;
+			UPDATE obs SET value_coded = 164913 WHERE value_coded = 1066 AND concept_id = 161558;
 			# Migrate the question
-			UPDATE obs SET concept_id = 164401 WHERE concept_id = 16155;
+			UPDATE obs SET concept_id = 164401 WHERE concept_id = 161558;
 			
 			# 1396 Mother's HIV Status to 159427 - Result of HIV Test
 			# Answer migrations
