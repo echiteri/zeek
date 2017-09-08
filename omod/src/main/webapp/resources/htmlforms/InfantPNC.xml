@@ -192,7 +192,7 @@
                 <!-- <input type="text" size="15"/>
             </p> -->
                 <!--exclude if: Mother is P (703), KP (1169) and Infant exposed (822) -->
-            <excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 ||
+            <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 ||
                                     $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 ||
                                     $fn.latestObs('5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 822 ">
                 <p>

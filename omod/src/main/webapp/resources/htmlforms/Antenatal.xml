@@ -308,8 +308,8 @@
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td><span id="edd"></span></td>
 							<td>
-								<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
-									<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+								<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+									<lookup	complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 								</includeIf>
 							</td>
 							<!--<td>
@@ -538,7 +538,7 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
@@ -551,7 +551,7 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 
 				<!--<p id="pretest-counselled-container">
 					<label>
@@ -588,7 +588,7 @@
 					<label>
 						HIV test result
 					</label>
-					<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+					<obs id="hiv-test-result" style="radio" conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,138571,1067"
 						 answerLabels="Negative,Positive,Unknown"
 						 answerSeparator="" />
 				</p>
