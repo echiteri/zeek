@@ -194,12 +194,12 @@
                 <!--exclude if: Mother is P (703), KP (1169) and Infant exposed (822) -->
             <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 ||
                                     $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 ||
-                                    $fn.latestObs('5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 822 ">
+                                    $fn.latestObs('164921').valueCoded.conceptId == 164920 ">
                 <p>
                     <label>
                         HIV Exposure Status
                     </label>
-                    <obs id="infant-hiv-exposure-status" style="radio" conceptId="5303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="822,1066,1067" answerLabels="Currently Exposed,Currently Unexposed, Unknown" answerSeparator="" />
+                    <obs id="infant-hiv-exposure-status" style="radio" conceptId="164921" answerConceptIds="164920,164919,1067" answerLabels="Currently Exposed,Currently Unexposed, Unknown" answerSeparator="" />
                 </p>
             </excludeIf>
 
@@ -208,11 +208,11 @@
                     ARV Prophylaxis status
                 </label>
                 <obs id="infant-prophylaxis-status" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="1065,1066,160121,1067" answerLabels="Received ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
+                     answerConceptIds="164922,164923,164924,1067" answerLabels="Received ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
             </p>
             <p id="infant-prophylaxis-adherence-container" class="hidden">
                 <label>ARV Adherence</label>
-                <obs style="radio" conceptId="1658AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                <obs style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="159405,159406,159407,1256,1067" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Unknown" answerSeparator=""/>
             </p>
 
@@ -220,8 +220,8 @@
                 <label>
                     CTX Prophylaxis status
                 </label>
-                <obs id="infant-ctx-status" style="radio" conceptId="162229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="1065,1066,160121,1067" answerLabels="Received CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
+                <obs id="infant-ctx-status" style="radio" conceptId="164928"
+                     answerConceptIds="164927,164926,164925,1067" answerLabels="Received CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
             </p>
             <p id="infant-ctx-adherence-container" class="hidden">
                 <label>CTX Adherence</label>
@@ -241,7 +241,7 @@
                 <label>
                     What kind of test was used?
                 </label>
-                <obs id="infant-test-type" style="radio" conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
+                <obs id="infant-test-type" style="radio" conceptId="164929" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
             </p>
                 <p id="dnapcr-test-result-container" class="hidden">
                     <label>
@@ -276,7 +276,7 @@
                 <label>
                     Was this infant linked to ART
                 </label>
-                <obs id="infant-art-link" style="radio" conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
+                <obs id="infant-art-link" style="radio" conceptId="164931" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
             </p>
 
             <p id="infant-art-number-container" class="hidden narrow">
