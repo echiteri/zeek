@@ -729,7 +729,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator=""/>
+				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator=""/>
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
