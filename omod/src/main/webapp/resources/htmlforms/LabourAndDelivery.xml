@@ -524,7 +524,7 @@
 				jq(function(){
 					jq('#mother-status').click(function(){
 						<!-- Hide breast feeding status if the mother died -->
-						if (getValue('mother-status.value') == 160034) {
+						if (getValue('mother-status.value') == 134612) {
 							for (i=0; i &lt; 10; i++) {
 								hideContainer('#breastfeeding-container-' + i );
 							}
@@ -551,7 +551,7 @@
 			<label>
 				Mother's status
 			</label>
-			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,160034,159492,1692,1067"
+			<obs id="mother-status" style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,134612,159492,1692,1067"
 				 answerLabels="Still in Care,Mother Died (Maternal Death),Transferred Out (Still Alive), Discharged (Still Alive), Unknown" answerSeparator="" required="true"/>
 		</p>
 		<p id="discharge-date-container" class="narrow hidden">
@@ -657,7 +657,7 @@
 										<label>
 											Infant Received ARV
 										</label>
-										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065,127750,1754,1067"
+										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,1067"
 											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Unknown"
 											 answerSeparator="" />
 									</p>
