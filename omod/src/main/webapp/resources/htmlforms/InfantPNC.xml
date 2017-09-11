@@ -46,7 +46,7 @@
 					<label name="encounterDate">
 						Visit Date
 					</label>
-					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+					<encounterDate disallowMultipleEncountersOnDate="block" />
 				</td>
 			</tr>
 		</tbody>
@@ -98,7 +98,7 @@
 
                     <!-- infant tested for HIV -->
                     jq('#infant-hiv-test').click(function(){
-                        if (getValue('infant-hiv-test.value') == 1065) {
+                        if (getValue('infant-hiv-test.value') == 164912) {
                             showContainer('#infant-test-type-container');
                             <!-- showContainer('#confirmatory-test-done-container'); -->
                         } else {

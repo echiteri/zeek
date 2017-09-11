@@ -50,7 +50,7 @@
 					setValue('hiv-test-result.error', '');
 
 					<!-- if there is a test the test result is required -->
-					if (getValue('hiv-test.value') == 1065) {
+					if (getValue('hiv-test.value') == 164912) {
 							var test_result = getValue('hiv-test-result.value');
 							if ((test_result == null) || (test_result = '')) {
 								getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
@@ -186,7 +186,7 @@
 					<label name="encounterDate">
 						Visit Date
 					</label>
-					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+					<encounterDate disallowMultipleEncountersOnDate="block" />
 				</td>
 				<!-- <td><label>PTracker Pregnancy Number</label><obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td> -->
 			</tr>
@@ -420,7 +420,7 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-					if(getValue('hiv-test.value') == 1065) {
+					if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove  code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
@@ -434,11 +434,11 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
-					} else if (getValue('hiv-test.value') == 1169) {
+					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
 						showContainer('#art-startdate-container');-->
-						showContainer('#art-initiation-container');
+						hideContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						<!-- showContainer('#art-status-container'); --> <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
@@ -500,7 +500,7 @@
 					}
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 703) {
+					if(getValue('hiv-test-result.value') == 138571) {
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
@@ -520,8 +520,6 @@
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
-						<!-- set ART start date to today -->
-						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
 					} else if (getValue('art-initiation.value') == 160018) {
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
