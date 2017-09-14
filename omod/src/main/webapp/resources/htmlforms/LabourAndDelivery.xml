@@ -45,6 +45,19 @@
 												getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
 								isValid = false;
 							}
+							if (!getValue('infant-status-' + i + '.value')) {
+								getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
+								isValid = false;
+							}
+	
+							if (!getValue('child-number-' + i + '.value')) {
+								getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
+								isValid = false;
+							}
+							if(!regex.test(getValue('child-number-' + i + '.value'))){
+								getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
+								isValid = false;
+							}
 						} else {
 							<!-- For still births the type of still birth is required -->
 							if (getValue('infant-status-'+ i + '.value') == 125872) {
@@ -55,19 +68,7 @@
 							}
 						}
 						
-						if (!getValue('infant-status-' + i + '.value')) {
-							getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
-							isValid = false;
-						}
-
-						if (!getValue('child-number-' + i + '.value')) {
-							getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
-							isValid = false;
-						}
-						if(!regex.test(getValue('child-number-' + i + '.value'))){
-							getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
-							isValid = false;
-						}
+						
 					}
 				}
 				return isValid;
