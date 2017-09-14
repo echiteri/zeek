@@ -444,7 +444,7 @@
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
 						showContainer('#art-startdate-container');-->
-						hideContainer('#art-initiation-container');
+						showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						<!-- showContainer('#art-status-container'); --> <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
