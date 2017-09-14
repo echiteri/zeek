@@ -362,14 +362,14 @@
 
             <!-- Show adherence for ARV and CTX if the infant is recieving any -->
                 jq('#infant-prophylaxis-status').click(function(){
-                    if (getValue('infant-prophylaxis-status.value') == 1065) {
+                    if (getValue('infant-prophylaxis-status.value') == 164922) {
                         showContainer('#infant-prophylaxis-adherence-container');
                     } else {
                         hideContainer('#infant-prophylaxis-adherence-container');
                     }
                 });
                 jq('#infant-ctx-status').click(function(){
-                    if (getValue('infant-ctx-status.value') == 1065) {
+                    if (getValue('infant-ctx-status.value') == 164927) {
                         showContainer('#infant-ctx-adherence-container');
                     } else {
                         hideContainer('#infant-ctx-adherence-container');
