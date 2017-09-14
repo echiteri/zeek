@@ -16,7 +16,10 @@
 			encounter date */-->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+			<ifMode mode="ENTER">
+				<!-- the encounter date should be empty on a new form -->
+				setValue('encounterDate.value', '');
+			</ifMode>
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules -->
@@ -78,13 +81,6 @@
 			white-space: nowrap;
 		}
 	</style>
-	<ifMode mode="EDIT">
-		<script>
-			jq(function() {
-			
-			});
-		</script>
-	</ifMode>
 	<postSubmissionAction class="org.openmrs.module.namibia.htmlformentry.InfantRegistrationAtLaborAndDeliverySubmissionAction"/>
 	<h2>
 		<label>

@@ -18,6 +18,11 @@
 			encounter date -->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			<ifMode mode="ENTER">
+				<!-- the encounter date should be empty on a new form -->
+				setValue('encounterDate.value', '');
+			</ifMode>
+			
 		
 			<!-- EDD computation -->
 			jq('#lmp :input[type=text]').change(function(){
@@ -159,6 +164,7 @@
 			return formattedDate;
 		}
 	</script>
+	
 	<h2>
 		<label>
 			Antenatal Form
