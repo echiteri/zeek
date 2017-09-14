@@ -447,13 +447,13 @@
             <p id="recent-viral-load-container" class="hidden">
                 <label>
                     Viral Load test done? 					</label>
-                <obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
+                <obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1065, 1066, 1067"
                      answerLabels="Yes, No, Unknown"
                      answerSeparator="" />
                 <script>
                     jq(function() {
                         jq('#recent-viral-load').click(function(){
-                            if (getValue('recent-viral-load.value') == 1267) {
+                            if (getValue('recent-viral-load.value') == 1065) {
                                 showContainer('#viral-load-results-container');
                                 showContainer('#viral-load-test-date-container');
                                 <!-- showContainer('#viral-load-copies-container'); -->

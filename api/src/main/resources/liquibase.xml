@@ -103,6 +103,12 @@
 			# Migrate the question
 			UPDATE obs SET concept_id = 164914 WHERE concept_id = 1662;
 			
+			# 163310 Viral Load Test Done
+			# Answer migrations
+			# 1267  Completed to 1065 Yes
+			UPDATE obs SET value_coded = 1065 WHERE value_coded = 1267 AND concept_id = 163310;
+			# 1118  Not Done to 1066 No
+			UPDATE obs SET value_coded = 1066 WHERE value_coded = 1118 AND concept_id = 163310;
 			
 			# 1285 Facility of next appointment to 164916
 			# Answer migrations
