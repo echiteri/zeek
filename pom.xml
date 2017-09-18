@@ -43,7 +43,7 @@
 		<chartsearchVersion>2.0</chartsearchVersion>
 		<coreappsVersion>1.14.0</coreappsVersion>
 		<dataexchangeVersion>1.3.2</dataexchangeVersion>
-		<dataintegrityVersion>4.3.0</dataintegrityVersion>
+		<dataintegrityVersion>4.4.1</dataintegrityVersion>
 		<emrapiVersion>1.21.0</emrapiVersion>
 		<eventVersion>2.5</eventVersion>
 		<fhirVersion>1.7.0</fhirVersion>
@@ -61,14 +61,14 @@
 		<providermanagementVersion>2.6.0</providermanagementVersion>
 		<referenceapplicationVersion>2.6.0</referenceapplicationVersion>
 		<referenceapplicationmetadataVersion>2.6.0</referenceapplicationmetadataVersion>
-		<registrationAppVersion>1.9.0</registrationAppVersion>
+		<registrationAppVersion>1.10.0-SNAPSHOT</registrationAppVersion>
 		<registrationcoreVersion>1.7.2-SNAPSHOT</registrationcoreVersion>
 		<reportingcompatibilityVersion>2.0.2</reportingcompatibilityVersion>
 		<reportingrestVersion>1.8.0</reportingrestVersion>
 		<reportingVersion>1.12.0</reportingVersion>
 		<reportingUIVersion>1.3.0</reportingUIVersion>
 		<serialization.xstreamVersion>0.2.12</serialization.xstreamVersion>
-		<uicommonsVersion>2.3.0</uicommonsVersion>
+		<uicommonsVersion>2.4.0</uicommonsVersion>
 		<uiframeworkVersion>3.11.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
 		<webservices.restVersion>2.19.0</webservices.restVersion>
