@@ -70,11 +70,11 @@
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 90888;
 		</sql>
 	</changeSet>
-	<changeSet id="concept_mapping_data_migration-06092017-0846" author="ssmusoke" failOnError="false">
+	<changeSet id="concept_mapping_data_migration-06092017-0846" author="ssmusoke">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="1">SELECT count(concept_id) FROM concept WHERE concept_id = 164931</sqlCheck>
+		</preConditions>
 		<comment>Migration of data to match new concept mappings</comment>
-		<precondition onFail="CONTINUE">
-			<sqlCheck expectedResult="1">SELECT count(concept_id) FROM concept WHERE concept_id = 164931;</sqlCheck>
-		</precondition>
 		<sql>
 			# 164401	HIV test performed to 164930 Was a confirmatory test performed on this visit
 			# This comes to the top since the concept 164401 on the Infant PNC is to be migrated to HIV test status
