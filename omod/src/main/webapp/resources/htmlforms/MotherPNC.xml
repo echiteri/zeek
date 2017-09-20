@@ -16,7 +16,10 @@
 			encounter date */-->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+			<ifMode mode="ENTER">
+				<!-- the encounter date should be empty on a new form -->
+				setValue('encounterDate.value', '');
+			</ifMode>
 		
 			beforeSubmit.push(function() {
 				<!-- var first_postnatal_date = getValue('first-postnatal-visit-date.value'); -->
@@ -71,7 +74,7 @@
 					<label name="encounterDate">
 						Visit Date
 					</label>
-					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+					<encounterDate disallowMultipleEncountersOnDate="block" />
 				</td>
 			</tr>
 		</tbody>
@@ -100,10 +103,10 @@
 						<td> -->
 							
 							<!-- Start with Previously known Positive -->
-							<!-- <includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+							<!-- <includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 								Previously Known Positive
 							</includeIf>
-							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
+							<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
 								<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 							</includeIf>
 						</td>
@@ -181,7 +184,7 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-						if(getValue('hiv-test.value') == 1065) {
+						if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove art-status code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
@@ -196,7 +199,7 @@
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
 						<!-- clear the art date -->
-					} else if (getValue('hiv-test.value') == 1169) {
+					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
 						showContainer('#art-startdate-container');-->
@@ -255,7 +258,7 @@
 					 }
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 703) {
+					if(getValue('hiv-test-result.value') == 138571) {
 						<!-- positive result -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
@@ -272,8 +275,6 @@
 						showContainer('#art-number-container');
                         showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
-						<!-- set ART start date to today -->
-						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
 					} else if (getValue('art-initiation.value') == 160018) {
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
@@ -290,7 +291,7 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
@@ -303,13 +304,13 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
 					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1169,1066,1067"
+					<obs id="hiv-test" style="radio" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="164912,164911,164913,1067"
 						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" />
 				</p>
 				<!-- TODO: to remove code cleanup after UAT
@@ -333,7 +334,7 @@
 				<label>
 					HIV test result
 				</label>
-				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
+				<obs id="hiv-test-result" style="radio" conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,138571,1067"
 					 answerLabels="Negative,Positive,Unknown"
 					 answerSeparator="" />
 			</p>
@@ -341,7 +342,7 @@
             <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+				<obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
 				
 			</p>
@@ -350,7 +351,7 @@
 				<label>
 					ART Initiation
 				</label>
-					<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					<obs id="art-initiation" style="radio" conceptId="164915"
 						 answerConceptIds="160119,160120,160018,1754,1067"
 						 answerLabels="Already on ART,Started on ART in PNC,Refused ART,Not started due to stockout of ART,Unknown" answerSeparator="" />
 				</p>
@@ -395,13 +396,13 @@
 				<p id="recent-viral-load-container" class="hidden">
 					<label>
 						Has the patient had a recent viral load test? 					</label>
-					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
+					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1065, 1066, 1067"
 						 answerLabels="Yes, No, Unknown"
 						 answerSeparator="" />
 					<script>
 						jq(function() {
 							jq('#recent-viral-load').click(function(){
-								if (getValue('recent-viral-load.value') == 1267) {
+								if (getValue('recent-viral-load.value') == 1065) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
 									<!-- hideContainer('#viral-load-copies-container'); -->
@@ -496,7 +497,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>

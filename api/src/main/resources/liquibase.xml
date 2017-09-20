@@ -70,4 +70,103 @@
 			UPDATE concept_name SET concept_name_type = 'FULLY_SPECIFIED', locale_preferred = 1 WHERE concept_name_id = 90888;
 		</sql>
 	</changeSet>
+	<changeSet id="concept_mapping_data_migration-06092017-0846" author="ssmusoke">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="1">SELECT count(concept_id) FROM concept WHERE concept_id = 164931</sqlCheck>
+		</preConditions>
+		<comment>Migration of data to match new concept mappings</comment>
+		<sql>
+			# 164401	HIV test performed to 164930 Was a confirmatory test performed on this visit
+			# This comes to the top since the concept 164401 on the Infant PNC is to be migrated to HIV test status
+			UPDATE obs SET concept_id = 164930 WHERE concept_id = 164401;
+			
+			# 161558 - Patient tested for sexually transmitted diseases in current visit to 164401 - HIV Test Performed
+			
+			# Answer migrations
+			# Yes - 1065 to 164912
+			UPDATE obs SET value_coded = 164912 WHERE value_coded = 1065 AND concept_id = 161558;
+			# 1169 - HIV Positive to 164911 Previously known positive
+			UPDATE obs SET value_coded = 164911 WHERE value_coded = 1169 AND concept_id = 161558;
+			# 1066 - No to 164913 Not tested for HIV during this period
+			UPDATE obs SET value_coded = 164913 WHERE value_coded = 1066 AND concept_id = 161558;
+			# Migrate the question
+			UPDATE obs SET concept_id = 164401 WHERE concept_id = 161558;
+			
+			# 1396 Mother's HIV Status to 159427 - Result of HIV Test
+			# Answer migrations
+			# 703 Positive to 138571 - HIV Positive
+			UPDATE obs SET value_coded = 138571 WHERE value_coded = 703 AND concept_id = 1396;
+			# Migrate the question
+			UPDATE obs SET concept_id = 159427 WHERE concept_id = 1396;
+			
+			# 1662 Are you still on treatement to 164914 Currently on ART
+			# Answer migrations
+			# 160117 Anti-retroviral treatment status to 164915 ART Initiation Status
+			UPDATE obs SET value_coded = 164915 WHERE value_coded = 160117 AND concept_id = 1662;
+			# Migrate the question
+			UPDATE obs SET concept_id = 164914 WHERE concept_id = 1662;
+			
+			# 163310 Viral Load Test Done
+			# Answer migrations
+			# 1267  Completed to 1065 Yes
+			UPDATE obs SET value_coded = 1065 WHERE value_coded = 1267 AND concept_id = 163310;
+			# 1118  Not Done to 1066 No
+			UPDATE obs SET value_coded = 1066 WHERE value_coded = 1118 AND concept_id = 163310;
+			
+			# 1285 Facility of next appointment to 164916
+			# Answer migrations
+			# 1066 No to 163266 - Current Health Facility
+			UPDATE obs SET value_coded = 163266 WHERE value_coded = 1066 AND concept_id = 1285;
+			# 1067 Unknown to 164917 - In Transit
+			UPDATE obs SET value_coded = 164917 WHERE value_coded = 1067 AND concept_id = 1285;
+			# 1065 Yes to 160036 - Patient transferred out
+			UPDATE obs SET value_coded = 160036 WHERE value_coded = 1065 AND concept_id = 1285;
+			# Migrate the question
+			UPDATE obs SET concept_id = 164916 WHERE concept_id = 1285;
+			
+			# 1856 Mother's status for Maternal Death from 160034 Died to 134612 - Maternal Death
+			UPDATE obs SET value_coded = 134612 WHERE value_coded = 160034 AND concept_id = 1856;
+			
+			# 1148 Infant Received ARV answer 1065 Yes to 164918 ARV Prophylaxis daily up to 6 weeks
+			UPDATE obs SET value_coded = 164918 WHERE value_coded = 1065 AND concept_id = 1148;
+			
+			# 5303 HIV Exposure Status to 164921 CHILDS CURRENT HIV STATUS
+			# Answer migrations
+			# 822 Exposure to HIV to 164920 - Currently Exposed
+			UPDATE obs SET value_coded = 164920 WHERE value_coded = 822 AND concept_id = 5303;
+			# 1066 No to 164919 - Currently Unexposed
+			UPDATE obs SET value_coded = 164919 WHERE value_coded = 1066 AND concept_id = 5303;
+			# Migrate the question
+			UPDATE obs SET concept_id = 164921 WHERE concept_id = 5303;
+			
+			# 1148 ARV Prophylaxis Status
+			# Answer migrations
+			# 1065 Yes to 164922 - Received ARV Prophylaxis
+			UPDATE obs SET value_coded = 164922 WHERE value_coded = 1065 AND concept_id = 1148;
+			# 1066 No to 164923 - Never Received ARV Prophylaxis
+			UPDATE obs SET value_coded = 164923 WHERE value_coded = 1066 AND concept_id = 1148;
+			# 160121 ARV discontinued to 164924 - Stopped ARV Prophylaxis according to guideline
+			UPDATE obs SET value_coded = 164924 WHERE value_coded = 160121 AND concept_id = 1148;
+			
+			# 162229 Cotrimoxazole dispensed to 164928 CTX Prophylaxis Status
+			# Answer migrations
+			# 1065 Yes to 164927 Received CTX Prophylaxis
+			UPDATE obs SET value_coded = 164927 WHERE value_coded = 1065 AND concept_id = 162229;
+			# 1066 No to 164926 Never Received CTX Prophylaxis
+			UPDATE obs SET value_coded = 164926 WHERE value_coded = 1066 AND concept_id = 162229;
+			# 160121	ARV discontinued to 164925 Stopped CTX Prophylaxis
+			UPDATE obs SET value_coded = 164925 WHERE value_coded = 160121 AND concept_id = 162229;
+			# migrate the question
+			UPDATE obs SET concept_id = 164928 WHERE concept_id = 162229;
+			
+			# 1658 ARV Adherence TO 161652 - Cotrimoxazole Adherence
+			UPDATE obs SET concept_id = 161652 WHERE concept_id = 1658;
+			
+			# 162087 Test name to 164929 Child HIV Test
+			UPDATE obs SET concept_id = 164929 WHERE concept_id = 162087;
+			
+			# 159811	Enrolled in HIV care program to 164931 Linked to ART
+			UPDATE obs SET concept_id = 164931 WHERE concept_id = 159811;
+		</sql>
+	</changeSet>
 </databaseChangeLog>
