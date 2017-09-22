@@ -551,7 +551,7 @@
 		</p>
 		<p id="discharge-date-container" class="narrow hidden">
 			<label>Discharge Date</label>
-			<obs style="date" id="discharge-date" conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+			<obs style="date" id="discharge-date" showTime="false" conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 		</p>
 		<p>
 			<label>Number of babies born from this pregnancy</label>

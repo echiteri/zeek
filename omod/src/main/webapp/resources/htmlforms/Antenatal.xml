@@ -48,19 +48,50 @@
 						return false;
 					}
 				}
+
+				<!-- Validate ANC followup question -->
+				if ($('#antenatal-visit-type').length > 0) {
+					setValue('antenatal-visit-type.error', '');
+
+					if (!getValue('antenatal-visit-type.value')) {
+						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
+						return false;
+					}
+				}
 		
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- clear the previous errors -->
+				<!-- Validate HIV test done -->
+				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test.error', '');
+						if (!getValue('hiv-test.value')) {
+							getField('hiv-test.error').html('HIV test must be provided').show();
+							return false;
+						}
+				}
+
+				<!-- Validate HIV test result -->
 				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('hiv-test-result.error', '');
 
 					<!-- if there is a test the test result is required -->
 					if (getValue('hiv-test.value') == 164912) {
-							var test_result = getValue('hiv-test-result.value');
-							if ((test_result == null) || (test_result = '')) {
+							if (!getValue('hiv-test-result.value')) {
 								getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
 								return false;
 							}
+					}
+				}
+
+				<!-- Validate ART Initiation -->
+				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('art-initiation.error', '');
+					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
+					if ((getValue('hiv-test.value') == 164912 and getValue('hiv-test-result.value') || getValue('hiv-test.value') == 164911) == 138571) {
+						if (!getValue('art-initiation.value')) {
+							getField('art-initiation.error').html('ART initiation status must be provided').show();
+							return false;
+						}
 					}
 				}
 
@@ -95,15 +126,7 @@
 					}
 				}
 				<!-- Validate pregnancy details -->
-				<!-- if ($('#gravida').length > 0) { --><!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-				<!-- setValue('gravida.error', ''); -->
-				<!-- Validate ANC followup question -->
-				setValue('antenatal-visit-type.error', '');
 
-				if (!getValue('antenatal-visit-type.value')) {
-					getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
-					return false;
-				}
 				<!-- if there is a a first visit the pregnancy information is required -->
 				if (getValue('antenatal-visit-type.value') == 164180) {
 					setValue('gravida.error', '');
@@ -209,7 +232,7 @@
 			<div class="section-container">
 				<p id="antenatal-visit-type-container">
 					<label>Is this your first antenatal visit</label>
-					<obs id="antenatal-visit-type" class="required" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
+					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
 					<script>
 						jq(function() {
 							jq('#antenatal-visit-type').click(function(){
