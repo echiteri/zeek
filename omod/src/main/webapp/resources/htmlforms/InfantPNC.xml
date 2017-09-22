@@ -163,9 +163,9 @@
                         }
                     });
 
-                <!-- HIV exposure status -->
+                <!-- HIV exposure status  -->
                 jq('#infant-hiv-exposure-status').click(function(){
-                    if (getValue('infant-hiv-exposure-status.value') == 822 || getValue('infant-hiv-exposure-status.value') == 1067) {
+                    if (getValue('infant-hiv-exposure-status.value') == 164920) {
                         showContainer('#infant-prophylaxis-status-container');
                         showContainer('#infant-ctx-status-container');
                     } else {
@@ -202,7 +202,7 @@
                     <label>
                         HIV Exposure Status
                     </label>
-                    <obs id="infant-hiv-exposure-status" style="radio" conceptId="164921" answerConceptIds="164920,164919,1067" answerLabels="Currently Exposed,Currently Unexposed, Unknown" answerSeparator="" />
+                    <obs id="infant-hiv-exposure-status" style="radio" conceptId="164921" answerConceptIds="164920,164919,164932" answerLabels="Currently Exposed,Currently Unexposed, Missing" answerSeparator="" />
                 </p>
             </excludeIf>
 
@@ -211,12 +211,12 @@
                     ARV Prophylaxis status
                 </label>
                 <obs id="infant-prophylaxis-status" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="164922,164923,164924,1067" answerLabels="Received ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Unknown" answerSeparator=""/>
+                     answerConceptIds="164922,164923,164924,164932" answerLabels="Received ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Missing" answerSeparator=""/>
             </p>
             <p id="infant-prophylaxis-adherence-container" class="hidden">
                 <label>ARV Adherence</label>
                 <obs style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="159405,159406,159407,1256,1067" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Unknown" answerSeparator=""/>
+                     answerConceptIds="159405,159406,159407,1256,164932" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Missing" answerSeparator=""/>
             </p>
 
             <p id="infant-ctx-status-container">
@@ -224,12 +224,12 @@
                     CTX Prophylaxis status
                 </label>
                 <obs id="infant-ctx-status" style="radio" conceptId="164928"
-                     answerConceptIds="164927,164926,164925,1067" answerLabels="Received CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Unknown" answerSeparator=""/>
+                     answerConceptIds="164927,164926,164925,164932" answerLabels="Received CTX prophylaxis,Never received CTX prophylaxis, Stopped CTX prophylaxis, Missing" answerSeparator=""/>
             </p>
             <p id="infant-ctx-adherence-container" class="hidden">
                 <label>CTX Adherence</label>
                 <obs style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="159405,159406,159407,1256,1067" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Unknown" answerSeparator=""/>
+                     answerConceptIds="159405,159406,159407,1256,164932" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Missing" answerSeparator=""/>
             </p>
 
             <p id="infant-hiv-test-container">
@@ -237,28 +237,28 @@
                     Was this infant tested for HIV during this visit?
                 </label>
                 <obs id="infant-hiv-test" style="radio" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="164912,164913,1067" answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Unknown" answerSeparator=""/>
+                     answerConceptIds="164912,164913,164932" answerLabels="Tested for HIV during this visit,Not tested for HIV during this visit, Missing" answerSeparator=""/>
             </p>
 
             <p id="infant-test-type-container" class="hidden">
                 <label>
                     What kind of test was used?
                 </label>
-                <obs id="infant-test-type" style="radio" conceptId="164929" answerConceptIds="844,1042,1067" answerLabels="DNA PCR, Rapid Test, Unknown" answerSeparator="" />
+                <obs id="infant-test-type" style="radio" conceptId="164929" answerConceptIds="844,1042,164932" answerLabels="DNA PCR, Rapid Test, Missing" answerSeparator="" />
             </p>
                 <p id="dnapcr-test-result-container" class="hidden">
                     <label>
                         What was the DNA PCR test result?
                     </label>
-                    <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-                         answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
+                    <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,164932"
+                         answerLabels="Negative,Positive,Missing" answerSeparator=""/>
                 </p>
                 <p id="rapid-test-result-container" class="hidden">
                     <label>
                         What was the Rapid test result?
                     </label>
-                    <obs id="rapid-test-result" style="radio" conceptId="164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-                         answerLabels="Negative,Positive,Unknown" answerSeparator=""/>
+                    <obs id="rapid-test-result" style="radio" conceptId="164860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,164932"
+                         answerLabels="Negative,Positive,Missing" answerSeparator=""/>
                 </p>
                 <lookup complexExpression="#set ($age = $patient.person.age) "/>
                 <!--  <includeIf velocityTest="($age &gt; 1)">TODO: include if the age is more than or equals 18 months -->
@@ -266,7 +266,7 @@
                         <label>
                             Was a confirmatory test performed during this visit?
                         </label> <!-- Child HIV test performed -->
-                        <obs id="confirmatory-test-done" style="radio" conceptId="164930" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
+                        <obs id="confirmatory-test-done" style="radio" conceptId="164930" answerConceptIds="1065,1066,164932" answerLabels="Yes, No, Missing" answerSeparator=""/>
                     </p>
                     <p id="final-test-result-container" class="hidden">
                         <label>
@@ -279,7 +279,7 @@
                 <label>
                     Was this infant linked to ART
                 </label>
-                <obs id="infant-art-link" style="radio" conceptId="164931" answerConceptIds="1065,1066,1067" answerLabels="Yes, No, Unknown" answerSeparator=""/>
+                <obs id="infant-art-link" style="radio" conceptId="164931" answerConceptIds="1065,1066,164932" answerLabels="Yes, No, Missing" answerSeparator=""/>
             </p>
 
             <p id="infant-art-number-container" class="hidden narrow">
@@ -298,8 +298,8 @@
                     Infant outcome status
                 </label>
                 <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="161636,160563,159492,5240,160432,1067"
-                     answerLabels="Still in Care, Transfer In, Transferred Out, Lost to Follow Up, Dead, Unknown" answerSeparator=""/>
+                     answerConceptIds="161636,160563,159492,5240,160432,164932"
+                     answerLabels="Still in Care, Transfer In, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="hidden">
                 <label>Transferred in from</label>
