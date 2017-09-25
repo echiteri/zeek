@@ -20,6 +20,148 @@
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
 			</ifMode>
+
+            beforeSubmit.push(function() {
+                <!-- Validate Infant HIV exposure status -->
+                if ($('#infant-hiv-exposure-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-hiv-exposure-status.error', '');
+                    if (!getValue('infant-hiv-exposure-status.value')) {
+                        getField('infant-hiv-exposure-status.error').html('Infant HIV exposure must be provided').show();
+                        return false;
+                    }
+                }
+                <!-- Validate ARV Prophylaxis status -->
+                if ($('#infant-prophylaxis-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-prophylaxis-status.error', '');
+                    if ($('#infant-hiv-exposure-status').length > 0) { <!-- exposure status is not excluded -->
+                        if (getValue('infant-hiv-exposure-status.value') == 164920) {
+                            if (!getValue('infant-prophylaxis-status.value')) {
+                                getField('infant-prophylaxis-status.error').html('Infant ARV Prophylaxis status must be provided').show();
+                                return false;
+                            }
+                        }
+                    }else{ <!-- exposure status is excluded -->
+                        if (!getValue('infant-prophylaxis-status.value')) {
+                            getField('infant-prophylaxis-status.error').html('Infant ARV Prophylaxis status must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate ARV Adherence -->
+                if ($('#infant-prophylaxis-adherence').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-prophylaxis-adherence.error', '');
+                    if (getValue('infant-prophylaxis-status.value') == 164922) {
+                        if (!getValue('infant-prophylaxis-adherence.value')) {
+                            getField('infant-prophylaxis-adherence.error').html('Infant ARV adherence status must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate CTX Prophylaxis status -->
+                if ($('#infant-ctx-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-ctx-status.error', '');
+                    if ($('#infant-hiv-exposure-status').length > 0) { <!-- exposure status is not excluded -->
+                        if (getValue('infant-hiv-exposure-status.value') == 164920) {
+                            if (!getValue('infant-ctx-status.value')) {
+                                getField('infant-ctx-status.error').html('Infant CTX Prophylaxis status must be provided').show();
+                                return false;
+                            }
+                        }
+                    }else{ <!-- exposure status is excluded -->
+                        if (!getValue('infant-prophylaxis-status.value')) {
+                            getField('infant-prophylaxis-status.error').html('Infant ARV Prophylaxis status must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate CTX Adherence status -->
+                if ($('#infant-ctx-adherence').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-ctx-adherence.error', '');
+                    if (getValue('infant-ctx-status.value') == 164927) {
+                        if (!getValue('infant-ctx-adherence.value')) {
+                            getField('infant-ctx-adherence.error').html('Infant CTX adherence status must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant HIV test status? -->
+                if ($('#infant-hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-hiv-test.error', '');
+                    if (!getValue('infant-hiv-test.value')) {
+                        getField('infant-hiv-test.error').html('Infant HIV test status must be provided').show();
+                        return false;
+                    }
+                }
+                <!-- Validate infant HIV test type? -->
+                if ($('#infant-test-type').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-test-type.error', '');
+                    if (getValue('infant-hiv-test.value') == 164912) {
+                        if (!getValue('infant-test-type.value')) {
+                            getField('infant-test-type.error').html('Infant HIV test type must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant DNA PCR test result? -->
+                if ($('#dnapcr-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('dnapcr-test-result.error', '');
+                    if (getValue('infant-test-type.value') == 844) {
+                        if (!getValue('dnapcr-test-result.value')) {
+                            getField('dnapcr-test-result.error').html('Infant DNA PCR test result must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant Rapid test result? -->
+                if ($('#rapid-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('rapid-test-result.error', '');
+                    if (getValue('infant-test-type.value') == 1042) {
+                        if (!getValue('rapid-test-result.value')) {
+                            getField('rapid-test-result.error').html('Infant Rapid test result must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant Confirmatory test done? -->
+                if ($('#confirmatory-test-done').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('confirmatory-test-done.error', '');
+                    if ((getValue('dnapcr-test-result.value') || getValue('rapid-test-result.value')) == 703) {
+                        if (!getValue('confirmatory-test-done.value')) {
+                            getField('confirmatory-test-done.error').html('Infant Confirmatory test status must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant Confirmatory test result? -->
+                if ($('#final-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('final-test-result.error', '');
+                    if (getValue('confirmatory-test-done.value') == 1065) {
+                        if (!getValue('final-test-result.value')) {
+                            getField('final-test-result.error').html('Infant Confirmatory test result must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant Confirmatory test result? -->
+                if ($('#infant-art-link').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-art-link.error', '');
+                    if (getValue('final-test-result.value') == 703) {
+                        if (!getValue('infant-art-link.value')) {
+                            getField('infant-art-link.error').html('Infant ART Link must be provided').show();
+                            return false;
+                        }
+                    }
+                }
+                <!-- Validate infant transfer status? -->
+                if ($('#infant-transfer-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+                    setValue('infant-transfer-status.error', '');
+                        if (!getValue('infant-transfer-status.value')) {
+                            getField('infant-transfer-status.error').html('Infant Transfer status must be provided').show();
+                            return false;
+                        }
+                }
+                return true;
+            });
 		});
 	</script>
 	
@@ -118,15 +260,19 @@
 
                     <!-- type of test done -->
                     jq('#infant-test-type').click(function(){
-                        if (getValue('infant-test-type.value') == 844) {
+                        if (getValue('infant-test-type.value') == 844) { <!-- It is DNA PCR test -->
                             showContainer('#dnapcr-test-result-container');
                             hideContainer('#rapid-test-result-container');
-                        } else if (getValue('infant-test-type.value') == 1042){
+                        } else if (getValue('infant-test-type.value') == 1042){ <!-- It is Rapid test -->
                             showContainer('#rapid-test-result-container');
                             hideContainer('#dnapcr-test-result-container');
                         } else {
                             hideContainer('#dnapcr-test-result-container');
                             hideContainer('#rapid-test-result-container');
+                            hideContainer('#confirmatory-test-done-container');
+                            hideContainer('#final-test-result-container');
+                            hideContainer('#infant-art-number-container');
+                            hideContainer('#infant-art-link-container');
                         }
                     });
                     <!-- recorded test result for DNA PCR -->
@@ -137,8 +283,9 @@
                                 <!-- showContainer('#infant-art-link-container'); -->
                             } else {
                                 hideContainer('#confirmatory-test-done-container');
-                                <!-- hideContainer('#infant-art-number-container'); -->
-                                <!-- hideContainer('#infant-art-link-container'); -->
+                                hideContainer('#final-test-result-container');
+                                hideContainer('#infant-art-number-container');
+                                hideContainer('#infant-art-link-container');
                             }
                         });
                 <!-- recorded test result for Rapid Test -->
@@ -150,8 +297,8 @@
                             } else {
                                 hideContainer('#confirmatory-test-done-container');
                                 hideContainer('#final-test-result-container'); <!-- don't show the final test result if RT is negative -->
-                                <!-- hideContainer('#infant-art-number-container'); -->
-                                <!-- hideContainer('#infant-art-link-container'); -->
+                                hideContainer('#infant-art-number-container');
+                                hideContainer('#infant-art-link-container');
                             }
                         });
                 <!-- confirmatory test done -->
@@ -171,6 +318,9 @@
                     } else {
                         hideContainer('#infant-prophylaxis-status-container');
                         hideContainer('#infant-ctx-status-container');
+                        hideContainer('#infant-prophylaxis-adherence-container');
+                        hideContainer('#infant-ctx-adherence-container');
+
                     }
                 });
                 <!-- final test result Only link to ART and indicate ART number when final test result returns positive-->
@@ -215,7 +365,7 @@
             </p>
             <p id="infant-prophylaxis-adherence-container" class="hidden">
                 <label>ARV Adherence</label>
-                <obs style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                <obs id="infant-prophylaxis-adherence" style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="159405,159406,159407,1256,164932" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Missing" answerSeparator=""/>
             </p>
 
@@ -228,7 +378,7 @@
             </p>
             <p id="infant-ctx-adherence-container" class="hidden">
                 <label>CTX Adherence</label>
-                <obs style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                <obs id="infant-ctx-adherence" style="radio" conceptId="161652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="159405,159406,159407,1256,164932" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Missing" answerSeparator=""/>
             </p>
 
@@ -272,7 +422,8 @@
                         <label>
                             What was the final test result for the confirmatory test?
                         </label> <!-- Child HIV antibody test result -->
-                        <obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator=""/>
+                        <obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,164932"
+                             answerLabels="Negative,Positive,Missing"  answerSeparator=""/>
                     </p>
                 <!-- </includeIf>  -->
             <p id="infant-art-link-container" class="hidden">

@@ -23,6 +23,76 @@
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules -->
+		<!-- Validation rules for Testing and Initiation -->
+		<!-- Validate HIV test done -->
+				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test.error', '');
+					if (!getValue('hiv-test.value')) {
+						getField('hiv-test.error').html('HIV test must be provided').show();
+						return false;
+					}
+				}
+
+				<!-- Validate HIV test result -->
+				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test-result.error', '');
+					<!-- if there is a test the test result is required -->
+					if (getValue('hiv-test.value') == 164912) {
+						if (!getValue('hiv-test-result.value')) {
+							getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
+							return false;
+						}
+					}
+				}
+
+				<!-- Validate ART Initiation -->
+				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('art-initiation.error', '');
+					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
+					if ($('#hiv-test').length > 0 &amp;&amp; $('#hiv-test-result').length > 0){
+						if (((getValue('hiv-test.value') == 164912 &amp;&amp; getValue('hiv-test-result.value')  == 138571) || getValue('hiv-test.value') == 164911)) {
+								if (!getValue('art-initiation.value')) {
+								getField('art-initiation.error').html('ART initiation status must be provided').show();
+								return false;
+						}
+					}
+				} else {
+						if (!getValue('art-initiation.value')) {
+							getField('art-initiation.error').html('ART initiation status must be provided').show();
+							return false;
+						}
+					}
+				}
+				<!-- Validate recent viral load done-->
+				if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('recent-viral-load.error', '');
+					<!-- the recent-viral-load is required if Test status is KP -->
+					if ($('#hiv-test').length > 0){
+						if (getValue('hiv-test.value') == 164911){
+							if (!getValue('recent-viral-load.value')) {
+								getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+								return false;
+						}
+					}
+				}else {
+					if (!getValue('recent-viral-load.value')) {
+							getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+							return false;
+						}
+					}
+				}
+
+				<!-- Validate viral load results done-->
+				if ($('#viral-load-results').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('viral-load-results.error', '');
+					<!-- the viral-load-results is required  -->
+					if (getValue('recent-viral-load.value') == 1065){
+						if (!getValue('viral-load-results.value')) {
+							getField('viral-load-results.error').html('Viral load results must be provided').show();
+							return false;
+						}
+					}
+				}
 				<!-- Breast feeding status only required if mother and baby are alive -->
 				<!-- TODO: Add required checks for breast feeding status when the mother and baby are alive -->
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
@@ -34,35 +104,50 @@
 					setValue('infant-birth-date-' + i + '.error', '');
 					setValue('infant-status-' + i + '.error', '');
 					setValue('still-birth-' + i + '.error', '');
+					setValue('infant-arv-prophylaxis-' + i + '.error', '');
+					setValue('breastfeeding-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
 						if (!getValue('infant-gender-' + i + '.value')) {
 							getField('infant-gender-' + i + '.error').html('Please select the sex').show();
 							isValid = false;
 						}
-						<!-- Date of Birth is required for alive babies and those with unknown status -->
-						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 1067) {
-							if (!getValue('infant-birth-date-' + i + '.value')) {
-												getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
+						if (!getValue('infant-status-' + i + '.value')) {
+							getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
+							isValid = false;
+						}
+						<!-- Date of Birth is required for alive babies or neo-natal death -->
+						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 154223) {
+
+							if(!getValue('infant-status-'+ i + '.value') == 154223){<!-- Don't check if neo-natal death -->
+								if (!getValue('infant-birth-date-' + i + '.value')) {
+									getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
+									isValid = false;
+								}
+								<!-- Check the Infant PTracker ID  -->
+								if (!getValue('child-number-' + i + '.value')) {
+									getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
+									isValid = false;
+								}
+								<!-- Check if the Infant PTracker ID meets the Regex -->
+								if(!regex.test(getValue('child-number-' + i + '.value'))){
+									getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
+									isValid = false;
+								}
+							}
+							if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
+								getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
 								isValid = false;
 							}
-							if (!getValue('infant-status-' + i + '.value')) {
-								getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
-								isValid = false;
-							}
-	
-							if (!getValue('child-number-' + i + '.value')) {
-								getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
-								isValid = false;
-							}
-							if(!regex.test(getValue('child-number-' + i + '.value'))){
-								getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
+
+							if (!getValue('breastfeeding-' + i + '.value')) {
+								getField('breastfeeding-' + i + '.error').html('Please enter the infant breastfeeding status').show();
 								isValid = false;
 							}
 						} else {
 							<!-- For still births the type of still birth is required -->
 							if (getValue('infant-status-'+ i + '.value') == 125872) {
 								if (!getValue('still-birth-' + i + '.value')) {
-													getField('still-birth-' + i + '.error').html('Please enter the type of still birth').show();
+									getField('still-birth-' + i + '.error').html('Please enter the type of still birth').show();
 									isValid = false;
 								}
 							}
@@ -567,7 +652,7 @@
 						
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
-								if (getValue('infant-status-{n}.value') == 151849 || getValue('infant-status-{n}.value') == 1067) {
+								if (getValue('infant-status-{n}.value') == 151849) {
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
@@ -584,9 +669,9 @@
 										hideContainer('#infant-death-date-container-{n}');
 									} else {
 										hideContainer('#still-birth-container-{n}');
-										showContainer('#breastfeeding-container-{n}');
-										showContainer('#infant-arv-prophylaxis-container-{n}');
-										showContainer('#infant-death-date-container-{n}');
+										hideContainer('#breastfeeding-container-{n}');
+										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-death-date-container-{n}');
 									}
 									
 									hideContainer('#infant-birth-date-container-{n}');
@@ -632,7 +717,7 @@
 										<label>
 											Infant Feeding at discharge
 										</label>
-										<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+										<obs id="breastfeeding-{n}" style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 											 answerConceptIds="5526,1595,164932"
 											 answerLabels="EBF=Exclusive Breastfeeding, RF=Replacement feeding, Missing" answerSeparator=""/>
 									</p>
@@ -652,7 +737,7 @@
 										<label>
 											Infant Received ARV
 										</label>
-										<obs style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164932"
+										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164932"
 											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
 											 answerSeparator="" />
 									</p>

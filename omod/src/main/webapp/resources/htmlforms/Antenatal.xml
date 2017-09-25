@@ -87,17 +87,56 @@
 				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('art-initiation.error', '');
 					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
-					if ((getValue('hiv-test.value') == 164912 and getValue('hiv-test-result.value') || getValue('hiv-test.value') == 164911) == 138571) {
+					if ($('#hiv-test').length > 0 &amp;&amp; $('#hiv-test-result').length > 0)
+					{
+						if (((getValue('hiv-test.value') == 164912 &amp;&amp; getValue('hiv-test-result.value')  == 138571) || getValue('hiv-test.value') == 164911)) {
+							if (!getValue('art-initiation.value')) {
+								getField('art-initiation.error').html('ART initiation status must be provided').show();
+								return false;
+							}
+						}
+					} else {
 						if (!getValue('art-initiation.value')) {
 							getField('art-initiation.error').html('ART initiation status must be provided').show();
 							return false;
 						}
 					}
 				}
+				<!-- Validate recent viral load done-->
+				if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('recent-viral-load.error', '');
+					<!-- the recent-viral-load is required if Test status is KP -->
+					if ($('#hiv-test').length > 0)
+					{
+						if (getValue('hiv-test.value') == 164911){
+							if (!getValue('recent-viral-load.value')) {
+								getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+								return false;
+							}
+						}
+					}else {
+						if (!getValue('recent-viral-load.value')) {
+							getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+							return false;
+						}
+					}
+				}
 
+				<!-- Validate viral load results done-->
+				if ($('#viral-load-results').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('viral-load-results.error', '');
+					<!-- the viral-load-results is required  -->
+					if (getValue('recent-viral-load.value') == 1065){
+						if (!getValue('viral-load-results.value')) {
+							getField('viral-load-results.error').html('Viral load results must be provided').show();
+							return false;
+						}
+					}
+				}
 		
 				<!-- Validation rules for follow up -->
 				setValue('transfer-out-to.error', '');
+				setValue('transfer-out.error', '');
 				setValue('next-visit-date.error', '');
 				<!-- check the date of the next visit -->
 				var next_visit_date = new Date(changeFieldDateToJavascriptDate(getValue('next-visit-date.value')));
@@ -122,6 +161,13 @@
 					<!-- the transfer  out location is required -->
 					if (getValue('transfer-out-to.value') == '') {
 						getField('transfer-out-to.error').html('Please enter the facility to which the patient is to transfer to').show();
+						return false;
+					}
+				}
+				if (!jq('#transfer-out-container').hasClass('hidden')) {
+					<!-- the transfer  out is required -->
+					if (getValue('transfer-out.value') == '') {
+						getField('transfer-out.error').html('Please enter the facility of next appointment').show();
 						return false;
 					}
 				}
@@ -720,9 +766,9 @@
 			</p>
 			<p id="viral-load-results-container" class="hidden">
 				<label>Viral load results</label>
-				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
+				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971, 164932" style="radio"
 					 answerSeparator=""
-					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results Pending"/>
+					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results Pending, Missing"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){
