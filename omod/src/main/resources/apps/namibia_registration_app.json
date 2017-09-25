@@ -1,3 +1,4 @@
+
 [
   {
     "id": "namibia.registrationapp.registerPatient",
@@ -57,7 +58,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId2", "hidden"
+                    "regex", "ptrackerId2", "ptrackerId"
                   ]
                 },
                 {
@@ -73,7 +74,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId3", "hidden"
+                    "regex", "ptrackerId3", "ptrackerId"
                   ]
                 },
                 {
@@ -89,7 +90,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId4", "hidden"
+                    "regex", "ptrackerId4", "ptrackerId"
                   ]
                 },
                 {
@@ -105,7 +106,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId5", "hidden"
+                    "regex", "ptrackerId5", "ptrackerId"
                   ]
                 },
                 {
@@ -121,7 +122,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId6", "hidden"
+                    "regex", "ptrackerId6", "ptrackerId"
                   ]
                 },
                 {
@@ -137,7 +138,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId", "hidden"
+                    "regex", "ptrackerId7", "ptrackerId"
                   ]
                 },
                 {
@@ -153,7 +154,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId", "hidden"
+                    "regex", "ptrackerId8", "ptrackerId"
                   ]
                 },
                 {
@@ -169,7 +170,7 @@
                     }
                   },
                   "cssClasses": [
-                    "regex", "ptrackerId", "hidden"
+                    "regex", "ptrackerId9", "ptrackerId"
                   ]
                 }
               ]

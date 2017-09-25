@@ -1,8 +1,10 @@
 package org.openmrs.module.namibia.activator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.GlobalProperty;
@@ -141,7 +143,8 @@ public class AppConfigurationInitializer implements Initializer {
 		// primary
 		properties.add(new GlobalProperty(EmrApiConstants.PRIMARY_IDENTIFIER_TYPE, PatientIdentifierTypes.PTRACKER_NUMBER.uuid() ));
 		// other identifiers that can be used
-		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, PatientIdentifierTypes.ART_UNIQUE_NUMBER.uuid() ));
+		properties.add(new GlobalProperty(EmrApiConstants.GP_EXTRA_PATIENT_IDENTIFIER_TYPES, StringUtils.join(
+				Arrays.asList(PatientIdentifierTypes.PTRACKER_NUMBER_2.uuid(), PatientIdentifierTypes.PTRACKER_NUMBER_3.uuid(),PatientIdentifierTypes.PTRACKER_NUMBER_4.uuid(),PatientIdentifierTypes.PTRACKER_NUMBER_5.uuid(),PatientIdentifierTypes.PTRACKER_NUMBER_6.uuid(),PatientIdentifierTypes.PTRACKER_NUMBER_7.uuid(),PatientIdentifierTypes.PTRACKER_NUMBER_8.uuid(),PatientIdentifierTypes.PTRACKER_NUMBER_9.uuid()), ","  )));
 		
 		// disable the appointmentshedulingui which will confuse users
 		properties.add(new GlobalProperty("appointmentschedulingui.started", "false"));
