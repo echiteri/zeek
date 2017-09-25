@@ -40,7 +40,7 @@ jq(document).ready(function(){
 
 /* Registration form - PTrackerID functions - put here due to the edit section not loading content from the register patient page */
 jq(function() {
-    if (jq("#registration").length) {
+    if (jq("#registration").length || jq("#registration-section-form").length) {
         /* hide all ptrackerId fields with the class hidden */
         jq(".ptrackerId").parent().hide();
         var showEditableId = true;
@@ -52,15 +52,12 @@ jq(function() {
         for (var i = 2; i < 10; i++) {
             if (showEditableId) {
                 if (jq("input[name='ptrackerId" + i + "'").val() == '') {
-                    alert('Showing ptrackerId' + i);
                     // the first field to match this will be enabled and the loop will be broken
-                    jq("input[name='ptrackerId" + i + "'").prev("p").show();
+                    jq("input[name='ptrackerId" + i + "'").parent().show();
                     showEditableId = false;
                 } else {
-                    alert('Showing ptrackerId' + i + " because its value is " + jq("input[name='ptrackerId" + i + "'").val());
                     // enable this field
-                    jq("input[name='ptrackerId" + i + "'").prev("p").show();
-                    showEditableId = false;
+                    jq("input[name='ptrackerId" + i + "'").parent().show();
                 }
             }
         }
