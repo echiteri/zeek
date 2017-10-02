@@ -160,13 +160,24 @@
 			UPDATE obs SET concept_id = 164928 WHERE concept_id = 162229;
 			
 			# 1658 ARV Adherence TO 161652 - Cotrimoxazole Adherence
-			UPDATE obs SET concept_id = 161652 WHERE concept_id = 1658;
+			#UPDATE obs SET concept_id = 161652 WHERE concept_id = 1658; #do not update ARV Adherence concept
 			
 			# 162087 Test name to 164929 Child HIV Test
 			UPDATE obs SET concept_id = 164929 WHERE concept_id = 162087;
 			
 			# 159811	Enrolled in HIV care program to 164931 Linked to ART
 			UPDATE obs SET concept_id = 164931 WHERE concept_id = 159811;
+		</sql>
+	</changeSet>
+	<changeSet id="concept_mapping_data_migration-02102017-1503" author="echiteri">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="1">SELECT count(concept_id) FROM concept WHERE concept_id = 164931</sqlCheck>
+		</preConditions>
+		<comment>Migration of data to match new concept mappings</comment>
+		<sql>
+			# Migrate 'unknown' value_coded 1067 to 'missing' value_coded 164932 for all questions excpet for 'HIV test result' 159427
+			UPDATE obs SET value_coded = 164932 WHERE concept_id &lt;&gt; 159427 AND value_coded = 1067
+
 		</sql>
 	</changeSet>
 </databaseChangeLog>
