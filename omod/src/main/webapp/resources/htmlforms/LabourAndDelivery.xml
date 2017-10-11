@@ -20,6 +20,21 @@
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
 			</ifMode>
+
+
+			<lookup complexExpression="
+					#set( $encounter = 0 )
+					#set( $encounter = $fn.latestEncounter('2678423c-0523-4d76-b0da-18177b439eed'))
+					#if( $encounter != 0 )
+						var lastLAndDEncounter = jq.datepicker.parseDate('yy-mm-dd','$encounter.encounterDatetime');
+						alert('The last encounter was ' + lastLAndDEncounter);
+						var now = new Date();
+						var timeFromLastEncounter = Math.floor((now.getTime() - lastLAndDEncounter.getTime())/(86400000 * 30));
+						if (timeFromLastEncounter &lt; 7) {
+							jq().toastmessage('showErrorToast','There is a Labor and Delivery record that is less than 7 months old, so a new record cannot be added. \n Now returning you to the patient dashboard.');
+							window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH + &quot;/coreapps/clinicianfacing/patient.page?patientId=$encounter.patient.patientId&quot;;
+						}
+					#end"/>
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules -->
