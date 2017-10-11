@@ -131,9 +131,11 @@ public class AppConfigurationInitializer implements Initializer {
 		PatientIdentifierType ptrackerId = Context.getPatientService().getPatientIdentifierTypeByUuid(PatientIdentifierTypes.PTRACKER_NUMBER.uuid());
 		
 		//overwrite if not set yet or if null
-		if(ptrackerId != null || primaryIdentifierTypeMapping != null || !ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())){
-			primaryIdentifierTypeMapping.setMappedObject(ptrackerId);
-			metadataMappingService.saveMetadataTermMapping(primaryIdentifierTypeMapping);
+		if(ptrackerId != null & primaryIdentifierTypeMapping != null){
+			if (!ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())) {
+				primaryIdentifierTypeMapping.setMappedObject(ptrackerId);
+				metadataMappingService.saveMetadataTermMapping(primaryIdentifierTypeMapping);
+			}
 		}
 		
 		// other identifiers that can be used
