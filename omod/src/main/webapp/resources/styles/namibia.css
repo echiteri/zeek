@@ -111,3 +111,6 @@ span.value {
     display: none;
 }
 
+#print-button, #edit-button {
+    display: none;
+}
