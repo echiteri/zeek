@@ -119,3 +119,7 @@ span.value {
     content: ' *';
     display:inline;
 }
+
+#print-button, #edit-button {
+    display: none;
+}
