@@ -66,8 +66,10 @@ public class AppConfigurationInitializer implements Initializer {
 			
 			// start the Auto Close Visits task
 			TaskDefinition autoCloseVisitsTask = (TaskDefinition) schedulerService.getTaskByName("Auto Close Visits Task");
-			autoCloseVisitsTask.setStartOnStartup(true);
-			schedulerService.saveTaskDefinition(autoCloseVisitsTask);
+			if (autoCloseVisitsTask != null) {
+				autoCloseVisitsTask.setStartOnStartup(true);
+				schedulerService.saveTaskDefinition(autoCloseVisitsTask);
+			}
 		}
 		catch (Exception e) {
 			Module mod = ModuleFactory.getModuleById(NamibiaConstants.MODULE_ID);
@@ -129,7 +131,7 @@ public class AppConfigurationInitializer implements Initializer {
 		PatientIdentifierType ptrackerId = Context.getPatientService().getPatientIdentifierTypeByUuid(PatientIdentifierTypes.PTRACKER_NUMBER.uuid());
 		
 		//overwrite if not set yet or if null
-		if(ptrackerId != null || !ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())){
+		if(ptrackerId != null || primaryIdentifierTypeMapping != null || !ptrackerId.getUuid().equals(primaryIdentifierTypeMapping.getMetadataUuid())){
 			primaryIdentifierTypeMapping.setMappedObject(ptrackerId);
 			metadataMappingService.saveMetadataTermMapping(primaryIdentifierTypeMapping);
 		}
