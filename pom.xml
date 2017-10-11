@@ -56,7 +56,7 @@
 		<metadatadeployVersion>1.8.1</metadatadeployVersion>
 		<metadatamappingVersion>1.3.2</metadatamappingVersion>
 		<metadatasharingVersion>1.2.2</metadatasharingVersion>
-		<namibiaReportsVersion>1.0.0</namibiaReportsVersion>
+		<namibiaReportsVersion>0.5</namibiaReportsVersion>
 		<owaVersion>1.7.0</owaVersion>
 		<providermanagementVersion>2.6.0</providermanagementVersion>
 		<referenceapplicationVersion>2.6.0</referenceapplicationVersion>
