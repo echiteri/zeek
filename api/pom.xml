@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>namibia</artifactId>
-		<version>1.1</version>
+		<version>1.2</version>
 	</parent>
 	
 	<artifactId>namibia-api</artifactId>
@@ -115,6 +115,11 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>metadatasharing-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>registrationcore-api</artifactId>
 		</dependency>
 		
 		<dependency>

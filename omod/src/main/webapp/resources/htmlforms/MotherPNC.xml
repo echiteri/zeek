@@ -16,9 +16,82 @@
 			encounter date */-->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			jq('#visitDate').text(jq('#encounterDate input:nth-child(1)').val());
+			<ifMode mode="ENTER">
+				<!-- the encounter date should be empty on a new form -->
+				setValue('encounterDate.value', '');
+			</ifMode>
 		
 			beforeSubmit.push(function() {
+				<!-- Validation rules for Testing and Initiation -->
+				<!-- Validate HIV test done -->
+				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test.error', '');
+					if (!getValue('hiv-test.value')) {
+						getField('hiv-test.error').html('HIV test must be provided').show();
+						return false;
+					}
+				}
+
+				<!-- Validate HIV test result -->
+				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test-result.error', '');
+					<!-- if there is a test the test result is required -->
+					if (getValue('hiv-test.value') == 164912) {
+						if (!getValue('hiv-test-result.value')) {
+							getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
+							return false;
+						}
+					}
+				}
+
+				<!-- Validate ART Initiation -->
+				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('art-initiation.error', '');
+					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
+					if ($('#hiv-test').length > 0 &amp;&amp; $('#hiv-test-result').length > 0){
+						if (((getValue('hiv-test.value') == 164912 &amp;&amp; getValue('hiv-test-result.value')  == 138571) || getValue('hiv-test.value') == 164911)) {
+							if (!getValue('art-initiation.value')) {
+								getField('art-initiation.error').html('ART initiation status must be provided').show();
+								return false;
+						}
+					}
+				} else {
+					if (!getValue('art-initiation.value')) {
+							getField('art-initiation.error').html('ART initiation status must be provided').show();
+							return false;
+						}
+					}
+				}
+				<!-- Validate recent viral load done-->
+				if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('recent-viral-load.error', '');
+					<!-- the recent-viral-load is required if Test status is KP -->
+					if ($('#hiv-test').length > 0){
+						if (getValue('hiv-test.value') == 164911){
+							if (!getValue('recent-viral-load.value')) {
+								getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+								return false;
+						}
+					}
+				}else {
+					if (!getValue('recent-viral-load.value')) {
+							getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+							return false;
+						}
+					}
+				}
+
+				<!-- Validate viral load results done-->
+				if ($('#viral-load-results').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('viral-load-results.error', '');
+					<!-- the viral-load-results is required  -->
+					if (getValue('recent-viral-load.value') == 1065){
+						if (!getValue('viral-load-results.value')) {
+							getField('viral-load-results.error').html('Viral load results must be provided').show();
+							return false;
+						}
+					}
+				}
 				<!-- var first_postnatal_date = getValue('first-postnatal-visit-date.value'); -->
 				var first_postnatal_date = getValue('encounterDate.value');
 				var current_date = new Date();
@@ -71,7 +144,7 @@
 					<label name="encounterDate">
 						Visit Date
 					</label>
-					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+					<encounterDate disallowMultipleEncountersOnDate="block" />
 				</td>
 			</tr>
 		</tbody>
@@ -90,19 +163,20 @@
 					<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
 				</tr>
 				<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
-					<tr>
+					<!-- todo: Show HIV and ART status if the encounter facility is similar to patient last encounter facility-->
+					<!-- <tr>
 						<th>HIV Status</th>
 						<th>ART Status</th>
-						<th>ART Number</th>
-					</tr>
-					<tr>
-						<td>
+						<th>ART Unique Number</th>
+					</tr> -->
+					<!-- <tr>
+						<td> -->
 							
 							<!-- Start with Previously known Positive -->
-							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+							<!-- <includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
 								Previously Known Positive
 							</includeIf>
-							<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
+							<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065">
 								<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.name"/> on <lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 							</includeIf>
 						</td>
@@ -115,7 +189,7 @@
                             </includeIf>
 						</td>
 						<td><lookup	expression="patient.getPatientIdentifier('ART Unique Number')"/></td>
-					</tr>
+					</tr> todo: above ends here -->
 					
 					<tr>
 						<th>Last ANC Visit Date</th>
@@ -180,7 +254,7 @@
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-						if(getValue('hiv-test.value') == 1065) {
+						if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
 						<!-- hideContainer('#not-tested-container'); TODO: to remove art-status code cleanup after UAT
 						hideContainer('#refused-test-reason-container');-->
@@ -194,7 +268,8 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
-					} else if (getValue('hiv-test.value') == 1169) {
+						<!-- clear the art date -->
+					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
 						<!-- showContainer('#art-number-container');
 						showContainer('#art-startdate-container');-->
@@ -216,6 +291,7 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
 					}
 				});
 			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
@@ -252,8 +328,8 @@
 					 }
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 703) {
-						<!-- positive result -->
+					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
+						<!-- positive result or Uknown (since unknown is a valid answer) -->
 						showContainer('#art-initiation-container');
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
@@ -261,6 +337,7 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						setValue('art-start-date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -268,8 +345,6 @@
 						showContainer('#art-number-container');
                         showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
-						<!-- set ART start date to today -->
-						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
 					} else if (getValue('art-initiation.value') == 160018) {
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
@@ -279,13 +354,14 @@
 					} else {
 						hideContainer('#refused-art-container');
 						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
 						setValue('art-start-date.value', '');
 					}
 				});
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
@@ -298,14 +374,14 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
 					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1169,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" />
+					<obs id="hiv-test" style="radio" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="164912,164911,164913,164932"
+						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing" answerSeparator="" />
 				</p>
 				<!-- TODO: to remove code cleanup after UAT
 				<p id="not-tested-container" class="hidden">
@@ -328,15 +404,15 @@
 				<label>
 					HIV test result
 				</label>
-				<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-					 answerLabels="Negative,Positive,Unknown"
+				<obs id="hiv-test-result" style="radio" conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,138571,1067, 164932"
+					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
 				
             <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 
-				<obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+				<obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
 				
 			</p>
@@ -345,12 +421,12 @@
 				<label>
 					ART Initiation
 				</label>
-					<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="160119,160120,160018,1754,1067"
-						 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout or ART,Unknown" answerSeparator="" />
+					<obs id="art-initiation" style="radio" conceptId="164915"
+						 answerConceptIds="160119,160120,160018,1754,164932"
+						 answerLabels="Already on ART,Started on ART in PNC,Refused ART,Not started due to stockout of ART,Missing" answerSeparator="" />
 				</p>
 				<p id="art-number-container" class="hidden narrow">
-						<label>ART Number</label>
+						<label>ART Unique Number</label>
 						<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
 				</p>
 
@@ -390,13 +466,13 @@
 				<p id="recent-viral-load-container" class="hidden">
 					<label>
 						Has the patient had a recent viral load test? 					</label>
-					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
-						 answerLabels="Yes, No, Unknown"
+					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1065, 1066, 164932"
+						 answerLabels="Yes, No, Missing"
 						 answerSeparator="" />
 					<script>
 						jq(function() {
 							jq('#recent-viral-load').click(function(){
-								if (getValue('recent-viral-load.value') == 1267) {
+								if (getValue('recent-viral-load.value') == 1065) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
 									<!-- hideContainer('#viral-load-copies-container'); -->
@@ -418,9 +494,9 @@
 			</p>
 			<p id="viral-load-results-container" class="hidden">
 				<label>Viral load results</label>
-				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304" style="radio"
+				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
 					 answerSeparator=""
-					 answerLabels="Target Detected,Not Detected, Sample Rejected"/>
+					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){
@@ -448,11 +524,28 @@
 				<label>
 					Breastfeeding Status
 				</label>
-				<obs style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="5526,6046,159854,1067"
-					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Unknown" answerSeparator="" required="true"/>
+				<obs id="breastfeeding" style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					 answerConceptIds="5526,6046,159854,5622,164932"
+					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Other, Missing" answerSeparator="" required="true"/>
+			</p>
+			<p id="other-breastfeeding-container" class="hidden narrow">
+				<label>
+					Other infant feeding method
+				</label>
+				<obs style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 			</p>
 		</div>
+		<script>
+			jq(function() {
+				jq('#breastfeeding').click(function(){
+					if (getValue('breastfeeding.value') == 5622) {
+						showContainer('#other-breastfeeding-container');
+					} else {
+						hideContainer('#other-breastfeeding-container');
+					}
+				});
+			});
+		</script>
 	</section>
 
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
@@ -474,7 +567,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer,Missing" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>

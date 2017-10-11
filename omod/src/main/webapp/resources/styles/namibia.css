@@ -111,6 +111,11 @@ span.value {
     display: none;
 }
 
-#print-button, #edit-button {
-    display: none;
+.required label {
+    font-weight: bold;
+}
+.required label:after {
+    color: #ee070b;
+    content: ' *';
+    display:inline;
 }
