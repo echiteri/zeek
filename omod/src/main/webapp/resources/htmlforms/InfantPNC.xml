@@ -400,8 +400,8 @@
                     <label>
                         What was the DNA PCR test result?
                     </label>
-                    <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,164932"
-                         answerLabels="Negative,Positive,Missing" answerSeparator=""/>
+                    <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,159971,164932"
+                         answerLabels="Negative,Positive,Results Pending,Missing" answerSeparator=""/>
                 </p>
                 <p id="rapid-test-result-container" class="hidden">
                     <label>
