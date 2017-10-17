@@ -669,7 +669,12 @@
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
-									} else {
+									} else if (getValue('infant-status-{n}.value') == 154223) {
+										hideContainer('#still-birth-container-{n}');
+										hideContainer('#breastfeeding-container-{n}');
+										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										showContainer('#infant-death-date-container-{n}');
+									}else {
 										hideContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
