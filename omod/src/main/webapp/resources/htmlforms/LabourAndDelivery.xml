@@ -563,9 +563,9 @@
             </p>
             <p id="viral-load-results-container" class="hidden">
                 <label>Viral load results</label>
-                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
+                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971,164932" style="radio"
                      answerSeparator=""
-                     answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending"/>
+                     answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending, Missing"/>
                 <script>
                     jq(function() {
                         jq('#viral-load-results').click(function(){
