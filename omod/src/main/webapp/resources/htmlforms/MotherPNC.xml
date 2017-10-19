@@ -398,8 +398,7 @@
 					</label>
 					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 				</p>-->
-			</excludeIf>
-			
+
 			<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV test result
@@ -408,7 +407,7 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-				
+			</excludeIf>
             <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 
@@ -494,9 +493,9 @@
 			</p>
 			<p id="viral-load-results-container" class="hidden">
 				<label>Viral load results</label>
-				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
+				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971, 164932" style="radio"
 					 answerSeparator=""
-					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending"/>
+					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending, Missing"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){

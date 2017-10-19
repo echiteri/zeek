@@ -400,8 +400,8 @@
                     <label>
                         What was the DNA PCR test result?
                     </label>
-                    <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,164932"
-                         answerLabels="Negative,Positive,Missing" answerSeparator=""/>
+                    <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,159971,164932"
+                         answerLabels="Negative,Positive,Results Pending,Missing" answerSeparator=""/>
                 </p>
                 <p id="rapid-test-result-container" class="hidden">
                     <label>
@@ -450,7 +450,7 @@
                 </label>
                 <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="161636,160563,159492,5240,160432,164932"
-                     answerLabels="Still in Care, Transfer In, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
+                     answerLabels="Still in Care, Transfer In to ART Clinic, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="hidden">
                 <label>Transferred in from</label>

@@ -98,7 +98,7 @@
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
 				var babiesBorn = getValue('birth-count.value');
 				var isValid = true;
-				var regex = /^[0-9]{5}[A-S]{1}[0-9]{6,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
+				var regex = /^[0-9]{5}[A-S]{1}[0-9]{7,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant-birth-date-' + i + '.error', '');
@@ -118,7 +118,7 @@
 						<!-- Date of Birth is required for alive babies or neo-natal death -->
 						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 154223) {
 
-							if(!getValue('infant-status-'+ i + '.value') == 154223){<!-- Don't check if neo-natal death -->
+							if(getValue('infant-status-'+ i + '.value') != 154223){<!-- Don't check if neo-natal death -->
 								if (!getValue('infant-birth-date-' + i + '.value')) {
 									getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
 									isValid = false;
@@ -446,7 +446,8 @@
 				- client refused test
 				- client tested and test was positive or negative
 			-->
-
+			<!-- Do not show ART testing if previously known positive, tested positive -->
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 
 			<p id="hiv-test-container" class="">
 				<label>
@@ -481,6 +482,7 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
+			</excludeIf>
             <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
             <p id="art-status-container" class="hidden" >
 
@@ -561,9 +563,9 @@
             </p>
             <p id="viral-load-results-container" class="hidden">
                 <label>Viral load results</label>
-                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
+                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971,164932" style="radio"
                      answerSeparator=""
-                     answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending"/>
+                     answerLabels="Target Detected,Not Detected, Sample Rejected, Results pending, Missing"/>
                 <script>
                     jq(function() {
                         jq('#viral-load-results').click(function(){
@@ -656,6 +658,7 @@
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
+									showContainer('#infant-arv-prophylaxis-container-{n}');
 						
                                     hideContainer('#still-birth-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
@@ -667,7 +670,12 @@
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
-									} else {
+									} else if (getValue('infant-status-{n}.value') == 154223) { <!-- neo-natal death -->
+										hideContainer('#still-birth-container-{n}');
+										showContainer('#breastfeeding-container-{n}');
+										showContainer('#infant-arv-prophylaxis-container-{n}');
+										showContainer('#infant-death-date-container-{n}');
+									}else {
 										hideContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
@@ -733,7 +741,7 @@
 							</tr>
 							<tr>
 								<td>
-									<p id="infant-arv-prophylaxis-container-{n}" class="hidden prophylaxis">
+									<p id="infant-arv-prophylaxis-container-{n}" class="prophylaxis">
 										<label>
 											Infant Received ARV
 										</label>

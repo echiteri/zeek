@@ -158,10 +158,7 @@
 			UPDATE obs SET value_coded = 164925 WHERE value_coded = 160121 AND concept_id = 162229;
 			# migrate the question
 			UPDATE obs SET concept_id = 164928 WHERE concept_id = 162229;
-			
-			# 1658 ARV Adherence TO 161652 - Cotrimoxazole Adherence
-			#UPDATE obs SET concept_id = 161652 WHERE concept_id = 1658; #do not update ARV Adherence concept
-			
+
 			# 162087 Test name to 164929 Child HIV Test
 			UPDATE obs SET concept_id = 164929 WHERE concept_id = 162087;
 			
