@@ -118,7 +118,7 @@
 						<!-- Date of Birth is required for alive babies or neo-natal death -->
 						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 154223) {
 
-							if(!getValue('infant-status-'+ i + '.value') == 154223){<!-- Don't check if neo-natal death -->
+							if(getValue('infant-status-'+ i + '.value') != 154223){<!-- Don't check if neo-natal death -->
 								if (!getValue('infant-birth-date-' + i + '.value')) {
 									getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
 									isValid = false;
@@ -658,6 +658,7 @@
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
+									showContainer('#infant-arv-prophylaxis-container-{n}');
 						
                                     hideContainer('#still-birth-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
@@ -669,10 +670,10 @@
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
-									} else if (getValue('infant-status-{n}.value') == 154223) {
+									} else if (getValue('infant-status-{n}.value') == 154223) { <!-- neo-natal death -->
 										hideContainer('#still-birth-container-{n}');
-										hideContainer('#breastfeeding-container-{n}');
-										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										showContainer('#breastfeeding-container-{n}');
+										showContainer('#infant-arv-prophylaxis-container-{n}');
 										showContainer('#infant-death-date-container-{n}');
 									}else {
 										hideContainer('#still-birth-container-{n}');
@@ -740,7 +741,7 @@
 							</tr>
 							<tr>
 								<td>
-									<p id="infant-arv-prophylaxis-container-{n}" class="hidden prophylaxis">
+									<p id="infant-arv-prophylaxis-container-{n}" class="prophylaxis">
 										<label>
 											Infant Received ARV
 										</label>
