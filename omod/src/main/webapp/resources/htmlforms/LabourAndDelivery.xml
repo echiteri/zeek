@@ -481,23 +481,7 @@
 					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing"
 					  answerSeparator="" />
 			</p>
-			<!-- TODO: to remove code cleanup after UAT
-			<p id="not-tested-container" class="hidden">
-				<label>
-					Reason for not testing
-				</label>
-				<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="1169,160352,128453"
-					 answerLabels="Previously known positive, Testing kit stockout, Refused test" answerSeparator="" />
-			</p>
-			<p id="refused-test-reason-container" class="hidden">
-				<label>
-					Reason for refusing test
-				</label>
-				<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-			</p>
-			-->
-			<p id="hiv-test-result-container" class="hidden">
+				<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
 				</label>
@@ -709,9 +693,6 @@
 									hideContainer('#child-number-container-{n}');
 									<!-- showContainer('#infant-death-date-container-{n}'); taken care of in the if statement above-->
 								}
-                                <!--if (getValue('infant-status-{n}.value') == 125872){
-                                    showContainer('#still-birth-container-{n}');
-                                }-->
 							});
 						});
 					</script>
@@ -807,15 +788,5 @@
 		</repeat>
 		</div>
 	</section>
-	<!--<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Post Natal Followup">
-		<div class="section-container">
-			<p id="expected-post-natal-facility">
-				<label>
-					Expected post natal care facility
-				</label>
-				<obs id="pnc-facility" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2"/>
-			</p>
-		</div>
-	</section>-->
 	<submit class="confirm center" />
 </htmlform>
