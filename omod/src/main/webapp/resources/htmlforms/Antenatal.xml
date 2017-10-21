@@ -180,19 +180,19 @@
 					setValue('lmp.error', '');
 					setValue('edd.error', '');
 
-					if (!getValue('gravida.value')) {
+					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
 						getField('gravida.error').html('Gravida must be provided').show();
 						return false;
 					}
-					if (!getValue('para.value')) {
+					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
 						getField('para.error').html('Para must be provided').show();
 						return false;
 					}
-					if (!getValue('lmp.value')) {
+					if (!getField('lmp.value').is(':disabled') &amp;&amp; !getValue('lmp.value')) {
 						getField('lmp.error').html('LMP must be provided').show();
 						return false;
 					}
-					if (!getValue('edd.value')) {
+					if (!getField('edd.value').is(':disabled') &amp;&amp; !getValue('edd.value')) {
 						getField('edd.error').html('Edd must be provided').show();
 						return false;
 					}
@@ -307,6 +307,19 @@
 									setValue('edd.value', '');
 								}
 							});
+
+							jq('#gravida_missing').change(function(){
+								handleMissingSelection('gravida');
+							});
+							jq('#para_missing').change(function(){
+								handleMissingSelection('para');
+							});
+							jq('#lmp_missing').change(function(){
+								handleMissingSelection('lmp');
+							});
+							jq('#edd_missing').change(function(){
+								handleMissingSelection('edd');
+							});
 						});
 					</script>
 				</p>
@@ -315,7 +328,8 @@
 						How many times have you been pregnant, including current pregnancy (Gravida)?
 					</label>
 					<p class="narrow hidden" id="gravida-container-input">
-						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="5" />
+						<obs id="gravida_missing" conceptId="164949" style="checkbox" answerLabel="answerLabel" labelText="Gravida missing"/>
 					</p>
 				</p>
 				<p id="para-container-label" class="required hidden">
@@ -324,6 +338,7 @@
 					</label>
 					<p class="narrow hidden" id="para-container-input">
 						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+						<obs id="para_missing" conceptId="164933" style="checkbox" answerLabel="answerLabel" labelText="Para missing"/>
 					</p>
 				</p>
 				
@@ -333,12 +348,14 @@
 					</label>
 					<p class="narrow hidden" id="lmp-container-input">
 						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
+						<obs id="lmp_missing" conceptId="164934" style="checkbox" answerLabel="answerLabel" labelText="Date of last normal menstral period missing"/>
 					</p>
 				</p>
 				<p id="edd-container-label" class="required hidden">
 					<label>Estimated date of delivery (EDD)</label>
 					<p class="narrow hidden" id="edd-container-input">
 						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+						<obs id="edd_missing" conceptId="164935" style="checkbox" answerLabel="answerLabel" labelText="Estimated date of delivery missing"/>
 					</p>
 				</p>
 				<!-- <p class="narrow">

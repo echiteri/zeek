@@ -75,6 +75,7 @@ td > label:first-child, p > label:first-child {
 }
 
 .horizontal label {
+    float: none;
     display: inline-block;
 }
 
