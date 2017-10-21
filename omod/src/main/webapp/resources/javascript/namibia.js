@@ -19,6 +19,26 @@ function hideContainer(container) {
 function disableContainer(container) {
     jq(container + ' :input').attr('disabled', true).fadeTo(250, 0.45);
     jq(container + ' :input').prop('checked', false).fadeTo(250, 0.45);
+    // clear field values
+    jq(container + ' :input').each(function() {
+        switch(this.type) {
+            case 'password':
+            case 'text':
+            case 'textarea':
+            case 'file':
+            case 'select-one':
+            case 'select-multiple':
+            case 'date':
+            case 'number':
+            case 'tel':
+            case 'email':
+                jq(this).val('');
+                break;
+            case 'checkbox':
+            case 'radio':
+                this.checked = false;
+                break;
+        }
 }
 /*
  * Show the container, and enable all elements in it
