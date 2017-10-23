@@ -21,7 +21,7 @@ function disableContainer(container) {
     jq(container + ' :input').prop('checked', false).fadeTo(250, 0.45);
     // clear field values
     jq(container + ' :input').each(function() {
-        switch(this.type) {
+        switch (this.type) {
             case 'password':
             case 'text':
             case 'textarea':
@@ -39,6 +39,7 @@ function disableContainer(container) {
                 this.checked = false;
                 break;
         }
+    });
 }
 /*
  * Show the container, and enable all elements in it
