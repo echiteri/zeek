@@ -630,7 +630,6 @@
 						 answerConceptIds="164912,164911,164913,164932"
 						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing" answerSeparator="" />
 				</p>
-				<!-- add ANC retest -->
 				<p id="hiv-test-result-container" class="hidden">
 					<label>
 						HIV test result

@@ -350,6 +350,7 @@
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						hideContainer('#anc-retest-thirty-six-weeks-container');
 						<!-- don't show viral load items if not known positive -->
 						hideContainer('#recent-viral-load-container');
 						hideContainer('#viral-load-test-date-container');
@@ -362,17 +363,55 @@
                         showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						hideContainer('#hiv-test-result-container');
+						hideContainer('#anc-retest-thirty-six-weeks-container');
 						<!-- Show the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							showContainer("#" + jq(this).attr("id"));
 						});
+					} else if(getValue('hiv-test.value') == 164913) {
+						<!-- Not tested -->
+
+                        showContainer('#anc-retest-thirty-six-weeks-container');
+						hideContainer('#hiv-test-result-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
+						setValue('art_start_date.value', '');
 					} else {
 						hideContainer('#hiv-test-result-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						hideContainer('#anc-retest-thirty-six-weeks-container');
 						<!-- don't show viral load items if not known positive -->
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
+						setValue('art_start_date.value', '');
+					}
+				});
+
+				<!-- ANC Re-test at 36 weeks -->
+				jq('#anc-retest-thirty-six-weeks').click(function(){
+					if(getValue('anc-retest-thirty-six-weeks.value') == 138571) {
+						showContainer('#art-initiation-container');
+						showContainer('#recent-viral-load-container');
+					} else {
+						<!-- restore the state of the containers before positive selection -->
+						hideContainer('#hiv-test-result-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
 						hideContainer('#recent-viral-load-container');
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
@@ -463,6 +502,15 @@
 					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing"
 					  answerSeparator="" />
 			</p>
+				<p id="anc-retest-thirty-six-weeks-container" class="hidden">
+					<label>
+						ANC Re-test HIV Status >= 36 weeks
+					</label>
+					<obs id="anc-retest-thirty-six-weeks" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="664,138571,1067,164913, 164932"
+						 answerLabels="Negative,Positive,Unknown, Not tested for HIV during this visit, Missing"
+						 answerSeparator=""  />
+				</p>
 				<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
