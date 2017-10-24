@@ -107,6 +107,28 @@
 
 				return true;
 			});
+
+			jq('#art_number_missing').change(function(){
+				handleMissingSelection('art_number');
+			});
+			jq('#art_start_date_missing').change(function(){
+				handleMissingSelection('art_start_date');
+			});
+			jq('#refused_art_missing').change(function(){
+				handleMissingSelection('refused_art');
+			});
+			jq('#viral_load_test_date_missing').change(function(){
+				handleMissingSelection('viral_load_test_date');
+			});
+			jq('#viral_load_copies_missing').change(function(){
+				handleMissingSelection('viral_load_copies');
+			});
+			jq('#next_visit_date_missing').change(function(){
+				handleMissingSelection('next_visit_date');
+			});
+			jq('#other_feeding_method_missing').change(function(){
+				handleMissingSelection('other_feeding_method');
+			});
 		});
 	</script>
 	
@@ -313,7 +335,7 @@
 					if (getValue('art-status.value')) {
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 						showContainer('#recent-viral-load-container');
 						hideContainer('#art-initiation-container');
 					} else {
@@ -337,7 +359,7 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -350,12 +372,12 @@
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					} else {
 						hideContainer('#refused-art-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
 			});
@@ -426,21 +448,24 @@
 				</p>
 				<p id="art-number-container" class="hidden narrow">
 						<label>ART Unique Number</label>
-						<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+						<patient id="art_number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Number missing"/>
 				</p>
 
 			<p id="refused-art-container" class="hidden">
 				<label>Reason for Refusing ART initiation</label>
-				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused_art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused_art_missing" conceptId="164937" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing ART initiation missing"/>
 			</p>
 			<p id="art-startdate-container" class="hidden narrow">
 				<label>ART Start Date</label>
-				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="art_start_date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="art_start_date_missing" conceptId="164938" style="checkbox" answerLabel="answerLabel" labelText="ART start date missing"/>
 				<script>
 					jq(function(){
-						jq('#art-start-date :input[type=text]').change(function(){
+						jq('#art_start_date :input[type=text]').change(function(){
 							
-							var art_start_date = getValue('art-start-date.value');
+							var art_start_date = getValue('art_start_date.value');
 							var visit_date = getValue('encounterDate.value');
 							
 							if (art_start_date != '') {
@@ -489,7 +514,8 @@
 				<!-- TODO: Add handling for the second viral load result -->
 			<p id="viral-load-test-date-container" class="narrow hidden">
 				<label>Viral load test date</label>
-				<obs conceptId="163281" id="viral-load-test-date"/>
+				<obs conceptId="163281" id="viral_load_test_date"/>
+				<obs id="viral_load_test_date_missing" conceptId="164939" style="checkbox" answerLabel="answerLabel" labelText="Viral load test date missing"/>
 			</p>
 			<p id="viral-load-results-container" class="hidden">
 				<label>Viral load results</label>
@@ -511,8 +537,8 @@
 			<p id="viral-load-copies-container" class="narrow hidden">
 				<label>Viral load</label>
 				
-				<obs id="viral-load-copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-			
+				<obs id="viral_load_copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="viral_load_copies_missing" conceptId="164940" style="checkbox" answerLabel="answerLabel" labelText="Viral load copies missing"/>
 			</p>
 		</div>
 	</section>
@@ -531,7 +557,8 @@
 				<label>
 					Other infant feeding method
 				</label>
-				<obs style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="other_feeding_method" style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="other_feeding_method_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Next visit date missing"/>
 			</p>
 		</div>
 		<script>
@@ -562,7 +589,8 @@
 		<div class="section-container">
 			<p id="next-visit-date-container" class="narrow">
 				<label>Next Visit Date</label>
-				<obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" required="true" />
+				<obs id="next_visit_date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" required="true" />
+				<obs id="next_visit_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Next visit date missing"/>
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
