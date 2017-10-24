@@ -245,7 +245,6 @@
                     jq('#infant-hiv-test').click(function(){
                         if (getValue('infant-hiv-test.value') == 164912) {
                             showContainer('#infant-test-type-container');
-                            <!-- showContainer('#confirmatory-test-done-container'); -->
                         } else {
                             hideContainer('#infant-test-type-container');
                             <!-- Don't keep the test result container when there is not type of test done-->
@@ -279,8 +278,6 @@
                     jq('#dnapcr-test-result').click(function(){
                             if (getValue('dnapcr-test-result.value') == 703) {
                                 showContainer('#confirmatory-test-done-container');
-                                <!-- showContainer('#infant-art-number-container'); -->
-                                <!-- showContainer('#infant-art-link-container'); -->
                             } else {
                                 hideContainer('#confirmatory-test-done-container');
                                 hideContainer('#final-test-result-container');
@@ -291,8 +288,6 @@
                 <!-- recorded test result for Rapid Test -->
                     jq('#rapid-test-result').click(function(){
                             if (getValue('rapid-test-result.value') == 703) {
-                                <!--showContainer('#infant-art-number-container');-->
-                                <!-- showContainer('#infant-art-link-container'); -->
                                 showContainer('#confirmatory-test-done-container'); <!-- A positive RT requires a final confirmatory test done -->
                             } else {
                                 hideContainer('#confirmatory-test-done-container');
@@ -545,14 +540,6 @@
                 });
             });
         </script>
-
-            <!--<p>
-                <label>
-                    Infant mother's status after this visit
-                </label>
-                <obs style="radio" conceptId="1856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="161636,159492,1067"
-                     answerLabels="Still in Care,Transferred Out, Unknown" answerSeparator=""/>
-            </p>-->
            </div>
         </section>
         <submit class="confirm center" />

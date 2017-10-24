@@ -301,7 +301,6 @@
         <script>
             jq(function() {
 				hideContainer('#hiv-test-container');
-				<!-- showContainer('#art-status-container');-->
 				showContainer('#recent-viral-load-container');
 				showContainer('#art-initiation-container');
 				<!-- Show the prophylaxis for the infants if mother is KP -->
@@ -314,29 +313,20 @@
     <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
         <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
             <div class="section-container">
-                    <!-- <p id="delivery-date-container" class="narrow">
-                        <label>Admission Date and time</label>
-                        <obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
-                    </p>
+                    <!--
                     <p id="pregnancy-number-container" class="narrow">
                         <label>
                             PTracker Pregnancy Number
                         </label>
                         <obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                     </p>
-                    <p>
-                    <obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
-                </p>-->
+                    -->
                 <p>
                     <label>
                         Was this client booked (Does Client have a pink book?) at ANC?
                     </label>
                     <obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" answerConceptIds="1065,1066,164932" answerLabels="Yes, No, Missing"/>
                 </p>
-                    <!-- <p id="delivery-date-container" class="narrow">
-                        <label>Delivery Date and time</label>
-                        <obs class="narrow" id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
-                    </p> -->
             </div>
         </section>
     </includeIf>
@@ -355,9 +345,7 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); -->
+
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -371,11 +359,8 @@
 						setValue('art_start_date.value', '');
 					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
-                        <!-- showContainer('#art-number-container');
-                        showContainer('#art-startdate-container'); -->
                         showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
-						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
 						<!-- Show the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
@@ -383,9 +368,6 @@
 						});
 					} else {
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -399,22 +381,7 @@
 						setValue('art_start_date.value', '');
 					}
 				});
-			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
-				<!-- reason for not testing -->
-				<!-- jq('#not-tested').click(function(){
-					if(getValue('not-tested.value') == 128453) {
-						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) { -->
-						<!-- previously known positive -->
-						<!--showContainer('#art-status-container');
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-initiatin-container');
-					} else {
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-initiatin-container');
-					}
-				});-->
-			<!-- TODO: 'reason for not testing' ends ... -->
+
 				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value') == 'true') {
@@ -434,7 +401,6 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
-						<!-- showContainer('#art-initiation-container'); -->
 					}
 				});
 				jq('#hiv-test-result').click(function(){
@@ -570,7 +536,6 @@
                             if (getValue('recent-viral-load.value') == 1065) {
                                 showContainer('#viral-load-results-container');
                                 showContainer('#viral-load-test-date-container');
-                                <!-- showContainer('#viral-load-copies-container'); -->
                             } else {
                                 hideContainer('#viral-load-results-container');
                                 hideContainer('#viral-load-test-date-container');
@@ -712,7 +677,6 @@
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
-									<!-- showContainer('#infant-death-date-container-{n}'); taken care of in the if statement above-->
 								}
 							});
 							jq('#infant_birth_date_missing').change(function(){

@@ -278,9 +278,6 @@
 				jq('#hiv-test').click(function(){
 						if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container'); TODO: to remove art-status code cleanup after UAT
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -293,17 +290,12 @@
 						<!-- clear the art date -->
 					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
-						<!-- showContainer('#art-number-container');
-						showContainer('#art-startdate-container');-->
                         showContainer('#art-initiation-container');
 						<!-- showContainer('#art-status-container');--> <!-- TODO: to remove code cleanup after UAT -->
 						showContainer('#recent-viral-load-container');
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); #zeek 15/5-->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -316,21 +308,7 @@
 						<!-- clear the art date -->
 					}
 				});
-			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
-				<!-- reason for not testing -->
-				<!--jq('#not-tested').click(function(){
-					if(getValue('not-tested.value') == 128453) {
-						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) { -->
-						<!-- previously known positive -->
-					<!--	showContainer('#art-status-container');
-						hideContainer('#refused-test-reason-container');
-					} else {
-						hideContainer('#refused-test-reason-container');
-					}
-				});-->
-			<!-- TODO: 'reason for not testing' ends ... -->
-				<!-- ART Status --> <!-- TODO: code cleanup after UAT 'art status section' will be removed since it can't be filled from the register -->
+				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value')) {
 						showContainer('#art-number-container');
@@ -389,7 +367,6 @@
 					<script>
 						jq(function() {
 							showContainer('#art-initiation-container');
-							<!-- showContainer('#art-status-container'); -->
 							showContainer('#recent-viral-load-container');
 						});
 					</script>
@@ -405,21 +382,7 @@
 						 answerConceptIds="164912,164911,164913,164932"
 						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing" answerSeparator="" />
 				</p>
-				<!-- TODO: to remove code cleanup after UAT
-				<p id="not-tested-container" class="hidden">
-					<label>
-						Reason for not testing
-					</label>
-					<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1169,160352,128453,1067"
-						 answerLabels="Previously known positive, Testing kit stockout, Refused test, Unknown" answerSeparator="" />
-				</p>
-				<p id="refused-test-reason-container" class="hidden">
-					<label>
-						Reason for refusing test
-					</label>
-					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-				</p>-->
+				<!-- add ANC retest -->
 
 			<p id="hiv-test-result-container" class="hidden">
 				<label>
@@ -475,10 +438,7 @@
 								} else {
 									var diff = Math.abs(new Date(changeFieldDateToJavascriptDate(visit_date)) - new Date(changeFieldDateToJavascriptDate(art_start_date)));
 									<!-- Show the viral load container if the ART start date is more than 6 months before today -->
-									<!-- var months = Math.round(diff/(86400000 * 30));
-									if (months > 6) { -->
 										showContainer('#recent-viral-load-container');
-									<!-- } -->
 								}
 							}
 						});
@@ -499,7 +459,6 @@
 								if (getValue('recent-viral-load.value') == 1065) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
-									<!-- hideContainer('#viral-load-copies-container'); -->
 								} else {
 									hideContainer('#viral-load-results-container');
 									hideContainer('#viral-load-test-date-container');
