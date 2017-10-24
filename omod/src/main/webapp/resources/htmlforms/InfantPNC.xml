@@ -471,12 +471,12 @@
             <p id="transfer-in-date-container" class="hidden narrow">
                 <label> Transfer in date </label>
                 <obs id="transfer_in_date" conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
-                <obs id="transfer_in_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Transfer in date missing"/>
+                <obs id="transfer_in_date_missing" conceptId="164946" style="checkbox" answerLabel="answerLabel" labelText="Transfer in date missing"/>
             </p>
             <p id="transfer-out-date-container" class="hidden narrow">
                 <label> Transfer out date </label>
                 <obs id="transfer_out_date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
-                <obs id="transfer_out_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
+                <obs id="transfer_out_date_missing" conceptId="164950" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
             </p>
             <p id="infant-death-date-container" class="hidden narrow">
                 <label>Date of Death</label>
