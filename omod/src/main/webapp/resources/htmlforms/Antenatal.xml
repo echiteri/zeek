@@ -524,7 +524,7 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
-						hideContainer('#refused-test-reason-container');-->
+						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -657,7 +657,9 @@
 			</p>
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>
-					<patient id="art_number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				<span id="art_number">
+					<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				</span>
 					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Number missing"/>
 			</p>
 			<p id="refused-art-container" class="hidden">
