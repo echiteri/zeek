@@ -334,7 +334,20 @@
                         }
                     });
 
+                <!-- handle missing values -->
+                jq('#transfer_in_date_missing').change(function(){
+                handleMissingSelection('transfer_in_date');
                 });
+                jq('#transfer_out_date_missing').change(function(){
+                handleMissingSelection('transfer_out_date');
+                });
+                jq('#infant_death_date_missing').change(function(){
+                handleMissingSelection('infant_death_date');
+                });
+                jq('#next_visit_date_missing').change(function(){
+                handleMissingSelection('next_visit_date');
+                });
+            });
             </script>
             <div class="section-container">
            <!-- <p class="narrow">
@@ -438,7 +451,7 @@
                     Infant ART Unique Number
                 </label>
                 <!--<patient field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" />-->
-                <input type="text" size="15"/>
+                <input id="infant_art_number" type="text" size="15"/>
             </p>
             </div>
         </section>
@@ -462,19 +475,23 @@
             </p>
             <p id="transfer-in-date-container" class="hidden narrow">
                 <label> Transfer in date </label>
-                <obs conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+                <obs id="transfer_in_date" conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+                <obs id="transfer_in_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Transfer in date missing"/>
             </p>
             <p id="transfer-out-date-container" class="hidden narrow">
                 <label> Transfer out date </label>
-                <obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+                <obs id="transfer_out_date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+                <obs id="transfer_out_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
             </p>
             <p id="infant-death-date-container" class="hidden narrow">
                 <label>Date of Death</label>
-                <obs id="infant-death-date" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+                <obs id="infant_death_date" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
+                <obs id="infant_death_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Infant death date missing"/>
             </p>
             <p id="next-visit-date-container" class="hidden narrow">
                 <label>Next visit date </label>
-                <obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/>
+                <obs id="next_visit_date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/>
+                <obs id="next_visit_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Next visit date missing"/>
             </p>
         <script>
             jq(function() {
