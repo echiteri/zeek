@@ -56,7 +56,7 @@ public class MetadataInitializer implements Initializer {
 			log.info("Address hierarchy installed");
 			
 			DataImporter dataImporter = Context.getRegisteredComponent("dataImporter", DataImporter.class);
-			dataImporter.importData("metadata/CustomConcepts-2.xml");
+			dataImporter.importData("metadata/CustomConcepts-3.xml");
 			log.info("Custom concepts imported");
 			
 			// install programs
