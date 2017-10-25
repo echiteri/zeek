@@ -330,9 +330,9 @@
                     });
 
                 <!-- handle missing values -->
-                jq('#transfer_in_date_missing').change(function(){
+                <!-- jq('#transfer_in_date_missing').change(function(){
                 handleMissingSelection('transfer_in_date');
-                });
+                });-->
                 jq('#transfer_out_date_missing').change(function(){
                 handleMissingSelection('transfer_out_date');
                 });

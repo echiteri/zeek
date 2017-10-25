@@ -142,20 +142,26 @@
 						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 154223) {
 
 							if(getValue('infant-status-'+ i + '.value') != 154223){<!-- Don't check if neo-natal death -->
-								if (!getValue('infant_birth_date_' + i + '.value')) {
-									getField('infant_birth_date_' + i + '.error').html('Please enter the date of birth').show();
-									isValid = false;
-								}
-								<!-- Check the Infant PTracker ID  -->
-								if (!getValue('child-number-' + i + '.value')) {
-									getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
-									isValid = false;
-								}
-								<!-- Check if the Infant PTracker ID meets the Regex -->
-								if(!regex.test(getValue('child-number-' + i + '.value'))){
-									getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
-									isValid = false;
-								}
+								<!--if(!getValue('infant_birth_date_' + i + '_missing.value')) --> <!-- validate if the value is not missing -->
+								<!--{ --> <!-- Check infant date of birth -->
+									if (!getValue('infant_birth_date_' + i + '.value')) {
+										getField('infant_birth_date_' + i + '.error').html('Please enter the date of birth').show();
+										isValid = false;
+									}
+								<!--}-->
+								<!-- if(!getValue('infant_birth_date_' + i + '_missing.value')) --> <!-- validate if the value is not missing -->
+								<!-- { -->
+									<!-- Check the Infant PTracker ID  -->
+									if (!getValue('child_number_' + i + '.value')) {
+										getField('child_number_' + i + '.error').html('Please enter the Infant PTracker ID').show();
+										isValid = false;
+									}
+									<!-- Check if the Infant PTracker ID meets the Regex -->
+									if(!regex.test(getValue('child_number_' + i + '.value'))){
+										getField('child_number_' + i + '.error').html('PTracker ID format is wrong.').show();
+										isValid = false;
+									}
+								<!--}-->
 							}
 							if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
 								getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
@@ -538,9 +544,12 @@
 
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>
-					<patient id="art_number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
-					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Number missing"/>
+				<span id="art_number">
+					<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				</span>
+					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Unique Number missing"/>
 			</p>
+
 			<p id="refused-art-container" class="hidden">
 				<label>Reason for refusing ART initiation</label>
 				<obs id="refused_art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
@@ -619,9 +628,9 @@
                 </script>
             </p><br/>
             <p id="viral-load-copies-container" class="narrow hidden">
-                <label>Viral load</label>
+                <label>Viral load (copies/ml)</label>
 
-                <obs id="viral_load_copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <obs id="viral_load_copies" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 				<obs id="viral_load_copies_missing" conceptId="164940" style="checkbox" answerLabel="answerLabel" labelText="Viral load copies missing"/>
 
             </p>
@@ -727,13 +736,13 @@
 									hideContainer('#child-number-container-{n}');
 								}
 							});
-							jq('#infant_birth_date_missing').change(function(){
+							jq('#infant_birth_date_{n}_missing').change(function(){
 								handleMissingSelection('infant_birth_date_{n}');
 							});
-							jq('#child_number_missing').change(function(){
+							jq('#child_number_{n}_missing').change(function(){
 								handleMissingSelection('child_number_{n}');
 							});
-							jq('#infant_death_missing').change(function(){
+							jq('#infant_death_date_{n}_missing').change(function(){
 								handleMissingSelection('infant_death_date_{n}');
 							});
 						});
@@ -746,14 +755,14 @@
 								<td>
 										<p id="infant-gender-container-{n}">
 											<label>Sex</label>
-											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534, 164932" answerLabels="Female, Male, Missing" answerSeparator="" />
+											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534" answerLabels="Female, Male" answerSeparator="" />
 										</p>
 								</td>
 								<td>
 									<p id="infant-birth-date-container-{n}" class="narrow">
 										<label>Date of Birth</label>
 										<obs id="infant_birth_date_{n}" conceptId="164802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-										<obs id="infant_birth_date_missing" conceptId="164943" style="checkbox" answerLabel="answerLabel" labelText="Infant date of birth missing"/>
+										<!-- <obs id="infant_birth_date_{n}_missing" conceptId="164943" style="checkbox" answerLabel="answerLabel" labelText="Infant date of birth missing"/>-->
 									</p>
 								</td>
 							</tr>
@@ -802,7 +811,7 @@
 									<p id="infant-death-date-container-{n}" class="hidden narrow">
 										<label>Date of Death</label>
 										<obs id="infant_death_date_{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-										<obs id="infant_death_missing" conceptId="164947" style="checkbox" answerLabel="answerLabel" labelText="Date of Death missing"/>
+										<obs id="infant_death_date_{n}_missing" conceptId="164947" style="checkbox" answerLabel="answerLabel" labelText="Date of Death missing"/>
 									</p>
 								</td>
 							</tr>
@@ -811,7 +820,7 @@
 									<p class="narrow">
 										<label>Infant PTracker ID</label>
 										<obs id="child_number_{n}" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-										<obs id="child_number_missing" conceptId="164944" style="checkbox" answerLabel="answerLabel" labelText="Infant PTracker ID missing"/>
+										<!--<obs id="child_number_{n}_missing" conceptId="164944" style="checkbox" answerLabel="answerLabel" labelText="Infant PTracker ID missing"/>-->
 									</p>
 								</td>
 								<td></td>
