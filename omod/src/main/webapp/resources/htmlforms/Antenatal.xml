@@ -578,8 +578,8 @@
 					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
 						<!-- positive result or unknown (since unknown is a valid answer) -->
 						showContainer('#art-initiation-container');
-						showContainer('#art-number-container');
-						showContainer('#art-startdate-container');
+						<!-- showContainer('#art-number-container'); -->
+						<!-- showContainer('#art-startdate-container'); -->
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');

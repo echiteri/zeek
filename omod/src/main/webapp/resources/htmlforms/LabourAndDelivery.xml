@@ -452,8 +452,8 @@
 					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
 						<!-- positive result or Unknown (since Unknown is an answer)-->
 						showContainer('#art-initiation-container');
-						showContainer('#art-number-container');
-						showContainer('#art-startdate-container');
+						<!-- showContainer('#art-number-container');
+						showContainer('#art-startdate-container'); -->
 						<!-- show the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							showContainer("#" + jq(this).attr("id"));
