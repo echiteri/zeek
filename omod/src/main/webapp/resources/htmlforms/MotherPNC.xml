@@ -92,6 +92,14 @@
 						}
 					}
 				}
+				<!-- Validate next visit date-->
+				if(!getValue('next_visit_date_missing.value'){
+					setValue('next_visit_date.error', '');
+					if (!getValue('next_visit_date.value')) {
+						getField('next_visit_date.error').html('Next visit date must be provided').show();
+						return false;
+					}
+				}
 				<!-- var first_postnatal_date = getValue('first-postnatal-visit-date.value'); -->
 				var first_postnatal_date = getValue('encounterDate.value');
 				var current_date = new Date();
@@ -516,7 +524,7 @@
 					Other infant feeding method
 				</label>
 				<obs id="other_feeding_method" style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-				<obs id="other_feeding_method_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Next visit date missing"/>
+				<obs id="other_feeding_method_missing" conceptId="164945" style="checkbox" answerLabel="answerLabel" labelText="Other feeding method missing"/>
 			</p>
 		</div>
 		<script>
@@ -547,7 +555,7 @@
 		<div class="section-container">
 			<p id="next-visit-date-container" class="narrow">
 				<label>Next Visit Date</label>
-				<obs id="next_visit_date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" required="true" />
+				<obs id="next_visit_date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
 				<obs id="next_visit_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Next visit date missing"/>
 			</p>
 			<p id="transfer-out-container">
