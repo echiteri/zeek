@@ -318,6 +318,14 @@
 							});
 							jq('#lmp_missing').change(function(){
 								handleMissingSelection('lmp');
+								<!-- Disable EDD if LNMP is missing -->
+								if (getValue('lmp_missing.value')) {
+									disableContainer('#edd');
+									disableContainer('#edd_missing');
+								} else {
+									enableContainer('#edd');
+									enableContainer('#edd_missing');
+								}
 							});
 							jq('#edd_missing').change(function(){
 								handleMissingSelection('edd');

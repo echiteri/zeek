@@ -93,7 +93,7 @@
 					}
 				}
 				<!-- Validate next visit date-->
-				if(!getValue('next_visit_date_missing.value'){
+				if(!getValue('next_visit_date_missing.value')){
 					setValue('next_visit_date.error', '');
 					if (!getValue('next_visit_date.value')) {
 						getField('next_visit_date.error').html('Next visit date must be provided').show();
@@ -136,6 +136,9 @@
 			});
 			jq('#other_feeding_method_missing').change(function(){
 				handleMissingSelection('other_feeding_method');
+			});
+			jq('#transfer_out_date_missing').change(function(){
+				handleMissingSelection('transfer_out_date');
 			});
 		});
 	</script>
@@ -501,9 +504,9 @@
 					</script>
 			</p><br/>
 			<p id="viral-load-copies-container" class="narrow hidden">
-				<label>Viral load</label>
+				<label>Viral load (copies/ml)</label>
 				
-				<obs id="viral_load_copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="viral_load_copies" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 				<obs id="viral_load_copies_missing" conceptId="164940" style="checkbox" answerLabel="answerLabel" labelText="Viral load copies missing"/>
 			</p>
 		</div>
@@ -544,10 +547,12 @@
 		<script>
 			jq(function() {
 				jq('#transfer-out').click(function(){
-					if (getValue('transfer-out.value') == 1065) {
+					if (getValue('transfer-out.value') == 160036) {
 						showContainer('#transfer-out-to-container');
+						showContainer('#transfer-out-date-container');
 					} else {
 						hideContainer('#transfer-out-to-container');
+						hideContainer('#transfer-out-date-container');
 					}
 				});
 			});
@@ -560,11 +565,16 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer,Missing" answerSeparator="" required="true"  />
+				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer out, Missing" answerSeparator="" required="true"  />
 			</p>
 			<p id="transfer-out-to-container" class="hidden">
 				<label>Transfer to</label>
 				<obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
+			</p>
+			<p id="transfer-out-date-container" class="hidden narrow">
+				<label> Transfer out date </label>
+				<obs id="transfer_out_date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+				<obs id="transfer_out_date_missing" conceptId="164950" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
 			</p>
 		</div>
 	</section>

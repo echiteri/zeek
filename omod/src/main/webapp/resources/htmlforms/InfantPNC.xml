@@ -310,22 +310,38 @@
                     if (getValue('infant-hiv-exposure-status.value') == 164920) {
                         showContainer('#infant-prophylaxis-status-container');
                         showContainer('#infant-ctx-status-container');
+                        showContainer('#infant-hiv-test-container');
+                        showContainer('#infant-transfer-status-container');
+                        showContainer('#submit-container');
+                        hideContainer('#cancel-container');
                     } else {
                         hideContainer('#infant-prophylaxis-status-container');
                         hideContainer('#infant-ctx-status-container');
                         hideContainer('#infant-prophylaxis-adherence-container');
                         hideContainer('#infant-ctx-adherence-container');
+                        hideContainer('#infant-hiv-test-container');
+                        hideContainer('#infant-transfer-status-container');
+                        showContainer('#cancel-container');
+                        hideContainer('#submit-container');
 
                     }
                 });
                 <!-- final test result Only link to ART and indicate ART number when final test result returns positive-->
                 jq('#final-test-result').click(function(){
                     if (getValue('final-test-result.value') == 703) {
-                            showContainer('#infant-art-number-container');
                             showContainer('#infant-art-link-container');
                         } else {
-                            hideContainer('#infant-art-number-container');
                             hideContainer('#infant-art-link-container');
+                        }
+                    });
+                <!-- Infant linked to ART, enter the ART Number-->
+                jq('#infant-art-link').click(function(){
+                    if (getValue('infant-art-link.value') == 1065) {
+                            showContainer('#infant-art-number-container');
+                            hideContainer('#next-visit-date-container');
+                        } else {
+                            hideContainer('#infant-art-number-container');
+                            showContainer('#next-visit-date-container');
                         }
                     });
 
@@ -334,13 +350,16 @@
                 handleMissingSelection('transfer_in_date');
                 });-->
                 jq('#transfer_out_date_missing').change(function(){
-                handleMissingSelection('transfer_out_date');
+                    handleMissingSelection('transfer_out_date');
                 });
                 jq('#infant_death_date_missing').change(function(){
-                handleMissingSelection('infant_death_date');
+                    handleMissingSelection('infant_death_date');
                 });
                 jq('#next_visit_date_missing').change(function(){
-                handleMissingSelection('next_visit_date');
+                    handleMissingSelection('next_visit_date');
+                });
+                jq('#infant_art_number_missing').change(function(){
+                    handleMissingSelection('infant_art_number');
                 });
             });
             </script>
@@ -430,8 +449,8 @@
                         <label>
                             What was the final test result for the confirmatory test?
                         </label> <!-- Child HIV antibody test result -->
-                        <obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,164932"
-                             answerLabels="Negative,Positive,Missing"  answerSeparator=""/>
+                        <obs id="final-test-result" style="radio" conceptId="164460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,159971,164932"
+                             answerLabels="Negative,Positive,Results Pending, Missing"  answerSeparator=""/>
                     </p>
                 <!-- </includeIf>  -->
             <p id="infant-art-link-container" class="hidden">
@@ -446,13 +465,17 @@
                     Infant ART Unique Number
                 </label>
                 <!--<patient field="identifier" identifierTypeId="05ee9cf4-7242-4a17-b4d4-00f707265c8a" />-->
-                <input id="infant_art_number" type="text" size="15"/>
+                <!-- <input id="infant_art_number" type="text" size="15"/> -->
+                <span id="infant_art_number">
+                    <patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+                </span>
+                <obs id="infant_art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="Infant ART Unique Number missing"/>
             </p>
             </div>
         </section>
-        <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant statuses">
+        <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant status">
             <div class="section-container radios">
-            <p>
+            <p id="infant-transfer-status-container">
                 <label>
                     Infant outcome status
                 </label>
@@ -515,11 +538,13 @@
                         hideContainer('#transfer-out-to-container');
                         hideContainer('#transfer-out-date-container');
                     }
-            <!-- Dead -->
-                    if (getValue('infant-transfer-status.value') == 160432) {
-                        showContainer('#infant-death-date-container');
+            <!-- Do not show next visit date when Missed, Dead, Transferred Out is selected -->
+                    if (getValue('infant-transfer-status.value') == 164932 ||
+                        getValue('infant-transfer-status.value') == 160432 ||
+                        getValue('infant-transfer-status.value') == 159492) {
+                            hideContainer('#next-visit-date-container');
                     } else {
-                        hideContainer('#infant-death-date-container');
+                            showContainer('#next-visit-date-container');
                     }
                 });
 
@@ -542,6 +567,11 @@
         </script>
            </div>
         </section>
-        <submit class="confirm center" />
+        <p id="submit-container" class="hidden">
+            <submit id="enterSubmission" class="confirm center" />
+        </p>
+        <p id="cancel-container" class="hidden">
+            <input id="cancelSubmission" value="Cancel" class="cancel center hidden" type="button" />
+        </p>
     </includeIf>
 </htmlform>
