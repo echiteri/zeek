@@ -177,4 +177,38 @@
 
 		</sql>
 	</changeSet>
+	<changeSet id="concept_name_changes_from_1.2_review" author="ssmusoke">
+		<comment>Updates to concept names to match the literals used on the forms</comment>
+		<sql>
+			# 160119 from Already on ART to Already on ART before current pregnancy
+			UPDATE concept_name SET name = 'Already on ART before current pregnancy' WHERE concept_name_id = '107851';
+
+			# 1754 from Stockout to Not started due to stockout of ART
+			UPDATE concept_name SET name = 'Not started due to stockout of ART' WHERE concept_name_id = '2034';
+
+			# 160120 from Taking Inititated ARVs to Started on ART in ANC current pregnancy
+			UPDATE concept_name SET name = 'Started on ART in ANC current pregnancy' WHERE concept_name_id = '107853';
+
+			# 134612 from Maternal Death to Mother Died
+			UPDATE concept_name SET name = 'Mother Died' WHERE concept_name_id = '34493';
+
+			# 1535 from Female gender to Female
+			UPDATE concept_name SET name = 'Female' WHERE concept_name_id = '1795';
+
+			# 1534 from Male gender to Male
+			UPDATE concept_name SET name = 'Male' WHERE concept_name_id = '1793';
+
+			# 151849 from Livebirth to Infant Alive
+			UPDATE concept_name SET name = 'Infant Alive' WHERE concept_name_id = '107439';
+
+			# 160036 from Patient transferred out to Transfer to Transfer
+			UPDATE concept_name SET name = 'Transfer' WHERE concept_name_id = '107695';
+
+			# 163266 from Current health facility to This facility
+			UPDATE concept_name SET name = 'This facility' WHERE concept_name_id = '135553';
+
+			# 1595 from REPLACEMENT FEEDING to Replacement feeding
+			UPDATE concept_name SET name = 'Replacement feeding' WHERE concept_name_id = '1872';
+		</sql>
+	</changeSet>
 </databaseChangeLog>
