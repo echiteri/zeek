@@ -62,6 +62,9 @@ public class AppConfigurationInitializer implements Initializer {
 			appFrameworkService.disableApp("coreapps.visitByEncounterType");
 			appFrameworkService.disableApp("coreapps.visits");
 
+			// disable the Namibia registration app so that it can only be found from patient search
+			appFrameworkService.disableApp("namibia.registrationapp.registerPatient");
+
 			// set defined global properties
 			administrationService.saveGlobalProperties(configureGlobalProperties());
 			
