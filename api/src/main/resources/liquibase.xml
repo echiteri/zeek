@@ -117,8 +117,8 @@
 			# Answer migrations
 			# 1066 No to 163266 - Current Health Facility
 			UPDATE obs SET value_coded = 163266 WHERE value_coded = 1066 AND concept_id = 1285;
-			# 1067 Unknown to 164917 - In Transit
-			UPDATE obs SET value_coded = 164917 WHERE value_coded = 1067 AND concept_id = 1285;
+			# 1067 Unknown to 164932 - Missing
+			UPDATE obs SET value_coded = 164932 WHERE value_coded = 1067 AND concept_id = 1285;
 			# 1065 Yes to 160036 - Patient transferred out
 			UPDATE obs SET value_coded = 160036 WHERE value_coded = 1065 AND concept_id = 1285;
 			# Migrate the question
@@ -128,7 +128,7 @@
 			UPDATE obs SET value_coded = 134612 WHERE value_coded = 160034 AND concept_id = 1856;
 			
 			# 1148 Infant Received ARV answer 1065 Yes to 164918 ARV Prophylaxis daily up to 6 weeks
-			UPDATE obs SET value_coded = 164918 WHERE value_coded = 1065 AND concept_id = 1148;
+			## SEE line 142: UPDATE obs SET value_coded = 164918 WHERE value_coded = 1065 AND concept_id = 1148;
 			
 			# 5303 HIV Exposure Status to 164921 CHILDS CURRENT HIV STATUS
 			# Answer migrations
