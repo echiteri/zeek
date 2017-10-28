@@ -124,7 +124,7 @@
 				var regex = /^[0-9]{5}[A-S]{1}[0-9]{7,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
-					setValue('infant-birth-date-' + i + '.error', '');
+					setValue('infant_birth_date_' + i + '.error', '');
 					setValue('infant-status-' + i + '.error', '');
 					setValue('still-birth-' + i + '.error', '');
 					setValue('infant-arv-prophylaxis-' + i + '.error', '');
@@ -142,20 +142,26 @@
 						if (getValue('infant-status-'+ i + '.value') == 151849 || getValue('infant-status-'+ i + '.value') == 154223) {
 
 							if(getValue('infant-status-'+ i + '.value') != 154223){<!-- Don't check if neo-natal death -->
-								if (!getValue('infant-birth-date-' + i + '.value')) {
-									getField('infant-birth-date-' + i + '.error').html('Please enter the date of birth').show();
-									isValid = false;
-								}
-								<!-- Check the Infant PTracker ID  -->
-								if (!getValue('child-number-' + i + '.value')) {
-									getField('child-number-' + i + '.error').html('Please enter the Infant PTracker ID').show();
-									isValid = false;
-								}
-								<!-- Check if the Infant PTracker ID meets the Regex -->
-								if(!regex.test(getValue('child-number-' + i + '.value'))){
-									getField('child-number-' + i + '.error').html('PTracker ID format is wrong.').show();
-									isValid = false;
-								}
+								<!--if(!getValue('infant_birth_date_' + i + '_missing.value')) --> <!-- validate if the value is not missing -->
+								<!--{ --> <!-- Check infant date of birth -->
+									if (!getValue('infant_birth_date_' + i + '.value')) {
+										getField('infant_birth_date_' + i + '.error').html('Please enter the date of birth').show();
+										isValid = false;
+									}
+								<!--}-->
+								<!-- if(!getValue('infant_birth_date_' + i + '_missing.value')) --> <!-- validate if the value is not missing -->
+								<!-- { -->
+									<!-- Check the Infant PTracker ID  -->
+									if (!getValue('child_number_' + i + '.value')) {
+										getField('child_number_' + i + '.error').html('Please enter the Infant PTracker ID').show();
+										isValid = false;
+									}
+									<!-- Check if the Infant PTracker ID meets the Regex -->
+									if(!regex.test(getValue('child_number_' + i + '.value'))){
+										getField('child_number_' + i + '.error').html('PTracker ID format is wrong.').show();
+										isValid = false;
+									}
+								<!--}-->
 							}
 							if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
 								getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
@@ -181,6 +187,22 @@
 				}
 				return isValid;
 			});
+			jq('#art_number_missing').change(function(){
+				handleMissingSelection('art_number');
+			});
+			jq('#art_start_date_missing').change(function(){
+				handleMissingSelection('art_start_date');
+			});
+			jq('#refused_art_missing').change(function(){
+				handleMissingSelection('refused_art');
+			});
+			jq('#viral_load_test_date_missing').change(function(){
+				handleMissingSelection('viral_load_test_date');
+			});
+			jq('#viral_load_copies_missing').change(function(){
+				handleMissingSelection('viral_load_copies');
+			});
+
 		});
 	</script>
 	
@@ -285,7 +307,6 @@
         <script>
             jq(function() {
 				hideContainer('#hiv-test-container');
-				<!-- showContainer('#art-status-container');-->
 				showContainer('#recent-viral-load-container');
 				showContainer('#art-initiation-container');
 				<!-- Show the prophylaxis for the infants if mother is KP -->
@@ -298,29 +319,20 @@
     <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
         <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
             <div class="section-container">
-                    <!-- <p id="delivery-date-container" class="narrow">
-                        <label>Admission Date and time</label>
-                        <obs id="admission-date" conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" default="today" allowFutureDates="false" class="narrow"/>
-                    </p>
+                    <!--
                     <p id="pregnancy-number-container" class="narrow">
                         <label>
                             PTracker Pregnancy Number
                         </label>
                         <obs id="pregancy-number" conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                     </p>
-                    <p>
-                    <obs style="checkbox" conceptId="1246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"  labelText="Was this client booked (Does Client have a pink book?) at ANC?" />
-                </p>-->
+                    -->
                 <p>
                     <label>
                         Was this client booked (Does Client have a pink book?) at ANC?
                     </label>
                     <obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" answerConceptIds="1065,1066,164932" answerLabels="Yes, No, Missing"/>
                 </p>
-                    <!-- <p id="delivery-date-container" class="narrow">
-                        <label>Delivery Date and time</label>
-                        <obs class="narrow" id="delivery-date" conceptId="5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
-                    </p> -->
             </div>
         </section>
     </includeIf>
@@ -339,66 +351,82 @@
 				jq('#hiv-test').click(function(){
 					if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); -->
+
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						hideContainer('#anc-retest-thirty-six-weeks-container');
 						<!-- don't show viral load items if not known positive -->
 						hideContainer('#recent-viral-load-container');
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
 						<!-- clear the art date -->
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
-                        <!-- showContainer('#art-number-container');
-                        showContainer('#art-startdate-container'); -->
                         showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
-						<!-- showContainer('#art-status-container');  -->
 						hideContainer('#hiv-test-result-container');
+						hideContainer('#anc-retest-thirty-six-weeks-container');
 						<!-- Show the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							showContainer("#" + jq(this).attr("id"));
 						});
-					} else {
+					} else if(getValue('hiv-test.value') == 164913) {
+						<!-- Not tested -->
+
+                        showContainer('#anc-retest-thirty-six-weeks-container');
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container');
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
 						hideContainer('#refused-art-container');
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
+						setValue('art_start_date.value', '');
+					} else {
+						hideContainer('#hiv-test-result-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+						hideContainer('#anc-retest-thirty-six-weeks-container');
 						<!-- don't show viral load items if not known positive -->
 						hideContainer('#recent-viral-load-container');
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
 						<!-- clear the art date -->
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
-			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
-				<!-- reason for not testing -->
-				<!-- jq('#not-tested').click(function(){
-					if(getValue('not-tested.value') == 128453) {
-						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) { -->
-						<!-- previously known positive -->
-						<!--showContainer('#art-status-container');
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-initiatin-container');
+
+				<!-- ANC Re-test at 36 weeks -->
+				jq('#anc-retest-thirty-six-weeks').click(function(){
+					if(getValue('anc-retest-thirty-six-weeks.value') == 138571) {
+						showContainer('#art-initiation-container');
+						showContainer('#recent-viral-load-container');
 					} else {
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-initiatin-container');
+						<!-- restore the state of the containers before positive selection -->
+						hideContainer('#hiv-test-result-container');
+						hideContainer('#art-number-container');
+						hideContainer('#art-startdate-container');
+						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container');
+						hideContainer('#recent-viral-load-container');
+						hideContainer('#viral-load-test-date-container');
+						hideContainer('#viral-load-results-container');
+						hideContainer('#viral-load-copies-container');
+						<!-- clear the art date -->
+						setValue('art_start_date.value', '');
 					}
-				});-->
-			<!-- TODO: 'reason for not testing' ends ... -->
+				});
+
 				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value') == 'true') {
@@ -406,7 +434,7 @@
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						<!-- Enusre ART start date is empty -->
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
 						hideContainer('#art-initiation-container');
 					} else {
@@ -418,15 +446,14 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
-						<!-- showContainer('#art-initiation-container'); -->
 					}
 				});
 				jq('#hiv-test-result').click(function(){
 					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
 						<!-- positive result or Unknown (since Unknown is an answer)-->
 						showContainer('#art-initiation-container');
-						showContainer('#art-number-container');
-						showContainer('#art-startdate-container');
+						<!-- showContainer('#art-number-container');
+						showContainer('#art-startdate-container'); -->
 						<!-- show the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							showContainer("#" + jq(this).attr("id"));
@@ -440,7 +467,7 @@
 						jq(".prophylaxis").each(function(){
 							hideContainer("#" + jq(this).attr("id"));
 						});
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -453,12 +480,12 @@
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					} else {
 						hideContainer('#refused-art-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
 			});
@@ -481,6 +508,15 @@
 					 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing"
 					  answerSeparator="" />
 			</p>
+				<p id="anc-retest-thirty-six-weeks-container" class="hidden">
+					<label>
+						ANC Re-test HIV Status >= 36 weeks
+					</label>
+					<obs id="anc-retest-thirty-six-weeks" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="664,138571,1067,164913, 164932"
+						 answerLabels="Negative,Positive,Unknown, Not tested for HIV during this visit, Missing"
+						 answerSeparator=""  />
+				</p>
 				<p id="hiv-test-result-container" class="hidden">
 				<label>
 					HIV Test Result
@@ -508,20 +544,26 @@
 
 			<p id="art-number-container" class="hidden narrow">
 					<label>ART Unique Number</label>
-					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				<span id="art_number">
+					<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				</span>
+					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Unique Number missing"/>
 			</p>
+
 			<p id="refused-art-container" class="hidden">
 				<label>Reason for refusing ART initiation</label>
-				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused_art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused_art_missing" conceptId="164937" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing ART initiation missing"/>
 			</p>
 			<p id="art-startdate-container" class="hidden narrow">
 				<label>ART start date</label>
-				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="art_start_date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="art_start_date_missing" conceptId="164938" style="checkbox" answerLabel="answerLabel" labelText="ART start date missing"/>
 				<script>
 					jq(function(){
-						jq('#art-start-date :input[type=text]').change(function(){
+						jq('#art_start_date :input[type=text]').change(function(){
 							
-							var art_start_date = getValue('art-start-date.value');
+							var art_start_date = getValue('art_start_date.value');
 							var visit_date = getValue('encounterDate.value');
 							
 							if (art_start_date != '') {
@@ -551,7 +593,6 @@
                             if (getValue('recent-viral-load.value') == 1065) {
                                 showContainer('#viral-load-results-container');
                                 showContainer('#viral-load-test-date-container');
-                                <!-- showContainer('#viral-load-copies-container'); -->
                             } else {
                                 hideContainer('#viral-load-results-container');
                                 hideContainer('#viral-load-test-date-container');
@@ -566,7 +607,8 @@
             <!-- TODO: Add handling for the second viral load result -->
             <p id="viral-load-test-date-container" class="narrow hidden">
                 <label>Viral load test date</label>
-                <obs conceptId="163281" id="viral-load-test-date"/>
+                <obs conceptId="163281" id="viral_load_test_date"/>
+				<obs id="viral_load_test_date_missing" conceptId="164939" style="checkbox" answerLabel="answerLabel" labelText="Viral load test date missing"/>
             </p>
             <p id="viral-load-results-container" class="hidden">
                 <label>Viral load results</label>
@@ -586,9 +628,10 @@
                 </script>
             </p><br/>
             <p id="viral-load-copies-container" class="narrow hidden">
-                <label>Viral load</label>
+                <label>Viral load (copies/ml)</label>
 
-                <obs id="viral-load-copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <obs id="viral_load_copies" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+				<obs id="viral_load_copies_missing" conceptId="164940" style="checkbox" answerLabel="answerLabel" labelText="Viral load copies missing"/>
 
             </p>
 		</div>
@@ -607,6 +650,14 @@
 						} else {
 							<!-- hide the rest of the containers just in case a higher number was selected before -->
 							hideContainer('#' + (i +1) + '-toggleContainer');
+						}
+						<!-- If a mother is negative, we don’t need to ask the question on ARV prophylaxis on infant section -->
+						if(getValue('hiv-test-result.value') == 664)
+						{
+							hideContainer('#infant-arv-prophylaxis-container-i');
+						}else
+						{
+							showContainer('#infant-arv-prophylaxis-container-i');
 						}
 					}
 				});
@@ -658,6 +709,7 @@
 					<h3>Child # {n}</h3>
 					<script>
 						jq(function(){
+
 						
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
@@ -677,11 +729,11 @@
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
-									} else if (getValue('infant-status-{n}.value') == 154223) { <!-- neo-natal death -->
+									<!-- } else if (getValue('infant-status-{n}.value') == 154223) { -neo-natal death -
 										hideContainer('#still-birth-container-{n}');
 										showContainer('#breastfeeding-container-{n}');
 										showContainer('#infant-arv-prophylaxis-container-{n}');
-										showContainer('#infant-death-date-container-{n}');
+										showContainer('#infant-death-date-container-{n}'); -->
 									}else {
 										hideContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
@@ -691,8 +743,16 @@
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
-									<!-- showContainer('#infant-death-date-container-{n}'); taken care of in the if statement above-->
 								}
+							});
+							jq('#infant_birth_date_{n}_missing').change(function(){
+								handleMissingSelection('infant_birth_date_{n}');
+							});
+							jq('#child_number_{n}_missing').change(function(){
+								handleMissingSelection('child_number_{n}');
+							});
+							jq('#infant_death_date_{n}_missing').change(function(){
+								handleMissingSelection('infant_death_date_{n}');
 							});
 						});
 					</script>
@@ -704,13 +764,14 @@
 								<td>
 										<p id="infant-gender-container-{n}">
 											<label>Sex</label>
-											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534, 164932" answerLabels="Female, Male, Missing" answerSeparator="" />
+											<obs id="infant-gender-{n}" style="radio" conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1535,1534" answerLabels="Female, Male" answerSeparator="" />
 										</p>
 								</td>
 								<td>
 									<p id="infant-birth-date-container-{n}" class="narrow">
 										<label>Date of Birth</label>
-										<obs id="infant-birth-date-{n}" conceptId="164802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+										<obs id="infant_birth_date_{n}" conceptId="164802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+										<!-- <obs id="infant_birth_date_{n}_missing" conceptId="164943" style="checkbox" answerLabel="answerLabel" labelText="Infant date of birth missing"/>-->
 									</p>
 								</td>
 							</tr>
@@ -750,7 +811,7 @@
 											Infant Received ARV
 										</label>
 										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164932"
-											 answerLabels="ARV Prohylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
+											 answerLabels="ARV Prophylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
 											 answerSeparator="" />
 									</p>
 									
@@ -758,7 +819,8 @@
 								<td>
 									<p id="infant-death-date-container-{n}" class="hidden narrow">
 										<label>Date of Death</label>
-										<obs id="infant-death-date-{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+										<obs id="infant_death_date_{n}" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+										<obs id="infant_death_date_{n}_missing" conceptId="164947" style="checkbox" answerLabel="answerLabel" labelText="Date of Death missing"/>
 									</p>
 								</td>
 							</tr>
@@ -766,7 +828,8 @@
 								<td>
 									<p class="narrow">
 										<label>Infant PTracker ID</label>
-										<obs id="child-number-{n}" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+										<obs id="child_number_{n}" conceptId="164803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+										<!--<obs id="child_number_{n}_missing" conceptId="164944" style="checkbox" answerLabel="answerLabel" labelText="Infant PTracker ID missing"/>-->
 									</p>
 								</td>
 								<td></td>
