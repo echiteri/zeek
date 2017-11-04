@@ -408,9 +408,14 @@
 
 				<!-- ANC Re-test at 36 weeks -->
 				jq('#anc-retest-thirty-six-weeks').click(function(){
-					if(getValue('anc-retest-thirty-six-weeks.value') == 138571) {
+				<!-- positive or unknown -->
+					if(getValue('anc-retest-thirty-six-weeks.value') == 138571 || getValue('anc-retest-thirty-six-weeks.value') == 1067) {
 						showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
+						<!-- show the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							showContainer("#" + jq(this).attr("id"));
+						});
 					} else {
 						<!-- restore the state of the containers before positive selection -->
 						hideContainer('#hiv-test-result-container');
@@ -422,6 +427,10 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
+						<!-- hide the prophylaxis for the infants -->
+						jq(".prophylaxis").each(function(){
+							hideContainer("#" + jq(this).attr("id"));
+						});
 						<!-- clear the art date -->
 						setValue('art_start_date.value', '');
 					}
@@ -651,14 +660,6 @@
 							<!-- hide the rest of the containers just in case a higher number was selected before -->
 							hideContainer('#' + (i +1) + '-toggleContainer');
 						}
-						<!-- If a mother is negative, we don’t need to ask the question on ARV prophylaxis on infant section -->
-						if(getValue('hiv-test-result.value') == 664)
-						{
-							hideContainer('#infant-arv-prophylaxis-container-i');
-						}else
-						{
-							showContainer('#infant-arv-prophylaxis-container-i');
-						}
 					}
 				});
 				jq(function(){
@@ -717,7 +718,11 @@
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
-									showContainer('#infant-arv-prophylaxis-container-{n}');
+									<!-- showContainer('#infant-arv-prophylaxis-container-{n}'); -->
+									<!-- Don't show infant prophylaxis if negative test is selected for the mother -->
+									if(getValue('hiv-test-result.value') == 664 || getValue('anc-retest-thirty-six-weeks.value') == 664)
+										{ hideContainer('#infant-arv-prophylaxis-container-i'); }else
+										{ showContainer('#infant-arv-prophylaxis-container-i');}
 						
                                     hideContainer('#still-birth-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
