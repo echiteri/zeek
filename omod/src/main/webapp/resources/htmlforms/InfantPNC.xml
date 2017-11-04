@@ -538,10 +538,11 @@
                         hideContainer('#transfer-out-to-container');
                         hideContainer('#transfer-out-date-container');
                     }
-            <!-- Do not show next visit date when Missed, Dead, Transferred Out is selected -->
+            <!-- Do not show next visit date when Missed, Dead, Transferred Out, LTFU is selected -->
                     if (getValue('infant-transfer-status.value') == 164932 ||
                         getValue('infant-transfer-status.value') == 160432 ||
-                        getValue('infant-transfer-status.value') == 159492) {
+                        getValue('infant-transfer-status.value') == 159492 ||
+                        getValue('infant-transfer-status.value') == 5240) {
                             hideContainer('#next-visit-date-container');
                     } else {
                             showContainer('#next-visit-date-container');
