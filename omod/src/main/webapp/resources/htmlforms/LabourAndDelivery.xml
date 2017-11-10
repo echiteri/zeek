@@ -161,11 +161,17 @@
 										getField('child_number_' + i + '.error').html('PTracker ID format is wrong.').show();
 										isValid = false;
 									}
-								<!--}-->
+								<!--} -->
 							}
-							if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
-								getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
-								isValid = false;
+							if(getValue('hiv-test-result.value') == 138571
+								|| getValue('hiv-test-result.value') == 1067
+								|| getValue('anc-retest-thirty-six-weeks.value') == 138571
+								|| getValue('anc-retest-thirty-six-weeks.value') == 1067)
+							{ <!-- Only validate when HIV test result and ANC Retest at 36 weeks is positive or Unknown -->
+								if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
+									getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
+									isValid = false;
+								}
 							}
 
 							if (!getValue('breastfeeding-' + i + '.value')) {
@@ -721,8 +727,8 @@
 									<!-- showContainer('#infant-arv-prophylaxis-container-{n}'); -->
 									<!-- Don't show infant prophylaxis if negative test is selected for the mother -->
 									if(getValue('hiv-test-result.value') == 664 || getValue('anc-retest-thirty-six-weeks.value') == 664)
-										{ hideContainer('#infant-arv-prophylaxis-container-i'); }else
-										{ showContainer('#infant-arv-prophylaxis-container-i');}
+										{hideContainer('#infant-arv-prophylaxis-container-{n}'); }else
+										{showContainer('#infant-arv-prophylaxis-container-{n}');}
 						
                                     hideContainer('#still-birth-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
@@ -734,11 +740,11 @@
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
-									<!-- } else if (getValue('infant-status-{n}.value') == 154223) { -neo-natal death -
+									} else if (getValue('infant-status-{n}.value') == 154223) { <!--neo-natal death -->
 										hideContainer('#still-birth-container-{n}');
 										showContainer('#breastfeeding-container-{n}');
-										showContainer('#infant-arv-prophylaxis-container-{n}');
-										showContainer('#infant-death-date-container-{n}'); -->
+										<!-- showContainer('#infant-arv-prophylaxis-container-{n}'); -->
+										showContainer('#infant-death-date-container-{n}');
 									}else {
 										hideContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
