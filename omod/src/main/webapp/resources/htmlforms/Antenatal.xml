@@ -299,7 +299,7 @@
 									showContainer('#ptrackerid-container'); <!-- show the entire container -->
 									showContainer('#ptrackerid-container-input');
 									hideContainer('#ptrackerid-container-display');
-								} else {
+								} else if (getValue('antenatal-visit-type.value') == 160530) {
 									hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
 									<!-- hideContainer('#gravida-container-label');
 									hideContainer('#gravida-container-input');
@@ -310,8 +310,14 @@
 									hideContainer('#edd-container-label');
 									hideContainer('#edd-container-input'); -->
 									showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
-									showContainer('#ptrackerid-container-display');
-									hideContainer('#ptrackerid-container-input');
+									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+										showContainer('#ptrackerid-container-display');
+										showContainer('#ptrackerid-container-input');
+									}
+									else {
+										showContainer('#ptrackerid-container-display');
+										hideContainer('#ptrackerid-container-input');
+									}
 									<!-- Clear the previous values -->
 									setValue('gravida.value', '');
 									setValue('para.value', '');
@@ -364,24 +370,25 @@
 		</div>
 	</section>
 	<div id="ptrackerid-container" class="hidden">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTracker ID">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
 			<div class="section-container">
 				<p id="ptrackerid-container-label">
 					<label >
-						Enter PTrackerID
+						PTrackerID
 					</label>
-					<p class="narrow hidden" id="ptrackerid-container-input">
-						<obs id="ptrackerid" conceptId="164951" size="5" />
-					</p>
 					<p class="narrow" id="ptrackerid-container-display">
-						<span style="background: white; color: black; padding: 2px 4px; ">
+						<span id="ptrackerid_readonly" style="background: white; color: black; padding: 2px 4px; ">
 							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
 															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
 														#else
-															PTrackerID is Missing.
+															PTrackerID is Missing
 														#end " />
 						</span>
 					</p>
+					<p class="narrow hidden" id="ptrackerid-container-input">
+						<obs id="ptrackerid" conceptId="164951" size="5" />
+					</p>
+
 				</p>
 			</div>
 		</section>
