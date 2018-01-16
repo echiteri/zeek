@@ -20,6 +20,31 @@
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
 			</ifMode>
+
+		<!-- Handle PTrackerID on the Mother PNC form -->
+
+		var now = new Date();
+		var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
+		var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
+
+		<!-- requires capturing of PTracker ID -->
+		<!-- jq('#ptrackerid-container-display').hide(); -->
+
+		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
+			if(timeFromLastPregnancy &gt; 7){
+				alert("The existing PTrackerID is more than 7 months. Kindly provide another PTrackerID");
+				showContainer('#ptrackerid-container-display');
+				showContainer('#ptrackerid-container-input');
+			} else {
+				showContainer('#ptrackerid-container-display');
+				hideContainer('#ptrackerid-container-input');
+			}
+		} else {
+			showContainer('#ptrackerid-container-input');
+			hideContainer('#ptrackerid-container-display');
+		}
+
+		<!-- -->
 		
 			beforeSubmit.push(function() {
 				<!-- Validation rules for Testing and Initiation -->
@@ -282,6 +307,35 @@
 			</excludeIf>
 		</div>
 	</section>
+	<div id="ptrackerid-container">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+			<div class="section-container">
+				<p id="ptrackerid-container-label">
+					<label >
+						PTrackerID
+					</label>
+					<p class="narrow" id="ptrackerid-container-display">
+						<span id="ptrackerid_readonly" style="background: white; color: black; padding: 2px 4px; ">
+							<lookup complexExpression="
+								#set( $ptrackerid = $fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2'))
+								#if ($ptrackerid)
+										$ptrackerid.valueText
+										#set($ptrackerid_date = $ptrackerid.obsDatetime)
+								#else
+									PTrackerID is Missing
+								#end " />
+						</span>
+						<span id="ptrackerid_datetime" class="hidden">
+							<lookup complexExpression="$ptrackerid.obsDatetime" />
+						</span>
+					</p>
+					<p class="narrow hidden" id="ptrackerid-container-input">
+						<obs id="ptrackerid" conceptId="164951" size="5" />
+					</p>
+				</p>
+			</div>
+		</section>
+	</div>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
 		<script>
 			jq(function() {

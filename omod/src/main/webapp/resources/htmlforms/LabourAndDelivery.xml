@@ -344,7 +344,7 @@
 
 						var now = new Date();
 						var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
-						var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30));
+						var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
 
 							<!-- requires capturing of PTracker ID -->
 							<!-- jq('#ptrackerid-container-display').hide(); -->
