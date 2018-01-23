@@ -46,6 +46,33 @@
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules -->
+		<!-- Validate PTrackerID provision -->
+		setValue('ptrackerid.error', '');
+		if (getValue('client-booked.value') == 1066){
+			<!-- client is not booked -->
+			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!getValue('ptrackerid.value')) {
+					getField('ptrackerid.error').html('PTrackerID must be provided').show();
+					return false;
+				}
+			}
+		} else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing")){
+			<!-- Booked and PTrackerID is missing -->
+			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!getValue('ptrackerid.value')) {
+					getField('ptrackerid.error').html('PTrackerID must be provided').show();
+					return false;
+				}
+			}
+		}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") || (timeFromLastPregnancy &gt; 7)){
+			<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
+			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!getValue('ptrackerid.value')) {
+					getField('ptrackerid.error').html('PTrackerID must be provided').show();
+					return false;
+				}
+			}
+		}
 		<!-- Validation rules for Testing and Initiation -->
 		<!-- Validate HIV test done -->
 				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
@@ -350,15 +377,17 @@
 							<!-- jq('#ptrackerid-container-display').hide(); -->
 							jq('#client-booked').click(function(){
 								if (getValue('client-booked.value') == 1066){
+									<!-- client is not booked -->
 									showContainer('#ptrackerid-container'); <!-- show the entire container -->
 									showContainer('#ptrackerid-container-input');
 									hideContainer('#ptrackerid-container-display');
 								} else if(getValue('client-booked.value') == 1065){
+									<!-- Booked and PTrackerID is missing -->
 									showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
 									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){ <!-- the PTrackerID is missing, allow user to capture another -->
 										showContainer('#ptrackerid-container-display');
 										showContainer('#ptrackerid-container-input');
-									}
+									}<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
 									else if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
 										if(timeFromLastPregnancy &gt; 7){
 											alert("The existing PTrackerID is more than 7 months. Kindly provide another PTrackerID");

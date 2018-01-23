@@ -31,6 +31,38 @@
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
+				<!-- Validate pregnancy details -->
+
+				<!-- if there is a a first visit the pregnancy information is required -->
+				if (getValue('antenatal-visit-type.value') == 164180) {
+					setValue('gravida.error', '');
+					setValue('para.error', '');
+					setValue('lmp.error', '');
+					setValue('edd.error', '');
+					setValue('ptrackerid.error', '');
+					<!-- Validate PTrackerID provision -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
+
+					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
+						getField('gravida.error').html('Gravida must be provided').show();
+						return false;
+					}
+					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
+						getField('para.error').html('Para must be provided').show();
+						return false;
+					}
+					if (!getField('lmp.value').is(':disabled') &amp;&amp; !getValue('lmp.value')) {
+						getField('lmp.error').html('LMP must be provided').show();
+						return false;
+					}
+					if (!getField('edd.value').is(':disabled') &amp;&amp; !getValue('edd.value')) {
+						getField('edd.error').html('Edd must be provided').show();
+						return false;
+					}
+				}
 				<!-- clear the previous errors -->
 				if (getField('lmp.value') != null) {
 					<!-- LNMP must be before the encounter date -->
@@ -173,33 +205,6 @@
 						return false;
 					}
 				}
-				<!-- Validate pregnancy details -->
-
-				<!-- if there is a a first visit the pregnancy information is required -->
-				if (getValue('antenatal-visit-type.value') == 164180) {
-					setValue('gravida.error', '');
-					setValue('para.error', '');
-					setValue('lmp.error', '');
-					setValue('edd.error', '');
-
-					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
-						getField('gravida.error').html('Gravida must be provided').show();
-						return false;
-					}
-					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
-						getField('para.error').html('Para must be provided').show();
-						return false;
-					}
-					if (!getField('lmp.value').is(':disabled') &amp;&amp; !getValue('lmp.value')) {
-						getField('lmp.error').html('LMP must be provided').show();
-						return false;
-					}
-					if (!getField('edd.value').is(':disabled') &amp;&amp; !getValue('edd.value')) {
-						getField('edd.error').html('Edd must be provided').show();
-						return false;
-					}
-					<!-- } -->
-				}
 		
 				return true;
 			});
@@ -313,10 +318,12 @@
 									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
 										showContainer('#ptrackerid-container-display');
 										showContainer('#ptrackerid-container-input');
+										enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
 									}
 									else {
 										showContainer('#ptrackerid-container-display');
 										hideContainer('#ptrackerid-container-input');
+										disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
 									}
 									<!-- Clear the previous values -->
 									setValue('gravida.value', '');
@@ -446,8 +453,9 @@
 					<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
 					jq('legend.summary').html('ANC Visit Summary Information');
 					<!-- Show the EDD -->
+					<!-- There is not LMP date yet. Is there need to show the EDD? Throws a js error!!!
 					var eddDate =  changeDisplayDateFormat(calculateEDD(jq('#lmp').text()));
-					jq('#edd').text(eddDate);
+					jq('#edd').text(eddDate);-->
 				});
 			</script>
 			<div class="section-container">
@@ -467,7 +475,7 @@
 						</tr>
 						<tr>
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
-							<td><span id="edd"></span></td>
+							<td><span id="edd"><lookup expression="fn.latestObs('5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td>
 								<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
 									<lookup	complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>

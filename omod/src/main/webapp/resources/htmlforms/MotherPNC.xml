@@ -32,7 +32,7 @@
 
 		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
 			if(timeFromLastPregnancy &gt; 7){
-				alert("The existing PTrackerID is more than 7 months. Kindly provide another PTrackerID");
+				getField('ptrackerid.error').html('PTracker ID: [' + $('#ptrackerid_readonly').text().trim() + '] is 7 months old. Enter a new PTrackerID').show();
 				showContainer('#ptrackerid-container-display');
 				showContainer('#ptrackerid-container-input');
 			} else {
@@ -47,6 +47,24 @@
 		<!-- -->
 		
 			beforeSubmit.push(function() {
+				<!-- Validate PTrackerID provision -->
+				if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+						setValue('ptrackerid.error', '');
+						if (!getValue('ptrackerid.value')) {
+							getField('ptrackerid.error').html('PTrackerID must be provided').show();
+							return false;
+						}
+					}
+				}else if ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing" || timeFromLastPregnancy &gt; 7){
+					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+						setValue('ptrackerid.error', '');
+						if (!getValue('ptrackerid.value')) {
+							getField('ptrackerid.error').html('PTrackerID must be provided').show();
+							return false;
+						}
+					}
+				}
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- Validate HIV test done -->
 				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
