@@ -62,6 +62,12 @@
 						getField('edd.error').html('Edd must be provided').show();
 						return false;
 					}
+				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing") {
+					<!-- Validate PTrackerID provision -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
 				}
 				<!-- clear the previous errors -->
 				if (getField('lmp.value') != null) {
@@ -319,10 +325,13 @@
 										showContainer('#ptrackerid-container-display');
 										showContainer('#ptrackerid-container-input');
 										enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+										$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book');
+										showContainer('#ptrackerid_info');
 									}
 									else {
 										showContainer('#ptrackerid-container-display');
 										hideContainer('#ptrackerid-container-input');
+										hideContainer('#ptrackerid_info');
 										disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
 									}
 									<!-- Clear the previous values -->
@@ -395,6 +404,7 @@
 					<p class="narrow hidden" id="ptrackerid-container-input">
 						<obs id="ptrackerid" conceptId="164951" size="5" />
 					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
 
 				</p>
 			</div>

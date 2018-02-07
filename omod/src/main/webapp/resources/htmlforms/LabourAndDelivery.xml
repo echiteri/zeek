@@ -64,7 +64,7 @@
 					return false;
 				}
 			}
-		}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") || (timeFromLastPregnancy &gt; 7)){
+		}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 7)){
 			<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
 			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 				if (!getValue('ptrackerid.value')) {
@@ -381,21 +381,28 @@
 									showContainer('#ptrackerid-container'); <!-- show the entire container -->
 									showContainer('#ptrackerid-container-input');
 									hideContainer('#ptrackerid-container-display');
+									$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
+									hideContainer('#ptrackerid_info');
 								} else if(getValue('client-booked.value') == 1065){
 									<!-- Booked and PTrackerID is missing -->
 									showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
 									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){ <!-- the PTrackerID is missing, allow user to capture another -->
 										showContainer('#ptrackerid-container-display');
 										showContainer('#ptrackerid-container-input');
+										$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
+										showContainer('#ptrackerid_info');
 									}<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
 									else if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
 										if(timeFromLastPregnancy &gt; 7){
-											alert("The existing PTrackerID is more than 7 months. Kindly provide another PTrackerID");
 											showContainer('#ptrackerid-container-display');
 											showContainer('#ptrackerid-container-input');
+											$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+											showContainer('#ptrackerid_info');
 										} else {
 											showContainer('#ptrackerid-container-display');
 											hideContainer('#ptrackerid-container-input');
+											$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
+											hideContainer('#ptrackerid_info');
 										}
 									}
 									<!-- showContainer('#ptrackerid-container-display');
@@ -416,7 +423,7 @@
 						PTrackerID
 					</label>
 					<p class="narrow" id="ptrackerid-container-display">
-						<span id="ptrackerid_readonly" style="background: white; color: black; padding: 2px 4px; ">
+						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
 							<lookup complexExpression="
 								#set( $ptrackerid = $fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2'))
 								#if ($ptrackerid)
@@ -433,6 +440,7 @@
 					<p class="narrow hidden" id="ptrackerid-container-input">
 						<obs id="ptrackerid" conceptId="164951" size="5" />
 					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
 				</p>
 			</div>
 		</section>

@@ -32,16 +32,20 @@
 
 		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
 			if(timeFromLastPregnancy &gt; 7){
-				getField('ptrackerid.error').html('PTracker ID: [' + $('#ptrackerid_readonly').text().trim() + '] is 7 months old. Enter a new PTrackerID').show();
+				$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+				showContainer('#ptrackerid_info');
 				showContainer('#ptrackerid-container-display');
 				showContainer('#ptrackerid-container-input');
 			} else {
 				showContainer('#ptrackerid-container-display');
 				hideContainer('#ptrackerid-container-input');
+				hideContainer('#ptrackerid_info');
 			}
 		} else {
 			showContainer('#ptrackerid-container-input');
 			hideContainer('#ptrackerid-container-display');
+			$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
+			showContainer('#ptrackerid_info');
 		}
 
 		<!-- -->
@@ -350,6 +354,7 @@
 					<p class="narrow hidden" id="ptrackerid-container-input">
 						<obs id="ptrackerid" conceptId="164951" size="5" />
 					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
 				</p>
 			</div>
 		</section>
