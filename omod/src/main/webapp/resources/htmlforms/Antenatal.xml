@@ -393,7 +393,7 @@
 						PTrackerID
 					</label>
 					<p class="narrow" id="ptrackerid-container-display">
-						<span id="ptrackerid_readonly" style="background: white; color: black; padding: 2px 4px; ">
+						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
 							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
 															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
 														#else
