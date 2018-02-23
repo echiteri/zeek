@@ -60,7 +60,7 @@
 							return false;
 						}
 					}
-				}else if ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing" || timeFromLastPregnancy &gt; 7){
+				}else if ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing" &amp;&amp; timeFromLastPregnancy &gt; 7){ <!-- There is an ID but it more than 7 months old -->
 					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 						setValue('ptrackerid.error', '');
 						if (!getValue('ptrackerid.value')) {
