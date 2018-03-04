@@ -5,7 +5,7 @@
 	
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>namibia</artifactId>
-	<version>1.2.2</version>
+	<version>1.2.3</version>
 	<packaging>pom</packaging>
 	<name>Namibia PMTCT</name>
 	<description>Module for Namibia PMTCT support</description>
@@ -58,11 +58,11 @@
 		<metadatasharingVersion>1.2.2</metadatasharingVersion>
 		<namibiaReportsVersion>0.5</namibiaReportsVersion>
 		<owaVersion>1.7.0</owaVersion>
-		<providermanagementVersion>2.6.0</providermanagementVersion>
+		<providermanagementVersion>2.9.0</providermanagementVersion>
 		<referenceapplicationVersion>2.6.0</referenceapplicationVersion>
 		<referenceapplicationmetadataVersion>2.6.0</referenceapplicationmetadataVersion>
 		<registrationAppVersion>1.9.0</registrationAppVersion>
-		<registrationcoreVersion>1.7.2-SNAPSHOT</registrationcoreVersion>
+		<registrationcoreVersion>1.8.0</registrationcoreVersion>
 		<reportingcompatibilityVersion>2.0.2</reportingcompatibilityVersion>
 		<reportingrestVersion>1.8.0</reportingrestVersion>
 		<reportingVersion>1.12.0</reportingVersion>
@@ -71,7 +71,7 @@
 		<uicommonsVersion>2.3.0</uicommonsVersion>
 		<uiframeworkVersion>3.11.0</uiframeworkVersion>
 		<uilibraryVersion>2.0.4</uilibraryVersion>
-		<webservices.restVersion>2.19.0</webservices.restVersion>
+		<webservices.restVersion>2.21.0</webservices.restVersion>
 		<xformsVersion>4.3.9</xformsVersion>
 	</properties>
 	
