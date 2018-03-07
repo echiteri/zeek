@@ -31,6 +31,44 @@
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
+				<!-- Validate pregnancy details -->
+
+				<!-- if there is a a first visit the pregnancy information is required -->
+				if (getValue('antenatal-visit-type.value') == 164180) {
+					setValue('gravida.error', '');
+					setValue('para.error', '');
+					setValue('lmp.error', '');
+					setValue('edd.error', '');
+					setValue('ptrackerid.error', '');
+					<!-- Validate PTrackerID provision -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
+
+					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
+						getField('gravida.error').html('Gravida must be provided').show();
+						return false;
+					}
+					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
+						getField('para.error').html('Para must be provided').show();
+						return false;
+					}
+					if (!getField('lmp.value').is(':disabled') &amp;&amp; !getValue('lmp.value')) {
+						getField('lmp.error').html('LMP must be provided').show();
+						return false;
+					}
+					if (!getField('edd.value').is(':disabled') &amp;&amp; !getValue('edd.value')) {
+						getField('edd.error').html('Edd must be provided').show();
+						return false;
+					}
+				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing") {
+					<!-- Validate PTrackerID provision -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
+				}
 				<!-- clear the previous errors -->
 				if (getField('lmp.value') != null) {
 					<!-- LNMP must be before the encounter date -->
@@ -173,33 +211,6 @@
 						return false;
 					}
 				}
-				<!-- Validate pregnancy details -->
-
-				<!-- if there is a a first visit the pregnancy information is required -->
-				if (getValue('antenatal-visit-type.value') == 164180) {
-					setValue('gravida.error', '');
-					setValue('para.error', '');
-					setValue('lmp.error', '');
-					setValue('edd.error', '');
-
-					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
-						getField('gravida.error').html('Gravida must be provided').show();
-						return false;
-					}
-					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
-						getField('para.error').html('Para must be provided').show();
-						return false;
-					}
-					if (!getField('lmp.value').is(':disabled') &amp;&amp; !getValue('lmp.value')) {
-						getField('lmp.error').html('LMP must be provided').show();
-						return false;
-					}
-					if (!getField('edd.value').is(':disabled') &amp;&amp; !getValue('edd.value')) {
-						getField('edd.error').html('Edd must be provided').show();
-						return false;
-					}
-					<!-- } -->
-				}
 		
 				return true;
 			});
@@ -275,33 +286,54 @@
 			</tr>
 		</tbody>
 	</table>
-	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
-			<div class="section-container">
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ANC visit type">
+		<div class="section-container">
 				<p id="antenatal-visit-type-container">
 					<label>Is this your first antenatal visit</label>
 					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
 					<script>
 						jq(function() {
+						<!-- requires capturing of PTracker ID -->
+							<!-- jq('#ptrackerid-container-display').hide(); -->
+						<!-- -->
 							jq('#antenatal-visit-type').click(function(){
 								if (getValue('antenatal-visit-type.value') == 164180){
-									showContainer('#gravida-container-label');
+									showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
+									<!-- showContainer('#gravida-container-label');
 									showContainer('#gravida-container-input');
 									showContainer('#para-container-label');
 									showContainer('#para-container-input');
 									showContainer('#lmp-container-label');
 									showContainer('#lmp-container-input');
 									showContainer('#edd-container-label');
-									showContainer('#edd-container-input');
-								} else {
-									hideContainer('#gravida-container-label');
+									showContainer('#edd-container-input'); -->
+									showContainer('#ptrackerid-container'); <!-- show the entire container -->
+									showContainer('#ptrackerid-container-input');
+									hideContainer('#ptrackerid-container-display');
+								} else if (getValue('antenatal-visit-type.value') == 160530) {
+									hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
+									<!-- hideContainer('#gravida-container-label');
 									hideContainer('#gravida-container-input');
 									hideContainer('#para-container-label');
 									hideContainer('#para-container-input');
 									hideContainer('#lmp-container-label');
 									hideContainer('#lmp-container-input');
 									hideContainer('#edd-container-label');
-									hideContainer('#edd-container-input');
+									hideContainer('#edd-container-input'); -->
+									showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
+									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+										showContainer('#ptrackerid-container-display');
+										showContainer('#ptrackerid-container-input');
+										enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+										$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book');
+										showContainer('#ptrackerid_info');
+									}
+									else {
+										showContainer('#ptrackerid-container-display');
+										hideContainer('#ptrackerid-container-input');
+										hideContainer('#ptrackerid_info');
+										disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+									}
 									<!-- Clear the previous values -->
 									setValue('gravida.value', '');
 									setValue('para.value', '');
@@ -351,52 +383,77 @@
 						});
 					</script>
 				</p>
-				<p id="ptrackerid-container-label" class="required hidden">
+		</div>
+	</section>
+	<div id="ptrackerid-container" class="hidden">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+			<div class="section-container">
+				<p id="ptrackerid-container-label">
 					<label >
-						Enter PTrackerID
+						PTrackerID
 					</label>
-					<p class="narrow hidden" id="ptrackerid-container-input">
-						<obs id="gravida" conceptId="164951" size="5" />
+					<p class="narrow" id="ptrackerid-container-display">
+						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
+							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
+															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
+														#else
+															PTrackerID is Missing
+														#end " />
+						</span>
 					</p>
+					<p class="narrow hidden" id="ptrackerid-container-input">
+						<obs id="ptrackerid" conceptId="164951" size="5" />
+					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
+
 				</p>
-				<p id="gravida-container-label" class="required hidden">
+			</div>
+		</section>
+	</div>
+
+	<div id="pregnancy-detail-container" class="hidden">
+	<!-- <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0"> -->
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
+		<div class="section-container">
+				<p id="gravida-container-label" class="required">
 					<label >
 						How many times have you been pregnant, including current pregnancy (Gravida)?
 					</label>
-					<p class="narrow hidden" id="gravida-container-input">
+					<p class="narrow" id="gravida-container-input">
 						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="5" />
 						<obs id="gravida_missing" conceptId="164949" style="checkbox" answerLabel="answerLabel" labelText="Gravida missing"/>
 					</p>
 				</p>
-				<p id="para-container-label" class="required hidden">
+				<p id="para-container-label" class="required">
 					<label>
 						How many babies have you delivered before (Para)?
 					</label>
-					<p class="narrow hidden" id="para-container-input">
+					<p class="narrow" id="para-container-input">
 						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 						<obs id="para_missing" conceptId="164933" style="checkbox" answerLabel="answerLabel" labelText="Para missing"/>
 					</p>
 				</p>
 				
-				<p id="lmp-container-label" class="required hidden">
+				<p id="lmp-container-label" class="required">
 					<label>
 						Date of last normal menstrual period (LNMP)
 					</label>
-					<p class="narrow hidden" id="lmp-container-input">
+					<p class="narrow" id="lmp-container-input">
 						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
 						<obs id="lmp_missing" conceptId="164934" style="checkbox" answerLabel="answerLabel" labelText="Date of last normal menstral period missing"/>
 					</p>
 				</p>
-				<p id="edd-container-label" class="required hidden">
+				<p id="edd-container-label" class="required">
 					<label>Estimated date of delivery (EDD)</label>
-					<p class="narrow hidden" id="edd-container-input">
+					<p class="narrow" id="edd-container-input">
 						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
 						<obs id="edd_missing" conceptId="164935" style="checkbox" answerLabel="answerLabel" labelText="Estimated date of delivery missing"/>
 					</p>
 				</p>
 			</div>
 		</section>
-	</includeIf>
+	<!-- </includeIf> -->
+	</div>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
 		<!-- Subsequent ANC visit -->
 		<!-- TODO: Need to find a way of checking that this encounter is after the EDD so that multiple pregancies are handled -->
@@ -406,8 +463,9 @@
 					<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
 					jq('legend.summary').html('ANC Visit Summary Information');
 					<!-- Show the EDD -->
+					<!-- There is not LMP date yet. Is there need to show the EDD? Throws a js error!!!
 					var eddDate =  changeDisplayDateFormat(calculateEDD(jq('#lmp').text()));
-					jq('#edd').text(eddDate);
+					jq('#edd').text(eddDate);-->
 				});
 			</script>
 			<div class="section-container">
@@ -427,7 +485,7 @@
 						</tr>
 						<tr>
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
-							<td><span id="edd"></span></td>
+							<td><span id="edd"><lookup expression="fn.latestObs('5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td>
 								<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
 									<lookup	complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>

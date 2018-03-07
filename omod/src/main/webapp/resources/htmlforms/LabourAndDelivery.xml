@@ -16,7 +16,12 @@
 			encounter date */-->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			<ifMode mode="ENTER">
+
+			var now = new Date();
+			var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
+			var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
+
+		<ifMode mode="ENTER">
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
 			</ifMode>
@@ -46,6 +51,33 @@
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules -->
+		<!-- Validate PTrackerID provision -->
+		setValue('ptrackerid.error', '');
+		if (getValue('client-booked.value') == 1066){
+			<!-- client is not booked -->
+			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!getValue('ptrackerid.value')) {
+					getField('ptrackerid.error').html('PTrackerID must be provided').show();
+					return false;
+				}
+			}
+		} else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing")){
+			<!-- Booked and PTrackerID is missing -->
+			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!getValue('ptrackerid.value')) {
+					getField('ptrackerid.error').html('PTrackerID must be provided').show();
+					return false;
+				}
+			}
+		}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 7)){
+			<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
+			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!getValue('ptrackerid.value')) {
+					getField('ptrackerid.error').html('PTrackerID must be provided').show();
+					return false;
+				}
+			}
+		}
 		<!-- Validation rules for Testing and Initiation -->
 		<!-- Validate HIV test done -->
 				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
@@ -322,7 +354,8 @@
             });
         </script>
     </includeIf>
-    <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1">
+    <!-- <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() &lt;1"> -->
+	<!-- TODO: check 1) if there is previouse anc visit 2) If there is an exisiting PTrackerId 3) The last existing encounter is how old -->
         <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Delivery Information">
             <div class="section-container">
                     <!--
@@ -337,11 +370,86 @@
                     <label>
                         Was this client booked (Does Client have a pink book?) at ANC?
                     </label>
-                    <obs style="radio"  conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" answerConceptIds="1065,1066,164932" answerLabels="Yes, No, Missing"/>
+                    <obs id="client-booked" style="radio" conceptId="1719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" answerConceptIds="1065,1066,164932" answerLabels="Yes, No, Missing"/>
+					<script>
+						jq(function() {
+
+						<!--  var now = new Date();
+						var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
+						var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); --> <!-- convert to months -->
+
+							<!-- requires capturing of PTracker ID -->
+							<!-- jq('#ptrackerid-container-display').hide(); -->
+							jq('#client-booked').click(function(){
+								if (getValue('client-booked.value') == 1066){
+									<!-- client is not booked -->
+									showContainer('#ptrackerid-container'); <!-- show the entire container -->
+									showContainer('#ptrackerid-container-input');
+									hideContainer('#ptrackerid-container-display');
+									$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
+									hideContainer('#ptrackerid_info');
+								} else if(getValue('client-booked.value') == 1065){
+									<!-- Booked and PTrackerID is missing -->
+									showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
+									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){ <!-- the PTrackerID is missing, allow user to capture another -->
+										showContainer('#ptrackerid-container-display');
+										showContainer('#ptrackerid-container-input');
+										$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
+										showContainer('#ptrackerid_info');
+									}<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
+									else if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
+										if(timeFromLastPregnancy &gt; 7){
+											showContainer('#ptrackerid-container-display');
+											showContainer('#ptrackerid-container-input');
+											$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+											showContainer('#ptrackerid_info');
+										} else {
+											showContainer('#ptrackerid-container-display');
+											hideContainer('#ptrackerid-container-input');
+											$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
+											hideContainer('#ptrackerid_info');
+										}
+									}
+									<!-- showContainer('#ptrackerid-container-display');
+									hideContainer('#ptrackerid-container-input'); -->
+								}
+							});
+						});
+					</script>
                 </p>
             </div>
         </section>
-    </includeIf>
+    <!-- </includeIf> -->
+	<div id="ptrackerid-container" class="hidden">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+			<div class="section-container">
+				<p id="ptrackerid-container-label">
+					<label >
+						PTrackerID
+					</label>
+					<p class="narrow" id="ptrackerid-container-display">
+						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
+							<lookup complexExpression="
+								#set( $ptrackerid = $fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2'))
+								#if ($ptrackerid)
+										$ptrackerid.valueText
+										#set($ptrackerid_date = $ptrackerid.obsDatetime)
+								#else
+									PTrackerID is Missing
+								#end " />
+						</span>
+						<span id="ptrackerid_datetime" class="hidden">
+							<lookup complexExpression="$ptrackerid.obsDatetime" />
+						</span>
+					</p>
+					<p class="narrow hidden" id="ptrackerid-container-input">
+						<obs id="ptrackerid" conceptId="164951" size="5" />
+					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
+				</p>
+			</div>
+		</section>
+	</div>
 	<!--
 	Show the HIV testing questions if
 	- No HIV Test was done during antenatal

@@ -504,7 +504,7 @@
             <p id="infant-death-date-container" class="hidden narrow">
                 <label>Date of Death</label>
                 <obs id="infant_death_date" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
-                <obs id="infant_death_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Infant death date missing"/>
+                <obs id="infant_death_date_missing" conceptId="164947" style="checkbox" answerLabel="answerLabel" labelText="Infant death date missing"/>
             </p>
             <p id="next-visit-date-container" class="hidden narrow">
                 <label>Next visit date </label>
