@@ -16,9 +16,100 @@
 			encounter date */-->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+			<!-- -->
 			<ifMode mode="ENTER">
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
+				<!-- By default hide containers -->
+				<!-- hideContainer('#hiv-test-container'); -->
+				hideContainer('#hiv-test-result-container');
+				<!-- hideContainer('#art-initiation-container'); -->
+				hideContainer('#art-number-container');
+				hideContainer('#refused-art-container');
+				hideContainer('#art-startdate-container');
+				hideContainer('#recent-viral-load-container');
+				hideContainer('#viral-load-test-date-container');
+				hideContainer('#viral-load-results-container');
+				hideContainer('#viral-load-copies-container');
+				hideContainer('#other-breastfeeding-container');
+				hideContainer('#transfer-out-to-container');
+				hideContainer('#transfer-out-date-container');
+				<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test resulst = tested positive -->
+				<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+					hideContainer('#hiv-test-container');
+				</includeIf>
+				<!-- Don't show ART initiation if ART initiation date exists -->
+				<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">
+					hideContainer('#art-initiation-container');
+				</includeIf>
+			</ifMode>
+			<ifMode mode="ENTER" include="FALSE">
+				<!-- Hide HIV Test Status if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
+				{
+					hideContainer('#hiv-test-container');
+				}
+				<!-- Hide HIV Test results if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '159427')"/>" == '')
+				{
+					hideContainer('#hiv-test-result-container');
+				}
+				<!-- Hide ART Initiation if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '164915')"/>" == '')
+				{
+					hideContainer('#art-initiation-container');
+				}
+				<!-- Hide ART number if it was not captured in this encounter -->
+				if("<lookup expression="patient.getPatientIdentifier('ART Unique Number')"/>" == '')
+				{
+					hideContainer('#art-number-container');
+				}
+				<!-- Hide Reason for ART Refusal if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '163322')"/>" == '')
+				{
+					hideContainer('#refused-art-container');
+				}
+				<!-- Hide ART Start Date if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '159599')"/>" == '')
+				{
+					hideContainer('#art-startdate-container');
+				}
+				<!-- Hide Recent Viral load status if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '163310')"/>" == '')
+				{
+					hideContainer('#recent-viral-load-container');
+				}
+				<!-- Hide Recent Viral load test date if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '163281')"/>" == '')
+				{
+					hideContainer('#viral-load-test-date-container');
+				}
+				<!-- Hide Recent Viral load results if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '1305')"/>" == '')
+				{
+					hideContainer('#viral-load-results-container');
+				}
+				<!-- Hide Viral load copies if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '856')"/>" == '')
+				{
+					hideContainer('#viral-load-copies-container');
+				}
+				<!-- Hide Other breastfeeding if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '163719')"/>" == '')
+				{
+					hideContainer('#other-breastfeeding-container');
+				}
+				<!-- Hide Transfer out to if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '159495')"/>" == '')
+				{
+					hideContainer('#transfer-out-to-container');
+				}
+				<!-- Hide Transfer out date if it was not captured in this encounter -->
+				if("<lookup expression="fn.getObs($encounter, '160649')"/>" == '')
+				{
+					hideContainer('#transfer-out-date-container');
+				}
+
 			</ifMode>
 
 		<!-- Handle PTrackerID on the Mother PNC form -->
@@ -453,15 +544,17 @@
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
-						jq(function() {
-							showContainer('#art-initiation-container');
-							showContainer('#recent-viral-load-container');
-						});
+						<ifMode mode="ENTER">
+							jq(function() {
+								showContainer('#art-initiation-container');
+								showContainer('#recent-viral-load-container');
+							});
+						</ifMode>
 					</script>
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+			<!-- <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911"> -->
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
@@ -471,7 +564,7 @@
 						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing" answerSeparator="" />
 				</p>
 
-			<p id="hiv-test-result-container" class="hidden">
+			<p id="hiv-test-result-container">
 				<label>
 					HIV test result
 				</label>
@@ -479,8 +572,8 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-			</excludeIf>
-            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
+			<!-- </excludeIf> -->
+            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">--> <!-- exclude ART initiation if ART initiation date exists -->
 			<p id="art-status-container" class="hidden" >
 
 				<obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
@@ -488,7 +581,7 @@
 				
 			</p>
 
-				<p id="art-initiation-container" class="hidden">
+				<p id="art-initiation-container">
 				<label>
 					ART Initiation
 				</label>
@@ -496,18 +589,18 @@
 						 answerConceptIds="160119,160120,160018,1754,164932"
 						 answerLabels="Already on ART,Started on ART in PNC,Refused ART,Not started due to stockout of ART,Missing" answerSeparator="" />
 				</p>
-				<p id="art-number-container" class="hidden narrow">
+				<p id="art-number-container" class="narrow">
 						<label>ART Unique Number</label>
 						<patient id="art_number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
 					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Unique Number missing"/>
 				</p>
 
-			<p id="refused-art-container" class="hidden">
+			<p id="refused-art-container">
 				<label>Reason for Refusing ART initiation</label>
 				<obs id="refused_art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				<obs id="refused_art_missing" conceptId="164937" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing ART initiation missing"/>
 			</p>
-			<p id="art-startdate-container" class="hidden narrow">
+			<p id="art-startdate-container" class="narrow">
 				<label>ART Start Date</label>
 				<obs id="art_start_date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				<obs id="art_start_date_missing" conceptId="164938" style="checkbox" answerLabel="answerLabel" labelText="ART start date missing"/>
@@ -533,8 +626,8 @@
 				</script>
 				
 			</p>
-			</excludeIf>
-				<p id="recent-viral-load-container" class="hidden">
+			<!-- </excludeIf> -->
+				<p id="recent-viral-load-container">
 					<label>
 						Has the patient had a recent viral load test? 					</label>
 					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1065, 1066, 164932"
@@ -558,12 +651,12 @@
 				</p>
 			
 				<!-- TODO: Add handling for the second viral load result -->
-			<p id="viral-load-test-date-container" class="narrow hidden">
+			<p id="viral-load-test-date-container" class="narrow">
 				<label>Viral load test date</label>
 				<obs conceptId="163281" id="viral_load_test_date"/>
 				<obs id="viral_load_test_date_missing" conceptId="164939" style="checkbox" answerLabel="answerLabel" labelText="Viral load test date missing"/>
 			</p>
-			<p id="viral-load-results-container" class="hidden">
+			<p id="viral-load-results-container">
 				<label>Viral load results</label>
 				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971, 164932" style="radio"
 					 answerSeparator=""
@@ -580,7 +673,7 @@
 						});
 					</script>
 			</p><br/>
-			<p id="viral-load-copies-container" class="narrow hidden">
+			<p id="viral-load-copies-container" class="narrow">
 				<label>Viral load (copies/ml)</label>
 				
 				<obs id="viral_load_copies" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
@@ -599,7 +692,7 @@
 					 answerConceptIds="5526,6046,159854,5622,164932"
 					 answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Other, Missing" answerSeparator="" required="true"/>
 			</p>
-			<p id="other-breastfeeding-container" class="hidden narrow">
+			<p id="other-breastfeeding-container" class="narrow">
 				<label>
 					Other infant feeding method
 				</label>
@@ -644,11 +737,11 @@
 				<label>Facility of next appointment</label>
 				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer out, Missing" answerSeparator="" required="true"  />
 			</p>
-			<p id="transfer-out-to-container" class="hidden">
+			<p id="transfer-out-to-container">
 				<label>Transfer to</label>
 				<obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
 			</p>
-			<p id="transfer-out-date-container" class="hidden narrow">
+			<p id="transfer-out-date-container" class="narrow">
 				<label> Transfer out date </label>
 				<obs id="transfer_out_date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
 				<obs id="transfer_out_date_missing" conceptId="164950" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
