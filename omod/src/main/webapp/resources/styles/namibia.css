@@ -109,7 +109,7 @@ span.value {
  * Fix for Issue #38 removing edit capability for Encounters
 */
 #encountersList .editEncounter {
-    display: none;
+    display: inline-block;
 }
 
 .required label {
