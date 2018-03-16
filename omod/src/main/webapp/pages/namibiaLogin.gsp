@@ -76,6 +76,8 @@
             Services</span>
         </div>
         <span style="color: #848484;font-size: 0.9em;float: left; width: 100%; text-align: center;">PMTCT Tracker</span>
+        <br/><br/>
+        <span style="float: left; width: 100%; text-align: center;"><a href="${ui.pageLink("namibia", "faqDialog")}">${ui.message("Help")}</a></span>
     </div>
 </header>
 
@@ -148,6 +150,7 @@
 
             ${ui.message("namibia.version.label")} &nbsp; &nbsp;
             &#169; 2017 All Rights Reserved <a href="http://www.mhss.gov.na/" target="_blank" title="Ministry of Health and Social Services">Ministry of Health and Social Services</a>
+        &nbsp; &nbsp;<a href="${ui.pageLink("namibia", "faqDialog")}">${ui.message("Help")}</a>
     </div>
 </div>
 

@@ -100,7 +100,8 @@
             Social
             Services</span>
         </div>
-        <span style="color: #848484;font-size: 0.9em;float: left; width: 100%; text-align: center;">PMTCT Tracker</span>
+        <span style="color: #848484;font-size: 0.9em;float: left; width: 100%; text-align: center;">PMTCT Tracker</span><br/><br/>
+        <span style="float: left; width: 100%; text-align: center;"><a href="${ui.pageLink("namibia", "faqDialog")}">${ui.message("Help")}</a></span>
     </div>
 
     <% if (context.authenticated) { %>
