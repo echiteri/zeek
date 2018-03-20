@@ -41,17 +41,7 @@
 						showContainer('#ptrackerid_info');
 						}<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
 				else if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
-						if(timeFromLastPregnancy &gt; 7){
-							showContainer('#ptrackerid-container-display');
-							showContainer('#ptrackerid-container-input');
-							$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
-							showContainer('#ptrackerid_info');
-						} else {
-							showContainer('#ptrackerid-container-display');
-							hideContainer('#ptrackerid-container-input');
-							$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
-							hideContainer('#ptrackerid_info');
-						}
+						showContainer('#ptrackerid-container-display');
 				}
 				<!-- showContainer('#ptrackerid-container-display');
 				hideContainer('#ptrackerid-container-input'); -->
@@ -66,7 +56,7 @@
 			<!-- hideContainer('#hiv-test-container'); -->
 			hideContainer('#anc-retest-thirty-six-weeks-container');
 			hideContainer('#hiv-test-result-container');
-			<!-- hideContainer('#art-initiation-container'); -->
+			hideContainer('#art-initiation-container');
 			hideContainer('#art-number-container');
 			hideContainer('#refused-art-container');
 			hideContainer('#art-startdate-container');
@@ -109,6 +99,11 @@
 			</includeIf>
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
+			<!-- Hide PTrackerID if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
+			{
+				hideContainer('#ptrackerid-container-input');
+			}
 			<!-- Hide HIV Test Status if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 			{
@@ -235,37 +230,64 @@
 
 			beforeSubmit.push(function() {
 				<!-- validation rules -->
+		var now = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
+		var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
+		var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
+
+
+		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
+			if(timeFromLastPregnancy &gt; 7){
+				$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+				showContainer('#ptrackerid_info');
+				showContainer('#ptrackerid-container-display');
+				showContainer('#ptrackerid-container-input');
+			} else {
+				showContainer('#ptrackerid-container-display');
+				hideContainer('#ptrackerid-container-input');
+				hideContainer('#ptrackerid_info');
+			}
+		}
+
+		<!-- Validate  client booking -->
+		if ($('#client-booked').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+			setValue('client-booked.error', '');
+				if (!getValue('client-booked.value')) {
+				getField('client-booked.error').html('Client booked must be provided').show();
+				return false;
+			}
+		}
 		<!-- Validate PTrackerID provision -->
-		setValue('ptrackerid.error', '');
-		if (getValue('client-booked.value') == 1066){
-			<!-- client is not booked -->
-			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-				if (!getValue('ptrackerid.value')) {
-					getField('ptrackerid.error').html('PTrackerID must be provided').show();
-					return false;
+		if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
+			setValue('ptrackerid.error', '');
+			if (getValue('client-booked.value') == 1066 || getValue('client-booked.value') == 164932){
+				<!-- client is not booked or value is missing -->
+				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
 				}
-			}
-		} else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing")){
-			<!-- Booked and PTrackerID is missing -->
-			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-				if (!getValue('ptrackerid.value')) {
-					getField('ptrackerid.error').html('PTrackerID must be provided').show();
-					return false;
+			} else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing")){
+				<!-- Booked and PTrackerID is missing -->
+				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
 				}
-			}
-		}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 7)){
-			<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
-			if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-				if (!getValue('ptrackerid.value')) {
-					getField('ptrackerid.error').html('PTrackerID must be provided').show();
-					return false;
+			}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 7)){
+				<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
+				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
 				}
 			}
 		}
 		<!-- Validation rules for Testing and Initiation -->
 		<!-- Validate HIV test done -->
-
-			if($('#hiv-test-container').is(':visible') == 'true'){<!-- only validate if not hidden -->
+			if($('#hiv-test-container').is(':visible')){<!-- only validate if not hidden -->
 				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('hiv-test.error', '');
 					if (!getValue('hiv-test.value')) {
@@ -276,7 +298,7 @@
 			}
 
 				<!-- Validate HIV test result -->
-			if($('#hiv-test-result-container').is(':visible') == 'true'){<!-- only validate if not hidden -->
+			if($('#hiv-test-result-container').is(':visible')){<!-- only validate if not hidden -->
 				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('hiv-test-result.error', '');
 					<!-- if there is a test the test result is required -->
@@ -290,7 +312,7 @@
 			}
 
 				<!-- Validate ART Initiation -->
-			if($('#art-initiation-container').is(':visible') == 'true'){<!-- only validate if not hidden -->
+			if($('#art-initiation-container').is(':visible')){<!-- only validate if not hidden -->
 				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('art-initiation.error', '');
 					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
@@ -310,7 +332,7 @@
 				}
 			}
 				<!-- Validate recent viral load done-->
-			if($('#recent-viral-load-container').is(':visible') == 'true'){<!-- only validate if not hidden -->
+			if($('#recent-viral-load-container').is(':visible')){<!-- only validate if not hidden -->
 				if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('recent-viral-load.error', '');
 					<!-- the recent-viral-load is required if Test status is KP -->
@@ -331,7 +353,7 @@
 			}
 
 				<!-- Validate viral load results done-->
-			if($('#viral-load-results-container').is(':visible') == 'true'){<!-- only validate if not hidden -->
+			if($('#viral-load-results-container').is(':visible')){<!-- only validate if not hidden -->
 				if ($('#viral-load-results').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('viral-load-results.error', '');
 					<!-- the viral-load-results is required  -->
@@ -357,13 +379,13 @@
 					setValue('infant-arv-prophylaxis-' + i + '.error', '');
 					setValue('breastfeeding-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
-					if($('#infant-gender-container-'+ i).is(':visible') == 'true'){<!-- only validate if not hidden -->
+					if($('#infant-gender-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 						if (!getValue('infant-gender-' + i + '.value')) {
 							getField('infant-gender-' + i + '.error').html('Please select the sex').show();
 							isValid = false;
 						}
 					}
-					if($('#infant-status-container-'+ i).is(':visible') == 'true'){<!-- only validate if not hidden -->
+					if($('#infant-status-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 						if (!getValue('infant-status-' + i + '.value')) {
 							getField('infant-status-' + i + '.error').html('Please enter the infant status').show();
 							isValid = false;
@@ -375,7 +397,7 @@
 							if(getValue('infant-status-'+ i + '.value') != 154223){<!-- Don't check if neo-natal death -->
 								<!--if(!getValue('infant_birth_date_' + i + '_missing.value')) --> <!-- validate if the value is not missing -->
 								<!--{ --> <!-- Check infant date of birth -->
-								if($('#infant-birth-date-container-'+ i).is(':visible') == 'true'){<!-- only validate if not hidden -->
+								if($('#infant-birth-date-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 									if (!getValue('infant_birth_date_' + i + '.value')) {
 										getField('infant_birth_date_' + i + '.error').html('Please enter the date of birth').show();
 										isValid = false;
@@ -385,7 +407,7 @@
 								<!-- if(!getValue('infant_birth_date_' + i + '_missing.value')) --> <!-- validate if the value is not missing -->
 								<!-- { -->
 									<!-- Check the Infant PTracker ID  -->
-								if($('#child-number-container-'+ i).is(':visible') == 'true'){<!-- only validate if not hidden -->
+								if($('#child-number-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 									if (!getValue('child_number_' + i + '.value')) {
 										getField('child_number_' + i + '.error').html('Please enter the Infant PTracker ID').show();
 										isValid = false;
@@ -403,14 +425,14 @@
 								|| getValue('anc-retest-thirty-six-weeks.value') == 138571
 								|| getValue('anc-retest-thirty-six-weeks.value') == 1067)
 							{ <!-- Only validate when HIV test result and ANC Retest at 36 weeks is positive or Unknown -->
-								if($('#infant-arv-prophylaxis-container-'+ i).is(':visible') == 'true'){<!-- only validate if not hidden -->
+								if($('#infant-arv-prophylaxis-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 									if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
 										getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
 										isValid = false;
 									}
 								}
 							}
-							if($('#breastfeeding-container-'+ i).is(':visible') == 'true'){<!-- only validate if not hidden -->
+							if($('#breastfeeding-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 								if (!getValue('breastfeeding-' + i + '.value')) {
 									getField('breastfeeding-' + i + '.error').html('Please enter the infant breastfeeding status').show();
 									isValid = false;
@@ -419,7 +441,7 @@
 						} else {
 							<!-- For still births the type of still birth is required -->
 							if (getValue('infant-status-'+ i + '.value') == 125872) {
-								if($('#still-birth-container-'+ i).is(':visible') == 'true'){ <!-- only validate if not hidden -->
+								if($('#still-birth-container-'+ i).is(':visible')){ <!-- only validate if not hidden -->
 									if (!getValue('still-birth-' + i + '.value')) {
 										getField('still-birth-' + i + '.error').html('Please enter the type of still birth').show();
 										isValid = false;
@@ -816,12 +838,12 @@
 			</p>
 			<!-- </excludeIf> -->
             <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> --><!-- exclude ART initiation if ART initiation date exists -->
-            <p id="art-status-container" class="hidden" >
+            <!-- <p id="art-status-container" class="hidden" >
 
                 <obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
 
-            </p>
+            </p> -->
 			<p id="art-initiation-container" class="">
 			<label>
 				ART initiation

@@ -18,10 +18,135 @@
 			encounter date -->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
-			<ifMode mode="ENTER">
-				<!-- the encounter date should be empty on a new form -->
-				setValue('encounterDate.value', '');
-			</ifMode>
+		<ifMode mode="ENTER">
+			<!-- the encounter date should be empty on a new form -->
+			setValue('encounterDate.value', '');
+			<!-- By default hide containers -->
+			hideContainer('#pregnancy-detail-container');
+			<!-- hideContainer('#hiv-test-container'); -->
+			hideContainer('#hiv-test-result-container');
+			hideContainer('#art-initiation-container');
+			hideContainer('#art-number-container');
+			hideContainer('#refused-art-container');
+			hideContainer('#art-startdate-container');
+			hideContainer('#recent-viral-load-container');
+			hideContainer('#viral-load-test-date-container');
+			hideContainer('#viral-load-results-container');
+			hideContainer('#viral-load-copies-container');
+			<!-- hideContainer('#transfer-out-container'); -->
+			hideContainer('#transfer-out-to-container');
+			hideContainer('#transfer-out-date-container');
+			<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test resulst = tested positive -->
+			<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+				hideContainer('#hiv-test-container');
+			</includeIf>
+			<!-- Don't show ART initiation if ART initiation date exists -->
+			<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">
+				hideContainer('#art-initiation-container');
+			</includeIf>
+		</ifMode>
+		<ifMode mode="ENTER" include="FALSE">
+			<!-- Hide pregnancy detail  it is not the client's first ANC -->
+			if("<lookup expression="fn.getObs($encounter, '164181').valueCoded.conceptId"/>" == '160530')
+			{
+				hideContainer('#pregnancy-detail-container');
+			}
+			<!-- Hide Gravida if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '5624')"/>" == '')
+			{
+				hideContainer('#gravida-container-label');
+				hideContainer('#gravida-container-input');
+			}
+			<!-- Hide Para if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1053')"/>" == '')
+			{
+				hideContainer('#para-container-label');
+				hideContainer('#para-container-input');
+			}
+			<!-- Hide LMP if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1427')"/>" == '')
+			{
+				hideContainer('#lmp-container-label');
+				hideContainer('#lmp-container-input');
+			}
+			<!-- Hide EDD if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '5596')"/>" == '')
+			{
+				hideContainer('#edd-container-label');
+				hideContainer('#edd-container-input');
+			}
+			<!-- Hide HIV Test Status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
+			{
+				hideContainer('#hiv-test-container');
+			}
+			<!-- Hide HIV Test Status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
+			{
+				hideContainer('#hiv-test-container');
+			}
+			<!-- Hide HIV Test results if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '159427')"/>" == '')
+			{
+				hideContainer('#hiv-test-result-container');
+			}
+			<!-- Hide ART Initiation if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164915')"/>" == '')
+			{
+				hideContainer('#art-initiation-container');
+			}
+			<!-- Hide ART number if it was not captured in this encounter -->
+			if("<lookup expression="patient.getPatientIdentifier('ART Unique Number')"/>" == '')
+			{
+				hideContainer('#art-number-container');
+			}
+			<!-- Hide Reason for ART Refusal if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '163322')"/>" == '')
+			{
+				hideContainer('#refused-art-container');
+			}
+			<!-- Hide ART Start Date if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '159599')"/>" == '')
+			{
+				hideContainer('#art-startdate-container');
+			}
+			<!-- Hide Recent Viral load status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '163310')"/>" == '')
+			{
+				hideContainer('#recent-viral-load-container');
+			}
+			<!-- Hide Recent Viral load test date if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '163281')"/>" == '')
+			{
+				hideContainer('#viral-load-test-date-container');
+			}
+			<!-- Hide Recent Viral load results if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1305')"/>" == '')
+			{
+				hideContainer('#viral-load-results-container');
+			}
+			<!-- Hide Viral load copies if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '856')"/>" == '')
+			{
+				hideContainer('#viral-load-copies-container');
+			}
+			<!-- Hide Next visit date if it was not captured in this encounter
+			if("<lookup expression="fn.getObs($encounter, '5096')"/>" == '')
+			{
+				hideContainer('#next-visit-date-container');
+			}-->
+			<!-- Hide Transfer out to if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '159495')"/>" == '')
+			{
+				hideContainer('#transfer-out-to-container');
+			}
+			<!-- Hide Transfer out date if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '160649')"/>" == '')
+			{
+				hideContainer('#transfer-out-date-container');
+			}
+
+		</ifMode>
 			
 		
 			<!-- EDD computation -->
@@ -286,174 +411,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ANC visit type">
-		<div class="section-container">
-				<p id="antenatal-visit-type-container">
-					<label>Is this your first antenatal visit</label>
-					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
-					<script>
-						jq(function() {
-						<!-- requires capturing of PTracker ID -->
-							<!-- jq('#ptrackerid-container-display').hide(); -->
-						<!-- -->
-							jq('#antenatal-visit-type').click(function(){
-								if (getValue('antenatal-visit-type.value') == 164180){
-									showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
-									<!-- showContainer('#gravida-container-label');
-									showContainer('#gravida-container-input');
-									showContainer('#para-container-label');
-									showContainer('#para-container-input');
-									showContainer('#lmp-container-label');
-									showContainer('#lmp-container-input');
-									showContainer('#edd-container-label');
-									showContainer('#edd-container-input'); -->
-									showContainer('#ptrackerid-container'); <!-- show the entire container -->
-									showContainer('#ptrackerid-container-input');
-									hideContainer('#ptrackerid-container-display');
-								} else if (getValue('antenatal-visit-type.value') == 160530) {
-									hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
-									<!-- hideContainer('#gravida-container-label');
-									hideContainer('#gravida-container-input');
-									hideContainer('#para-container-label');
-									hideContainer('#para-container-input');
-									hideContainer('#lmp-container-label');
-									hideContainer('#lmp-container-input');
-									hideContainer('#edd-container-label');
-									hideContainer('#edd-container-input'); -->
-									showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
-									if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
-										showContainer('#ptrackerid-container-display');
-										showContainer('#ptrackerid-container-input');
-										enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
-										$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book');
-										showContainer('#ptrackerid_info');
-									}
-									else {
-										showContainer('#ptrackerid-container-display');
-										hideContainer('#ptrackerid-container-input');
-										hideContainer('#ptrackerid_info');
-										disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
-									}
-									<!-- Clear the previous values -->
-									setValue('gravida.value', '');
-									setValue('para.value', '');
-									setValue('lmp.value', '');
-									setValue('edd.value', '');
-								}
-							});
 
-							jq('#gravida_missing').change(function(){
-								handleMissingSelection('gravida');
-							});
-							jq('#para_missing').change(function(){
-								handleMissingSelection('para');
-							});
-							jq('#lmp_missing').change(function(){
-								handleMissingSelection('lmp');
-								<!-- Disable EDD if LNMP is missing -->
-								if (getValue('lmp_missing.value')) {
-									disableContainer('#edd');
-									disableContainer('#edd_missing');
-								} else {
-									enableContainer('#edd');
-									enableContainer('#edd_missing');
-								}
-							});
-							jq('#edd_missing').change(function(){
-								handleMissingSelection('edd');
-							});
-							jq('#art_number_missing').change(function(){
-								handleMissingSelection('art_number');
-							});
-							jq('#art_start_date_missing').change(function(){
-								handleMissingSelection('art_start_date');
-							});
-							jq('#refused_art_missing').change(function(){
-								handleMissingSelection('refused_art');
-							});
-							jq('#viral_load_test_date_missing').change(function(){
-								handleMissingSelection('viral_load_test_date');
-							});
-							jq('#viral_load_copies_missing').change(function(){
-								handleMissingSelection('viral_load_copies');
-							});
-							jq('#next_visit_date_missing').change(function(){
-								handleMissingSelection('next_visit_date');
-							});
-						});
-					</script>
-				</p>
-		</div>
-	</section>
-	<div id="ptrackerid-container" class="hidden">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
-			<div class="section-container">
-				<p id="ptrackerid-container-label">
-					<label >
-						PTrackerID
-					</label>
-					<p class="narrow" id="ptrackerid-container-display">
-						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
-							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
-															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
-														#else
-															PTrackerID is Missing
-														#end " />
-						</span>
-					</p>
-					<p class="narrow hidden" id="ptrackerid-container-input">
-						<obs id="ptrackerid" conceptId="164951" size="5" />
-					</p>
-					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
-
-				</p>
-			</div>
-		</section>
-	</div>
-
-	<div id="pregnancy-detail-container" class="hidden">
-	<!-- <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0"> -->
-	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
-		<div class="section-container">
-				<p id="gravida-container-label" class="required">
-					<label >
-						How many times have you been pregnant, including current pregnancy (Gravida)?
-					</label>
-					<p class="narrow" id="gravida-container-input">
-						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="5" />
-						<obs id="gravida_missing" conceptId="164949" style="checkbox" answerLabel="answerLabel" labelText="Gravida missing"/>
-					</p>
-				</p>
-				<p id="para-container-label" class="required">
-					<label>
-						How many babies have you delivered before (Para)?
-					</label>
-					<p class="narrow" id="para-container-input">
-						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-						<obs id="para_missing" conceptId="164933" style="checkbox" answerLabel="answerLabel" labelText="Para missing"/>
-					</p>
-				</p>
-				
-				<p id="lmp-container-label" class="required">
-					<label>
-						Date of last normal menstrual period (LNMP)
-					</label>
-					<p class="narrow" id="lmp-container-input">
-						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
-						<obs id="lmp_missing" conceptId="164934" style="checkbox" answerLabel="answerLabel" labelText="Date of last normal menstral period missing"/>
-					</p>
-				</p>
-				<p id="edd-container-label" class="required">
-					<label>Estimated date of delivery (EDD)</label>
-					<p class="narrow" id="edd-container-input">
-						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
-						<obs id="edd_missing" conceptId="164935" style="checkbox" answerLabel="answerLabel" labelText="Estimated date of delivery missing"/>
-					</p>
-				</p>
-			</div>
-		</section>
-	<!-- </includeIf> -->
-	</div>
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
 		<!-- Subsequent ANC visit -->
 		<!-- TODO: Need to find a way of checking that this encounter is after the EDD so that multiple pregancies are handled -->
@@ -591,6 +549,173 @@
 		</section>
 		
 	</includeIf>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ANC visit type">
+		<div class="section-container">
+			<p id="antenatal-visit-type-container">
+				<label>Is this your first antenatal visit</label>
+				<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
+				<script>
+					jq(function() {
+					<!-- requires capturing of PTracker ID -->
+					<!-- jq('#ptrackerid-container-display').hide(); -->
+					<!-- -->
+					jq('#antenatal-visit-type').click(function(){
+					if (getValue('antenatal-visit-type.value') == 164180){
+					showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
+					<!-- showContainer('#gravida-container-label');
+                    showContainer('#gravida-container-input');
+                    showContainer('#para-container-label');
+                    showContainer('#para-container-input');
+                    showContainer('#lmp-container-label');
+                    showContainer('#lmp-container-input');
+                    showContainer('#edd-container-label');
+                    showContainer('#edd-container-input'); -->
+					showContainer('#ptrackerid-container'); <!-- show the entire container -->
+					showContainer('#ptrackerid-container-input');
+					hideContainer('#ptrackerid-container-display');
+					} else if (getValue('antenatal-visit-type.value') == 160530) {
+					hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
+					<!-- hideContainer('#gravida-container-label');
+                    hideContainer('#gravida-container-input');
+                    hideContainer('#para-container-label');
+                    hideContainer('#para-container-input');
+                    hideContainer('#lmp-container-label');
+                    hideContainer('#lmp-container-input');
+                    hideContainer('#edd-container-label');
+                    hideContainer('#edd-container-input'); -->
+					showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
+					if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+					showContainer('#ptrackerid-container-display');
+					showContainer('#ptrackerid-container-input');
+					enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+					$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book');
+					showContainer('#ptrackerid_info');
+					}
+					else {
+					showContainer('#ptrackerid-container-display');
+					hideContainer('#ptrackerid-container-input');
+					hideContainer('#ptrackerid_info');
+					disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+					}
+					<!-- Clear the previous values -->
+					setValue('gravida.value', '');
+					setValue('para.value', '');
+					setValue('lmp.value', '');
+					setValue('edd.value', '');
+					}
+					});
+
+					jq('#gravida_missing').change(function(){
+					handleMissingSelection('gravida');
+					});
+					jq('#para_missing').change(function(){
+					handleMissingSelection('para');
+					});
+					jq('#lmp_missing').change(function(){
+					handleMissingSelection('lmp');
+					<!-- Disable EDD if LNMP is missing -->
+					if (getValue('lmp_missing.value')) {
+					disableContainer('#edd');
+					disableContainer('#edd_missing');
+					} else {
+					enableContainer('#edd');
+					enableContainer('#edd_missing');
+					}
+					});
+					jq('#edd_missing').change(function(){
+					handleMissingSelection('edd');
+					});
+					jq('#art_number_missing').change(function(){
+					handleMissingSelection('art_number');
+					});
+					jq('#art_start_date_missing').change(function(){
+					handleMissingSelection('art_start_date');
+					});
+					jq('#refused_art_missing').change(function(){
+					handleMissingSelection('refused_art');
+					});
+					jq('#viral_load_test_date_missing').change(function(){
+					handleMissingSelection('viral_load_test_date');
+					});
+					jq('#viral_load_copies_missing').change(function(){
+					handleMissingSelection('viral_load_copies');
+					});
+					jq('#next_visit_date_missing').change(function(){
+					handleMissingSelection('next_visit_date');
+					});
+					});
+				</script>
+			</p>
+		</div>
+	</section>
+	<div id="ptrackerid-container" class="">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+			<div class="section-container">
+				<p id="ptrackerid-container-label">
+					<label >
+						PTrackerID
+					</label>
+					<p class="hidden narrow" id="ptrackerid-container-display">
+						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
+							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
+															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
+														#else
+															PTrackerID is Missing
+														#end " />
+						</span>
+					</p>
+					<p class="narrow" id="ptrackerid-container-input">
+						<obs id="ptrackerid" conceptId="164951" size="5" />
+					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
+
+				</p>
+			</div>
+		</section>
+	</div>
+	<div id="pregnancy-detail-container" class="">
+		<!-- <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0"> -->
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
+			<div class="section-container">
+				<p id="gravida-container-label" class="required">
+					<label >
+						How many times have you been pregnant, including current pregnancy (Gravida)?
+					</label>
+					<p class="narrow" id="gravida-container-input">
+						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="5" />
+						<obs id="gravida_missing" conceptId="164949" style="checkbox" answerLabel="answerLabel" labelText="Gravida missing"/>
+					</p>
+				</p>
+				<p id="para-container-label" class="required">
+					<label>
+						How many babies have you delivered before (Para)?
+					</label>
+					<p class="narrow" id="para-container-input">
+						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+						<obs id="para_missing" conceptId="164933" style="checkbox" answerLabel="answerLabel" labelText="Para missing"/>
+					</p>
+				</p>
+
+				<p id="lmp-container-label" class="required">
+					<label>
+						Date of last normal menstrual period (LNMP)
+					</label>
+					<p class="narrow" id="lmp-container-input">
+						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
+						<obs id="lmp_missing" conceptId="164934" style="checkbox" answerLabel="answerLabel" labelText="Date of last normal menstral period missing"/>
+					</p>
+				</p>
+				<p id="edd-container-label" class="required">
+					<label>Estimated date of delivery (EDD)</label>
+					<p class="narrow" id="edd-container-input">
+						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+						<obs id="edd_missing" conceptId="164935" style="checkbox" answerLabel="answerLabel" labelText="Estimated date of delivery missing"/>
+					</p>
+				</p>
+			</div>
+		</section>
+		<!-- </includeIf> -->
+	</div>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
 		<script>
 			jq(function() {
@@ -687,10 +812,12 @@
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
-						jq(function() {
-							showContainer('#recent-viral-load-container');
-							showContainer('#art-initiation-container');
-						});
+						<ifMode mode="ENTER">
+							jq(function() {
+								showContainer('#recent-viral-load-container');
+								showContainer('#art-initiation-container');
+							});
+						</ifMode>
 					</script>
 				</includeIf>
 			</includeIf>
@@ -704,7 +831,7 @@
 						 answerConceptIds="164912,164911,164913,164932"
 						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing" answerSeparator="" />
 				</p>
-				<p id="hiv-test-result-container" class="hidden">
+				<p id="hiv-test-result-container" class="">
 					<label>
 						HIV test result
 					</label>
@@ -717,11 +844,11 @@
 
 			<!-- TODO: to remove code cleanup after UAT -->
 			<excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
-            <p id="art-status-container" class="hidden" >
+            <!-- <p id="art-status-container" class="" >
                 <obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
-            </p>
-			<p id="art-initiation-container" class="hidden">
+            </p> -->
+			<p id="art-initiation-container" class="">
 			<label>
 				ART initiation
 			</label>
@@ -729,19 +856,19 @@
 					 answerConceptIds="160119,160120,160018,1754,164932"
 					 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout of ART,Missing" answerSeparator="" />
 			</p>
-			<p id="art-number-container" class="hidden narrow">
+			<p id="art-number-container" class="narrow">
 					<label>ART Unique Number</label>
 				<span id="art_number">
 					<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
 				</span>
 					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Unique Number missing"/>
 			</p>
-			<p id="refused-art-container" class="hidden">
+			<p id="refused-art-container" class="">
 				<label>Reason for refusing ART initiation</label>
 				<obs id="refused_art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				<obs id="refused_art_missing" conceptId="164937" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing ART initiation missing"/>
 			</p>
-			<p id="art-startdate-container" class="hidden narrow">
+			<p id="art-startdate-container" class="narrow">
 				<label>ART start date</label>
 				<obs id="art_start_date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 				<obs id="art_start_date_missing" conceptId="164938" style="checkbox" answerLabel="answerLabel" labelText="ART start date missing"/>
@@ -770,7 +897,7 @@
 				
 			</p>
 			</excludeIf>
-				<p id="recent-viral-load-container" class="hidden">
+				<p id="recent-viral-load-container" class="">
 					<label>
 						Viral Load test done? 					</label>
 					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1065, 1066, 164932"
@@ -794,12 +921,12 @@
 </p>
 
 <!-- TODO: Add handling for the second viral load result -->
-			<p id="viral-load-test-date-container" class="narrow hidden">
+			<p id="viral-load-test-date-container" class="narrow">
 				<label>Viral load test date</label>
 				<obs conceptId="163281" id="viral_load_test_date"/>
 				<obs id="viral_load_test_date_missing" conceptId="164939" style="checkbox" answerLabel="answerLabel" labelText="Viral load test date missing"/>
 			</p>
-			<p id="viral-load-results-container" class="hidden">
+			<p id="viral-load-results-container" class="">
 				<label>Viral load results</label>
 				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971, 164932" style="radio"
 					 answerSeparator=""
@@ -816,7 +943,7 @@
 						});
 					</script>
 			</p><br/>
-			<p id="viral-load-copies-container" class="narrow hidden">
+			<p id="viral-load-copies-container" class="narrow">
 				<label>Viral load (copies/ml)</label>
 
 				<obs id="viral_load_copies"  unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
@@ -847,7 +974,7 @@
 				<label>Facility of next appointment</label>
 				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer,Missing" answerSeparator=""/>
 			</p>
-			<p id="transfer-out-to-container" class="hidden">
+			<p id="transfer-out-to-container" class="">
 				<label>Transfer to</label>
 				<obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
 			</p>
