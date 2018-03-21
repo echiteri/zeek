@@ -1,0 +1,81 @@
+<htmlform formName="Early Infant Diagnosis PCR Test Results"
+          formDescription="Early Infant Diagnosis PCR Test Results"
+          formEncounterType="604a061a-d753-4114-a62f-30d8ca86f6d9"
+          formUuid="c7848d57-1c79-4344-b852-67d65e17c176"
+          formVersion="0.1"
+          formAddMetadata="yes"
+          formOrder="10"
+          formIcon="icon-stethoscope"
+          formShowIf="patient.person.dead==false &amp;&amp; patient.person.age &lt; 3"
+          formDisplayStyle="Standard">
+    <script>
+		jq(function() {
+			<!-- Set the id value of the followup container from the class since the section tag does not have an id attribute-->
+			jq('.followup-container').attr('id', 'followup-container');
+
+			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
+			encounter date -->
+			jq('#encounterLocation').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+
+            <ifMode mode="ENTER">
+                <!-- the encounter date should be empty on a new form -->
+                setValue('encounterDate.value', '');
+            </ifMode>
+        });
+    </script>
+    <h2>
+        <label>
+            Early Infant Diagnosis PCR Test Results
+        </label>
+    </h2>
+    <table id="who-when-where">
+        <tbody>
+            <tr>
+                <td>
+                    <label>
+                        Attending Clinican
+                    </label>
+                    <encounterProvider default="currentUser" />
+                </td>
+                <td>
+                    <label>
+                        Health Facility
+                    </label>
+                    <span id="currentLocation"></span>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                       tags="1" /> <!-- Only show Login locations -->
+                </td>
+                <td>
+                    <label name="encounterDate">
+                        Visit Date
+                    </label>
+                    <encounterDate disallowMultipleEncountersOnDate="block" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Results">
+        <div>
+            <p>
+                <label>
+                    Specimen Number
+                </label>
+                <obs conceptId="162086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            </p>
+            <p>
+                <label>
+                    Requisition Number
+                </label>
+                <obs conceptId="164952"/>
+            </p>
+            <p id="dnapcr-test-result-container" class="narrow">
+                <label>
+                    What was the DNA PCR test result?
+                </label>
+                <obs id="dnapcr-test-result" style="radio" conceptId="164461AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,159971,164932"
+                     answerLabels="Negative,Positive,Results Pending,Missing" answerSeparator=""/>
+            </p>
+        </div>
+    </section>
+</htmlform>

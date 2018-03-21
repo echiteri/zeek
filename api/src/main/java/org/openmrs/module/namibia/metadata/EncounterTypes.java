@@ -69,4 +69,36 @@ public class EncounterTypes {
 			return "af1f1b24-d2e8-4282-b308-0bf79b365584";
 		}
 	};
+
+	public static EncounterTypeDescriptor VIRAL_LOAD_TEST_ENCOUNTER_TYPE = new EncounterTypeDescriptor() {
+		@Override
+		public String name() {
+			return "Viral Load Test";
+		}
+
+		@Override
+		public String description() {
+			return "Viral load test done by NIP";
+		}
+
+		public String uuid() {
+			return "9b392edc-074f-439c-9660-f468978069a2";
+		}
+	};
+
+	public static EncounterTypeDescriptor EARLY_INFANT_DIAGNOSIS_TEST_ENCOUNTER_TYPE = new EncounterTypeDescriptor() {
+		@Override
+		public String name() {
+			return "EID Test";
+		}
+
+		@Override
+		public String description() {
+			return "EID PCR Test by NIP";
+		}
+
+		public String uuid() {
+			return "604a061a-d753-4114-a62f-30d8ca86f6d9";
+		}
+	};
 }
