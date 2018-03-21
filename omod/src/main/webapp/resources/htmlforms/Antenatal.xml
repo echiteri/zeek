@@ -18,6 +18,136 @@
 			encounter date -->
 			jq('#encounterLocation').hide();
 			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+		<ifMode mode="ENTER">
+			<!-- the encounter date should be empty on a new form -->
+			setValue('encounterDate.value', '');
+			<!-- By default hide containers -->
+			hideContainer('#pregnancy-detail-container');
+			<!-- hideContainer('#hiv-test-container'); -->
+			hideContainer('#hiv-test-result-container');
+			hideContainer('#art-initiation-container');
+			hideContainer('#art-number-container');
+			hideContainer('#refused-art-container');
+			hideContainer('#art-startdate-container');
+			hideContainer('#recent-viral-load-container');
+			hideContainer('#viral-load-test-date-container');
+			hideContainer('#viral-load-results-container');
+			hideContainer('#viral-load-copies-container');
+			<!-- hideContainer('#transfer-out-container'); -->
+			hideContainer('#transfer-out-to-container');
+			hideContainer('#transfer-out-date-container');
+			<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test resulst = tested positive -->
+			<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+				hideContainer('#hiv-test-container');
+			</includeIf>
+			<!-- Don't show ART initiation if ART initiation date exists -->
+			<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">
+				hideContainer('#art-initiation-container');
+			</includeIf>
+		</ifMode>
+		<ifMode mode="ENTER" include="FALSE">
+			<!-- Hide pregnancy detail  it is not the client's first ANC -->
+			if("<lookup expression="fn.getObs($encounter, '164181').valueCoded.conceptId"/>" == '160530')
+			{
+				hideContainer('#pregnancy-detail-container');
+			}
+			<!-- Hide Gravida if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '5624')"/>" == '')
+			{
+				hideContainer('#gravida-container-label');
+				hideContainer('#gravida-container-input');
+			}
+			<!-- Hide Para if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1053')"/>" == '')
+			{
+				hideContainer('#para-container-label');
+				hideContainer('#para-container-input');
+			}
+			<!-- Hide LMP if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1427')"/>" == '')
+			{
+				hideContainer('#lmp-container-label');
+				hideContainer('#lmp-container-input');
+			}
+			<!-- Hide EDD if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '5596')"/>" == '')
+			{
+				hideContainer('#edd-container-label');
+				hideContainer('#edd-container-input');
+			}
+			<!-- Hide HIV Test Status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
+			{
+				hideContainer('#hiv-test-container');
+			}
+			<!-- Hide HIV Test Status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
+			{
+				hideContainer('#hiv-test-container');
+			}
+			<!-- Hide HIV Test results if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '159427')"/>" == '')
+			{
+				hideContainer('#hiv-test-result-container');
+			}
+			<!-- Hide ART Initiation if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164915')"/>" == '')
+			{
+				hideContainer('#art-initiation-container');
+			}
+			<!-- Hide ART number if it was not captured in this encounter -->
+			if("<lookup expression="patient.getPatientIdentifier('ART Unique Number')"/>" == '')
+			{
+				hideContainer('#art-number-container');
+			}
+			<!-- Hide Reason for ART Refusal if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '163322')"/>" == '')
+			{
+				hideContainer('#refused-art-container');
+			}
+			<!-- Hide ART Start Date if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '159599')"/>" == '')
+			{
+				hideContainer('#art-startdate-container');
+			}
+			<!-- Hide Recent Viral load status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '163310')"/>" == '')
+			{
+				hideContainer('#recent-viral-load-container');
+			}
+			<!-- Hide Recent Viral load test date if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '163281')"/>" == '')
+			{
+				hideContainer('#viral-load-test-date-container');
+			}
+			<!-- Hide Recent Viral load results if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1305')"/>" == '')
+			{
+				hideContainer('#viral-load-results-container');
+			}
+			<!-- Hide Viral load copies if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '856')"/>" == '')
+			{
+				hideContainer('#viral-load-copies-container');
+			}
+			<!-- Hide Next visit date if it was not captured in this encounter
+			if("<lookup expression="fn.getObs($encounter, '5096')"/>" == '')
+			{
+				hideContainer('#next-visit-date-container');
+			}-->
+			<!-- Hide Transfer out to if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '159495')"/>" == '')
+			{
+				hideContainer('#transfer-out-to-container');
+			}
+			<!-- Hide Transfer out date if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '160649')"/>" == '')
+			{
+				hideContainer('#transfer-out-date-container');
+			}
+
+		</ifMode>
+			
 		
 			<!-- EDD computation -->
 			jq('#lmp :input[type=text]').change(function(){
@@ -26,48 +156,158 @@
 		
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
+				<!-- Validate pregnancy details -->
+
+				<!-- if there is a a first visit the pregnancy information is required -->
+				if (getValue('antenatal-visit-type.value') == 164180) {
+					setValue('gravida.error', '');
+					setValue('para.error', '');
+					setValue('lmp.error', '');
+					setValue('edd.error', '');
+					setValue('ptrackerid.error', '');
+					<!-- Validate PTrackerID provision -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
+
+					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
+						getField('gravida.error').html('Gravida must be provided').show();
+						return false;
+					}
+					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
+						getField('para.error').html('Para must be provided').show();
+						return false;
+					}
+					if (!getField('lmp.value').is(':disabled') &amp;&amp; !getValue('lmp.value')) {
+						getField('lmp.error').html('LMP must be provided').show();
+						return false;
+					}
+					if (!getField('edd.value').is(':disabled') &amp;&amp; !getValue('edd.value')) {
+						getField('edd.error').html('Edd must be provided').show();
+						return false;
+					}
+				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing") {
+					<!-- Validate PTrackerID provision -->
+					if (!getValue('ptrackerid.value')) {
+						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						return false;
+					}
+				}
 				<!-- clear the previous errors -->
 				if (getField('lmp.value') != null) {
 					<!-- LNMP must be before the encounter date -->
 					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
 					var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
-					if (encounterDate &lt; lmpDate) {
-						getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-		changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
-						return false;
+					if (Date.parse(lmpDate)) {
+						if (encounterDate &lt; lmpDate) {
+							getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
+			changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+							return false;
+						}
+
+						<!-- The LMP date cannot be more than 44 weeks before the visit date for ANC -->
+						if (Math.abs(encounterDate - lmpDate)/(1000 * 86400 * 7) > 43) {
+							getField('lmp.error').html('The date of the last menstral period cannot be more than 44 weeks before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+							return false;
+						}
 					}
-			
-					<!-- The LMP date cannot be more than 44 weeks before the visit date for ANC -->
-					if (Math.abs(encounterDate - lmpDate)/(1000 * 86400 * 7) > 43) {
-						getField('lmp.error').html('The date of the last menstral period cannot be more than 44 weeks before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+				}
+
+				<!-- Validate ANC followup question -->
+				if ($('#antenatal-visit-type').length > 0) {
+					setValue('antenatal-visit-type.error', '');
+
+					if (!getValue('antenatal-visit-type.value')) {
+						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
 						return false;
 					}
 				}
 		
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- clear the previous errors -->
+				<!-- Validate HIV test done -->
+				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('hiv-test.error', '');
+						if (!getValue('hiv-test.value')) {
+							getField('hiv-test.error').html('HIV test must be provided').show();
+							return false;
+						}
+				}
+
+				<!-- Validate HIV test result -->
 				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					setValue('hiv-test-result.error', '');
 
 					<!-- if there is a test the test result is required -->
-					if (getValue('hiv-test.value') == 1065) {
-							var test_result = getValue('hiv-test-result.value');
-							if ((test_result == null) || (test_result = '')) {
+					if (getValue('hiv-test.value') == 164912) {
+							if (!getValue('hiv-test-result.value')) {
 								getField('hiv-test-result.error').html('The results for the HIV test must be provided').show();
 								return false;
 							}
 					}
 				}
 
+				<!-- Validate ART Initiation -->
+				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('art-initiation.error', '');
+					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
+					if ($('#hiv-test').length > 0 &amp;&amp; $('#hiv-test-result').length > 0)
+					{
+						if (((getValue('hiv-test.value') == 164912 &amp;&amp; getValue('hiv-test-result.value')  == 138571) || getValue('hiv-test.value') == 164911)) {
+							if (!getValue('art-initiation.value')) {
+								getField('art-initiation.error').html('ART initiation status must be provided').show();
+								return false;
+							}
+						}
+					} else {
+						if (!getValue('art-initiation.value')) {
+							getField('art-initiation.error').html('ART initiation status must be provided').show();
+							return false;
+						}
+					}
+				}
+				<!-- Validate recent viral load done-->
+				if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('recent-viral-load.error', '');
+					<!-- the recent-viral-load is required if Test status is KP -->
+					if ($('#hiv-test').length > 0)
+					{
+						if (getValue('hiv-test.value') == 164911){
+							if (!getValue('recent-viral-load.value')) {
+								getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+								return false;
+							}
+						}
+					}else {
+						if (!getValue('recent-viral-load.value')) {
+							getField('recent-viral-load.error').html('Recent viral load must be provided').show();
+							return false;
+						}
+					}
+				}
+
+				<!-- Validate viral load results -->
+				if ($('#viral-load-results').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+					setValue('viral-load-results.error', '');
+					<!-- the viral-load-results is required  -->
+					if (getValue('recent-viral-load.value') == 1065){
+						if (!getValue('viral-load-results.value')) {
+							getField('viral-load-results.error').html('Viral load results must be provided').show();
+							return false;
+						}
+					}
+				}
 		
 				<!-- Validation rules for follow up -->
 				setValue('transfer-out-to.error', '');
-				setValue('next-visit-date.error', '');
+				setValue('transfer-out.error', '');
+				setValue('next_visit_date.error', '');
 				<!-- check the date of the next visit -->
-				var next_visit_date = new Date(changeFieldDateToJavascriptDate(getValue('next-visit-date.value')));
+				var next_visit_date = new Date(changeFieldDateToJavascriptDate(getValue('next_visit_date.value')));
 				<!-- next visit date must be after the current visit date -->
 				if (encounterDate &gt; next_visit_date) {
-					getField('next-visit-date.error').html('The date of the next visit ' + 'must be after ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value')) + ' the date of this visit').show();
+					getField('next_visit_date.error').html('The date of the next visit ' + 'must be after ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value')) + ' the date of this visit').show();
 					return false;
 				}
 			
@@ -76,7 +316,7 @@
 				var edd = new Date(getValue('edd.value'));
 				if (Date.parse(edd)) { <!-- For followup ANC visit, the edd will be empty, check to avoid 'invalid argument' js exception -->
 					if (next_visit_date &gt; edd) {
-						getField('next-visit-date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
+						getField('next_visit_date.error').html('The date of the next visit cannot be after the expected delivery date of ' + changeFieldDateToJavascriptDate(getValue('edd.value'))).show();
 						return false;
 					}
 				}
@@ -89,34 +329,12 @@
 						return false;
 					}
 				}
-				<!-- Validate pregnancy details -->
-				<!-- if ($('#gravida').length > 0) { --><!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-				<!-- setValue('gravida.error', ''); -->
-
-				<!-- if there is a test the test result is required -->
-				if (getValue('antenatal-visit-type.value') == 164180 || getValue('antenatal-visit-type.value') == 1067) {
-					setValue('gravida.error', '');
-					setValue('para.error', '');
-					setValue('lmp.error', '');
-					setValue('edd.error', '');
-
-					if (!getValue('gravida.value')) {
-						getField('gravida.error').html('Gravida must be provided').show();
+				if (!jq('#transfer-out-container').hasClass('hidden')) {
+					<!-- the transfer  out is required -->
+					if (getValue('transfer-out.value') == '') {
+						getField('transfer-out.error').html('Please enter the facility of next appointment').show();
 						return false;
 					}
-					if (!getValue('para.value')) {
-						getField('para.error').html('Para must be provided').show();
-						return false;
-					}
-					if (!getValue('lmp.value')) {
-						getField('lmp.error').html('LMP must be provided').show();
-						return false;
-					}
-					if (!getValue('edd.value')) {
-						getField('edd.error').html('Edd must be provided').show();
-						return false;
-					}
-					<!-- } -->
 				}
 		
 				return true;
@@ -159,6 +377,7 @@
 			return formattedDate;
 		}
 	</script>
+	
 	<h2>
 		<label>
 			Antenatal Form
@@ -186,95 +405,13 @@
 					<label name="encounterDate">
 						Visit Date
 					</label>
-					<encounterDate default="today" disallowMultipleEncountersOnDate="block" />
+					<encounterDate disallowMultipleEncountersOnDate="block" />
 				</td>
 				<!-- <td><label>PTracker Pregnancy Number</label><obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td> -->
 			</tr>
 		</tbody>
 	</table>
-	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
-			<div class="section-container">
-				<p id="antenatal-visit-type-container">
-					<label>Is this your first antenatal visit</label>
-					<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
-					<script>
-						jq(function() {
-							jq('#antenatal-visit-type').click(function(){
-								if (getValue('antenatal-visit-type.value') == 164180 || getValue('antenatal-visit-type.value') == 1067){
-									showContainer('#gravida-container-label');
-									showContainer('#gravida-container-input');
-									showContainer('#para-container-label');
-									showContainer('#para-container-input');
-									showContainer('#lmp-container-label');
-									showContainer('#lmp-container-input');
-									showContainer('#edd-container-label');
-									showContainer('#edd-container-input');
-								} else {
-									hideContainer('#gravida-container-label');
-									hideContainer('#gravida-container-input');
-									hideContainer('#para-container-label');
-									hideContainer('#para-container-input');
-									hideContainer('#lmp-container-label');
-									hideContainer('#lmp-container-input');
-									hideContainer('#edd-container-label');
-									hideContainer('#edd-container-input');
-									<!-- Clear the previous values -->
-									setValue('gravida.value', '');
-									setValue('para.value', '');
-									setValue('lmp.value', '');
-									setValue('edd.value', '');
-								}
-							});
-						});
-					</script>
-				</p>
-				<p id="gravida-container-label" class="required hidden">
-					<label >
-						How many times have you been pregnant, including current pregnancy (Gravida)?
-					</label>
-					<p class="narrow hidden" id="gravida-container-input">
-						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-					</p>
-				</p>
-				<p id="para-container-label" class="required hidden">
-					<label>
-						How many babies have you delivered before (Para)?
-					</label>
-					<p class="narrow hidden" id="para-container-input">
-						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-					</p>
-				</p>
-				
-				<p id="lmp-container-label" class="required hidden">
-					<label>
-						Date of last normal menstrual period (LNMP)
-					</label>
-					<p class="narrow hidden" id="lmp-container-input">
-						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
-					</p>
-				</p>
-				<p id="edd-container-label" class="required hidden">
-					<label>Estimated date of delivery (EDD)</label>
-					<p class="narrow hidden" id="edd-container-input">
-						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
-					</p>
-				</p>
-				<!-- <p class="narrow">
-					<label>
-						Expected facility of delivery
-					</label>
-					<obs required="true" conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="Delivery Location" /> --> <!--only show delivery locations -->
-				<!-- </p>
-				<p class="narrow">
-					<label>
-						Specify other facility
-					</label>
-						<obs conceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="text" />
-				</p> -->
-			</div>
-		</section>
-	</includeIf>
+
 	<includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() > 0">
 		<!-- Subsequent ANC visit -->
 		<!-- TODO: Need to find a way of checking that this encounter is after the EDD so that multiple pregancies are handled -->
@@ -284,8 +421,9 @@
 					<!-- change the label of the legend for this section since its nolonger the first ANC visit -->
 					jq('legend.summary').html('ANC Visit Summary Information');
 					<!-- Show the EDD -->
+					<!-- There is not LMP date yet. Is there need to show the EDD? Throws a js error!!!
 					var eddDate =  changeDisplayDateFormat(calculateEDD(jq('#lmp').text()));
-					jq('#edd').text(eddDate);
+					jq('#edd').text(eddDate);-->
 				});
 			</script>
 			<div class="section-container">
@@ -302,23 +440,19 @@
 							<th align="left" width="40%">Date of Last Known Menstral Period (LNMP)</th>
 							<th align="left" width="30%">Expected Date of Delivery (EDD)</th>
 							<th align="left">Date of last HIV Test</th>
-							<!-- <th align="left">Expected Facility of Delivery</th> -->
 						</tr>
 						<tr>
 							<td><span id="lmp"><lookup expression="fn.latestObs('1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
-							<td><span id="edd"></span></td>
+							<td><span id="edd"><lookup expression="fn.latestObs('5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueDatetime" /></span></td>
 							<td>
-								<includeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
-									<lookup	complexExpression="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
+								<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')">
+									<lookup	complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 								</includeIf>
 							</td>
-							<!--<td>
-								<lookup complexExpression="$fn.location($fn.latestObs('162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueText).name" />
-							</td>-->
 						
 						</tr>
 						
-						<!-- <includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065"> [this prevents this section from showing]-->
+						<!-- <includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065"> [this prevents this section from showing]-->
 							<!-- todo: Show HIV and ART status if the encounter facility is similar to patient last encounter facility-->
 							<!-- <tr>
 								<th align="left">Last HIV Status</th>
@@ -346,8 +480,8 @@
 								</td>
 							</tr> todo: above ends here-->
 						<!-- </includeIf> -->
-						<includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
-												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 ">
+						<includeIf velocityTest="($fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164913)
+												|| $fn.latestObs('	164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 ">
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -356,11 +490,11 @@
 							<tr>
 								<td>Not Tested</td>
 								<td colspan="2">
-									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
+									<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 										Previously known positive
 									
 									</includeIf>
-									<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
+									<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
 										Unknown <!-- added for unknown -->
 									</includeIf>
 
@@ -369,8 +503,8 @@
 						</includeIf>
 					<!-- disabled the display below because it is currently based on "Reason for not testing" which has been merged with
 						"HIV test status" above. Until tested and confirm, consider restoring the section below. -->
-					<!-- <includeIf velocityTest="($fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
-												|| $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> added for unknown
+					<!-- <includeIf velocityTest="($fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1066)
+												|| $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067 "> added for unknown
 							<tr>
 								<th align="left">Last HIV Status</th>
 								<th colspan="2" align="left">Reason for Not Testing
@@ -415,16 +549,181 @@
 		</section>
 		
 	</includeIf>
+	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ANC visit type">
+		<div class="section-container">
+			<p id="antenatal-visit-type-container">
+				<label>Is this your first antenatal visit</label>
+				<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
+				<script>
+					jq(function() {
+					<!-- requires capturing of PTracker ID -->
+					<!-- jq('#ptrackerid-container-display').hide(); -->
+					<!-- -->
+					jq('#antenatal-visit-type').click(function(){
+					if (getValue('antenatal-visit-type.value') == 164180){
+					showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
+					<!-- showContainer('#gravida-container-label');
+                    showContainer('#gravida-container-input');
+                    showContainer('#para-container-label');
+                    showContainer('#para-container-input');
+                    showContainer('#lmp-container-label');
+                    showContainer('#lmp-container-input');
+                    showContainer('#edd-container-label');
+                    showContainer('#edd-container-input'); -->
+					showContainer('#ptrackerid-container'); <!-- show the entire container -->
+					showContainer('#ptrackerid-container-input');
+					hideContainer('#ptrackerid-container-display');
+					} else if (getValue('antenatal-visit-type.value') == 160530) {
+					hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
+					<!-- hideContainer('#gravida-container-label');
+                    hideContainer('#gravida-container-input');
+                    hideContainer('#para-container-label');
+                    hideContainer('#para-container-input');
+                    hideContainer('#lmp-container-label');
+                    hideContainer('#lmp-container-input');
+                    hideContainer('#edd-container-label');
+                    hideContainer('#edd-container-input'); -->
+					showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
+					if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+					showContainer('#ptrackerid-container-display');
+					showContainer('#ptrackerid-container-input');
+					enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+					$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book');
+					showContainer('#ptrackerid_info');
+					}
+					else {
+					showContainer('#ptrackerid-container-display');
+					hideContainer('#ptrackerid-container-input');
+					hideContainer('#ptrackerid_info');
+					disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+					}
+					<!-- Clear the previous values -->
+					setValue('gravida.value', '');
+					setValue('para.value', '');
+					setValue('lmp.value', '');
+					setValue('edd.value', '');
+					}
+					});
+
+					jq('#gravida_missing').change(function(){
+					handleMissingSelection('gravida');
+					});
+					jq('#para_missing').change(function(){
+					handleMissingSelection('para');
+					});
+					jq('#lmp_missing').change(function(){
+					handleMissingSelection('lmp');
+					<!-- Disable EDD if LNMP is missing -->
+					if (getValue('lmp_missing.value')) {
+					disableContainer('#edd');
+					disableContainer('#edd_missing');
+					} else {
+					enableContainer('#edd');
+					enableContainer('#edd_missing');
+					}
+					});
+					jq('#edd_missing').change(function(){
+					handleMissingSelection('edd');
+					});
+					jq('#art_number_missing').change(function(){
+					handleMissingSelection('art_number');
+					});
+					jq('#art_start_date_missing').change(function(){
+					handleMissingSelection('art_start_date');
+					});
+					jq('#refused_art_missing').change(function(){
+					handleMissingSelection('refused_art');
+					});
+					jq('#viral_load_test_date_missing').change(function(){
+					handleMissingSelection('viral_load_test_date');
+					});
+					jq('#viral_load_copies_missing').change(function(){
+					handleMissingSelection('viral_load_copies');
+					});
+					jq('#next_visit_date_missing').change(function(){
+					handleMissingSelection('next_visit_date');
+					});
+					});
+				</script>
+			</p>
+		</div>
+	</section>
+	<div id="ptrackerid-container" class="">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+			<div class="section-container">
+				<p id="ptrackerid-container-label">
+					<label >
+						PTrackerID
+					</label>
+					<p class="hidden narrow" id="ptrackerid-container-display">
+						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
+							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
+															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
+														#else
+															PTrackerID is Missing
+														#end " />
+						</span>
+					</p>
+					<p class="narrow" id="ptrackerid-container-input">
+						<obs id="ptrackerid" conceptId="164951" size="5" />
+					</p>
+					<span id="ptrackerid_info" class="hidden" style="color: Orange; padding: -2px 20px; "></span>
+
+				</p>
+			</div>
+		</section>
+	</div>
+	<div id="pregnancy-detail-container" class="">
+		<!-- <includeIf velocityTest="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size() == 0"> -->
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Details of Pregnancy">
+			<div class="section-container">
+				<p id="gravida-container-label" class="required">
+					<label >
+						How many times have you been pregnant, including current pregnancy (Gravida)?
+					</label>
+					<p class="narrow" id="gravida-container-input">
+						<obs id="gravida" conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="5" />
+						<obs id="gravida_missing" conceptId="164949" style="checkbox" answerLabel="answerLabel" labelText="Gravida missing"/>
+					</p>
+				</p>
+				<p id="para-container-label" class="required">
+					<label>
+						How many babies have you delivered before (Para)?
+					</label>
+					<p class="narrow" id="para-container-input">
+						<obs id="para" conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+						<obs id="para_missing" conceptId="164933" style="checkbox" answerLabel="answerLabel" labelText="Para missing"/>
+					</p>
+				</p>
+
+				<p id="lmp-container-label" class="required">
+					<label>
+						Date of last normal menstrual period (LNMP)
+					</label>
+					<p class="narrow" id="lmp-container-input">
+						<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" />
+						<obs id="lmp_missing" conceptId="164934" style="checkbox" answerLabel="answerLabel" labelText="Date of last normal menstral period missing"/>
+					</p>
+				</p>
+				<p id="edd-container-label" class="required">
+					<label>Estimated date of delivery (EDD)</label>
+					<p class="narrow" id="edd-container-input">
+						<obs id="edd" conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+						<obs id="edd_missing" conceptId="164935" style="checkbox" answerLabel="answerLabel" labelText="Estimated date of delivery missing"/>
+					</p>
+				</p>
+			</div>
+		</section>
+		<!-- </includeIf> -->
+	</div>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Testing and ART Initiation">
 		<script>
 			jq(function() {
 				<!-- Whether the client has been tested -->
 				jq('#hiv-test').click(function(){
-					if(getValue('hiv-test.value') == 1065) {
+					if(getValue('hiv-test.value') == 164912) {
 						showContainer('#hiv-test-result-container');
-						<!-- hideContainer('#not-tested-container'); TODO: to remove  code cleanup after UAT
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container');-->
+						hideContainer('#refused-test-reason-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -434,19 +733,13 @@
 						hideContainer('#viral-load-test-date-container');
 						hideContainer('#viral-load-results-container');
 						hideContainer('#viral-load-copies-container');
-					} else if (getValue('hiv-test.value') == 1169) {
+					} else if (getValue('hiv-test.value') == 164911) {
 						<!-- previously known positive -->
-						<!-- showContainer('#art-number-container');
-						showContainer('#art-startdate-container');-->
 						showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
-						<!-- showContainer('#art-status-container'); --> <!--TODO: to remove code cleanup after UAT -->
 						hideContainer('#hiv-test-result-container');
 					}else {
 						hideContainer('#hiv-test-result-container');
-						<!-- showContainer('#not-tested-container'); TODO: to remove code cleanup after UAT
-						hideContainer('#refused-test-reason-container');-->
-						<!-- hideContainer('#art-status-container'); -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						hideContainer('#art-initiation-container');
@@ -458,22 +751,6 @@
 						hideContainer('#viral-load-copies-container');
 			}
 				});
-			<!-- TODO: code cleanup after UAT this 'reason for not testing' section will be removed since it can't be filled from the register -->
-			<!-- reason for not testing -->
-				<!-- jq('#not-tested').click(function(){
-					if(getValue('not-tested.value') == 128453) {
-						showContainer('#refused-test-reason-container');
-					} else if (getValue('not-tested.value') == 1169) { -->
-						<!-- previously known positive -->
-						<!-- showContainer('#art-status-container');
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-initiatin-container');
-					} else {
-						hideContainer('#refused-test-reason-container');
-						hideContainer('#art-initiatin-container');
-					}
-				});-->
-			<!-- TODO: code cleanup after UAT 'reason for not testing' ends ... -->
 				<!-- ART Status -->
 				jq('#art-status').click(function(){
 					if (getValue('art-status.value') == 'true') {
@@ -481,11 +758,8 @@
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						<!-- Enusre ART start date is empty-->
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
-						<!--showContainer('#viral-load-test-date-container');
-						showContainer('#viral-load-results-container');
-						showContainer('#viral-load-copies'); -->
 						hideContainer('#art-initiation-container');
 					} else {
 						<!-- Not yet on ART so initialize -->
@@ -500,19 +774,17 @@
 					}
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 703) {
-						<!-- positive result -->
+					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
+						<!-- positive result or unknown (since unknown is a valid answer) -->
 						showContainer('#art-initiation-container');
-						showContainer('#art-number-container');
-						showContainer('#art-startdate-container');
-						<!-- showContainer('#posttest-counselled-container'); -->
+						<!-- showContainer('#art-number-container'); -->
+						<!-- showContainer('#art-startdate-container'); -->
 					} else {
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						<!-- hideContainer('#posttest-counselled-container'); -->
 						<!-- clear data in case it is not HIV +ve -->
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
 				jq('#art-initiation').click(function(){
@@ -520,119 +792,91 @@
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
 						hideContainer('#refused-art-container');
-						<!-- set ART start date to today -->
-						setValue('art-start-date.value', jq.datepicker.formatDate('yy-mm-dd', new Date()));
 					} else if (getValue('art-initiation.value') == 160018) {
 						<!-- refused ART -->
 						showContainer('#refused-art-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					} else {
 						hideContainer('#refused-art-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
-						setValue('art-start-date.value', '');
+						setValue('art_start_date.value', '');
 					}
 				});
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 || $fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703">
+			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571">
 				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
 					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
 					<script>
-						jq(function() {
-							<!-- showContainer('#art-status-container'); -->
-							showContainer('#recent-viral-load-container');
-							showContainer('#art-initiation-container');
-						});
+						<ifMode mode="ENTER">
+							jq(function() {
+								showContainer('#recent-viral-load-container');
+								showContainer('#art-initiation-container');
+							});
+						</ifMode>
 					</script>
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 703 || $fn.latestObs('161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169">
-
-				<!--<p id="pretest-counselled-container">
-					<label>
-						Pre-Test Counselled
-					</label>
-					<obs id="pretest-counselled" style="radio" conceptId="163760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066,1067"
-						 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
-				</p> -->
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
 					</label>
-					<obs id="hiv-test" style="radio" conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1169,1066,1067"
-						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Unknown" answerSeparator="" />
+					<obs id="hiv-test" style="radio" conceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptIds="164912,164911,164913,164932"
+						 answerLabels="Tested for HIV during this visit,Previously known positive,Not tested for HIV during this visit,Missing" answerSeparator="" />
 				</p>
-				<!-- TODO: to remove code cleanup after UAT
-				<p id="not-tested-container" class="hidden">
-					<label>
-						Reason for not testing
-					</label>
-					<obs id="not-tested" style="radio" conceptId="159803AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1169,160352,128453,1067"
-						 answerLabels="Previously known positive, Testing kit stockout, Refused test, Unknown" answerSeparator="" />
-				</p>
-				<p id="refused-test-reason-container" class="hidden">
-					<label>
-						Reason for refusing test
-					</label>
-					<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-				</p>-->
-				<p id="hiv-test-result-container" class="hidden">
+				<p id="hiv-test-result-container" class="">
 					<label>
 						HIV test result
 					</label>
-					<obs id="hiv-test-result" style="radio" conceptId="1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,703,1067"
-						 answerLabels="Negative,Positive,Unknown"
+					<obs id="hiv-test-result" style="radio" conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="664,138571,1067,164932"
+						 answerLabels="Negative,Positive,Unknown,Missing"
 						 answerSeparator="" />
 				</p>
-				<!-- <p id="posttest-counselled-container">
-					<label>
-						Post-Test Counselled
-					</label>
-					<obs id="posttest-counselled" style="radio" conceptId="159382AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-						 answerConceptIds="1065,1066,1067"
-						 answerLabels="Yes,No,Unknown" answerSeparator="" required="true" />
-				</p> -->
 
 			</excludeIf>
 
 			<!-- TODO: to remove code cleanup after UAT -->
 			<excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
-            <p id="art-status-container" class="hidden" >
-                <obs id="art-status" conceptId="1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerSeparator="" style="checkbox" />
+            <!-- <p id="art-status-container" class="" >
+                <obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
 				<label>Are you still on treatment?</label>
-            </p>
-			<p id="art-initiation-container" class="hidden">
+            </p> -->
+			<p id="art-initiation-container" class="">
 			<label>
 				ART initiation
 			</label>
-				<obs id="art-initiation" style="radio" conceptId="160117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					 answerConceptIds="160119,160120,160018,1754,1067"
-					 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout of ART,Unknown" answerSeparator="" />
+				<obs id="art-initiation" style="radio" conceptId="164915"
+					 answerConceptIds="160119,160120,160018,1754,164932"
+					 answerLabels="Already on ART before current pregnancy,Started on ART in ANC current pregnancy,Refused ART,Not started due to stockout of ART,Missing" answerSeparator="" />
 			</p>
-			<p id="art-number-container" class="hidden narrow">
+			<p id="art-number-container" class="narrow">
 					<label>ART Unique Number</label>
-					<patient id="art-number" field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				<span id="art_number">
+					<patient field="identifier" identifierTypeId="9d6d1eec-2cd6-4637-a981-4a46b4b8b41f"  required="false" />
+				</span>
+					<obs id="art_number_missing" conceptId="164936" style="checkbox" answerLabel="answerLabel" labelText="ART Unique Number missing"/>
 			</p>
-			<p id="refused-art-container" class="hidden">
+			<p id="refused-art-container" class="">
 				<label>Reason for refusing ART initiation</label>
-				<obs id="refused-art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused_art" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="refused_art_missing" conceptId="164937" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing ART initiation missing"/>
 			</p>
-			<p id="art-startdate-container" class="hidden narrow">
+			<p id="art-startdate-container" class="narrow">
 				<label>ART start date</label>
-				<obs id="art-start-date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="art_start_date" conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+				<obs id="art_start_date_missing" conceptId="164938" style="checkbox" answerLabel="answerLabel" labelText="ART start date missing"/>
 				<script>
 					jq(function(){
-						jq('#art-start-date :input[type=text]').change(function(){
+						jq('#art_start_date :input[type=text]').change(function(){
 							
-							var art_start_date = getValue('art-start-date.value');
+							var art_start_date = getValue('art_start_date.value');
 							var visit_date = getValue('encounterDate.value');
 							
 							if (art_start_date != '') {
@@ -644,10 +888,7 @@
 									<!-- Show the viral load container if the ART start date is more than 6 months before today -->
 
 									<!-- just show the viral load container -->
-									<!--var months = Math.round(diff/(86400000 * 30));
-									if (months > 6) {-->
 										showContainer('#recent-viral-load-container');
-									<!--}-->
 								}
 							}
 						});
@@ -656,19 +897,18 @@
 				
 			</p>
 			</excludeIf>
-				<p id="recent-viral-load-container" class="hidden">
+				<p id="recent-viral-load-container" class="">
 					<label>
 						Viral Load test done? 					</label>
-					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1267, 1118, 1067"
-						 answerLabels="Yes, No, Unknown"
+					<obs style="radio" conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="recent-viral-load" answerConceptIds="1065, 1066, 164932"
+						 answerLabels="Yes, No, Missing"
 						 answerSeparator="" />
 					<script>
 						jq(function() {
 							jq('#recent-viral-load').click(function(){
-								if (getValue('recent-viral-load.value') == 1267) {
+								if (getValue('recent-viral-load.value') == 1065) {
 									showContainer('#viral-load-results-container');
 									showContainer('#viral-load-test-date-container');
-									<!--showContainer('#viral-load-copies-container');-->
 								} else {
 									hideContainer('#viral-load-results-container');
 									hideContainer('#viral-load-test-date-container');
@@ -681,15 +921,16 @@
 </p>
 
 <!-- TODO: Add handling for the second viral load result -->
-			<p id="viral-load-test-date-container" class="narrow hidden">
+			<p id="viral-load-test-date-container" class="narrow">
 				<label>Viral load test date</label>
-				<obs conceptId="163281" id="viral-load-test-date"/>
+				<obs conceptId="163281" id="viral_load_test_date"/>
+				<obs id="viral_load_test_date_missing" conceptId="164939" style="checkbox" answerLabel="answerLabel" labelText="Viral load test date missing"/>
 			</p>
-			<p id="viral-load-results-container" class="hidden">
+			<p id="viral-load-results-container" class="">
 				<label>Viral load results</label>
-				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971" style="radio"
+				<obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1301,1306,1304,159971, 164932" style="radio"
 					 answerSeparator=""
-					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results Pending"/>
+					 answerLabels="Target Detected,Not Detected, Sample Rejected, Results Pending, Missing"/>
 				<script>
 						jq(function() {
 							jq('#viral-load-results').click(function(){
@@ -702,11 +943,12 @@
 						});
 					</script>
 			</p><br/>
-			<p id="viral-load-copies-container" class="narrow hidden">
-				<label>Viral load</label>
-				
-				<obs id="viral-load-copies" showUnits="copies/ml" unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-			
+			<p id="viral-load-copies-container" class="narrow">
+				<label>Viral load (copies/ml)</label>
+
+				<obs id="viral_load_copies"  unitsCssClass="append-to-value" conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+
+				<obs id="viral_load_copies_missing" conceptId="164940" style="checkbox" answerLabel="answerLabel" labelText="Viral load copies missing"/>
 			</p>
 		</div>
 	</section>
@@ -725,13 +967,14 @@
 		<div class="section-container">
 			<p id="next-visit-date-container" class="narrow">
 				<label>Next Visit Date</label>
-				<obs id="next-visit-date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+				<obs id="next_visit_date" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" />
+				<obs id="next_visit_date_missing" conceptId="164941" style="checkbox" answerLabel="answerLabel" labelText="Next visit date missing"/>
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="1285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1066,1067,1065,1067" answerLabels="This facility,In Transit,Transfer,Unknown" answerSeparator=""/>
+				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer,Missing" answerSeparator=""/>
 			</p>
-			<p id="transfer-out-to-container" class="hidden">
+			<p id="transfer-out-to-container" class="">
 				<label>Transfer to</label>
 				<obs id="transfer-out-to" conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location" answerLocationTags="2" />
 			</p>

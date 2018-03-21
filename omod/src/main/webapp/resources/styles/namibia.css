@@ -75,6 +75,7 @@ td > label:first-child, p > label:first-child {
 }
 
 .horizontal label {
+    float: none;
     display: inline-block;
 }
 
@@ -108,7 +109,7 @@ span.value {
  * Fix for Issue #38 removing edit capability for Encounters
 */
 #encountersList .editEncounter {
-    display: none;
+    display: inline-block;
 }
 
 .required label {
@@ -118,4 +119,8 @@ span.value {
     color: #ee070b;
     content: ' *';
     display:inline;
+}
+
+#print-button, #edit-button {
+    display: none;
 }
