@@ -16,5 +16,7 @@ public class NamibiaEncounterTypeMetadataBundle extends AbstractMetadataBundle {
 		install(EncounterTypes.LABOR_AND_DELIVERY_ENCOUNTER_TYPE);
 		install(EncounterTypes.MOTHER_PNC_ENCOUNTER_TYPE);
 		install(EncounterTypes.INFANT_PNC_ENCOUNTER_TYPE);
+		install(EncounterTypes.VIRAL_LOAD_TEST_ENCOUNTER_TYPE);
+		install(EncounterTypes.EARLY_INFANT_DIAGNOSIS_TEST_ENCOUNTER_TYPE);
 	}
 }

@@ -1,0 +1,99 @@
+<htmlform formName="Viral Load Test Results"
+          formDescription="Viral Load Test Results"
+          formEncounterType="9b392edc-074f-439c-9660-f468978069a2"
+          formUuid="99d5359d-a05e-4632-8182-5b8639e71865"
+          formVersion="0.1"
+          formAddMetadata="yes"
+          formOrder="15"
+          formIcon="icon-stethoscope"
+          formShowIf="patient.person.dead==false"
+          formDisplayStyle="Standard">
+    <script>
+		jq(function() {
+			<!-- Set the id value of the followup container from the class since the section tag does not have an id attribute-->
+			jq('.followup-container').attr('id', 'followup-container');
+
+			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
+			encounter date -->
+			jq('#encounterLocation').hide();
+			jq('#currentLocation').text(jq('#encounterLocation select option:selected').text());
+
+            <ifMode mode="ENTER">
+                <!-- the encounter date should be empty on a new form -->
+                setValue('encounterDate.value', '');
+            </ifMode>
+        });
+    </script>
+    <h2>
+        <label>
+            Viral Load Test Results
+        </label>
+    </h2>
+    <table id="who-when-where">
+        <tbody>
+            <tr>
+                <td>
+                    <label>
+                        Attending Clinican
+                    </label>
+                    <encounterProvider default="currentUser" />
+                </td>
+                <td>
+                    <label>
+                        Health Facility
+                    </label>
+                    <span id="currentLocation"></span>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                       tags="1" /> <!-- Only show Login locations -->
+                </td>
+                <td>
+                    <label name="encounterDate">
+                        Visit Date
+                    </label>
+                    <encounterDate disallowMultipleEncountersOnDate="block" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Results">
+        <div>
+            <p class="narrow">
+                <label>
+                    Specimen Number
+                </label>
+                <obs conceptId="162086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            </p>
+            <p class="narrow">
+                <label>
+                    Requisition Number
+                </label>
+                <obs conceptId="164952"/>
+            </p>
+            <p id="viral-load-results-container" class="narrow">
+                <label>Viral load results</label>
+                <obs id="viral-load-results" conceptId="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="1301,1306,1304,159971, 164932" style="radio"
+                     answerSeparator=""
+                     answerLabels="Target Detected,Not Detected, Sample Rejected, Results Pending, Missing"/>
+                <script>
+						jq(function() {
+							jq('#viral-load-results').click(function(){
+								if (getValue('viral-load-results.value') == 1301) {
+									showContainer('#viral-load-copies-container');
+								} else {
+									hideContainer('#viral-load-copies-container');
+								}
+							});
+						});
+					</script>
+            </p>
+            <br/>
+            <p id="viral-load-copies-container" class="narrow hidden">
+                <label>Viral load (copies/ml)</label>
+
+                <obs id="viral_load_copies" unitsCssClass="append-to-value"
+                     conceptId="856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            </p>
+        </div>
+    </section>
+</htmlform>
