@@ -4,7 +4,7 @@
 		  formUuid="5022c5d7-ea45-47ce-bd65-1ba1d8ad2467"
 		  formVersion="0.9"
 		  formAddMetadata="yes"
-		  formUILocation="patientDashboard.overallActions"
+		  formUILocation="patientDashboard.visitActions"
 		  formOrder="15"
 		  formIcon="icon-medkit"
 		  formShowIf="patient.person.dead==false &amp;&amp; patient.person.age &lt; 2"
