@@ -98,7 +98,7 @@
 				hideContainer('#art-initiation-container');
 			</includeIf>
 		</ifMode>
-		<ifMode mode="ENTER" include="FALSE">
+		<ifMode mode="EDIT">
 			<!-- Check to restrict encounter editing to only latest encounters -->
 			var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('2678423c-0523-4d76-b0da-18177b439eed').encounterDatetime"/>");
 			var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
@@ -115,6 +115,8 @@
 				},
 				5000);
 			}
+		</ifMode>
+		<ifMode mode="ENTER" include="FALSE">
 			<!-- Hide PTrackerID if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 			{

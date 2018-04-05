@@ -45,7 +45,7 @@
 				hideContainer('#art-initiation-container');
 			</includeIf>
 		</ifMode>
-		<ifMode mode="ENTER" include="FALSE">
+		<ifMode mode="EDIT">
 			<!-- Check to restrict encounter editing to only latest encounters -->
 			var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').encounterDatetime"/>");
 			var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
@@ -62,6 +62,8 @@
 				},
 				5000);
 			}
+		</ifMode>
+		<ifMode mode="ENTER" include="FALSE">
 			<!-- Hide pregnancy detail  it is not the client's first ANC -->
 			if("<lookup expression="fn.getObs($encounter, '164181').valueCoded.conceptId"/>" == '160530')
 			{
