@@ -99,6 +99,22 @@
 			</includeIf>
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
+			<!-- Check to restrict encounter editing to only latest encounters -->
+			var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('2678423c-0523-4d76-b0da-18177b439eed').encounterDatetime"/>");
+			var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
+			if (currentVisitDate &lt; latestEncounterDate) {
+				jq().toastmessage('showToast',{
+					text : 'This is not the latest Encounter. You can only Edit the latest encounter. \n\n You will now be taken back to the patient dashboard.',
+					stayTime: 5000,
+					type: 'error'
+					}
+				);
+				setTimeout(function(){
+					window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH +
+					&quot;/coreapps/clinicianfacing/patient.page?patientId=<lookup complexExpression="$fn.latestEncounter('2678423c-0523-4d76-b0da-18177b439eed').patient.patientId"/>&quot;;
+				},
+				5000);
+			}
 			<!-- Hide PTrackerID if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 			{
