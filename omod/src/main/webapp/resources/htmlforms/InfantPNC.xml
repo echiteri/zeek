@@ -586,6 +586,7 @@
             </p>
             <p id="transfer-in-date-container" class="">
                 <label> Transfer in date </label>
+                <label> Transfer in date </label>
                 <obs id="transfer_in_date" conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false"/>
                 <obs id="transfer_in_date_missing" conceptId="164946" style="checkbox" answerLabel="answerLabel" labelText="Transfer in date missing"/>
             </p>
