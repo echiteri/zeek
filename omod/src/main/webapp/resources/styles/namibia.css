@@ -107,9 +107,16 @@ span.value {
 
 /*
  * Fix for Issue #38 removing edit capability for Encounters
+ * After above, enabled editing for Encounters
 */
 #encountersList .editEncounter {
     display: inline-block;
+}
+/*
+ * Fix for Issue #205 Remove redundant links
+*/
+#editVisitLink, #editVisitDatesLink, .actions {
+    display: none;
 }
 
 .required label {
