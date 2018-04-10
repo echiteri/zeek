@@ -118,6 +118,12 @@ span.value {
 #editVisitLink, #editVisitDatesLink, .actions {
     display: none;
 }
+/*
+ * Fix for Issue #210 remove delete button during encounter edit
+*/
+#delete-button{
+    display: none;
+}
 
 .required label {
     font-weight: bold;
