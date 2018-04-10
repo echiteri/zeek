@@ -43,7 +43,25 @@
 					hideContainer('#art-initiation-container');
 				</includeIf>
 			</ifMode>
-			<ifMode mode="ENTER" include="FALSE">
+		<ifMode mode="EDIT">
+				<!-- Check to restrict encounter editing to only latest encounters -->
+				var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('269bcc7f-04f8-4ddc-883d-7a3a0d569aad').encounterDatetime"/>");
+				var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
+				if (currentVisitDate &lt; latestEncounterDate) {
+					jq().toastmessage('showToast',{
+							text : 'This is not the latest Encounter. You can only Edit the latest encounter. \n\n You will now be taken back to the patient dashboard.',
+							stayTime: 5000,
+							type: 'error'
+						}
+					);
+					setTimeout(function(){
+						window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH +
+						&quot;/coreapps/clinicianfacing/patient.page?patientId=<lookup complexExpression="$fn.latestEncounter('269bcc7f-04f8-4ddc-883d-7a3a0d569aad').patient.patientId"/>&quot;;
+					},
+					5000);
+				}
+		</ifMode>
+		<ifMode mode="ENTER" include="FALSE">
 				<!-- Hide HIV Test Status if it was not captured in this encounter -->
 				if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 				{
