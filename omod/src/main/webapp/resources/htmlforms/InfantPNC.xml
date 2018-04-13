@@ -33,6 +33,7 @@
             hideContainer('#transfer-out-to-container');
             hideContainer('#transfer-in-date-container');
             hideContainer('#transfer-out-date-container');
+            hideContainer('#date-of-even-container');
             hideContainer('#infant-death-date-container');
             hideContainer('#next-visit-date-container');
         </ifMode>
@@ -119,6 +120,11 @@
             if("<lookup expression="fn.getObs($encounter, '160649')"/>" == '')
             {
                 hideContainer('#transfer-out-date-container');
+            }
+            <!-- Hide Date of event if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '160753')"/>" == '')
+            {
+                hideContainer('#date-of-even-container');
             }
             <!-- Hide infant death date if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '1543')"/>" == '')
@@ -463,6 +469,9 @@
                 jq('#transfer_out_date_missing').change(function(){
                     handleMissingSelection('transfer_out_date');
                 });
+                jq('#date_of_event_missing').change(function(){
+                    handleMissingSelection('date_of_event');
+                });
                 jq('#infant_death_date_missing').change(function(){
                     handleMissingSelection('infant_death_date');
                 });
@@ -591,8 +600,8 @@
                     Infant outcome status
                 </label>
                 <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="161636,160563,159492,5240,160432,164932"
-                     answerLabels="Still in Care, Transfer In to ART Clinic, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
+                     answerConceptIds="161636,160563,164861,159492,5240,160432,164932"
+                     answerLabels="Still in Care, Transfer In to ART Clinic,HIV negative infant discharged from PMTCT, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="">
                 <label>Transferred in from</label>
@@ -611,6 +620,11 @@
                 <label> Transfer out date </label>
                 <obs id="transfer_out_date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
                 <obs id="transfer_out_date_missing" conceptId="164950" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
+            </p>
+            <p id="date-of-even-container" class="narrow">
+                <label> Date of event </label>
+                <obs id="date_of_event" conceptId="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+                <obs id="date_of_event_missing" conceptId="164954" style="checkbox" answerLabel="answerLabel" labelText="Date of event missing"/>
             </p>
             <p id="infant-death-date-container" class="narrow">
                 <label>Date of Death</label>
@@ -649,10 +663,17 @@
                         hideContainer('#transfer-out-to-container');
                         hideContainer('#transfer-out-date-container');
                     }
-            <!-- Do not show next visit date when Missed, Dead, Transferred Out, LTFU is selected -->
+            <!-- HIV negative outcome -->
+                    if (getValue('infant-transfer-status.value') == 164861) {
+                        showContainer('#date-of-even-container');
+                    } else {
+                        hideContainer('#date-of-even-container');
+                    }
+            <!-- Do not show next visit date when Missed, Dead, Transferred Out, LTFU, HIV negative discharge is selected -->
                     if (getValue('infant-transfer-status.value') == 164932 ||
                         getValue('infant-transfer-status.value') == 160432 ||
                         getValue('infant-transfer-status.value') == 159492 ||
+                        getValue('infant-transfer-status.value') == 164861 ||
                         getValue('infant-transfer-status.value') == 5240) {
                             hideContainer('#next-visit-date-container');
                     } else {
