@@ -29,6 +29,7 @@
             hideContainer('#final-test-result-container');
             hideContainer('#infant-art-link-container');
             hideContainer('#infant-art-number-container');
+            hideContainer('#other-breastfeeding-container');
             hideContainer('#transfer-in-from-container');
             hideContainer('#transfer-out-to-container');
             hideContainer('#transfer-in-date-container');
@@ -100,6 +101,11 @@
             if("<lookup expression="patient.getPatientIdentifier('ART Unique Number')"/>" == '')
             {
                 hideContainer('#infant-art-number-container');
+            }
+            <!-- Hide Other breastfeeding if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '163719')"/>" == '')
+            {
+                hideContainer('#other-breastfeeding-container');
             }
             <!-- Hide transfer in from  if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '160535')"/>" == '')
@@ -481,6 +487,9 @@
                 jq('#infant_art_number_missing').change(function(){
                     handleMissingSelection('infant_art_number');
                 });
+                jq('#other_feeding_method_missing').change(function(){
+                    handleMissingSelection('other_feeding_method');
+                });
             });
             </script>
             <div class="section-container">
@@ -593,6 +602,36 @@
             </p>
             </div>
         </section>
+        <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
+        <div class="section-container">
+            <p id="breastfeeding-container">
+                <label>
+                    Breastfeeding Status
+                </label>
+                <obs id="breastfeeding" style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="5526,6046,159854,5622,164932"
+                     answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Other, Missing" answerSeparator="" required="true"/>
+            </p>
+            <p id="other-breastfeeding-container" class="narrow">
+                <label>
+                    Other infant feeding method
+                </label>
+                <obs id="other_feeding_method" style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <obs id="other_feeding_method_missing" conceptId="164945" style="checkbox" answerLabel="answerLabel" labelText="Other feeding method missing"/>
+            </p>
+        </div>
+        <script>
+            jq(function() {
+                jq('#breastfeeding').click(function(){
+                    if (getValue('breastfeeding.value') == 5622) {
+                        showContainer('#other-breastfeeding-container');
+                    } else {
+                        hideContainer('#other-breastfeeding-container');
+                    }
+                });
+            });
+        </script>
+    </section>
         <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant status">
             <div class="section-container radios">
             <p id="infant-transfer-status-container">
