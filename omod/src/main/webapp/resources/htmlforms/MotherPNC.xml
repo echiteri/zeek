@@ -725,7 +725,7 @@
 			</p>
 		</div>
 	</section>
-	
+	<!-- Breastfeeding question moves to Infant PNC. Feature E001-01
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
 		<div class="section-container">
 			<p id="breastfeeding-container">
@@ -756,6 +756,8 @@
 			});
 		</script>
 	</section>
+	END of breastfeeding question
+	-->
 
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
