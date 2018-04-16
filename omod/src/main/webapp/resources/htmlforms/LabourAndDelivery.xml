@@ -275,8 +275,14 @@
 			}
 		}
 		<!-- Validate PTrackerID provision -->
+		var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
 		if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
 			setValue('ptrackerid.error', '');
+			<!-- Check if the PTracker ID meets the Regex -->
+			if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
+				getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
+				isValid = false;
+			}
 			if (getValue('client-booked.value') == 1066 || getValue('client-booked.value') == 164932){
 				<!-- client is not booked or value is missing -->
 				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
