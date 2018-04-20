@@ -640,7 +640,7 @@
                 </label>
                 <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="161636,160563,164861,159492,5240,160432,164932"
-                     answerLabels="Still in Care, Transfer In to ART Clinic,HIV negative infant discharged from PMTCT, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
+                     answerLabels="Still in Care, Transfer In to ART Clinic,Confirmed HIV negative infant (discharged from PMTCT), Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="">
                 <label>Transferred in from</label>

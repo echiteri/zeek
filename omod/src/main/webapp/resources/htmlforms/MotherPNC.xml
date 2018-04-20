@@ -130,19 +130,19 @@
 
 			</ifMode>
 
-		<!-- Handle PTrackerID on the Mother PNC form -->
+		<!-- Handle PTracker ID on the Mother PNC form -->
 
 
 
 		<!-- requires capturing of PTracker ID -->
 		<!-- jq('#ptrackerid-container-display').hide(); -->
 
-		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
+		if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTracker ID is older than 7 months allow another to be captured -->
 			showContainer('#ptrackerid-container-display');
 		} else {
 			showContainer('#ptrackerid-container-input');
 			hideContainer('#ptrackerid-container-display');
-			$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
+			$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
 			showContainer('#ptrackerid_info');
 		}
 
@@ -162,9 +162,9 @@
 						return false;
 					}
 				}
-				if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
+				if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTracker ID is older than 7 months allow another to be captured -->
 					if(timeFromLastPregnancy &gt; 7){
-						$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+						$("#ptrackerid_info").html('The PTracker ID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTracker ID on the pink book for this new pregnancy');
 						showContainer('#ptrackerid_info');
 						showContainer('#ptrackerid-container-display');
 						showContainer('#ptrackerid-container-input');
@@ -174,20 +174,20 @@
 						hideContainer('#ptrackerid_info');
 					}
 				}
-				<!-- Validate PTrackerID provision -->
-				if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+				<!-- Validate PTracker ID provision -->
+				if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){
 					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 						<!-- setValue('ptrackerid.error', ''); -->
 						if (!getValue('ptrackerid.value')) {
-							getField('ptrackerid.error').html('PTrackerID must be provided').show();
+							getField('ptrackerid.error').html('PTracker ID must be provided').show();
 							return false;
 						}
 					}
-				}else if ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing" &amp;&amp; timeFromLastPregnancy &gt; 7){ <!-- There is an ID but it more than 7 months old -->
+				}else if ($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing" &amp;&amp; timeFromLastPregnancy &gt; 7){ <!-- There is an ID but it more than 7 months old -->
 					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 						<!-- setValue('ptrackerid.error', ''); -->
 						if (!getValue('ptrackerid.value')) {
-							getField('ptrackerid.error').html('PTrackerID must be provided').show();
+							getField('ptrackerid.error').html('PTracker ID must be provided').show();
 							return false;
 						}
 					}
@@ -465,11 +465,11 @@
 		</div>
 	</section>
 	<div id="ptrackerid-container">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTracker ID Capture">
 			<div class="section-container">
 				<p id="ptrackerid-container-label">
 					<label >
-						PTrackerID
+						PTracker ID
 					</label>
 					<p class="narrow" id="ptrackerid-container-display">
 						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
@@ -479,7 +479,7 @@
 										$ptrackerid.valueText
 										#set($ptrackerid_date = $ptrackerid.obsDatetime)
 								#else
-									PTrackerID is Missing
+									PTracker ID is Missing
 								#end " />
 						</span>
 						<span id="ptrackerid_datetime" class="hidden">
