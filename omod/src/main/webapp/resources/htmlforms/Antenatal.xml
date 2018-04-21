@@ -45,6 +45,24 @@
 				hideContainer('#art-initiation-container');
 			</includeIf>
 		</ifMode>
+		<ifMode mode="EDIT">
+			<!-- Check to restrict encounter editing to only latest encounters -->
+			var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').encounterDatetime"/>");
+			var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
+			if (currentVisitDate &lt; latestEncounterDate) {
+				jq().toastmessage('showToast',{
+					text : 'This is not the latest Encounter. You can only Edit the latest encounter. \n\n You will now be taken back to the patient dashboard.',
+					stayTime: 5000,
+					type: 'error'
+					}
+				);
+				setTimeout(function(){
+					window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH +
+					&quot;/coreapps/clinicianfacing/patient.page?patientId=<lookup complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').patient.patientId"/>&quot;;
+				},
+				5000);
+			}
+		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
 			<!-- Hide pregnancy detail  it is not the client's first ANC -->
 			if("<lookup expression="fn.getObs($encounter, '164181').valueCoded.conceptId"/>" == '160530')
@@ -159,15 +177,24 @@
 				<!-- Validate pregnancy details -->
 
 				<!-- if there is a a first visit the pregnancy information is required -->
+				var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
+				setValue('ptrackerid.error', '');
+				<!-- Check if the PTracker ID meets the Regex -->
+				if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
+					if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
+						getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
+						isValid = false;
+					}
+				}
 				if (getValue('antenatal-visit-type.value') == 164180) {
 					setValue('gravida.error', '');
 					setValue('para.error', '');
 					setValue('lmp.error', '');
 					setValue('edd.error', '');
-					setValue('ptrackerid.error', '');
-					<!-- Validate PTrackerID provision -->
+
+					<!-- Validate PTracker ID provision -->
 					if (!getValue('ptrackerid.value')) {
-						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
 
@@ -187,10 +214,10 @@
 						getField('edd.error').html('Edd must be provided').show();
 						return false;
 					}
-				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing") {
-					<!-- Validate PTrackerID provision -->
+				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing") {
+					<!-- Validate PTracker ID provision -->
 					if (!getValue('ptrackerid.value')) {
-						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
 				}
@@ -583,12 +610,12 @@
                     hideContainer('#lmp-container-input');
                     hideContainer('#edd-container-label');
                     hideContainer('#edd-container-input'); -->
-					showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
-					if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+					showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTracker ID -->
+					if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){
 					showContainer('#ptrackerid-container-display');
 					showContainer('#ptrackerid-container-input');
 					enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
-					$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book');
+					$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book');
 					showContainer('#ptrackerid_info');
 					}
 					else {
@@ -649,18 +676,18 @@
 		</div>
 	</section>
 	<div id="ptrackerid-container" class="">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTracker ID Capture">
 			<div class="section-container">
 				<p id="ptrackerid-container-label">
 					<label >
-						PTrackerID
+						PTracker ID
 					</label>
 					<p class="hidden narrow" id="ptrackerid-container-display">
 						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
 							<lookup complexExpression="#if ($fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText)
 															$fn.latestObs('6c45421e-2566-47cb-bbb3-07586fffbfe2').valueText
 														#else
-															PTrackerID is Missing
+															PTracker ID is Missing
 														#end " />
 						</span>
 					</p>

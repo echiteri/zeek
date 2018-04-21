@@ -211,4 +211,11 @@
 			UPDATE concept_name SET name = 'Replacement feeding' WHERE concept_name_id = '1872';
 		</sql>
 	</changeSet>
+	<changeSet id="migrate_164915_to_164915" author="echiteri">
+		<comment> Concept 164915 for ART initiation wasn't migrated at all during concept remapping and migration. The query below migrates it</comment>
+		<sql>
+			# Correctly migrate concept 160117 to 164915
+			UPDATE obs SET concept_id = 164915 WHERE concept_id = 160117
+		</sql>
+	</changeSet>
 </databaseChangeLog>

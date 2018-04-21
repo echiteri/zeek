@@ -29,12 +29,32 @@
             hideContainer('#final-test-result-container');
             hideContainer('#infant-art-link-container');
             hideContainer('#infant-art-number-container');
+            hideContainer('#other-breastfeeding-container');
             hideContainer('#transfer-in-from-container');
             hideContainer('#transfer-out-to-container');
             hideContainer('#transfer-in-date-container');
             hideContainer('#transfer-out-date-container');
+            hideContainer('#date-of-even-container');
             hideContainer('#infant-death-date-container');
             hideContainer('#next-visit-date-container');
+        </ifMode>
+        <ifMode mode="EDIT">
+            <!-- Check to restrict encounter editing to only latest encounters -->
+            var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('af1f1b24-d2e8-4282-b308-0bf79b365584').encounterDatetime"/>");
+            var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
+            if (currentVisitDate &lt; latestEncounterDate) {
+                jq().toastmessage('showToast',{
+                        text : 'This is not the latest Encounter. You can only Edit the latest encounter. \n\n You will now be taken back to the patient dashboard.',
+                        stayTime: 5000,
+                        type: 'error'
+                    }
+                );
+                    setTimeout(function(){
+                        window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH +
+                        &quot;/coreapps/clinicianfacing/patient.page?patientId=<lookup complexExpression="$fn.latestEncounter('af1f1b24-d2e8-4282-b308-0bf79b365584').patient.patientId"/>&quot;;
+                    },
+                    5000);
+            }
         </ifMode>
         <ifMode mode="ENTER" include="FALSE">
             <!-- Hide infant prophylaxis adherence if it was not captured in this encounter -->
@@ -82,6 +102,11 @@
             {
                 hideContainer('#infant-art-number-container');
             }
+            <!-- Hide Other breastfeeding if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '163719')"/>" == '')
+            {
+                hideContainer('#other-breastfeeding-container');
+            }
             <!-- Hide transfer in from  if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '160535')"/>" == '')
             {
@@ -101,6 +126,11 @@
             if("<lookup expression="fn.getObs($encounter, '160649')"/>" == '')
             {
                 hideContainer('#transfer-out-date-container');
+            }
+            <!-- Hide Date of event if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '160753')"/>" == '')
+            {
+                hideContainer('#date-of-even-container');
             }
             <!-- Hide infant death date if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '1543')"/>" == '')
@@ -445,6 +475,9 @@
                 jq('#transfer_out_date_missing').change(function(){
                     handleMissingSelection('transfer_out_date');
                 });
+                jq('#date_of_event_missing').change(function(){
+                    handleMissingSelection('date_of_event');
+                });
                 jq('#infant_death_date_missing').change(function(){
                     handleMissingSelection('infant_death_date');
                 });
@@ -453,6 +486,9 @@
                 });
                 jq('#infant_art_number_missing').change(function(){
                     handleMissingSelection('infant_art_number');
+                });
+                jq('#other_feeding_method_missing').change(function(){
+                    handleMissingSelection('other_feeding_method');
                 });
             });
             </script>
@@ -566,6 +602,36 @@
             </p>
             </div>
         </section>
+        <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
+        <div class="section-container">
+            <p id="breastfeeding-container">
+                <label>
+                    Breastfeeding Status
+                </label>
+                <obs id="breastfeeding" style="radio" conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                     answerConceptIds="5526,6046,159854,5622,164932"
+                     answerLabels="Exclusive Breastfeeding, Mixed Feeding, Complementary Feeding, Other, Missing" answerSeparator="" required="true"/>
+            </p>
+            <p id="other-breastfeeding-container" class="narrow">
+                <label>
+                    Other infant feeding method
+                </label>
+                <obs id="other_feeding_method" style="text" conceptId="163719AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <obs id="other_feeding_method_missing" conceptId="164945" style="checkbox" answerLabel="answerLabel" labelText="Other feeding method missing"/>
+            </p>
+        </div>
+        <script>
+            jq(function() {
+                jq('#breastfeeding').click(function(){
+                    if (getValue('breastfeeding.value') == 5622) {
+                        showContainer('#other-breastfeeding-container');
+                    } else {
+                        hideContainer('#other-breastfeeding-container');
+                    }
+                });
+            });
+        </script>
+    </section>
         <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Infant status">
             <div class="section-container radios">
             <p id="infant-transfer-status-container">
@@ -573,8 +639,8 @@
                     Infant outcome status
                 </label>
                 <obs id="infant-transfer-status" style="radio" conceptId="160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                     answerConceptIds="161636,160563,159492,5240,160432,164932"
-                     answerLabels="Still in Care, Transfer In to ART Clinic, Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
+                     answerConceptIds="161636,160563,164861,159492,5240,160432,164932"
+                     answerLabels="Still in Care, Transfer In to ART Clinic,Confirmed HIV negative infant (discharged from PMTCT), Transferred Out, Lost to Follow Up, Dead, Missing" answerSeparator=""/>
             </p>
             <p id="transfer-in-from-container" class="">
                 <label>Transferred in from</label>
@@ -594,6 +660,11 @@
                 <label> Transfer out date </label>
                 <obs id="transfer_out_date" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
                 <obs id="transfer_out_date_missing" conceptId="164950" style="checkbox" answerLabel="answerLabel" labelText="Transfer out date missing"/>
+            </p>
+            <p id="date-of-even-container" class="narrow">
+                <label> Date of event </label>
+                <obs id="date_of_event" conceptId="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" />
+                <obs id="date_of_event_missing" conceptId="164954" style="checkbox" answerLabel="answerLabel" labelText="Date of event missing"/>
             </p>
             <p id="infant-death-date-container" class="narrow">
                 <label>Date of Death</label>
@@ -632,10 +703,17 @@
                         hideContainer('#transfer-out-to-container');
                         hideContainer('#transfer-out-date-container');
                     }
-            <!-- Do not show next visit date when Missed, Dead, Transferred Out, LTFU is selected -->
+            <!-- HIV negative outcome -->
+                    if (getValue('infant-transfer-status.value') == 164861) {
+                        showContainer('#date-of-even-container');
+                    } else {
+                        hideContainer('#date-of-even-container');
+                    }
+            <!-- Do not show next visit date when Missed, Dead, Transferred Out, LTFU, HIV negative discharge is selected -->
                     if (getValue('infant-transfer-status.value') == 164932 ||
                         getValue('infant-transfer-status.value') == 160432 ||
                         getValue('infant-transfer-status.value') == 159492 ||
+                        getValue('infant-transfer-status.value') == 164861 ||
                         getValue('infant-transfer-status.value') == 5240) {
                             hideContainer('#next-visit-date-container');
                     } else {

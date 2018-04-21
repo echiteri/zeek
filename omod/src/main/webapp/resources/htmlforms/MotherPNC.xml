@@ -43,7 +43,25 @@
 					hideContainer('#art-initiation-container');
 				</includeIf>
 			</ifMode>
-			<ifMode mode="ENTER" include="FALSE">
+		<ifMode mode="EDIT">
+				<!-- Check to restrict encounter editing to only latest encounters -->
+				var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('269bcc7f-04f8-4ddc-883d-7a3a0d569aad').encounterDatetime"/>");
+				var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
+				if (currentVisitDate &lt; latestEncounterDate) {
+					jq().toastmessage('showToast',{
+							text : 'This is not the latest Encounter. You can only Edit the latest encounter. \n\n You will now be taken back to the patient dashboard.',
+							stayTime: 5000,
+							type: 'error'
+						}
+					);
+					setTimeout(function(){
+						window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH +
+						&quot;/coreapps/clinicianfacing/patient.page?patientId=<lookup complexExpression="$fn.latestEncounter('269bcc7f-04f8-4ddc-883d-7a3a0d569aad').patient.patientId"/>&quot;;
+					},
+					5000);
+				}
+		</ifMode>
+		<ifMode mode="ENTER" include="FALSE">
 				<!-- Hide HIV Test Status if it was not captured in this encounter -->
 				if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 				{
@@ -112,7 +130,7 @@
 
 			</ifMode>
 
-		<!-- Handle PTrackerID on the Mother PNC form -->
+		<!-- Handle PTracker ID on the Mother PNC form -->
 
 
 
@@ -124,7 +142,7 @@
 		} else {
 			showContainer('#ptrackerid-container-input');
 			hideContainer('#ptrackerid-container-display');
-			$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
+			$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
 			showContainer('#ptrackerid_info');
 		}
 
@@ -134,10 +152,19 @@
 				var now = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
 				var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
 				var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
+				var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
+				setValue('ptrackerid.error', '');
+				<!-- Check if the PTracker ID meets the Regex -->
 
-				if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
+				if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
+					if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
+						getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
+						return false;
+					}
+				}
+				if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTracker ID is older than 3 months allow another to be captured -->
 					if(timeFromLastPregnancy &gt; 3){
-						$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 3 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+						$("#ptrackerid_info").html('The PTracker ID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 3 months ago, please enter the PTracker ID on the pink book for this new pregnancy');
 						showContainer('#ptrackerid_info');
 						showContainer('#ptrackerid-container-display');
 						showContainer('#ptrackerid-container-input');
@@ -147,20 +174,20 @@
 						hideContainer('#ptrackerid_info');
 					}
 				}
-				<!-- Validate PTrackerID provision -->
-				if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){
+				<!-- Validate PTracker ID provision -->
+				if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){
 					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-						setValue('ptrackerid.error', '');
+						<!-- setValue('ptrackerid.error', ''); -->
 						if (!getValue('ptrackerid.value')) {
-							getField('ptrackerid.error').html('PTrackerID must be provided').show();
+							getField('ptrackerid.error').html('PTracker ID must be provided').show();
 							return false;
 						}
 					}
 				}else if ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing" &amp;&amp; timeFromLastPregnancy &gt; 3){ <!-- There is an ID but it more than 3 months old -->
 					if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-						setValue('ptrackerid.error', '');
+						<!-- setValue('ptrackerid.error', ''); -->
 						if (!getValue('ptrackerid.value')) {
-							getField('ptrackerid.error').html('PTrackerID must be provided').show();
+							getField('ptrackerid.error').html('PTracker ID must be provided').show();
 							return false;
 						}
 					}
@@ -438,11 +465,11 @@
 		</div>
 	</section>
 	<div id="ptrackerid-container">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTracker ID Capture">
 			<div class="section-container">
 				<p id="ptrackerid-container-label">
 					<label >
-						PTrackerID
+						PTracker ID
 					</label>
 					<p class="narrow" id="ptrackerid-container-display">
 						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
@@ -452,7 +479,7 @@
 										$ptrackerid.valueText
 										#set($ptrackerid_date = $ptrackerid.obsDatetime)
 								#else
-									PTrackerID is Missing
+									PTracker ID is Missing
 								#end " />
 						</span>
 						<span id="ptrackerid_datetime" class="hidden">
@@ -571,7 +598,7 @@
 				</includeIf>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<!-- <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911"> -->
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
@@ -589,8 +616,8 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-			<!-- </excludeIf> -->
-            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">--> <!-- exclude ART initiation if ART initiation date exists -->
+			</excludeIf>
+            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
 			<!-- <p id="art-status-container" class="hidden" >
 
 				<obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
@@ -643,7 +670,7 @@
 				</script>
 				
 			</p>
-			<!-- </excludeIf> -->
+			</excludeIf>
 				<p id="recent-viral-load-container">
 					<label>
 						Has the patient had a recent viral load test? 					</label>
@@ -698,7 +725,7 @@
 			</p>
 		</div>
 	</section>
-	
+	<!-- Breastfeeding question moves to Infant PNC. Feature E001-01
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Breastfeeding">
 		<div class="section-container">
 			<p id="breastfeeding-container">
@@ -729,6 +756,8 @@
 			});
 		</script>
 	</section>
+	END of breastfeeding question
+	-->
 
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
