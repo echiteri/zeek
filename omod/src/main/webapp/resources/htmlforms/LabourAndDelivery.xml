@@ -832,7 +832,7 @@
 				- client tested and test was positive or negative
 			-->
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<!-- <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911"> -->
+			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 
 			<p id="hiv-test-container" class="">
 				<label>
@@ -860,8 +860,8 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-			<!-- </excludeIf> -->
-            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> --><!-- exclude ART initiation if ART initiation date exists -->
+		</excludeIf>
+            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
             <!-- <p id="art-status-container" class="hidden" >
 
                 <obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
@@ -915,7 +915,7 @@
 				</script>
 				
 			</p>
-			<!-- </excludeIf> -->
+			 </excludeIf>
             <p id="recent-viral-load-container" class="">
                 <label>
                     Viral Load test done? 					</label>
