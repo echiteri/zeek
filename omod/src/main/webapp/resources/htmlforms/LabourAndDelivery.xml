@@ -40,7 +40,7 @@
 						$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
 						showContainer('#ptrackerid_info');
 						}<!-- Booked,  PTrackerID is not missing but it is more than 3 months old -->
-				else if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
+				else if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
 						showContainer('#ptrackerid-container-display');
 				}
 				<!-- showContainer('#ptrackerid-container-display');
@@ -253,7 +253,7 @@
 		var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
 
 
-		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
+		if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
 			if(timeFromLastPregnancy &gt; 3){
 				$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 3 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
 				showContainer('#ptrackerid_info');
@@ -299,7 +299,7 @@
 						return false;
 					}
 				}
-			}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 3)){
+			}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 3)){
 				<!-- Booked,  PTrackerID is not missing but it is more than 3 months old -->
 				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					if (!getValue('ptrackerid.value')) {
