@@ -34,14 +34,17 @@
 				hideContainer('#other-breastfeeding-container');
 				hideContainer('#transfer-out-to-container');
 				hideContainer('#transfer-out-date-container');
-				<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test resulst = tested positive -->
-				<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+				<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test result = tested positive -->
+				if("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
+					|| "<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
+				{
 					hideContainer('#hiv-test-container');
-				</includeIf>
+				}
 				<!-- Don't show ART initiation if ART initiation date exists -->
-				<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">
+				if(!"<lookup complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>")
+				{
 					hideContainer('#art-initiation-container');
-				</includeIf>
+				}
 			</ifMode>
 		<ifMode mode="EDIT">
 				<!-- Check to restrict encounter editing to only latest encounters -->
@@ -584,21 +587,22 @@
 			});
 		</script>
 		<div class="section-container">
-			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911 || $fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571">
-				<includeIf velocityTest="$fn.latestObs('1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 1065"> <!-- TODO: this line to be removed once determined if we don't need the questions "Are you still on treatment" -->
-					<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive but not yet initiated on ART -->
-					<script>
-						<ifMode mode="ENTER">
-							jq(function() {
-								showContainer('#art-initiation-container');
-								showContainer('#recent-viral-load-container');
-							});
-						</ifMode>
-					</script>
-				</includeIf>
+			<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911
+			|| $fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 ">
+				<!-- Show ART Status and Initiation container if the client is a previously known positive, has been tested with positive -->
+				<script>
+					<ifMode mode="ENTER">
+						jq(function() {
+						showContainer('#recent-viral-load-container');
+						<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime == ''"> <!--  but not yet initiated on ART -->
+							showContainer('#art-initiation-container');
+						</includeIf>
+						});
+					</ifMode>
+				</script>
 			</includeIf>
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+			<!-- <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">-->
 				<p id="hiv-test-container">
 					<label>
 						HIV test status
@@ -616,8 +620,8 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-			</excludeIf>
-            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> <!-- exclude ART initiation if ART initiation date exists -->
+			<!-- </excludeIf> -->
+            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">--> <!-- exclude ART initiation if ART initiation date exists -->
 			<!-- <p id="art-status-container" class="hidden" >
 
 				<obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
@@ -670,7 +674,7 @@
 				</script>
 				
 			</p>
-			</excludeIf>
+			<!-- </excludeIf> -->
 				<p id="recent-viral-load-container">
 					<label>
 						Has the patient had a recent viral load test? 					</label>

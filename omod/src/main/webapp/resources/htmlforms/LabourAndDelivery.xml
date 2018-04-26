@@ -89,14 +89,17 @@
 
 						}
 					#end"/>
-			<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test resulst = tested positive -->
-			<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+			<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test result = tested positive -->
+			if("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
+				|| "<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
+			{
 				hideContainer('#hiv-test-container');
-			</includeIf>
+			}
 			<!-- Don't show ART initiation if ART initiation date exists -->
-			<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">
+			if(!"<lookup complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>")
+			{
 				hideContainer('#art-initiation-container');
-			</includeIf>
+			}
 		</ifMode>
 		<ifMode mode="EDIT">
 			<!-- Check to restrict encounter editing to only latest encounters -->
@@ -594,14 +597,16 @@
 			</table>
 		</div>
 	</section>
-    <includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+    <includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571
+    || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
         <!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
         <script>
 			<ifMode mode="ENTER">
 				jq(function() {
-					hideContainer('#hiv-test-container');
 					showContainer('#recent-viral-load-container');
+				<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime == ''"> <!--  but not yet initiated on ART -->
 					showContainer('#art-initiation-container');
+				</includeIf>
 					<!-- Show the prophylaxis for the infants if mother is KP -->
 					jq(".prophylaxis").each(function(){
 						showContainer("#" + jq(this).attr("id"));
@@ -832,7 +837,7 @@
 				- client tested and test was positive or negative
 			-->
 			<!-- Do not show ART testing if previously known positive, tested positive -->
-			<excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+			<!-- <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911"> -->
 
 			<p id="hiv-test-container" class="">
 				<label>
@@ -860,8 +865,8 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-		</excludeIf>
-            <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"><!-- exclude ART initiation if ART initiation date exists -->
+		<!-- </excludeIf> -->
+            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">--><!-- exclude ART initiation if ART initiation date exists -->
             <!-- <p id="art-status-container" class="hidden" >
 
                 <obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
@@ -915,7 +920,7 @@
 				</script>
 				
 			</p>
-			 </excludeIf>
+			 <!-- </excludeIf> -->
             <p id="recent-viral-load-container" class="">
                 <label>
                     Viral Load test done? 					</label>
