@@ -987,7 +987,7 @@
 		<script>
 			jq(function() {
 				jq('#transfer-out').click(function(){
-					if (getValue('transfer-out.value') == 1065) {
+					if (getValue('transfer-out.value') == 160036) {
 						showContainer('#transfer-out-to-container');
 					} else {
 						hideContainer('#transfer-out-to-container');
@@ -1003,7 +1003,7 @@
 			</p>
 			<p id="transfer-out-container">
 				<label>Facility of next appointment</label>
-				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer,Missing" answerSeparator=""/>
+				<obs id="transfer-out" style="radio" conceptId="164916" answerConceptIds="163266,164917,160036,164932" answerLabels="This facility,In Transit,Transfer out,Missing" answerSeparator=""/>
 			</p>
 			<p id="transfer-out-to-container" class="">
 				<label>Transfer to</label>
