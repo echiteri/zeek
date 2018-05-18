@@ -404,6 +404,7 @@
 					setValue('infant-status-' + i + '.error', '');
 					setValue('still-birth-' + i + '.error', '');
 					setValue('infant-arv-prophylaxis-' + i + '.error', '');
+					setValue('infant_refused_arv_prophylaxis_' + i + '.error', '');
 					setValue('breastfeeding-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
 					if($('#infant-gender-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
@@ -448,14 +449,28 @@
 								<!--} -->
 							}
 							if(getValue('hiv-test-result.value') == 138571
-								|| getValue('hiv-test-result.value') == 1067
-								|| getValue('anc-retest-thirty-six-weeks.value') == 138571
-								|| getValue('anc-retest-thirty-six-weeks.value') == 1067)
+								|| getValue('hiv-test.value') == 164932 <!-- Test Status missing -->
+								|| getValue('hiv-test-result.value') == 1067 <!-- hiv test result is unknown -->
+								|| getValue('hiv-test-result.value') == 164932 <!-- Test result missing -->
+								|| getValue('anc-retest-thirty-six-weeks.value') == 138571 <!-- Positive restest at 36 -->
+								|| getValue('anc-retest-thirty-six-weeks.value') == 164932 <!-- Retest at 36 is missing -->
+								|| getValue('anc-retest-thirty-six-weeks.value') == 1067) <!-- Retest at 36 is unknown -->
 							{ <!-- Only validate when HIV test result and ANC Retest at 36 weeks is positive or Unknown -->
 								if($('#infant-arv-prophylaxis-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 									if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
 										getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
 										isValid = false;
+									}
+								}
+								if(getValue('infant-arv-prophylaxis-' + i + '.value') == 127750) <!-- The infant ARV prophylaxis is refused -->
+								{
+									if($('#infant-refused-arv-prophylaxis-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
+										if($('#infant_refused_arv_prophylaxis_'+ i).is(':visible')){<!-- only validate if not hidden -->
+											if (!getValue('infant_refused_arv_prophylaxis_' + i + '.value')) {
+												getField('infant_refused_arv_prophylaxis_' + i + '.error').html('Please enter the reason for infant arv prophylaxis refusal').show();
+												isValid = false;
+											}
+										}
 									}
 								}
 							}
@@ -1044,7 +1059,7 @@
 					<script>
 						jq(function(){
 
-						
+
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
 								if (getValue('infant-status-{n}.value') == 151849) {
@@ -1054,8 +1069,13 @@
 									<!-- showContainer('#infant-arv-prophylaxis-container-{n}'); -->
 									<!-- Don't show infant prophylaxis if negative test is selected for the mother -->
 									if(getValue('hiv-test-result.value') == 664 || getValue('anc-retest-thirty-six-weeks.value') == 664)
-										{hideContainer('#infant-arv-prophylaxis-container-{n}'); }else
-										{showContainer('#infant-arv-prophylaxis-container-{n}');}
+										{
+											hideContainer('#infant-arv-prophylaxis-container-{n}');
+											hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
+										}else
+										{
+											showContainer('#infant-arv-prophylaxis-container-{n}');
+										}
 						
                                     hideContainer('#still-birth-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
@@ -1066,6 +1086,7 @@
 										showContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
 									} else if (getValue('infant-status-{n}.value') == 154223) { <!--neo-natal death -->
 										hideContainer('#still-birth-container-{n}');
@@ -1076,11 +1097,22 @@
 										hideContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
 									}
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
+								}
+							});
+							hideContainer('#infant-refused-arv-prophylaxis-container-{n}'); <!-- Hide refused ARV container -->
+							jq('#infant-arv-prophylaxis-{n}').click(function(){
+								if(getValue('infant-arv-prophylaxis-{n}.value') == 127750)
+								{
+									showContainer('#infant-refused-arv-prophylaxis-container-{n}');
+								} else
+								{
+									hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
 								}
 							});
 							jq('#infant_birth_date_{n}_missing').change(function(){
@@ -1091,6 +1123,9 @@
 							});
 							jq('#infant_death_date_{n}_missing').change(function(){
 								handleMissingSelection('infant_death_date_{n}');
+							});
+							jq('#infant_refused_arv_prophylaxis_{n}_missing').change(function(){
+								handleMissingSelection('infant_refused_arv_prophylaxis_{n}');
 							});
 						});
 					</script>
@@ -1151,6 +1186,13 @@
 										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164932"
 											 answerLabels="ARV Prophylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
 											 answerSeparator="" />
+									</p>
+									<p id="infant-refused-arv-prophylaxis-container-{n}" class="prophylaxis">
+										<label>
+											Reason for refusing infant ARV prophylaxis
+										</label>
+										<obs id="infant_refused_arv_prophylaxis_{n}" style="radio" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+										<obs id="infant_refused_arv_prophylaxis_{n}_missing" conceptId="164955" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing Infant ARV Prophylaxis missing"/>
 									</p>
 									
 								</td>
