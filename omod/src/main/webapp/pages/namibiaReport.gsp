@@ -23,16 +23,16 @@
                         <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FANC_summary_report&standAlone=true#" target="_blank"> -- ANC summary report</a>
                     </li>
                     <li>
-                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FLabor_and_delivery_summary_report&standAlone=true#" target="_blank"> -- Labor and Delivery summary report</a>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FLabor_and_Delivery_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Labor and Delivery summary report</a>
                     </li>
                     <li>
-                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FMBFU_summary_report&standAlone=true#" target="_blank"> -- Mother Baby Followup summary report</a>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FMBFU_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Mother Baby Followup summary report</a>
                     </li>
                 </ul>
                 <h2> Dashboards </h2>
                 <ul>
                     <li>
-                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPTracker_PMTCT_Outcome&standAlone=true#" target="_blank"> -- PMTCT Outcome</a>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPMTCT_Outcome_Dashboard&standAlone=true#" target="_blank"> -- PMTCT Outcome</a>
                     </li>
                 </ul>
             </div>
