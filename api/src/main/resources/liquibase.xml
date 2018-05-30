@@ -267,4 +267,16 @@
 			DELETE FROM visit WHERE visit_id NOT IN (SELECT visit_id FROM encounter)
 		</sql>
 	</changeSet>
+<changeSet id="correct_errorneously_selected_facilities" author="echiteri">
+		<comment>Users wrongly picked facility which are similar in names while logging in hence assigning patients to wrong facilities.
+			The statements below update these facilities to correct ones. </comment>
+		<sql>
+			# Update client registered to facilities "Mpungu Health Centre" to "Mupini Health Centre"
+			UPDATE patient_identifier SET location_id = 183 WHERE location_id = 146
+		</sql>
+		<sql>
+			# Update client registered to facilities  "Otjondjeka"to "Otjomuise"
+			UPDATE patient_identifier SET location_id = 207 WHERE location_id = 245
+		</sql>
+	</changeSet>
 </databaseChangeLog>
