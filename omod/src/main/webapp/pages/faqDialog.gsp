@@ -66,7 +66,7 @@
                     <tr><td colspan="2"><h4> FAQ </h4></td></tr>
                     <tr><td><a href="${ui.resourceLink("namibia", "/faq/Frequently_Asked_Questions.pdf")}" target="_blank">Frequenty Asked Questions </a></td><td></td></tr>
                 </table>
-            <div id="footer">
+            <div id="footer" style="color: #848484;font-size: 0.7em;float: left; width: 100%; text-align: center;">
                 PTracker Powered by OpenMRS | MoHSS Namibia Copyrighted | Contact : (+264 814673349 / +264 814673343)
             </div>
         </div>
