@@ -57,8 +57,14 @@
 			org.openmrs.module.uiframework
 		</require_module>
 	</require_modules>
-	
-	
+
+	<!-- Add privileges -->
+	<privilege>
+
+		<name>App: reportingui.reports</name>
+		<description>added here not found in the reportingui module</description>
+	</privilege>
+
 	<!-- Module Activator -->
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.NamibiaPMTCTActivator</activator>
 	
