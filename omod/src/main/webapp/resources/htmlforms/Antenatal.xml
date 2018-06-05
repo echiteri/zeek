@@ -257,16 +257,16 @@
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- clear the previous errors -->
 				<!-- Validate HIV test done -->
-				if ($('#hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!jq('#hiv-test-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
 					setValue('hiv-test.error', '');
-						if (!getValue('hiv-test.value')) {
+						if (!getField('hiv-test.value').is(':disabled') &amp;&amp;!getValue('hiv-test.value')) {
 							getField('hiv-test.error').html('HIV test must be provided').show();
 							return false;
 						}
 				}
 
 				<!-- Validate HIV test result -->
-				if ($('#hiv-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!jq('#hiv-test-result-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
 					setValue('hiv-test-result.error', '');
 
 					<!-- if there is a test the test result is required -->
@@ -279,7 +279,7 @@
 				}
 
 				<!-- Validate ART Initiation -->
-				if ($('#art-initiation').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!jq('#art-initiation-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
 					setValue('art-initiation.error', '');
 					<!-- the art initiation is required  if Test status is done and results is P, or KP -->
 					if ($('#hiv-test').length > 0 &amp;&amp; $('#hiv-test-result').length > 0)
@@ -298,7 +298,7 @@
 					}
 				}
 				<!-- Validate recent viral load done-->
-				if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!jq('#recent-viral-load-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
 					setValue('recent-viral-load.error', '');
 					<!-- the recent-viral-load is required if Test status is KP -->
 					if ($('#hiv-test').length > 0)
@@ -318,7 +318,7 @@
 				}
 
 				<!-- Validate viral load results -->
-				if ($('#viral-load-results').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				if (!jq('#viral-load-results-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
 					setValue('viral-load-results.error', '');
 					<!-- the viral-load-results is required  -->
 					if (getValue('recent-viral-load.value') == 1065){
@@ -586,93 +586,77 @@
 				<obs id="antenatal-visit-type" conceptId="164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164180,160530" answerLabels="Yes,No" style="radio" answerSeparator="" />
 				<script>
 					jq(function() {
-					<!-- requires capturing of PTracker ID -->
-					<!-- jq('#ptrackerid-container-display').hide(); -->
-					<!-- -->
-					jq('#antenatal-visit-type').click(function(){
-					if (getValue('antenatal-visit-type.value') == 164180){
-					showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
-					<!-- showContainer('#gravida-container-label');
-                    showContainer('#gravida-container-input');
-                    showContainer('#para-container-label');
-                    showContainer('#para-container-input');
-                    showContainer('#lmp-container-label');
-                    showContainer('#lmp-container-input');
-                    showContainer('#edd-container-label');
-                    showContainer('#edd-container-input'); -->
-					showContainer('#ptrackerid-container'); <!-- show the entire container -->
-					showContainer('#ptrackerid-container-input');
-					hideContainer('#ptrackerid-container-display');
-					} else if (getValue('antenatal-visit-type.value') == 160530) {
-					hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
-					<!-- hideContainer('#gravida-container-label');
-                    hideContainer('#gravida-container-input');
-                    hideContainer('#para-container-label');
-                    hideContainer('#para-container-input');
-                    hideContainer('#lmp-container-label');
-                    hideContainer('#lmp-container-input');
-                    hideContainer('#edd-container-label');
-                    hideContainer('#edd-container-input'); -->
-					showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTracker ID -->
-					if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){
-					showContainer('#ptrackerid-container-display');
-					showContainer('#ptrackerid-container-input');
-					enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
-					$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book');
-					showContainer('#ptrackerid_info');
-					}
-					else {
-					showContainer('#ptrackerid-container-display');
-					hideContainer('#ptrackerid-container-input');
-					hideContainer('#ptrackerid_info');
-					disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
-					}
-					<!-- Clear the previous values -->
-					setValue('gravida.value', '');
-					setValue('para.value', '');
-					setValue('lmp.value', '');
-					setValue('edd.value', '');
-					}
-					});
+						<!-- requires capturing of PTracker ID -->
+						<!-- jq('#ptrackerid-container-display').hide(); -->
+						<!-- -->
+						jq('#antenatal-visit-type').click(function(){
+							if (getValue('antenatal-visit-type.value') == 164180){
+								showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
+								showContainer('#ptrackerid-container'); <!-- show the entire container -->
+								showContainer('#ptrackerid-container-input');
+								hideContainer('#ptrackerid-container-display');
+							} else if (getValue('antenatal-visit-type.value') == 160530) {
+								hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
+								showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTracker ID -->
+								if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){
+									showContainer('#ptrackerid-container-display');
+									showContainer('#ptrackerid-container-input');
+									enableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+									$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book');
+									showContainer('#ptrackerid_info');
+								}
+								else {
+									showContainer('#ptrackerid-container-display');
+									hideContainer('#ptrackerid-container-input');
+									hideContainer('#ptrackerid_info');
+									disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
+								}
+								<!-- Clear the previous values -->
+								setValue('gravida.value', '');
+								setValue('para.value', '');
+								setValue('lmp.value', '');
+								setValue('edd.value', '');
+							}
+						});
 
-					jq('#gravida_missing').change(function(){
-					handleMissingSelection('gravida');
-					});
-					jq('#para_missing').change(function(){
-					handleMissingSelection('para');
-					});
-					jq('#lmp_missing').change(function(){
-					handleMissingSelection('lmp');
-					<!-- Disable EDD if LNMP is missing -->
-					if (getValue('lmp_missing.value')) {
-					disableContainer('#edd');
-					disableContainer('#edd_missing');
-					} else {
-					enableContainer('#edd');
-					enableContainer('#edd_missing');
-					}
-					});
-					jq('#edd_missing').change(function(){
-					handleMissingSelection('edd');
-					});
-					jq('#art_number_missing').change(function(){
-					handleMissingSelection('art_number');
-					});
-					jq('#art_start_date_missing').change(function(){
-					handleMissingSelection('art_start_date');
-					});
-					jq('#refused_art_missing').change(function(){
-					handleMissingSelection('refused_art');
-					});
-					jq('#viral_load_test_date_missing').change(function(){
-					handleMissingSelection('viral_load_test_date');
-					});
-					jq('#viral_load_copies_missing').change(function(){
-					handleMissingSelection('viral_load_copies');
-					});
-					jq('#next_visit_date_missing').change(function(){
-					handleMissingSelection('next_visit_date');
-					});
+						jq('#gravida_missing').change(function(){
+							handleMissingSelection('gravida');
+						});
+						jq('#para_missing').change(function(){
+							handleMissingSelection('para');
+						});
+						jq('#lmp_missing').change(function(){
+							handleMissingSelection('lmp');
+						<!-- Disable EDD if LNMP is missing -->
+							if (getValue('lmp_missing.value')) {
+								disableContainer('#edd');
+								disableContainer('#edd_missing');
+							} else {
+								enableContainer('#edd');
+								enableContainer('#edd_missing');
+							}
+						});
+						jq('#edd_missing').change(function(){
+							handleMissingSelection('edd');
+						});
+						jq('#art_number_missing').change(function(){
+							handleMissingSelection('art_number');
+						});
+						jq('#art_start_date_missing').change(function(){
+							handleMissingSelection('art_start_date');
+						});
+						jq('#refused_art_missing').change(function(){
+							handleMissingSelection('refused_art');
+						});
+						jq('#viral_load_test_date_missing').change(function(){
+							handleMissingSelection('viral_load_test_date');
+						});
+						jq('#viral_load_copies_missing').change(function(){
+							handleMissingSelection('viral_load_copies');
+						});
+						jq('#next_visit_date_missing').change(function(){
+							handleMissingSelection('next_visit_date');
+						});
 					});
 				</script>
 			</p>
