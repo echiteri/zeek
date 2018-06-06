@@ -211,4 +211,72 @@
 			UPDATE concept_name SET name = 'Replacement feeding' WHERE concept_name_id = '1872';
 		</sql>
 	</changeSet>
+	<changeSet id="migrate_164915_to_164915" author="echiteri">
+		<comment> Concept 164915 for ART initiation wasn't migrated at all during concept remapping and migration. The query below migrates it</comment>
+		<sql>
+			# Correctly migrate concept 160117 to 164915
+			UPDATE obs SET concept_id = 164915 WHERE concept_id = 160117
+		</sql>
+	</changeSet>
+	<changeSet id="manage_open_visits" author="echiteri">
+		<comment> Create visits to move encounters clustered in one open visit. Then close open visits </comment>
+		<sql>
+			# Create new visits for encounters where the encounter date is not equal to the visit date {906 rows affected with the insert }
+			INSERT INTO visit ( patient_id, visit_type_id, date_started, date_stopped, location_id, creator, date_created, voided, uuid ) SELECT
+			e.patient_id,
+			1,
+			concat( date( encounter_datetime ), ' 00:00:00' ),
+			concat( date( e.encounter_datetime ), ' 23:59:59' ),
+			e.location_id,
+			e.creator,
+			e.date_created,
+			0,
+			UUID( )
+			FROM
+			encounter e
+			INNER JOIN visit v ON e.patient_id = v.patient_id
+			AND e.visit_id = v.visit_id
+			AND TO_DAYS(e.encounter_datetime) != TO_DAYS(v.date_started)
+			AND e.voided = FALSE
+			AND v.voided = FALSE
+		</sql>
+		<sql>
+
+			# Move the encounters whose encounter dates do not match the visit dates, these are the encounters created in unclosed {906 rows affected with the update }
+			UPDATE encounter,
+			visit
+			SET encounter.visit_id = visit.visit_id
+			WHERE
+			encounter.patient_id = visit.patient_id
+			AND TO_DAYS(encounter_datetime) = TO_DAYS(date_started)
+			AND encounter.visit_id != visit.visit_id
+			AND encounter.voided = FALSE
+			AND visit.voided = FALSE
+		</sql>
+		<sql>
+
+			# Set all visits to end on the same day they started {2200 rows affected with the update }
+			UPDATE visit
+			SET date_stopped = concat( date( date_started ), ' 23:59:59' )
+			WHERE
+			date_stopped IS NULL
+			AND voided = 0;
+		</sql>
+		<sql>
+			# Delete unattached visits after the migration of encounters to visits
+			DELETE FROM visit WHERE visit_id NOT IN (SELECT visit_id FROM encounter)
+		</sql>
+	</changeSet>
+<changeSet id="correct_errorneously_selected_facilities" author="echiteri">
+		<comment>Users wrongly picked facility which are similar in names while logging in hence assigning patients to wrong facilities.
+			The statements below update these facilities to correct ones. </comment>
+		<sql>
+			# Update client registered to facilities "Mpungu Health Centre" to "Mupini Health Centre"
+			UPDATE patient_identifier SET location_id = 183 WHERE location_id = 146
+		</sql>
+		<sql>
+			# Update client registered to facilities  "Otjondjeka"to "Otjomuise"
+			UPDATE patient_identifier SET location_id = 207 WHERE location_id = 245
+		</sql>
+	</changeSet>
 </databaseChangeLog>

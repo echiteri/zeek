@@ -32,15 +32,15 @@
 				$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
 				hideContainer('#ptrackerid_info');
 			} else if(getValue('client-booked.value') == 1065){
-				<!-- Booked and PTrackerID is missing -->
-				showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTrackerID -->
-				if($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing"){ <!-- the PTrackerID is missing, allow user to capture another -->
+				<!-- Booked and PTracker ID is missing -->
+				showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTracker ID -->
+				if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){ <!-- the PTracker ID is missing, allow user to capture another -->
 						showContainer('#ptrackerid-container-display');
 						showContainer('#ptrackerid-container-input');
-						$("#ptrackerid_info").html('The mother does not have a PTrackerID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
+						$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
 						showContainer('#ptrackerid_info');
-						}<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
-				else if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
+						}<!-- Booked,  PTrackerID is not missing but it is more than 3 months old -->
+				else if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
 						showContainer('#ptrackerid-container-display');
 				}
 				<!-- showContainer('#ptrackerid-container-display');
@@ -89,17 +89,38 @@
 
 						}
 					#end"/>
-			<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test resulst = tested positive -->
-			<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+			<!-- Don't show HIV testing if HIV test status = previously known positive, or HIV test result = tested positive -->
+			if("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
+				|| "<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
+			{
 				hideContainer('#hiv-test-container');
-			</includeIf>
+			}
 			<!-- Don't show ART initiation if ART initiation date exists -->
-			<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">
+			if(!"<lookup complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>")
+			{
 				hideContainer('#art-initiation-container');
-			</includeIf>
+			}
+		</ifMode>
+		<ifMode mode="EDIT">
+			<!-- Check to restrict encounter editing to only latest encounters -->
+			var latestEncounterDate = new Date("<lookup complexExpression="$fn.latestEncounter('2678423c-0523-4d76-b0da-18177b439eed').encounterDatetime"/>");
+			var currentVisitDate = new Date("<lookup expression="visit.startDatetime"/>");
+			if (currentVisitDate &lt; latestEncounterDate) {
+				jq().toastmessage('showToast',{
+					text : 'This is not the latest Encounter. You can only Edit the latest encounter. \n\n You will now be taken back to the patient dashboard.',
+					stayTime: 5000,
+					type: 'error'
+					}
+				);
+				setTimeout(function(){
+					window.location.href = window.location.protocol + &quot;//&quot; + window.location.host + &quot;/&quot;+ OPENMRS_CONTEXT_PATH +
+					&quot;/coreapps/clinicianfacing/patient.page?patientId=<lookup complexExpression="$fn.latestEncounter('2678423c-0523-4d76-b0da-18177b439eed').patient.patientId"/>&quot;;
+				},
+				5000);
+			}
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
-			<!-- Hide PTrackerID if it was not captured in this encounter -->
+			<!-- Hide PTracker ID if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 			{
 				hideContainer('#ptrackerid-container-input');
@@ -235,9 +256,9 @@
 		var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
 
 
-		if($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") { <!-- If the latest PTrackerID is older than 7 months allow another to be captured -->
-			if(timeFromLastPregnancy &gt; 7){
-				$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 7 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
+		if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
+			if(timeFromLastPregnancy &gt; 3){
+				$("#ptrackerid_info").html('The PTrackerID **'+ $('#ptrackerid_readonly').text().trim() +'**  was created over 3 months ago, please enter the PTrackerID on the pink book for this new pregnancy');
 				showContainer('#ptrackerid_info');
 				showContainer('#ptrackerid-container-display');
 				showContainer('#ptrackerid-container-input');
@@ -256,30 +277,36 @@
 				return false;
 			}
 		}
-		<!-- Validate PTrackerID provision -->
+		<!-- Validate PTracker ID provision -->
+		var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
 		if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
 			setValue('ptrackerid.error', '');
+			<!-- Check if the PTracker ID meets the Regex -->
+			if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
+				getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
+				isValid = false;
+			}
 			if (getValue('client-booked.value') == 1066 || getValue('client-booked.value') == 164932){
 				<!-- client is not booked or value is missing -->
 				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					if (!getValue('ptrackerid.value')) {
-						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
 				}
-			} else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() == "PTrackerID is Missing")){
-				<!-- Booked and PTrackerID is missing -->
+			} else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing")){
+				<!-- Booked and PTracker ID is missing -->
 				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					if (!getValue('ptrackerid.value')) {
-						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
 				}
-			}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTrackerID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 7)){
-				<!-- Booked,  PTrackerID is not missing but it is more than 7 months old -->
+			}else if ((getValue('client-booked.value') == 1065) &amp;&amp; ($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") &amp;&amp; (timeFromLastPregnancy &gt; 3)){
+				<!-- Booked,  PTrackerID is not missing but it is more than 3 months old -->
 				if ($('#ptrackerid').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
 					if (!getValue('ptrackerid.value')) {
-						getField('ptrackerid.error').html('PTrackerID must be provided').show();
+						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
 				}
@@ -377,6 +404,7 @@
 					setValue('infant-status-' + i + '.error', '');
 					setValue('still-birth-' + i + '.error', '');
 					setValue('infant-arv-prophylaxis-' + i + '.error', '');
+					setValue('infant_refused_arv_prophylaxis_' + i + '.error', '');
 					setValue('breastfeeding-' + i + '.error', '');
 					if (i &lt;= babiesBorn) {
 					if($('#infant-gender-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
@@ -421,14 +449,28 @@
 								<!--} -->
 							}
 							if(getValue('hiv-test-result.value') == 138571
-								|| getValue('hiv-test-result.value') == 1067
-								|| getValue('anc-retest-thirty-six-weeks.value') == 138571
-								|| getValue('anc-retest-thirty-six-weeks.value') == 1067)
+								|| getValue('hiv-test.value') == 164932 <!-- Test Status missing -->
+								|| getValue('hiv-test-result.value') == 1067 <!-- hiv test result is unknown -->
+								|| getValue('hiv-test-result.value') == 164932 <!-- Test result missing -->
+								|| getValue('anc-retest-thirty-six-weeks.value') == 138571 <!-- Positive restest at 36 -->
+								|| getValue('anc-retest-thirty-six-weeks.value') == 164932 <!-- Retest at 36 is missing -->
+								|| getValue('anc-retest-thirty-six-weeks.value') == 1067) <!-- Retest at 36 is unknown -->
 							{ <!-- Only validate when HIV test result and ANC Retest at 36 weeks is positive or Unknown -->
 								if($('#infant-arv-prophylaxis-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
 									if (!getValue('infant-arv-prophylaxis-' + i + '.value')) {
 										getField('infant-arv-prophylaxis-' + i + '.error').html('Please enter the infant arv prophylaxis').show();
 										isValid = false;
+									}
+								}
+								if(getValue('infant-arv-prophylaxis-' + i + '.value') == 127750) <!-- The infant ARV prophylaxis is refused -->
+								{
+									if($('#infant-refused-arv-prophylaxis-container-'+ i).is(':visible')){<!-- only validate if not hidden -->
+										if($('#infant_refused_arv_prophylaxis_'+ i).is(':visible')){<!-- only validate if not hidden -->
+											if (!getValue('infant_refused_arv_prophylaxis_' + i + '.value')) {
+												getField('infant_refused_arv_prophylaxis_' + i + '.error').html('Please enter the reason for infant arv prophylaxis refusal').show();
+												isValid = false;
+											}
+										}
 									}
 								}
 							}
@@ -570,14 +612,16 @@
 			</table>
 		</div>
 	</section>
-    <includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
+    <includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571
+    || $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
         <!-- Show ART Status and Inititation if the client has tested positive, is a previously known positive. Need to establish if still on care-->
         <script>
 			<ifMode mode="ENTER">
 				jq(function() {
-					hideContainer('#hiv-test-container');
 					showContainer('#recent-viral-load-container');
+				<includeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime == ''"> <!--  but not yet initiated on ART -->
 					showContainer('#art-initiation-container');
+				</includeIf>
 					<!-- Show the prophylaxis for the infants if mother is KP -->
 					jq(".prophylaxis").each(function(){
 						showContainer("#" + jq(this).attr("id"));
@@ -609,11 +653,11 @@
         </section>
     <!-- </includeIf> -->
 	<div id="ptrackerid-container" class="">
-		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTrackerID Capture">
+		<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="PTracker ID Capture">
 			<div class="section-container">
 				<p id="ptrackerid-container-label">
 					<label >
-						PTrackerID
+						PTracker ID
 					</label>
 					<p class="hidden narrow" id="ptrackerid-container-display">
 						<span id="ptrackerid_readonly" style="color: Black; padding: 2px 4px; ">
@@ -623,7 +667,7 @@
 										$ptrackerid.valueText
 										#set($ptrackerid_date = $ptrackerid.obsDatetime)
 								#else
-									PTrackerID is Missing
+									PTracker ID is Missing
 								#end " />
 						</span>
 						<span id="ptrackerid_datetime" class="hidden">
@@ -836,8 +880,8 @@
 					 answerLabels="Negative,Positive,Unknown, Missing"
 					 answerSeparator="" />
 			</p>
-			<!-- </excludeIf> -->
-            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"> --><!-- exclude ART initiation if ART initiation date exists -->
+		<!-- </excludeIf> -->
+            <!-- <excludeIf velocityTest="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime">--><!-- exclude ART initiation if ART initiation date exists -->
             <!-- <p id="art-status-container" class="hidden" >
 
                 <obs id="art-status" conceptId="164914" answerSeparator="" style="checkbox" />
@@ -891,7 +935,7 @@
 				</script>
 				
 			</p>
-			<!-- </excludeIf> -->
+			 <!-- </excludeIf> -->
             <p id="recent-viral-load-container" class="">
                 <label>
                     Viral Load test done? 					</label>
@@ -1015,7 +1059,7 @@
 					<script>
 						jq(function(){
 
-						
+
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
 								if (getValue('infant-status-{n}.value') == 151849) {
@@ -1025,8 +1069,13 @@
 									<!-- showContainer('#infant-arv-prophylaxis-container-{n}'); -->
 									<!-- Don't show infant prophylaxis if negative test is selected for the mother -->
 									if(getValue('hiv-test-result.value') == 664 || getValue('anc-retest-thirty-six-weeks.value') == 664)
-										{hideContainer('#infant-arv-prophylaxis-container-{n}'); }else
-										{showContainer('#infant-arv-prophylaxis-container-{n}');}
+										{
+											hideContainer('#infant-arv-prophylaxis-container-{n}');
+											hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
+										}else
+										{
+											showContainer('#infant-arv-prophylaxis-container-{n}');
+										}
 						
                                     hideContainer('#still-birth-container-{n}');
 									hideContainer('#infant-death-date-container-{n}');
@@ -1037,6 +1086,7 @@
 										showContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
 									} else if (getValue('infant-status-{n}.value') == 154223) { <!--neo-natal death -->
 										hideContainer('#still-birth-container-{n}');
@@ -1047,11 +1097,22 @@
 										hideContainer('#still-birth-container-{n}');
 										hideContainer('#breastfeeding-container-{n}');
 										hideContainer('#infant-arv-prophylaxis-container-{n}');
+										hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
 										hideContainer('#infant-death-date-container-{n}');
 									}
 									
 									hideContainer('#infant-birth-date-container-{n}');
 									hideContainer('#child-number-container-{n}');
+								}
+							});
+							hideContainer('#infant-refused-arv-prophylaxis-container-{n}'); <!-- Hide refused ARV container -->
+							jq('#infant-arv-prophylaxis-{n}').click(function(){
+								if(getValue('infant-arv-prophylaxis-{n}.value') == 127750)
+								{
+									showContainer('#infant-refused-arv-prophylaxis-container-{n}');
+								} else
+								{
+									hideContainer('#infant-refused-arv-prophylaxis-container-{n}');
 								}
 							});
 							jq('#infant_birth_date_{n}_missing').change(function(){
@@ -1062,6 +1123,9 @@
 							});
 							jq('#infant_death_date_{n}_missing').change(function(){
 								handleMissingSelection('infant_death_date_{n}');
+							});
+							jq('#infant_refused_arv_prophylaxis_{n}_missing').change(function(){
+								handleMissingSelection('infant_refused_arv_prophylaxis_{n}');
 							});
 						});
 					</script>
@@ -1122,6 +1186,13 @@
 										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164932"
 											 answerLabels="ARV Prophylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
 											 answerSeparator="" />
+									</p>
+									<p id="infant-refused-arv-prophylaxis-container-{n}" class="prophylaxis">
+										<label>
+											Reason for refusing infant ARV prophylaxis
+										</label>
+										<obs id="infant_refused_arv_prophylaxis_{n}" style="radio" conceptId="163322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+										<obs id="infant_refused_arv_prophylaxis_{n}_missing" conceptId="164955" style="checkbox" answerLabel="answerLabel" labelText="Reason for refusing Infant ARV Prophylaxis missing"/>
 									</p>
 									
 								</td>

@@ -58,15 +58,16 @@
                     </tr>
                     <tr><td><a href="${ui.resourceLink("namibia", "/faq/6.8_How_to_Link_Mother_infant_in_PNC_Job_Aid.pdf")}" target="_blank"> How to Link Infant to a Mother in Infant PNC Visit </a></td>
                         <td><a href="${ui.resourceLink("namibia", "/faq/5_Guiding_Principles_for_PTracker_Equipment.pdf")}" target="_blank"> Guiding Principles for PTracker Equipment </a></td></tr>
-                    <tr><td><a href="${ui.resourceLink("namibia", "/faq/7_How_to_generate_PTracker_ID.pdf")}" target="_blank"> How to Generate PTrackerID </a></td><td></td></tr>
+                    <tr><td><a href="${ui.resourceLink("namibia", "/faq/7_How_to_generate_PTracker_ID.pdf")}" target="_blank"> How to Generate PTracker ID </a></td><td></td></tr>
                     <tr><td><a href="${ui.resourceLink("namibia", "/faq/Namibia_PMTCT_Tracker_User_Guide_August2017.pdf")}"  target="_blank"> Complete PTracker User guide Version 0.02 </a></td><td></td></tr>
                     <tr><td colspan="2"><h4> Release Notes </h4></td></tr>
                     <tr><td><a href="${ui.resourceLink("namibia", "/faq/6.9_PTracker_1.2_Release_Notes_Oct_2017.pdf")}" target="_blank">PTracker Version 1.2 Release Notes </a></td><td></td></tr>
+                    <tr><td><a href="${ui.resourceLink("namibia", "/faq/PTracker-Release-notes-version-1.3.pdf")}" target="_blank">PTracker Version 1.3 Release Notes </a></td><td></td></tr>
                     <tr><td colspan="2"><h4> FAQ </h4></td></tr>
                     <tr><td><a href="${ui.resourceLink("namibia", "/faq/Frequently_Asked_Questions.pdf")}" target="_blank">Frequenty Asked Questions </a></td><td></td></tr>
                 </table>
-            <div id="footer">
-                PTracker Powered by OpenMRS | MoHSS Namibia Copyrighted | Contact : +264 888888888
+            <div id="footer" style="color: #848484;font-size: 0.7em;float: left; width: 100%; text-align: center;">
+                PTracker Powered by OpenMRS | MoHSS Namibia Copyrighted | Contact : (+264 814673349 / +264 814673343)
             </div>
         </div>
     </div>

@@ -107,9 +107,22 @@ span.value {
 
 /*
  * Fix for Issue #38 removing edit capability for Encounters
+ * After above, enabled editing for Encounters
 */
 #encountersList .editEncounter {
     display: inline-block;
+}
+/*
+ * Fix for Issue #205 Remove redundant links
+*/
+#editVisitLink, #editVisitDatesLink, .actions {
+    display: none;
+}
+/*
+ * Fix for Issue #210 remove delete button during encounter edit
+*/
+#delete-button{
+    display: none;
 }
 
 .required label {
@@ -122,5 +135,9 @@ span.value {
 }
 
 #print-button, #edit-button {
+    display: none;
+}
+
+#patientDashboard\.overallActions\.form\.10, #patientDashboard\.overallActions\.form\.11 {
     display: none;
 }
