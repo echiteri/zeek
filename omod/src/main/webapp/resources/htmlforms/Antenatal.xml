@@ -224,7 +224,7 @@
 						return false;
 					}
 				}
-				<!-- clear the previous errors -->
+
 				if (getField('lmp.value') != null) {
 					<!-- LNMP must be before the encounter date -->
 					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
@@ -241,6 +241,17 @@
 							getField('lmp.error').html('The date of the last menstral period cannot be more than 44 weeks before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
 							return false;
 						}
+					}
+				}
+				
+				if (getField('edd.value') != null) {
+					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
+					var eddDate = new Date(changeFieldDateToJavascriptDate(getValue('edd.value')));
+
+					<!-- The EDD date cannot be more than 12 Months after the LNMP date for ANC -->
+					if (Math.abs(eddDate - lmpDate)/(1000 * 86400 * 30.4) > 12) {
+						getField('edd.error').html('The EDD cannot be more than 12 months after LNMP ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+						return false;
 					}
 				}
 
