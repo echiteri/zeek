@@ -249,8 +249,8 @@
 					var eddDate = new Date(changeFieldDateToJavascriptDate(getValue('edd.value')));
 
 					<!-- The EDD date cannot be more than 12 Months after the LNMP date for ANC -->
-					if (Math.abs(eddDate - lmpDate)/(1000 * 86400 * 30.4) > 12) {
-						getField('edd.error').html('The EDD cannot be more than 12 months after LNMP ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+					if (Math.abs(eddDate - lmpDate)/(1000 * 86400 * 30.4) > 10) {
+						getField('edd.error').html('The EDD cannot be more than 10 months after LNMP ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
 						return false;
 					}
 				}
