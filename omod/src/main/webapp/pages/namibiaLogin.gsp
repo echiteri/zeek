@@ -76,8 +76,6 @@
             Services</span>
         </div>
         <span style="color: #848484;font-size: 0.9em;float: left; width: 100%; text-align: center;">PMTCT Tracker</span>
-        <br/><br/>
-        <span style="float: left; width: 100%; text-align: center;"><a href="${ui.pageLink("namibia", "faqDialog")}">${ui.message("Help")}</a></span>
     </div>
 </header>
 
@@ -137,20 +135,24 @@
                         <i class="icon-question-sign small"></i>
                         ${ui.message("referenceapplication.login.cannotLogin")}
                     </a>
+                    <br/>
+                    <a href="${ui.resourceLink("namibia", "/faq/1.4_How_to_Login_to_PTracker_May2018.pdf")}" target="_blank">
+                        <i class="icon-question-sign small"></i>
+                        ${ui.message("How do I login?")}
+                    </a>
                 </p>
 
             </fieldset>
 
             <input type="hidden" name="redirectUrl" value="${redirectUrl}"/>
+            <div class="footer" style="color: #848484;font-size: 0.8em;float: left; width: 100%; text-align: center;">
+                &#169; 2017 All Rights Reserved | <a href="http://www.mhss.gov.na/" target="_blank" title="Ministry of Health and Social Services">MoHSS Namibia</a> | Developed by the <a href="http://globalhealthsciences.ucsf.edu/" target="_blank" title="Institute of Global Health Sciences">University of California, San Francisco.</a>
+                <br/>
+                ${ui.message("namibia.version.label")} &nbsp; &nbsp; Powered by OpenMRS | Contact : (+264 814673349 / +264 814673343)
+            </div>
 
         </form>
 
-    </div>
-    <div>
-
-            ${ui.message("namibia.version.label")} &nbsp; &nbsp;
-            &#169; 2017 All Rights Reserved <a href="http://www.mhss.gov.na/" target="_blank" title="Ministry of Health and Social Services">Ministry of Health and Social Services</a>
-        &nbsp; &nbsp;<a href="${ui.pageLink("namibia", "faqDialog")}">${ui.message("Help")}</a>
     </div>
 </div>
 
@@ -162,7 +164,7 @@
     </div>
 
     <div class="dialog-content">
-        <p class="dialog-instructions">${ui.message("referenceapplication.login.cannotLoginInstructions")}</p>
+        <p class="dialog-instructions">${ui.message("Please contact: +264 814673349 / +264 814673343")}</p>
 
         <button class="confirm">${ui.message("referenceapplication.okay")}</button>
     </div>
