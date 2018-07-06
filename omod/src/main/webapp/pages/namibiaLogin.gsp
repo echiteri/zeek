@@ -145,14 +145,14 @@
             </fieldset>
 
             <input type="hidden" name="redirectUrl" value="${redirectUrl}"/>
+            <div class="footer" style="color: #848484;font-size: 0.8em;float: left; width: 100%; text-align: center;">
+                &#169; 2017 All Rights Reserved | <a href="http://www.mhss.gov.na/" target="_blank" title="Ministry of Health and Social Services">MoHSS Namibia</a> | Developed by the <a href="http://globalhealthsciences.ucsf.edu/" target="_blank" title="Institute of Global Health Sciences">University of California, San Francisco.</a>
+                <br/>
+                ${ui.message("namibia.version.label")} &nbsp; &nbsp; Powered by OpenMRS | Contact : (+264 814673349 / +264 814673343)
+            </div>
 
         </form>
 
-    </div>
-    <div>
-
-            ${ui.message("namibia.version.label")} &nbsp; &nbsp;
-            &#169; 2017 All Rights Reserved <a href="http://www.mhss.gov.na/" target="_blank" title="Ministry of Health and Social Services">Ministry of Health and Social Services</a>
     </div>
 </div>
 
@@ -164,7 +164,7 @@
     </div>
 
     <div class="dialog-content">
-        <p class="dialog-instructions">${ui.message("referenceapplication.login.cannotLoginInstructions")}</p>
+        <p class="dialog-instructions">${ui.message("Please contact: +264 814673349 / +264 814673343")}</p>
 
         <button class="confirm">${ui.message("referenceapplication.okay")}</button>
     </div>
