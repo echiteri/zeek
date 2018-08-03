@@ -1080,7 +1080,7 @@
 
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
-								if (getValue('infant-status-{n}.value') == 151849) {
+								if (getValue('infant-status-{n}.value') == 151849 || getValue('infant-status-{n}.value') == 164932) { <!-- allow demographic details to be capture on missing (164932) status -->
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
