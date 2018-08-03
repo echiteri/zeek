@@ -155,7 +155,7 @@
 				var now = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
 				var ptrackerIDLastObsDate = new Date($('#ptrackerid_datetime').text().trim());
 				var timeFromLastPregnancy = Math.floor((now.getTime() - ptrackerIDLastObsDate.getTime())/(86400000 * 30)); <!-- convert to months -->
-				var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
+				var regex_ptrackerid = /^[0-9]{5}[A-Z]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
 				setValue('ptrackerid.error', '');
 				<!-- Check if the PTracker ID meets the Regex -->
 
