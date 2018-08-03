@@ -415,7 +415,7 @@
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
 				var babiesBorn = getValue('birth-count.value');
 				var isValid = true;
-				var regex = /^[0-9]{5}[A-S]{1}[0-9]{7,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
+				var regex = /^[0-9]{5}[A-Z]{1}[0-9]{7,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant_birth_date_' + i + '.error', '');
@@ -1080,7 +1080,7 @@
 
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
-								if (getValue('infant-status-{n}.value') == 151849) {
+								if (getValue('infant-status-{n}.value') == 151849 || getValue('infant-status-{n}.value') == 164932) { <!-- allow demographic details to be capture on missing (164932) status -->
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
