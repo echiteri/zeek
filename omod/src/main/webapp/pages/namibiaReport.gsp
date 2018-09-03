@@ -29,6 +29,21 @@
                         <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FMBFU_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Mother Baby Followup summary report</a>
                     </li>
                 </ul>
+                <h2> Data quality Reports </h2>
+                <ul>
+                    <li>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPTracker_Visit_Count_List_&standAlone=true#" target="_blank"> -- PTracker Visit Count report</a>
+                    </li>
+                    <li>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPTracker_Completeness_List_&standAlone=true#" target="_blank"> -- PTracker Completeness report</a>
+                    </li>
+                    <li>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPTracker_Completeness_List__PNC&standAlone=true#" target="_blank"> -- PTracker Completeness PNC report</a>
+                    </li>
+                    <li>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPTracker_Timeliness_List_&standAlone=true#" target="_blank"> -- PTracker Timeliness report</a>
+                    </li>
+                </ul>
                 <h2> Dashboards </h2>
                 <ul>
                     <li>
