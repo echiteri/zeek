@@ -76,6 +76,13 @@ public class AppConfigurationInitializer implements Initializer {
 				autoCloseVisitsTask.setStartOnStartup(true);
 				schedulerService.saveTaskDefinition(autoCloseVisitsTask);
 			}
+
+			// start the Auto create new PTrackerID for the visit
+			TaskDefinition autoCreateNewPTrackerID = (TaskDefinition) schedulerService.getTaskByName("Auto Create New PTracker ID");
+			if (autoCreateNewPTrackerID != null) {
+				autoCreateNewPTrackerID.setStartOnStartup(true);
+				schedulerService.saveTaskDefinition(autoCreateNewPTrackerID);
+			}
 		}
 		catch (Exception e) {
 			Module mod = ModuleFactory.getModuleById(NamibiaConstants.MODULE_ID);
