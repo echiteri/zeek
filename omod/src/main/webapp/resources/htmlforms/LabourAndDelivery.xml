@@ -29,9 +29,16 @@
 				showContainer('#ptrackerid-container'); <!-- show the entire container -->
 				showContainer('#ptrackerid-container-input');
 				hideContainer('#ptrackerid-container-display');
+				if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing" &amp;&amp; (timeFromLastPregnancy &lt; 3)) <!-- if the Ptracker was capture and is still valid -->
+				{
+					showContainer('#ptrackerid-container-display');
+					hideContainer('#ptrackerid-container-input');
+				}
 				$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
 				hideContainer('#ptrackerid_info');
 			} else if(getValue('client-booked.value') == 1065){
+				$("#ptrackerid_info").html(''); <!-- Clear and hide info -->
+				hideContainer('#ptrackerid_info');
 				<!-- Booked and PTracker ID is missing -->
 				showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTracker ID -->
 				if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){ <!-- the PTracker ID is missing, allow user to capture another -->
@@ -40,11 +47,22 @@
 						$("#ptrackerid_info").html('The mother does not have a PTracker ID for this pregnancy, please enter the one on the pink book'); <!-- Clear and hide info -->
 						showContainer('#ptrackerid_info');
 						}<!-- Booked,  PTrackerID is not missing but it is more than 3 months old -->
-				else if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing") { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
+				else if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing" &amp;&amp; (timeFromLastPregnancy &gt; 3)) { <!-- If the latest PTrackerID is older than 3 months allow another to be captured -->
 						showContainer('#ptrackerid-container-display');
+				}else if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing")
+				{
+					showContainer('#ptrackerid-container-display');
+					hideContainer('#ptrackerid-container-input');
 				}
 				<!-- showContainer('#ptrackerid-container-display');
 				hideContainer('#ptrackerid-container-input'); -->
+			} else <!-- missing -->
+			{
+				if($('#ptrackerid_readonly').text().trim() != "PTracker ID is Missing" &amp;&amp; (timeFromLastPregnancy &lt; 3)) <!-- if the Ptracker was capture and is still valid -->
+				{
+					showContainer('#ptrackerid-container-display');
+					hideContainer('#ptrackerid-container-input');
+				}
 			}
 		});
 
@@ -397,7 +415,7 @@
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
 				var babiesBorn = getValue('birth-count.value');
 				var isValid = true;
-				var regex = /^[0-9]{5}[A-S]{1}[0-9]{7,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
+				var regex = /^[0-9]{5}[A-Z]{1}[0-9]{7,8}$$/; <!-- ID format: 12345A170001 Mother Min or 12345A17000112 Infant Max  -->
 				for (i=1; i &lt; 10; i++) {
 					setValue('infant-gender-' + i + '.error', '');
 					setValue('infant_birth_date_' + i + '.error', '');
@@ -1062,7 +1080,7 @@
 
 							jq('#infant-status-{n}').click(function(){
 								<!-- hide breast feeding and prophylaxis status if baby died -->
-								if (getValue('infant-status-{n}.value') == 151849) {
+								if (getValue('infant-status-{n}.value') == 151849 || getValue('infant-status-{n}.value') == 164932) { <!-- allow demographic details to be capture on missing (164932) status -->
 									showContainer('#breastfeeding-container-{n}');
 									showContainer('#infant-birth-date-container-{n}');
 									showContainer('#child-number-container-{n}');
