@@ -11,13 +11,10 @@
 package org.openmrs.module.namibia.api.impl;
 
 import java.util.List;
-import java.util.Iterator;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.type.IdentifierType;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.namibia.api.NamibiaPMTCTService;
@@ -25,12 +22,7 @@ import org.openmrs.module.namibia.api.db.NamibiaPMTCTDAO;
 import org.openmrs.Patient;
 import org.openmrs.api.PatientService;
 import org.openmrs.PatientIdentifier;
-import org.openmrs.Person;
-import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.namibia.api.NamibiaPMTCTService;
-import org.openmrs.module.namibia.api.db.NamibiaPMTCTDAO;
-import org.openmrs.module.namibia.metadata.PatientIdentifierTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -64,25 +56,30 @@ public class NamibiaPMTCTServiceImpl extends BaseOpenmrsService implements Namib
 		List<PatientIdentifierType> identifierTypes = patientService.getPatientIdentifierTypes(null, null, null, null);
 		PatientIdentifier patientIdentifier = new PatientIdentifier();
 		Patient patient = patientService.getPatient(patient_id);
+		List<PatientIdentifier> patientIdentifiers = patientService.getPatientIdentifiers(null, null, null, null, null);
+		if (patientIdentifiers.toString().trim().contains(ptracker_id.trim()))
+		{
+			log.info("\nThe Identifier  " + ptracker_id + " is already in use. \n");
+		} else {
+			for (int i = 7; i < 14; i++) /* 8 new ptracker id types TODO: optimize the iteration to be durable instead of hardcoding */ {
 
-		for (int i = 7  ; i < 14 ; i++) /* 8 new ptracker id types TODO: optimize the iteration to be durable instead of hardcoding */ {
-
-			try {
-				if (!patient.getIdentifiers().toString().contains(ptracker_id) && patient.getPatientIdentifier(identifierTypes.get(i-1)) == null) {
-					log.debug("Creating a new pregnancy PTracker ID " + patient_id + " for patient ID " + ptracker_id);
-					patientIdentifier.setIdentifier(ptracker_id); // identifier
-					patientIdentifier.setIdentifierType(patientService.getPatientIdentifierTypeByUuid(identifierTypes.get(i-1).getUuid())); // OpenMRS ID with check digit
-					patientIdentifier.setPreferred(false);
-					patientIdentifier.setCreator(Context.getUserService().getUser(1));
-					patientIdentifier.setDateCreated(new Date());
-					patientIdentifier.setVoided(false);
-					patientIdentifier.setUuid(UUID.randomUUID().toString());
-					patient.addIdentifier(patientIdentifier);
-					patientService.savePatient(patient);
-					break;
+				try {
+					if (patient.getPatientIdentifier(identifierTypes.get(i - 1)) == null) {
+						log.debug("Creating a new pregnancy PTracker ID " + patient_id + " for patient ID " + ptracker_id);
+						patientIdentifier.setIdentifier(ptracker_id); // identifier
+						patientIdentifier.setIdentifierType(patientService.getPatientIdentifierTypeByUuid(identifierTypes.get(i - 1).getUuid())); // OpenMRS ID with check digit
+						patientIdentifier.setPreferred(false);
+						patientIdentifier.setCreator(Context.getUserService().getUser(1));
+						patientIdentifier.setDateCreated(new Date());
+						patientIdentifier.setVoided(false);
+						patientIdentifier.setUuid(UUID.randomUUID().toString());
+						patient.addIdentifier(patientIdentifier);
+						patientService.savePatient(patient);
+						break;
+					}
+				} catch (NullPointerException e) {
+					System.out.print("Caught NullPointerException");
 				}
-			} catch (NullPointerException e) {
-				System.out.print("Caught NullPointerException");
 			}
 		}
 	}
