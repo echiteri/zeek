@@ -293,7 +293,7 @@
 			<column name="description" value="Auto Create New PTracker ID for new pregnancies using PTracker ID on obs Table" />
 			<column name="schedulable_class" value="org.openmrs.module.namibia.tasks.AutoCreateNewPTrackerID" />
 			<column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss" />
-			<column name="start_time" valueDate="2018-10-04T03:59:59" />
+			<column name="start_time" valueDate="2018-10-23T11:59:59" />
 			<column name="repeat_interval" value="86400" />
 			<column name="date_created" valueDate="CURRENT_TIMESTAMP" />
 			<column name="created_by" value="3" />
