@@ -10,9 +10,8 @@
 
 package org.openmrs.module.namibia.api.impl;
 
-import java.util.List;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.PatientIdentifierType;
@@ -78,7 +77,7 @@ public class NamibiaPMTCTServiceImpl extends BaseOpenmrsService implements Namib
 						break;
 					}
 				} catch (NullPointerException e) {
-					System.out.print("Caught NullPointerException");
+					System.out.print("Caught NullPointerException on Patient identifier");
 				}
 			}
 		}
