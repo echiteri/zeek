@@ -138,11 +138,7 @@
 			}
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
-			<!-- Hide PTracker ID if it was not captured in this encounter -->
-			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
-			{
-				hideContainer('#ptrackerid-container-input');
-			}
+			hideContainer('#ptrackerid-container');
 			<!-- Hide HIV Test Status if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 			{

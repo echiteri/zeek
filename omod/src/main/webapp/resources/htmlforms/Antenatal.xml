@@ -67,18 +67,11 @@
 			}
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
+            hideContainer('#ptrackerid-container');
 			<!-- Hide pregnancy detail  it is not the client's first ANC -->
 			if("<lookup expression="fn.getObs($encounter, '164181').valueCoded.conceptId"/>" == '160530')
 			{
 				hideContainer('#pregnancy-detail-container');
-			}
-			<!-- Disable editing of PTracker ID -->
-			if("<lookup expression="fn.getObs($encounter, '164951')"/>" != '')
-			{
-            <!-- hideContainer('#ptrackerid-container-input');-->
-                disableContainer('#ptrackerid-container-input'); <!-- Dispable to avoid validating a hidden field -->
-                setValue('ptrackerid.error', '');
-                getField('ptrackerid.error').html('The PTracker ID is not editable. Contact System Administrator to assist.').show();
 			}
 			<!-- Hide Gravida if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '5624')"/>" == '')
