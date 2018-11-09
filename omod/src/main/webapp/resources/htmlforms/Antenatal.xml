@@ -67,6 +67,7 @@
 			}
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
+            hideContainer('#ptrackerid-container');
 			<!-- Hide pregnancy detail  it is not the client's first ANC -->
 			if("<lookup expression="fn.getObs($encounter, '164181').valueCoded.conceptId"/>" == '160530')
 			{
