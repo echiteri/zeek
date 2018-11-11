@@ -1,3 +1,4 @@
+
 [
   {
     "id": "namibia.registrationapp.registerPatient",
@@ -31,7 +32,7 @@
                 {
                   "type": "patientIdentifier",
                   "label": "namibia.registrationapp.patient.ptrackerid.question",
-                  "formFieldName": "ptrackerId",
+                  "formFieldName": "ptrackerId1",
                   "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06c",
                   "widget": {
                     "providerName": "uicommons",
@@ -41,7 +42,135 @@
                     }
                   },
                   "cssClasses": [
-                    "regex"
+                    "regex", "ptrackerId1"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question2",
+                  "formFieldName": "ptrackerId2",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06d",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId2", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question3",
+                  "formFieldName": "ptrackerId3",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06e",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId3", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question4",
+                  "formFieldName": "ptrackerId4",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06f",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId4", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question5",
+                  "formFieldName": "ptrackerId5",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06g",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId5", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question6",
+                  "formFieldName": "ptrackerId6",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06h",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId6", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question7",
+                  "formFieldName": "ptrackerId7",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06i",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId7", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question8",
+                  "formFieldName": "ptrackerId8",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06j",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId8", "ptrackerId"
+                  ]
+                },
+                {
+                  "type": "patientIdentifier",
+                  "label": "namibia.registrationapp.patient.ptrackerid.question9",
+                  "formFieldName": "ptrackerId9",
+                  "uuid": "4da0a3fe-e546-463f-81fa-084f098ff06k",
+                  "widget": {
+                    "providerName": "uicommons",
+                    "fragmentId": "field/text",
+                    "config": {
+                      "regex": "^(|[0-9]{5}[A-S]{1}[0-9]{6,8})$"
+                    }
+                  },
+                  "cssClasses": [
+                    "regex", "ptrackerId9", "ptrackerId"
                   ]
                 }
               ]

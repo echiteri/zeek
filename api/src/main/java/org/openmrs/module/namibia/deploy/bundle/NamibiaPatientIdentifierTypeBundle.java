@@ -17,6 +17,14 @@ public class NamibiaPatientIdentifierTypeBundle extends AbstractMetadataBundle {
 		
 		install(PatientIdentifierTypes.ART_UNIQUE_NUMBER);
 		install(PatientIdentifierTypes.PTRACKER_NUMBER);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_2);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_3);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_4);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_5);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_6);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_7);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_8);
+		install(PatientIdentifierTypes.PTRACKER_NUMBER_9);
 		install(PatientIdentifierTypes.PREGNANCY_NUMBER);
 		
 		log.info("PatientIdentifierTypes installed");
