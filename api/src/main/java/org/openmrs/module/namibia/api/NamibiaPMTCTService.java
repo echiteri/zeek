@@ -30,4 +30,5 @@ public interface NamibiaPMTCTService extends OpenmrsService {
 	 * Add service methods here
 	 * 
 	 */
+    void createNewPregnancyPTrackerID(Integer patient_id, String ptracker_id);
 }

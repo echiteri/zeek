@@ -39,6 +39,18 @@
             "appId": "namibia.registrationapp.registerPatient"
           }
         }
+      },
+      {
+        "id": "org.openmrs.module.namibia.registrationSummary.ptrackerIDSection",
+        "extensionPointId": "patientDashboard.firstColumnFragments",
+        "extensionParams": {
+          "provider": "registrationapp",
+          "fragment": "summary/section",
+          "fragmentConfig": {
+            "sectionId": "PTrackerIDSection",
+            "appId": "namibia.registrationapp.registerPatient"
+          }
+        }
       }
     ],
     "config": {
