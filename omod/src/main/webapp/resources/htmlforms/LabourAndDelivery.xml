@@ -292,7 +292,7 @@
 			}
 		}
 		<!-- Validate PTracker ID provision -->
-		var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
+		var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6,8}$$/; <!-- ID format: 12345A17000001 Mother  -->
 		if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
 			setValue('ptrackerid.error', '');
 			<!-- Check if the PTracker ID meets the Regex -->
