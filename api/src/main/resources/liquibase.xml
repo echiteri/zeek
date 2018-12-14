@@ -303,4 +303,42 @@
 		</insert>
 
 	</changeSet>
+
+	<changeSet id="copy_ptracker_id_from_obs_to_patient_identifier_table" author="echiteri">
+		<comment>Copy PTracker ID created on the encounter form and create  the new PTrackerID as an identifier </comment>
+		<sql>
+			# Drop the pivotal table mds_new_ptracker_id
+			DROP TABLE IF EXISTS mds_new_ptracker_id;
+
+			# Create new ptracker id table to store new ptracker ids captured in the encounter forms
+			CREATE TABLE mds_new_ptracker_id AS
+				SELECT
+					e.patient_id,
+					MAX( IF ( o.concept_id = 164951, o.value_text, NULL ) ) AS identifier,
+					7 AS identifier_type,
+					0 AS preferred,
+					NULL AS location_id,
+					1 AS creator,
+					CURRENT_DATE() AS date_created,
+					0 AS voided, UUID() AS uuid
+				FROM
+					encounter e
+					INNER JOIN obs o ON e.encounter_id = o.encounter_id
+					AND o.voided =0 #  They are not voided
+					AND o.concept_id = 164951 #  PTracker ID concept
+					AND o.value_text NOT IN (SELECT identifier FROM patient_identifier) # The PTracker ID doesn't exist
+					AND o.value_text REGEXP '^[0-9]{5}[A-S]{1}[0-9]{6}$' #  Only Migrate ID's that meet the PTracker ID format
+					LEFT OUTER JOIN patient_identifier pi ON e.patient_id = pi.patient_id
+					INNER JOIN person p ON e.patient_id = p.person_id
+					GROUP BY
+					o.value_text #  Get DISTINCT PTracker ID;
+
+			# Copy the patient identifier table
+			INSERT  INTO patient_identifier (patient_id, identifier, identifier_type, preferred, location_id, creator, date_created, voided, uuid)
+			SELECT * from mds_new_ptracker_id;
+
+			# Drop the pivotal table mds_new_ptracker_id
+			DROP TABLE IF EXISTS mds_new_ptracker_id;
+		</sql>
+	</changeSet>
 </databaseChangeLog>
