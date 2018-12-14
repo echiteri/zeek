@@ -40,7 +40,7 @@
           }
         }
       },
-      {
+      /*{
         "id": "org.openmrs.module.namibia.registrationSummary.ptrackerIDSection",
         "extensionPointId": "patientDashboard.firstColumnFragments",
         "extensionParams": {
@@ -51,7 +51,7 @@
             "appId": "namibia.registrationapp.registerPatient"
           }
         }
-      }
+      }*/
     ],
     "config": {
       "appId": "namibia.registrationapp.registerPatient",
@@ -67,7 +67,7 @@
       "widget": "visitbyencountertype",
       "icon": "icon-group",
       "label": "Recent Visits",
-      "maxRecords": "5",
+      "maxRecords": "10",
       "maxAge": "36m",
       "combineEncounterTypes": "true"
     },
