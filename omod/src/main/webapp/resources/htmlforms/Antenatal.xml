@@ -181,13 +181,13 @@
 				<!-- Validate pregnancy details -->
 
 				<!-- if there is a a first visit the pregnancy information is required -->
-				var regex_ptrackerid = /^[0-9]{5}[A-Z]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
+				var regex_ptrackerid = /^[0-9]{5}[A-Z]{1}[0-9]{6,8}$$/; <!-- ID format: 12345A17000001 Mother  -->
 				setValue('ptrackerid.error', '');
 				<!-- Check if the PTracker ID meets the Regex -->
 				if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
 					if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
 						getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
-						isValid = false;
+						return false;
 					}
 				}
 				if (getValue('antenatal-visit-type.value') == 164180) {

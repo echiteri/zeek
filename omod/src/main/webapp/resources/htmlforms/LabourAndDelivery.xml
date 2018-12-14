@@ -292,13 +292,15 @@
 			}
 		}
 		<!-- Validate PTracker ID provision -->
-		var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6}$$/; <!-- ID format: 12345A170001 Mother  -->
+		var regex_ptrackerid = /^[0-9]{5}[A-S]{1}[0-9]{6,8}$$/; <!-- ID format: 12345A17000001 Mother  -->
 		if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
 			setValue('ptrackerid.error', '');
 			<!-- Check if the PTracker ID meets the Regex -->
-			if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
-				getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
-				isValid = false;
+			if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
+				if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
+					getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
+					return false;
+				}
 			}
 			if (getValue('client-booked.value') == 1066 || getValue('client-booked.value') == 164932){
 				<!-- client is not booked or value is missing -->
@@ -1197,8 +1199,8 @@
 										<label>
 											Infant Received ARV
 										</label>
-										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164932"
-											 answerLabels="ARV Prophylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
+										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164956,164932"
+											 answerLabels="ARV Prophylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Infant received NVP + AZT prophylaxis up to 6 weeks,Missing"
 											 answerSeparator="" />
 									</p>
 									<p id="infant-refused-arv-prophylaxis-container-{n}" class="prophylaxis">
