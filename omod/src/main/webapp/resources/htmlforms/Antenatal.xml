@@ -13,7 +13,7 @@
 		jq(function() {
 			<!-- Set the id value of the followup container from the class since the section tag does not have an id attribute-->
 			jq('.followup-container').attr('id', 'followup-container');
-		
+
 			<!-- Show the current location and visit date while hiding the encounter location drop down and date picker for
 			encounter date -->
 			jq('#encounterLocation').hide();
@@ -169,13 +169,13 @@
 			}
 
 		</ifMode>
-			
-		
+
+
 			<!-- EDD computation -->
 			jq('#lmp :input[type=text]').change(function(){
 				setValue('edd.value', calculateEDD(getValue('lmp.value')));
 			});
-		
+
 			beforeSubmit.push(function() {
 				<!-- validation rules for Pregancy information -->
 				<!-- Validate pregnancy details -->
@@ -244,7 +244,7 @@
 						}
 					}
 				}
-				
+
 				if (getField('edd.value') != null) {
 					var lmpDate = new Date(changeFieldDateToJavascriptDate(getValue('lmp.value')));
 					var eddDate = new Date(changeFieldDateToJavascriptDate(getValue('edd.value')));
@@ -265,7 +265,7 @@
 						return false;
 					}
 				}
-		
+
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- clear the previous errors -->
 				<!-- Validate HIV test done -->
@@ -340,7 +340,7 @@
 						}
 					}
 				}
-		
+
 				<!-- Validation rules for follow up -->
 				setValue('transfer-out-to.error', '');
 				setValue('transfer-out.error', '');
@@ -352,7 +352,7 @@
 					getField('next_visit_date.error').html('The date of the next visit ' + 'must be after ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value')) + ' the date of this visit').show();
 					return false;
 				}
-			
+
 				<!-- also check that the next visit is not after the expected date of delivery -->
 
 				var edd = new Date(getValue('edd.value'));
@@ -363,7 +363,7 @@
 					}
 				}
 
-		
+
 				if (!jq('#transfer-out-to-container').hasClass('hidden')) {
 					<!-- the transfer  out location is required -->
 					if (getValue('transfer-out-to.value') == '') {
@@ -378,17 +378,17 @@
 						return false;
 					}
 				}
-		
+
 				return true;
 			});
 		});
-		
+
 		<!--Function to calculate EDD-->
 		function calculateEDD(lmp){
 			if (!lmp.trim()) {
 				return "";
 			}
-			
+
 			<!--Based on (((lmp + 1 year)-3 months) + 7 days) algorithm-->
 			var lmpDate = new Date(lmp);
 			lmpDate.setYear(lmpDate.getFullYear() + 1);
@@ -399,7 +399,7 @@
 			var yyyy = lmpDate.getFullYear();
 			mm = (mm &lt; 10) ? '0' + mm : mm;
 			dd = (dd &lt; 10) ? '0' + dd : dd;
-			
+
 			var date = yyyy + '-' + mm + '-' + dd;
 			return date;
 		}
@@ -419,7 +419,7 @@
 			return formattedDate;
 		}
 	</script>
-	
+
 	<h2>
 		<label>
 			Antenatal Form
@@ -491,9 +491,9 @@
 									<lookup	complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>
 								</includeIf>
 							</td>
-						
+
 						</tr>
-						
+
 						<!-- <includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1065"> [this prevents this section from showing]-->
 							<!-- todo: Show HIV and ART status if the encounter facility is similar to patient last encounter facility-->
 							<!-- <tr>
@@ -534,7 +534,7 @@
 								<td colspan="2">
 									<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 164911">
 										Previously known positive
-									
+
 									</includeIf>
 									<includeIf velocityTest="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1067">
 										Unknown <!-- added for unknown -->
@@ -583,13 +583,13 @@
 							<td><lookup	complexExpression="$fn.allEncounters('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').size()"/></td>
 							<td><lookup	complexExpression="$fn.latestEncounter('2549af50-75c8-4aeb-87ca-4bb2cef6c69a').location.name" /></td>
 							<td>
-								
+
 							</td>
 						</tr>
 					</table>
 			</div>
 		</section>
-		
+
 	</includeIf>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ANC visit type">
 		<div class="section-container">
@@ -783,10 +783,11 @@
 						<!-- Already on ART -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						<!-- Enusre ART start date is empty-->
+						<!-- Ensure ART start date is empty-->
 						setValue('art_start_date.value', '');
 						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
 						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container'); <!-- Cascade hiding refused art container when art-initial-container is hidden -->
 					} else {
 						<!-- Not yet on ART so initialize -->
 						hideContainer('#art-number-container');
@@ -800,7 +801,7 @@
 					}
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
+					if(getValue('hiv-test-result.value') == 138571) {
 						<!-- positive result or unknown (since unknown is a valid answer) -->
 						showContainer('#art-initiation-container');
 						<!-- showContainer('#art-number-container'); -->
@@ -809,6 +810,7 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						hideContainer('#refused-art-container'); <!-- Cascade hiding refused art container when art-initial-container is hidden -->
 						<!-- clear data in case it is not HIV +ve -->
 						setValue('art_start_date.value', '');
 					}
@@ -902,10 +904,10 @@
 				<script>
 					jq(function(){
 						jq('#art_start_date :input[type=text]').change(function(){
-							
+
 							var art_start_date = getValue('art_start_date.value');
 							var visit_date = getValue('encounterDate.value');
-							
+
 							if (art_start_date != '') {
 								<!-- check that the ART start date is not after the visit date -->
 								if (art_start_date &gt; visit_date) {
@@ -921,7 +923,7 @@
 						});
 					});
 				</script>
-				
+
 			</p>
 			<!-- </excludeIf> -->
 				<p id="recent-viral-load-container" class="">

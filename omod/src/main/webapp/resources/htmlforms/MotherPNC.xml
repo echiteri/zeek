@@ -543,6 +543,7 @@
 						setValue('art_start_date.value', '');
 						showContainer('#recent-viral-load-container');
 						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container'); <!-- Cascade hiding refused art container when art-initial-container is hidden -->
 					} else {
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
@@ -555,13 +556,14 @@
 					 }
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
+					if(getValue('hiv-test-result.value') == 138571) {
 						<!-- positive result or Uknown (since unknown is a valid answer) -->
 						showContainer('#art-initiation-container');
 						<!-- showContainer('#art-number-container'); -->
 						<!-- showContainer('#art-startdate-container'); -->
 					} else {
 						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container'); <!-- Cascade hiding refused art container when art-initial-container is hidden -->
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
 						setValue('art_start_date.value', '');

@@ -20,13 +20,13 @@
                 <h2> Monthly Summary Reports </h2>
                 <ul>
                     <li>
-                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FANC_summary_report&standAlone=true#" target="_blank"> -- ANC summary report</a>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Monthly_Summary_Report&reportUnit=%2Freports%2FPTracker_Monthly_Summary_Report%2FANC_summary_report&standAlone=true" target="_blank"> -- ANC summary report</a>
                     </li>
                     <li>
-                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FLabor_and_Delivery_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Labor and Delivery summary report</a>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Monthly_Summary_Report&reportUnit=%2Freports%2FPTracker_Monthly_Summary_Report%2FLabor_and_Delivery_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Labor and Delivery summary report</a>
                     </li>
                     <li>
-                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FMBFU_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Mother Baby Followup summary report</a>
+                        <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Monthly_Summary_Report&reportUnit=%2Freports%2FPTracker_Monthly_Summary_Report%2FMBFU_Monthly_Summary_Report&standAlone=true#" target="_blank"> -- Mother Baby Followup summary report</a>
                     </li>
                 </ul>
                 <h2> Data quality Reports </h2>

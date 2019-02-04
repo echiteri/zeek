@@ -771,7 +771,7 @@
 				<!-- ANC Re-test at 36 weeks -->
 				jq('#anc-retest-thirty-six-weeks').click(function(){
 				<!-- positive or unknown -->
-					if(getValue('anc-retest-thirty-six-weeks.value') == 138571 || getValue('anc-retest-thirty-six-weeks.value') == 1067) {
+					if(getValue('anc-retest-thirty-six-weeks.value') == 138571) {
 						showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						<!-- show the prophylaxis for the infants -->
@@ -804,10 +804,11 @@
 						<!-- Already on ART -->
 						showContainer('#art-number-container');
 						showContainer('#art-startdate-container');
-						<!-- Enusre ART start date is empty -->
+						<!-- Ensure ART start date is empty -->
 						setValue('art_start_date.value', '');
 						showContainer('#recent-viral-load-container');<!-- show viral load regardless of last viral load test -->
 						hideContainer('#art-initiation-container');
+						hideContainer('#refused-art-container'); <!-- Cascade hiding refused art container when art-initial-container is hidden -->
 					} else {
 						<!-- Not yet on ART so initialize -->
 						hideContainer('#art-number-container');
@@ -820,7 +821,7 @@
 					}
 				});
 				jq('#hiv-test-result').click(function(){
-					if(getValue('hiv-test-result.value') == 138571 || getValue('hiv-test-result.value') == 1067) {
+					if(getValue('hiv-test-result.value') == 138571) {
 						<!-- positive result or Unknown (since Unknown is an answer)-->
 						showContainer('#art-initiation-container');
 						<!-- showContainer('#art-number-container');
@@ -834,6 +835,7 @@
 						hideContainer('#art-initiation-container');
 						hideContainer('#art-number-container');
 						hideContainer('#art-startdate-container');
+						hideContainer('#refused-art-container'); <!-- Cascade hiding refused art container when art-initial-container is hidden -->
 						<!-- hide the prophylaxis for the infants -->
 						jq(".prophylaxis").each(function(){
 							hideContainer("#" + jq(this).attr("id"));

@@ -57,6 +57,11 @@
             }
         </ifMode>
         <ifMode mode="ENTER" include="FALSE">
+            <!-- Hide HIV Exposure status if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '164921')"/>" == '')
+            {
+                hideContainer('#infant-hiv-exposure-status-container');
+            }
             <!-- Hide infant prophylaxis adherence if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '1658')"/>" == '')
             {
@@ -101,6 +106,12 @@
             if("<lookup expression="patient.getPatientIdentifier('ART Unique Number')"/>" == '')
             {
                 hideContainer('#infant-art-number-container');
+            }
+            <!-- Hide Breastfeeding status if it was not captured in this encounter -->
+
+            if("<lookup expression="fn.getObs($encounter, '1151')"/>" == '')
+            {
+                hideContainer('#breastfeeding-container');
             }
             <!-- Hide Other breastfeeding if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '163719')"/>" == '')
@@ -504,7 +515,7 @@
             <excludeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 138571 ||
                                     $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId == 1169 ||
                                     $fn.latestObs('164921').valueCoded.conceptId == 164920 ">
-                <p>
+                <p id="infant-hiv-exposure-status-container">
                     <label>
                         HIV Exposure Status
                     </label>
