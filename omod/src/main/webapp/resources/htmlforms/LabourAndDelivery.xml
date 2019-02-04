@@ -771,7 +771,7 @@
 				<!-- ANC Re-test at 36 weeks -->
 				jq('#anc-retest-thirty-six-weeks').click(function(){
 				<!-- positive or unknown -->
-					if(getValue('anc-retest-thirty-six-weeks.value') == 138571 || getValue('anc-retest-thirty-six-weeks.value') == 1067) {
+					if(getValue('anc-retest-thirty-six-weeks.value') == 138571) {
 						showContainer('#art-initiation-container');
 						showContainer('#recent-viral-load-container');
 						<!-- show the prophylaxis for the infants -->
