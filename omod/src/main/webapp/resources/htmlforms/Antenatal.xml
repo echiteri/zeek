@@ -25,6 +25,8 @@
 			hideContainer('#pregnancy-detail-container');
 			<!-- hideContainer('#hiv-test-container'); -->
 			hideContainer('#hiv-test-result-container');
+			hideContainer('#partner-hiv-test-container');
+			hideContainer('#partner-date-tested-container');
 			hideContainer('#art-initiation-container');
 			hideContainer('#art-number-container');
 			hideContainer('#refused-art-container');
@@ -33,6 +35,8 @@
 			hideContainer('#viral-load-test-date-container');
 			hideContainer('#viral-load-results-container');
 			hideContainer('#viral-load-copies-container');
+			<!-- hideContainer('#partner-testing-container'); -->
+			hideContainer('#partner-hiv-test-container');
 			<!-- hideContainer('#transfer-out-container'); -->
 			hideContainer('#transfer-out-to-container');
 			hideContainer('#transfer-out-date-container');
@@ -41,6 +45,13 @@
 				|| "<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
 			{
 				hideContainer('#hiv-test-container');
+			}
+
+			<!-- Don't show Partner HIV status  if Partner HIV status = positive, or Partner HIV test done = Previously Known Positive -->
+			if("<lookup complexExpression="$fn.latestObs('1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
+				|| "<lookup complexExpression="$fn.latestObs('161557AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
+			{
+				hideContainer('#partner-testing-container');
 			}
 			<!-- Don't show ART initiation if ART initiation date exists -->
 			if(!"<lookup complexExpression="$fn.latestObs('159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').obsDatetime"/>")
@@ -167,7 +178,24 @@
 			{
 				hideContainer('#transfer-out-date-container');
 			}
+			<!-- Hide the partner testing if it was not captured in this encounter -->
 
+			if("<lookup expression="fn.getObs($encounter, '161557')"/>" == '')
+
+			{
+				hideContainer('#partner-testing-container');
+			}
+
+			<!-- Hide the Partner HIV Status if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '1436')"/>" == '')
+			{
+				hideContainer('#partner-hiv-test-container');
+			}
+			<!-- Hide the Date partner tested if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164957')"/>" == '')
+			{
+				hideContainer('#partner-date-tested-container');
+			}
 		</ifMode>
 
 
@@ -182,6 +210,15 @@
 
 				<!-- if there is a a first visit the pregnancy information is required -->
 				var regex_ptrackerid = /^[0-9]{5}[A-Z]{1}[0-9]{6,8}$$/; <!-- ID format: 12345A17000001 Mother  -->
+				<!-- Validate ANC followup question -->
+				if ($('#antenatal-visit-type').length > 0) {
+					setValue('antenatal-visit-type.error', '');
+
+					if (!getValue('antenatal-visit-type.value')) {
+						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
+						return false;
+					}
+				}
 				setValue('ptrackerid.error', '');
 				<!-- Check if the PTracker ID meets the Regex -->
 				if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
@@ -190,6 +227,7 @@
 						return false;
 					}
 				}
+
 				if (getValue('antenatal-visit-type.value') == 164180) {
 					setValue('gravida.error', '');
 					setValue('para.error', '');
@@ -256,16 +294,6 @@
 					}
 				}
 
-				<!-- Validate ANC followup question -->
-				if ($('#antenatal-visit-type').length > 0) {
-					setValue('antenatal-visit-type.error', '');
-
-					if (!getValue('antenatal-visit-type.value')) {
-						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
-						return false;
-					}
-				}
-
 				<!-- Validation rules for Testing and Initiation -->
 				<!-- clear the previous errors -->
 				<!-- Validate HIV test done -->
@@ -310,10 +338,13 @@
 					}
 				}
 				<!-- Validate recent viral load done-->
+
 				if (!jq('#recent-viral-load-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
+					
 					setValue('recent-viral-load.error', '');
 					<!-- the recent-viral-load is required if Test status is KP -->
-					if ($('#hiv-test').length > 0)
+					<!-- if ($('#hiv-test').length > 0) -->
+					if (!jq('#hiv-test-container').hasClass('hidden'))
 					{
 						if (getValue('hiv-test.value') == 164911){
 							if (!getValue('recent-viral-load.value')) {
@@ -329,6 +360,16 @@
 					}
 				}
 
+				<!-- Validate viral load test date-->
+				if (!jq('#viral-load-test-date-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
+					setValue('viral_load_test_date.error', '');
+					<!-- the viral-load-test-date is required  -->
+						if (!getValue('viral_load_test_date.value')) {
+							getField('viral_load_test_date.error').html('viral load test date must be provided').show();
+							return false;
+						}
+				}
+
 				<!-- Validate viral load results -->
 				if (!jq('#viral-load-results-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
 					setValue('viral-load-results.error', '');
@@ -341,6 +382,56 @@
 					}
 				}
 
+				<!-- Validate viral load copies -->
+				if (!jq('#viral-load-copies-container').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
+					setValue('viral_load_copies.error', '');
+					<!-- the viral-load-results is required  -->
+					if (getValue('viral-load-results.value') == 1301){
+						if (!getValue('viral_load_copies.value')) {
+							getField('viral_load_copies.error').html('Viral load copies must be provided').show();
+							return false;
+						}
+					}
+				}
+
+				<!-- Validate Partner HIV test done -->
+				setValue('partner-testing.error', '');
+				if (!getValue('partner-testing.value')) {
+					getField('partner-testing.error').html('The Partner HIV test must be provided').show();
+					return false;
+				}
+
+				<!-- Validate Partner HIV test result -->
+				if (!jq('#partner-hiv-test-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
+					setValue('partner-hiv-test.error', '');
+						if (!getValue('partner-hiv-test.value')) {
+							getField('partner-hiv-test.error').html('The Partner HIV test status must be provided').show();
+							return false;
+						}
+				}
+				<!-- validate Date partner tested -->
+				if (!jq('#partner-date-tested-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
+					setValue('partner_date_tested.error', '');
+						if (!getValue('partner_date_tested.value')) {
+							getField('partner_date_tested.error').html('The Date Partner test status must be provided').show();
+							return false;
+						}
+				}
+				<!-- Date partner testes must be before the current visit date -->
+				if (!jq('#partner-date-tested-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
+					setValue('partner_date_tested.error', '');
+					alert("line 404");
+						if (getValue('partner_date_tested.value')) {
+							var DatePartnerTested = new Date(changeFieldDateToJavascriptDate(getValue('partner_date_tested.value')));
+							var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
+
+							if (encounterDate &lt; DatePartnerTested) {
+								getField('partner_date_tested.error').html('The Date partner tested must be before the visit date.').show();
+								return false;
+							}
+						}
+				}
+				
 				<!-- Validation rules for follow up -->
 				setValue('transfer-out-to.error', '');
 				setValue('transfer-out.error', '');
@@ -669,6 +760,14 @@
 						jq('#next_visit_date_missing').change(function(){
 							handleMissingSelection('next_visit_date');
 						});
+						jq('#partner_date_tested_missing').change(function(){
+							handleMissingSelection('partner_date_tested');
+							if (getValue('partner_date_tested_missing.value')) {
+								disableContainer('#partner_date_tested');
+							} else {
+								enableContainer('#partner_date_tested');
+							}
+						});
 					});
 				</script>
 			</p>
@@ -971,7 +1070,7 @@
 							});
 						});
 					</script>
-			</p><br/>
+			</p>
 			<p id="viral-load-copies-container" class="narrow">
 				<label>Viral load (copies/ml)</label>
 
@@ -979,7 +1078,36 @@
 
 				<obs id="viral_load_copies_missing" conceptId="164940" style="checkbox" answerLabel="answerLabel" labelText="Viral load copies missing"/>
 			</p>
-		</div>
+			<p id="partner-testing-container">
+				<label>Partner HIV test done?</label>
+				<obs id="partner-testing" conceptId="161557AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164911,1065,1066,164932" answerLabels="Previously known positive,Yes,No,Missing" style="radio" answerSeparator="" />
+				<script>
+					jq(function() {
+						jq('#partner-testing').click(function(){
+							if (getValue('partner-testing.value') == 1065) {
+								showContainer('#partner-hiv-test-container');
+								showContainer('#partner-date-tested-container');
+							} else {
+								hideContainer('#partner-hiv-test-container');
+								hideContainer('#partner-date-tested-container');
+							}
+						});
+						jq('#partner_date_tested_missing').change(function(){
+							handleMissingSelection('partner_date_tested');
+						});
+					});
+				</script>
+			</p>
+			<p id="partner-hiv-test-container" class="">
+			<label>Partner HIV status</label>
+			<obs id="partner-hiv-test" style="radio" conceptId="1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="138571,664,1067,164932" answerLabels="Positive,Negative,Unknown, Missing" answerSeparator="" />
+			</p>
+			<p class="narrow" id="partner-date-tested-container">
+				<label>Date partner tested</label>
+				<obs id="partner_date_tested" conceptId="164957" allowFutureDates="false" />
+				<obs id="ppartner_date_tested_missing" conceptId="164958" style="checkbox" answerLabel="answerLabel" labelText="Date partner tested missing"/>
+			</p>
+		</div> 
 	</section>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Followup">
 		<script>
