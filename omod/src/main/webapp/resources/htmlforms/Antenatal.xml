@@ -23,6 +23,16 @@
 			setValue('encounterDate.value', '');
 			<!-- By default hide containers -->
 			hideContainer('#pregnancy-detail-container');
+			<!-- Hide pregnancy details -->
+			hideContainer('#gravida-container-label');
+			hideContainer('#gravida-container-input');
+			hideContainer('#para-container-label');
+			hideContainer('#para-container-input');
+			hideContainer('#lmp-container-label');
+			hideContainer('#lmp-container-input');
+			hideContainer('#edd-container-label');
+			hideContainer('#edd-container-input');
+			<!-- End pregnancy details -->
 			<!-- hideContainer('#hiv-test-container'); -->
 			hideContainer('#hiv-test-result-container');
 			hideContainer('#partner-hiv-test-container');
@@ -411,23 +421,26 @@
 				}
 				<!-- validate Date partner tested -->
 				if (!jq('#partner-date-tested-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
+					if (!getField('partner_date_tested.value').is(':disabled')){ 
 					setValue('partner_date_tested.error', '');
 						if (!getValue('partner_date_tested.value')) {
 							getField('partner_date_tested.error').html('The Date Partner test status must be provided').show();
 							return false;
 						}
+					}
 				}
 				<!-- Date partner testes must be before the current visit date -->
 				if (!jq('#partner-date-tested-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
 					setValue('partner_date_tested.error', '');
-					alert("line 404");
-						if (getValue('partner_date_tested.value')) {
-							var DatePartnerTested = new Date(changeFieldDateToJavascriptDate(getValue('partner_date_tested.value')));
-							var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
+						if (!getField('partner_date_tested.value').is(':disabled')){ 
+							if (getValue('partner_date_tested.value')) {
+								var DatePartnerTested = new Date(changeFieldDateToJavascriptDate(getValue('partner_date_tested.value')));
+								var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
 
-							if (encounterDate &lt; DatePartnerTested) {
-								getField('partner_date_tested.error').html('The Date partner tested must be before the visit date.').show();
-								return false;
+								if (encounterDate &lt; DatePartnerTested) {
+									getField('partner_date_tested.error').html('The Date partner tested must be before the visit date.').show();
+									return false;
+								}
 							}
 						}
 				}
@@ -695,11 +708,31 @@
 						jq('#antenatal-visit-type').click(function(){
 							if (getValue('antenatal-visit-type.value') == 164180){
 								showContainer('#pregnancy-detail-container'); <!-- Show pregnancy detail container -->
+								<!-- Show pregnancy details -->
+								showContainer('#gravida-container-label');
+								showContainer('#gravida-container-input');
+								showContainer('#para-container-label');
+								showContainer('#para-container-input');
+								showContainer('#lmp-container-label');
+								showContainer('#lmp-container-input');
+								showContainer('#edd-container-label');
+								showContainer('#edd-container-input');
+								<!-- End pregnancy details -->
 								showContainer('#ptrackerid-container'); <!-- show the entire container -->
 								showContainer('#ptrackerid-container-input');
 								hideContainer('#ptrackerid-container-display');
 							} else if (getValue('antenatal-visit-type.value') == 160530) {
 								hideContainer('#pregnancy-detail-container'); <!-- Hide pregnancy detail container -->
+								<!-- Hide pregnancy details -->
+								hideContainer('#gravida-container-label');
+								hideContainer('#gravida-container-input');
+								hideContainer('#para-container-label');
+								hideContainer('#para-container-input');
+								hideContainer('#lmp-container-label');
+								hideContainer('#lmp-container-input');
+								hideContainer('#edd-container-label');
+								hideContainer('#edd-container-input');
+								<!-- End pregnancy details -->
 								showContainer('#ptrackerid-container');  <!-- Show container to display the Read Only PTracker ID -->
 								if($('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing"){
 									showContainer('#ptrackerid-container-display');
@@ -1092,9 +1125,9 @@
 								hideContainer('#partner-date-tested-container');
 							}
 						});
-						jq('#partner_date_tested_missing').change(function(){
+						<!-- jq('#partner_date_tested_missing').change(function(){
 							handleMissingSelection('partner_date_tested');
-						});
+						}); -->
 					});
 				</script>
 			</p>
@@ -1105,7 +1138,7 @@
 			<p class="narrow" id="partner-date-tested-container">
 				<label>Date partner tested</label>
 				<obs id="partner_date_tested" conceptId="164957" allowFutureDates="false" />
-				<obs id="ppartner_date_tested_missing" conceptId="164958" style="checkbox" answerLabel="answerLabel" labelText="Date partner tested missing"/>
+				<obs id="partner_date_tested_missing" conceptId="164958" style="checkbox" answerLabel="answerLabel" labelText="Date partner tested missing"/>
 			</p>
 		</div> 
 	</section>
