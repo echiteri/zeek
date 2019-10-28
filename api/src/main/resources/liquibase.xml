@@ -885,4 +885,38 @@
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		</sql>
 	</changeSet>
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_identifer" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_identifer</comment>
+		<sql>
+
+			update patient_identifier a
+			inner join location b ON a.location_id = b.location_id
+			Inner join location_uids c on b.uuid = c.uuid
+			Set a.location_id = 493
+			where
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			and b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_encounter" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_encounter</comment>
+		<sql>
+
+			update encounter a
+			inner join location b ON a.location_id = b.location_id
+			Inner join location_uids c on b.uuid = c.uuid
+			Set a.location_id = 493
+			where
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			and b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+
 </databaseChangeLog>
