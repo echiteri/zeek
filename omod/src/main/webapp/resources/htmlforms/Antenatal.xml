@@ -226,6 +226,7 @@
 
 					if (!getValue('antenatal-visit-type.value')) {
 						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
+							alert('No value for ANC');
 						return false;
 					}
 				}
@@ -234,6 +235,7 @@
 				if($('#ptrackerid-container-input').is(':visible')){<!-- only validate if not hidden -->
 					if(!regex_ptrackerid.test(getValue('ptrackerid.value'))){
 						getField('ptrackerid.error').html('PTracker ID format is wrong.').show();
+		alert('ptracker_format is wrong');
 						return false;
 					}
 				}
@@ -245,13 +247,14 @@
 					setValue('edd.error', '');
 
 					<!-- Validate PTracker ID provision -->
-					if (!getValue('ptrackerid.value')) {
+					if (!getField('ptrackerid.value')) {
 						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
 
 					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
 						getField('gravida.error').html('Gravida must be provided').show();
+					alert('herobiam look here_gravida');
 						return false;
 					}
 					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
@@ -268,7 +271,7 @@
 					}
 				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing") {
 					<!-- Validate PTracker ID provision -->
-					if (!getValue('ptrackerid.value')) {
+					if (!getField('ptrackerid.value')) {
 						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
