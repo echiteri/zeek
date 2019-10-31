@@ -226,7 +226,6 @@
 
 					if (!getValue('antenatal-visit-type.value')) {
 						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
-							alert('No value for ANC');
 						return false;
 					}
 				}
@@ -254,7 +253,6 @@
 
 					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
 						getField('gravida.error').html('Gravida must be provided').show();
-					alert('herobiam look here_gravida');
 						return false;
 					}
 					if (!getField('para.value').is(':disabled') &amp;&amp; !getValue('para.value')) {
