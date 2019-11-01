@@ -1011,5 +1011,18 @@
 	</changeSet>
 
 
+	<changeSet id="retire_karibib_HC" author="Hero">
+		<comment>retire_karibib_HC</comment>
+		<sql>
+
+			UPDATE location
+			SET retired = 1
+			WHERE
+			location_id = 492
+
+		</sql>
+	</changeSet>
+
+
 
 </databaseChangeLog>
