@@ -178,6 +178,19 @@
 			{
 				hideContainer('#next-visit-date-container');
 			}-->
+
+
+
+
+			<!-- Hide the partner testing if it was not captured in this encounter -->
+
+			if("<lookup expression="fn.getObs($encounter, '161557')"/>" == '')
+
+			{
+			hideContainer('#partner-testing-container');
+			}
+
+
 			<!-- Hide Transfer out to if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '159495')"/>" == '')
 			{
@@ -188,13 +201,7 @@
 			{
 				hideContainer('#transfer-out-date-container');
 			}
-			<!-- Hide the partner testing if it was not captured in this encounter -->
 
-			if("<lookup expression="fn.getObs($encounter, '161557')"/>" == '')
-
-			{
-				hideContainer('#partner-testing-container');
-			}
 
 			<!-- Hide the Partner HIV Status if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '1436')"/>" == '')
@@ -405,17 +412,21 @@
 				}
 
 				<!-- Validate Partner HIV test done -->
+				if (!jq('#viral-load-copies-container').hasClass('hidden')){
 				setValue('partner-testing.error', '');
 				if (!getValue('partner-testing.value')) {
 					getField('partner-testing.error').html('The Partner HIV test must be provided').show();
+					alert('partner_testingdone_check');
 					return false;
 				}
+			}
 
 				<!-- Validate Partner HIV test result -->
 				if (!jq('#partner-hiv-test-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
 					setValue('partner-hiv-test.error', '');
 						if (!getValue('partner-hiv-test.value')) {
 							getField('partner-hiv-test.error').html('The Partner HIV test status must be provided').show();
+		alert('partner_testingresult_check');
 							return false;
 						}
 				}
@@ -425,6 +436,7 @@
 					setValue('partner_date_tested.error', '');
 						if (!getValue('partner_date_tested.value')) {
 							getField('partner_date_tested.error').html('The Date Partner test status must be provided').show();
+		alert('partner_testingdate_check');
 							return false;
 						}
 					}
@@ -439,6 +451,7 @@
 
 								if (encounterDate &lt; DatePartnerTested) {
 									getField('partner_date_tested.error').html('The Date partner tested must be before the visit date.').show();
+		alert('partner_testingbefore_check');
 									return false;
 								}
 							}
