@@ -1016,7 +1016,7 @@
 		<sql>
 
 			UPDATE location
-			SET retired = 1
+			SET retired = 1, retire_reason = 'Karibib HC was renamed to DR sam Nuyooma HC'
 			WHERE
 			location_id = 492
 
