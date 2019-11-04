@@ -885,4 +885,144 @@
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		</sql>
 	</changeSet>
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_identifer" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_identifer</comment>
+		<sql>
+
+			UPDATE patient_identifier a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_encounter" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_encounter</comment>
+		<sql>
+
+			UPDATE encounter a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_appointment_block" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_appointment_block</comment>
+		<sql>
+
+			UPDATE appointmentscheduling_appointment_block a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_attribute" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_attribute</comment>
+		<sql>
+
+			UPDATE location_attribute a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+
+	<changeSet id="delete_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_tag_map" author="Hero">
+		<comment>delete_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_tag_map</comment>
+		<sql>
+
+			DELETE FROM location_tag_map
+			WHERE
+			location_id = 492
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_obs" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_obs</comment>
+		<sql>
+
+			UPDATE obs a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_program" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_program</comment>
+		<sql>
+
+			UPDATE patient_program a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_visit" author="Hero">
+		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_visit</comment>
+		<sql>
+
+			UPDATE visit a
+			INNER JOIN location b ON a.location_id = b.location_id
+			INNER JOIN location_uids c on b.uuid = c.uuid
+			SET a.location_id = 493
+			WHERE
+			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="retire_karibib_HC" author="Hero">
+		<comment>retire_karibib_HC</comment>
+		<sql>
+
+			UPDATE location
+			SET retired = 1, retire_reason = 'Karibib HC was renamed to DR sam Nuyooma HC'
+			WHERE
+			location_id = 492
+
+		</sql>
+	</changeSet>
+
+
+
 </databaseChangeLog>
