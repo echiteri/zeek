@@ -233,7 +233,6 @@
 
 					if (!getValue('antenatal-visit-type.value')) {
 						getField('antenatal-visit-type.error').html('The ANC followup question must be answered').show();
-		alert('followupmustbeanswered');
 						return false;
 					}
 				}
