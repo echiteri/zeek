@@ -62,6 +62,16 @@
             {
                 hideContainer('#infant-hiv-exposure-status-container');
             }
+            <!-- Hide ARV Prophylaxis status if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '1148')"/>" == '')
+            {
+            hideContainer('#infant-prophylaxis-status-container');
+            }
+            <!-- Hide  CTX Prophylaxis status if it was not captured in this encounter -->
+            if("<lookup expression="fn.getObs($encounter, '164928')"/>" == '')
+            {
+            hideContainer('#infant-ctx-status-container');
+            }
             <!-- Hide infant prophylaxis adherence if it was not captured in this encounter -->
             if("<lookup expression="fn.getObs($encounter, '1658')"/>" == '')
             {
