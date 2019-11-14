@@ -174,9 +174,10 @@
             beforeSubmit.push(function() {
                 <!-- Validate Infant HIV exposure status -->
                 if (jq('#infant-hiv-exposure-status').length > 0) {<!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-hiv-exposure-status-container').hasClass('hidden')) {
+                    if (!jq('#infant-hiv-exposure-status-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-hiv-exposure-status.error', '');
                         if (!getValue('infant-hiv-exposure-status.value')) {
+                        getField('infant-hiv-exposure-status.error').html('Infant HIV exposure status must be provided').show();
                         return false;
                     }
 
@@ -186,7 +187,7 @@
 
                 <!-- Validate ARV Prophylaxis status -->
                 if (jq('#infant-prophylaxis-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-prophylaxis-status-container').hasClass('hidden')) {
+                    if (!jq('#infant-prophylaxis-status-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-prophylaxis-status.error', '');
                         if (jq('#infant-hiv-exposure-status').length > 0) { <!-- exposure status is not excluded -->
                             if (getValue('infant-hiv-exposure-status.value') == 164920) {
