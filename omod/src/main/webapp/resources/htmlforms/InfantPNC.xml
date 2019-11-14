@@ -176,13 +176,14 @@
                 if (jq('#infant-hiv-exposure-status').length > 0) {<!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
                     if (!jq('#infant-hiv-exposure-status-container').hasClass('hidden')) {
                         setValue('infant-hiv-exposure-status.error', '');
-                    if (!getValue('infant-hiv-exposure-status.value')) {
+                        if (!getValue('infant-hiv-exposure-status.value')) {
                         return false;
                     }
 
                   }
 
                 }
+
                 <!-- Validate ARV Prophylaxis status -->
                 if (jq('#infant-prophylaxis-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
                     if (!jq('#infant-prophylaxis-status-container').hasClass('hidden')) {
@@ -202,9 +203,10 @@
                     }
                     }
                 }
+
                 <!-- Validate ARV Adherence -->
                 if (jq('#infant-prophylaxis-adherence').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-prophylaxis-adherence-container').hasClass('hidden')) {
+                    if (!jq('#infant-prophylaxis-adherence-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                      setValue('infant-prophylaxis-adherence.error', '');
                         if (getValue('infant-prophylaxis-status.value') == 164922) {
                             if (!getValue('infant-prophylaxis-adherence.value')) {
@@ -214,6 +216,7 @@
                         }
                     }
                 }
+
                 <!-- Validate CTX Prophylaxis status -->
                 if (jq('#infant-ctx-status').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
                     setValue('infant-ctx-status.error', '');
@@ -231,9 +234,10 @@
                         }
                     }
                 }
+
                 <!-- Validate CTX Adherence status -->
                 if (jq('#infant-ctx-adherence').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-ctx-adherence-container').hasClass('hidden')) {
+                    if (!jq('#infant-ctx-adherence-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-ctx-adherence.error', '');
                         if (getValue('infant-ctx-status.value') == 164927) {
                             if (!getValue('infant-ctx-adherence.value')) {
@@ -243,9 +247,10 @@
                         }
                     }
                 }
+
                 <!-- Validate infant HIV test status? -->
                 if (jq('#infant-hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-hiv-test-container').hasClass('hidden')) {
+                    if (!jq('#infant-hiv-test-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-hiv-test.error', '');
                         if (!getValue('infant-hiv-test.value')) {
                             getField('infant-hiv-test.error').html('Infant HIV test status must be provided').show();
@@ -253,9 +258,10 @@
                         }
                     }
                 }
+
                 <!-- Validate infant HIV test type? -->
                 if (!jq('#infant-test-type').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-test-type-container').hasClass('hidden')) {
+                    if (!jq('#infant-test-type-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-test-type.error', '');
                         if (getValue('infant-hiv-test.value') == 164912) {
                             if (!getValue('infant-test-type.value')) {
@@ -265,9 +271,10 @@
                          }
                     }
                 }
+
                 <!-- Validate infant DNA PCR test result? -->
                 if (!jq('#dnapcr-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#dnapcr-test-result-container').hasClass('hidden')) {
+                    if (!jq('#dnapcr-test-result-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('dnapcr-test-result.error', '');
                         if (getValue('infant-test-type.value') == 844) {
                             if (!getValue('dnapcr-test-result.value')) {
@@ -277,9 +284,10 @@
                         }
                     }
                 }
+
                 <!-- Validate infant Rapid test result? -->
                 if (jq('#rapid-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (jq('#rapid-test-result-container').hasClass('hidden')) {
+                    if (jq('#rapid-test-result-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('rapid-test-result.error', '');
                         if (getValue('infant-test-type.value') == 1042) {
                             if (!getValue('rapid-test-result.value')) {
@@ -289,9 +297,10 @@
                         }
                     }
                 }
+
                 <!-- Validate infant Confirmatory test done? -->
                 if (jq('#confirmatory-test-done').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#confirmatory-test-done-container').hasClass('hidden')) {
+                    if (!jq('#confirmatory-test-done-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('confirmatory-test-done.error', '');
                         if ((getValue('dnapcr-test-result.value') || getValue('rapid-test-result.value')) == 703) {
                             if (!getValue('confirmatory-test-done.value')) {
@@ -301,9 +310,10 @@
                         }
                     }
                 }
+
                 <!-- Validate infant Confirmatory test result? -->
                 if (jq('#final-test-result').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#final-test-result-container').hasClass('hidden')) {
+                    if (!jq('#final-test-result-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('final-test-result.error', '');
                         if (getValue('confirmatory-test-done.value') == 1065) {
                             if (!getValue('final-test-result.value')) {
@@ -313,9 +323,10 @@
                         }
                     }
                 }
+
                 <!-- Validate infant Confirmatory test result? -->
                 if (jq('#infant-art-link').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#infant-art-link-container').hasClass('hidden')) {
+                    if (!jq('#infant-art-link-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-art-link.error', '');
                         if (getValue('final-test-result.value') == 703) {
                             if (!getValue('infant-art-link.value')) {
@@ -327,8 +338,7 @@
                 }
 
 
-
-                if (!jq('#infant-art-number-container').hasClass('hidden')) {
+                if (!jq('#infant-art-number-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                     setValue('infant_art_number_missing.error', '');
                     if (!getField('infant_art_number_missing.value')) {
                         getField('infant_art_number_missing.error').html('The Infant art number  must be provided').show();
@@ -338,10 +348,7 @@
 
 
 
-
-
-
-                if (!jq('#breastfeeding-container').hasClass('hidden')) {
+                if (!jq('#breastfeeding-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                     setValue('breastfeeding.error', '');
                      if (!getValue('breastfeeding.value')) {
                         getField('breastfeeding.error').html('The Infant breastfeeding status must be provided').show();
@@ -352,8 +359,8 @@
 
 
                 if (jq('#other_feeding_method').length > 0) {<!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                    if (!jq('#other-breastfeeding-container').hasClass('hidden')) {
-                    setValue('other_feeding_method.error', '');
+                    if (!jq('#other-breastfeeding-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
+                        setValue('other_feeding_method.error', '');
                         if (!getField('other_feeding_method.value')) {
                             getField('other_feeding_method.error').html('The Infant other breastfeeding status must be provided').show();
                             return false;
@@ -362,7 +369,7 @@
                 }
 
         <!-- Validate infant transfer status? -->
-                    if (!jq('#infant-transfer-status-container').hasClass('hidden')) {
+                    if (!jq('#infant-transfer-status-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant-transfer-status.error', '');
                             if (!getValue('infant-transfer-status.value')) {
                                 getField('infant-transfer-status.error').html('Infant Transfer status must be provided').show();
@@ -372,8 +379,7 @@
 
 
 
-
-                    if (!jq('#transfer-in-from-container').hasClass('hidden')) {
+                    if (!jq('#transfer-in-from-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('transfer-in-from.error', '');
                         if (!getValue('transfer-in-from.value')) {
                             getField('transfer-in-from.error').html('The Infant transfer in from must be provided').show();
@@ -383,9 +389,8 @@
 
 
 
-
                     if (jq('#transfer-out-to').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
-                        if (!jq('#transfer-out-to-container').hasClass('hidden')) {
+                        if (!jq('#transfer-out-to-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('transfer-out-to.error', '');
                             if (!getValue('transfer-out-to.value')) {
                                 getField('transfer-out-to.error').html('The Infant transfer out to must be provided').show();
@@ -395,8 +400,7 @@
                     }
 
 
-
-                    if (!jq('#transfer-in-date-container').hasClass('hidden')) {
+                    if (!jq('#transfer-in-date-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('transfer_in_date.error', '');
                         if (!getValue('transfer_in_date.value')) {
                             getField('transfer_in_date.error').html('The Infant transfer in date must be provided').show();
@@ -406,8 +410,7 @@
 
 
 
-
-                    if (!jq('#transfer-out-date-container').hasClass('hidden')) {
+                    if (!jq('#transfer-out-date-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('transfer_out_date.error', '');
                         if (!getValue('transfer_out_date.value')) {
                             getField('transfer_out_date.error').html('The Infant transfer out date must be provided').show();
@@ -417,8 +420,7 @@
 
 
 
-
-                    if (!jq('#date-of-even-container').hasClass('hidden')) {
+                    if (!jq('#date-of-even-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('date_of_event.error', '');
                             if (!getValue('date_of_event.value')) {
                                 getField('date_of_event.error').html('The Infant transfer date of event must be provided').show();
@@ -429,7 +431,7 @@
 
 
 
-                    if (!jq('#infant-death-date-container').hasClass('hidden')) {
+                    if (!jq('#infant-death-date-container').hasClass('hidden')) {<!-- check the existence of the element and doesn't have a class hidden -->
                         setValue('infant_death_date.error', '');
                         if (!getValue('infant_death_date.value')) {
                             getField('infant_death_date.error').html('The Infant transfer date of death must be provided').show();

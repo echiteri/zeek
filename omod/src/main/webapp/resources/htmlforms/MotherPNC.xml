@@ -242,6 +242,7 @@
 						}
 					}
 				}
+
 				<!-- Validate recent viral load done-->
 				if($('#recent-viral-load-container').is(':visible') == 'true'){<!-- only validate if not hidden -->
 					if ($('#recent-viral-load').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
@@ -286,6 +287,7 @@
 						}
 					}
 				}
+
 				<!-- var first_postnatal_date = getValue('first-postnatal-visit-date.value'); -->
 				var first_postnatal_date = getValue('encounterDate.value');
 				var current_date = new Date();

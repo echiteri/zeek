@@ -435,7 +435,6 @@
 					setValue('partner_date_tested.error', '');
 						if (!getValue('partner_date_tested.value')) {
 							getField('partner_date_tested.error').html('The Date Partner test status must be provided').show();
-		alert('partner_testingdate_check');
 							return false;
 						}
 					}
@@ -450,7 +449,7 @@
 
 								if (encounterDate &lt; DatePartnerTested) {
 									getField('partner_date_tested.error').html('The Date partner tested must be before the visit date.').show();
-		alert('partner_testingbefore_check');
+
 									return false;
 								}
 							}
