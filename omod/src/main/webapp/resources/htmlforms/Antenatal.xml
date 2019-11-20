@@ -178,6 +178,19 @@
 			{
 				hideContainer('#next-visit-date-container');
 			}-->
+
+
+
+
+			<!-- Hide the partner testing if it was not captured in this encounter -->
+
+			if("<lookup expression="fn.getObs($encounter, '161557')"/>" == '')
+
+			{
+			hideContainer('#partner-testing-container');
+			}
+
+
 			<!-- Hide Transfer out to if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '159495')"/>" == '')
 			{
@@ -188,13 +201,7 @@
 			{
 				hideContainer('#transfer-out-date-container');
 			}
-			<!-- Hide the partner testing if it was not captured in this encounter -->
 
-			if("<lookup expression="fn.getObs($encounter, '161557')"/>" == '')
-
-			{
-				hideContainer('#partner-testing-container');
-			}
 
 			<!-- Hide the Partner HIV Status if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '1436')"/>" == '')
@@ -245,10 +252,12 @@
 					setValue('edd.error', '');
 
 					<!-- Validate PTracker ID provision -->
-					if (!getValue('ptrackerid.value')) {
+					if (!jq('#ptrackerid-container-input').hasClass('hidden')) { <!-- check the existence of the element and doesn't have a class hidden -->
+					if (!getField('ptrackerid.value')) {
 						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
+		}
 
 					if (!getField('gravida.value').is(':disabled') &amp;&amp; !getValue('gravida.value')) {
 						getField('gravida.error').html('Gravida must be provided').show();
@@ -268,7 +277,7 @@
 					}
 				} else if (getValue('antenatal-visit-type.value') == 160530 &amp;&amp; $('#ptrackerid_readonly').text().trim() == "PTracker ID is Missing") {
 					<!-- Validate PTracker ID provision -->
-					if (!getValue('ptrackerid.value')) {
+					if (!getField('ptrackerid.value')) {
 						getField('ptrackerid.error').html('PTracker ID must be provided').show();
 						return false;
 					}
@@ -280,8 +289,7 @@
 					var encounterDate = new Date(changeFieldDateToJavascriptDate(getValue('encounterDate.value')));
 					if (Date.parse(lmpDate)) {
 						if (encounterDate &lt; lmpDate) {
-							getField('lmp.error').html('The date of the last menstral period must be before the visit date ' +
-			changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
+							getField('lmp.error').html('The date of the last menstral period must be before the visit date ' + changeFieldDateToJavascriptDate(getValue('encounterDate.value'))).show();
 							return false;
 						}
 
@@ -405,11 +413,13 @@
 				}
 
 				<!-- Validate Partner HIV test done -->
+				if (!jq('#viral-load-copies-container').hasClass('hidden')){
 				setValue('partner-testing.error', '');
 				if (!getValue('partner-testing.value')) {
 					getField('partner-testing.error').html('The Partner HIV test must be provided').show();
 					return false;
 				}
+			}
 
 				<!-- Validate Partner HIV test result -->
 				if (!jq('#partner-hiv-test-container').hasClass('hidden')) {  <!--check the existence of the element and doesn't have a class hidden -->
@@ -439,6 +449,7 @@
 
 								if (encounterDate &lt; DatePartnerTested) {
 									getField('partner_date_tested.error').html('The Date partner tested must be before the visit date.').show();
+
 									return false;
 								}
 							}
