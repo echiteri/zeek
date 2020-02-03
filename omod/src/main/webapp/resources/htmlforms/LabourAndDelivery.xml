@@ -238,7 +238,7 @@
 					hideContainer('#infant-gender-'+ (i +1));
 				}
 				<!-- Hide birth date if it was not captured in this encounter -->
-				if("<lookup expression="fn.getObs($encounter, '164802').valueCoded.name"/>" == '')
+				if("<lookup expression="fn.getObs($encounter, '164802').obsDatetime"/>" == '')
 				{
 					hideContainer('#infant-birth-date-container-'+ (i +1));
 				}
