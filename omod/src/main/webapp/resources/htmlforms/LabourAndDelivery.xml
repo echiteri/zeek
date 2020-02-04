@@ -120,12 +120,15 @@
 			}
 
 
-			<!-- Don't show ANC HIV Status First Visit if ANC visit type is yes or NO-->
+			<!-- Don't show ANC HIV Status First Visit if ANC visit type is yes or NO and if HIV test status = previously known positive, or HIV test result = tested positive-->
 			if("<lookup complexExpression="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164180'
-			|| "<lookup complexExpression="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '160530')
+				||"<lookup complexExpression="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '160530'
+				||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
+				||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '664'
+				||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
 			{
-			hideContainer('#anc-hiv-status-container');
-			hideContainer('#anc-hiv-first-status-container');
+				hideContainer('#anc-hiv-status-container');
+				hideContainer('#anc-hiv-first-status-container');
 			}
 
 
@@ -154,8 +157,8 @@
 			<!-- Hide ANC HIV test first visit if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164959')"/>" =='')
 			{
-			hideContainer('#anc-hiv-status-container');
-			hideContainer('#anc-hiv-first-status-container');
+				hideContainer('#anc-hiv-status-container');
+				hideContainer('#anc-hiv-first-status-container');
 			}
 			<!-- Hide HIV Test Status if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
