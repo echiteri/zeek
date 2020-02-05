@@ -66,6 +66,26 @@
 			}
 		});
 
+		<!--Hide HIV Status if ANC HIV status response is Positive or known positive -->
+		jq('#anc-hiv-test').click(function(){
+			if(getValue('anc-hiv-test.value') == 164911) {
+				hideContainer('#hiv-test-container');
+				showContainer('#art-initiation-container');
+				showContainer('#recent-viral-load-container');
+
+			} else if (getValue('anc-hiv-test.value') == 703) {
+				hideContainer('#hiv-test-container');
+				showContainer('#art-initiation-container');
+				hideContainer('#recent-viral-load-container');
+			} else {
+				showContainer('#hiv-test-container');
+				hideContainer('#art-initiation-container');
+				hideContainer('#recent-viral-load-container');
+			}
+		});
+
+
+
 		<ifMode mode="ENTER">
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
