@@ -70,6 +70,7 @@
 		jq('#anc-hiv-test').click(function(){
 			if(getValue('anc-hiv-test.value') == 164911) {
 				hideContainer('#hiv-test-container');
+				hideContainer('#hiv-test-result-container');
 				showContainer('#art-initiation-container');
 				showContainer('#recent-viral-load-container');
 
@@ -77,10 +78,12 @@
 				hideContainer('#hiv-test-container');
 				showContainer('#art-initiation-container');
 				hideContainer('#recent-viral-load-container');
+				hideContainer('#hiv-test-result-container');
 			} else {
 				showContainer('#hiv-test-container');
 				hideContainer('#art-initiation-container');
 				hideContainer('#recent-viral-load-container');
+				showContainer('#hiv-test-result-container');
 			}
 		});
 
