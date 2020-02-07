@@ -66,6 +66,29 @@
 			}
 		});
 
+		<!--Hide HIV Status if ANC HIV status response is Positive or known positive -->
+		jq('#anc-hiv-test').click(function(){
+			if(getValue('anc-hiv-test.value') == 164911) {
+				hideContainer('#hiv-test-container');
+				hideContainer('#hiv-test-result-container');
+				showContainer('#art-initiation-container');
+				showContainer('#recent-viral-load-container');
+
+			} else if (getValue('anc-hiv-test.value') == 703) {
+				hideContainer('#hiv-test-container');
+				showContainer('#art-initiation-container');
+				hideContainer('#recent-viral-load-container');
+				hideContainer('#hiv-test-result-container');
+			} else {
+				showContainer('#hiv-test-container');
+				hideContainer('#art-initiation-container');
+				hideContainer('#recent-viral-load-container');
+				showContainer('#hiv-test-result-container');
+			}
+		});
+
+
+
 		<ifMode mode="ENTER">
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
@@ -118,6 +141,20 @@
 			{
 				hideContainer('#art-initiation-container');
 			}
+
+
+			<!-- Don't show ANC HIV Status First Visit if ANC visit type is yes or NO and if HIV test status = previously known positive, or HIV test result = tested positive-->
+			if("<lookup complexExpression="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164180'
+				||"<lookup complexExpression="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '160530'
+				||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
+				||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '664'
+				||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
+			{
+				hideContainer('#anc-hiv-status-container');
+				hideContainer('#anc-hiv-first-status-container');
+			}
+
+
 		</ifMode>
 		<ifMode mode="EDIT">
 			<!-- Check to restrict encounter editing to only latest encounters -->
@@ -139,6 +176,13 @@
 		</ifMode>
 		<ifMode mode="ENTER" include="FALSE">
 			hideContainer('#ptrackerid-container');
+
+			<!-- Hide ANC HIV test first visit if it was not captured in this encounter -->
+			if("<lookup expression="fn.getObs($encounter, '164959')"/>" =='')
+			{
+				hideContainer('#anc-hiv-status-container');
+				hideContainer('#anc-hiv-first-status-container');
+			}
 			<!-- Hide HIV Test Status if it was not captured in this encounter -->
 			if("<lookup expression="fn.getObs($encounter, '164401')"/>" == '')
 			{
@@ -408,6 +452,23 @@
 					}
 				}
 			}
+
+
+
+
+
+		<!-- Validate ANC HIV test first visit -->
+		if($('#anc-hiv-status-container').is(':visible')){<!-- only validate if not hidden -->
+			if ($('#anc-hiv-test').length > 0) { <!-- check the existence of the element, in case it is excluded from the form based on previous known state -->
+				setValue('anc-hiv-test.error', '');
+				if (!getValue('anc-hiv-test.value')) {
+					getField('anc-hiv-test.error').html('The results for the ANC HIV test first visit must be provided').show();
+					return false;
+				}
+			}
+
+		}
+
 				<!-- Breast feeding status only required if mother and baby are alive -->
 				<!-- TODO: Add required checks for breast feeding status when the mother and baby are alive -->
 				<!-- TODO: Add required check for infant propylaxis status if alive from birth -->
@@ -705,7 +766,25 @@
 	- TODO: Add a test when the last test was negative, and its more than 3 months since that test
 	-->
 	<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 138571 ||  $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') != 1169"> <!--#zeek - changed from: !$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') -->
-			
+
+
+		<section id="anc-hiv-first-status-container" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="First ANC HIV status">
+			<div class="section-container">
+
+			<p id="anc-hiv-status-container" class="">
+				<label>
+					ANC HIV Status
+				</label>
+				<obs id="anc-hiv-test" style="radio" conceptId="164959"
+					 answerConceptIds="164911,703,664,1067,1402 "
+					 answerLabels="Previously known positive,Positive,Negative,Unknown,Not tested"
+					 answerSeparator=""/>
+			</p>
+
+			</div>
+
+		</section>
+
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Status at Delivery">
 		<script>
 			jq(function() {
