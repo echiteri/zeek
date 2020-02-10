@@ -677,7 +677,7 @@
                      answerConceptIds="164922,164923,164924,164932" answerLabels="Received ARV prophylaxis,Never received ARV prophylaxis, Stopped ARV prophylaxis according to guideline, Missing" answerSeparator=""/>
             </p>
             <p id="infant-prophylaxis-adherence-container" class="">
-                <label>ARV AdherenceHerobiam</label>
+                <label>ARV Adherence</label>
                 <obs id="infant-prophylaxis-adherence" style="radio" conceptId="1658AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                      answerConceptIds="159405,159406,159407,1256,164932" answerLabels="Good,Fair,Poor,Starting prophylaxis on this visit,Missing" answerSeparator=""/>
             </p>
