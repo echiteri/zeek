@@ -89,6 +89,7 @@
 
 
 
+
 		<ifMode mode="ENTER">
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
@@ -153,6 +154,29 @@
 				hideContainer('#anc-hiv-status-container');
 				hideContainer('#anc-hiv-first-status-container');
 			}
+
+
+
+
+			<!-- Don't show ANC HIV Status First Visit if Was this client booked at ANC is yes and if HIV test status = previously known positive, or HIV test result = tested positive-->
+			jq('#client-booked').click(function(){
+				if((getValue('client-booked.value') == 1065)
+					&amp;&amp;("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571')
+					&amp;&amp;("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '664')
+					&amp;&amp;("<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911'))
+				{
+					hideContainer('#anc-hiv-first-status-container');
+					hideContainer('#anc-hiv-status-container');
+			<!-- Show ANC HIV Status First Visit if Was this client booked at ANC is yes and if HIV test status = unknown, or HIV test result = missing-->
+			} else if ((getValue('client-booked.value') == 1065)
+						&amp;&amp;("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '1067')
+						&amp;&amp;("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164932'))
+
+					{
+						showContainer('#anc-hiv-first-status-container');
+						showContainer('#anc-hiv-status-container');
+					}
+			});
 
 
 		</ifMode>
