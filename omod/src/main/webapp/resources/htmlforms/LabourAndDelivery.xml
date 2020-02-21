@@ -89,6 +89,7 @@
 
 
 
+
 		<ifMode mode="ENTER">
 				<!-- the encounter date should be empty on a new form -->
 				setValue('encounterDate.value', '');
@@ -148,11 +149,54 @@
 				||"<lookup complexExpression="$fn.latestObs('164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '160530'
 				||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571'
 				||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '664'
-				||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911')
+				||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911'
+				||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164912')
 			{
 				hideContainer('#anc-hiv-status-container');
 				hideContainer('#anc-hiv-first-status-container');
+
 			}
+
+
+
+
+			<!-- Don't show ANC HIV Status First Visit if Was this client booked at ANC is yes and if HIV test status = previously known positive, or HIV test result = tested positive-->
+			jq('#client-booked').click(function(){
+				if((getValue('client-booked.value') == 1065)
+					&amp;&amp;("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '138571')
+					||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '664'
+					||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164911'
+					||"<lookup complexExpression="$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164912')
+				{
+					hideContainer('#anc-hiv-first-status-container');
+					hideContainer('#anc-hiv-status-container');
+			<!-- Show ANC HIV Status First Visit if Was this client booked at ANC is yes and if HIV test status = unknown, or HIV test result = missing-->
+			} else if ((getValue('client-booked.value') == 1065)
+						&amp;&amp;("<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '1067')
+						||"<lookup complexExpression="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId"/>" == '164932')
+
+					{
+						showContainer('#anc-hiv-first-status-container');
+						showContainer('#anc-hiv-status-container');
+						showContainer('#first-anc-section-container');
+
+
+
+			} else if (getValue('client-booked.value') == 1066)
+
+					{
+						hideContainer('#anc-hiv-first-status-container');
+						hideContainer('#anc-hiv-status-container');
+
+			} else {
+
+						showContainer('#anc-hiv-first-status-container');
+						showContainer('#anc-hiv-status-container');
+						showContainer('#first-anc-section-container');
+
+
+					}
+			});
 
 
 		</ifMode>
@@ -767,17 +811,17 @@
 	-->
 	<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 138571 ||  $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') != 1169"> <!--#zeek - changed from: !$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') -->
 
-
+<span id="first-anc-section-container" class="hidden">
 		<section id="anc-hiv-first-status-container" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="First ANC HIV status">
 			<div class="section-container">
 
-			<p id="anc-hiv-status-container" class="">
+			<p id="anc-hiv-status-container">
 				<label>
-					ANC HIV Status
+					1st ANC HIV test status
 				</label>
 				<obs id="anc-hiv-test" style="radio" conceptId="164959"
-					 answerConceptIds="164911,703,664,1067,1402 "
-					 answerLabels="Previously known positive,Positive,Negative,Unknown,Not tested"
+					 answerConceptIds="164911,703,664,1067,1402,164932"
+					 answerLabels="Previously known positive,Positive,Negative,Unknown,Not tested,Missing"
 					 answerSeparator=""/>
 			</p>
 
@@ -785,6 +829,7 @@
 
 		</section>
 
+</span>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Status at Delivery">
 		<script>
 			jq(function() {
