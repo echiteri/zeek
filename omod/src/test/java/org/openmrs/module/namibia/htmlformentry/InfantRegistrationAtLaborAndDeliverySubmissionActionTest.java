@@ -73,7 +73,7 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 		Person infant = children.get(0).getPersonB();
 		
 		// check the DOB and Gender
-		Assert.assertEquals("DOB 2018-04-12 - actual " + infant.getBirthdate(), sdf.parse("2018-04-12"), infant.getBirthdate());
+		Assert.assertEquals("DOB 2020-04-12 - actual " + infant.getBirthdate(), sdf.parse("2020-04-12"), infant.getBirthdate());
 		Assert.assertEquals("Gender F actual " + infant.getGender(), "F", infant.getGender());
 		
 		// check the PTrackerID
