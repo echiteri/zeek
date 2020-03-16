@@ -115,7 +115,7 @@ public class AppConfigurationInitializer implements Initializer {
 		properties.add(new GlobalProperty("emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap", "default:7b0f5697-27e3-40c4-8bae-f4049abfb4ed"));
 		
 		// Remove validation for names
-		properties.add(new GlobalProperty("patient.nameValidationRegex", ""));
+		properties.add(new GlobalProperty("patient.nameValidationRegex", "^(([/]{2})?([!#`])?[a-zA-Z])+(([-/#)(][a-zA-Z ])?[a-zA-Z]*)*$"));
 		
 		// the search mode for patients to enable searching any part of names rather than the beginning
 		properties.add(new GlobalProperty("patientSearch.matchMode", "ANYWHERE"));

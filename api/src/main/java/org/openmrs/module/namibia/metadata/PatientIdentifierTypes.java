@@ -18,7 +18,16 @@ public class PatientIdentifierTypes {
 		public String description() {
 			return "Unique ART number for patients on ART";
 		}
-		
+		@Override
+		public String format() {
+			return "[0-9]{3}[0,1][0-9]{8}";
+		}
+
+		@Override
+		public String formatDescription() {
+			return "Should be 3 digits then digit 0 or 1 lastly 8 digits. E.g. (333033333333)";
+		}
+
 		@Override
 		public String uuid() {
 			return "9d6d1eec-2cd6-4637-a981-4a46b4b8b41f";
