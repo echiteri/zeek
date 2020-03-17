@@ -73,7 +73,7 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 		Person infant = children.get(0).getPersonB();
 		
 		// check the DOB and Gender
-		Assert.assertEquals("DOB 2020-04-12 - actual " + infant.getBirthdate(), sdf.parse("2020-04-12"), infant.getBirthdate());
+		Assert.assertEquals("DOB 2020-03-12 - actual " + infant.getBirthdate(), sdf.parse("2020-03-12"), infant.getBirthdate());
 		Assert.assertEquals("Gender F actual " + infant.getGender(), "F", infant.getGender());
 		
 		// check the PTrackerID
@@ -118,7 +118,7 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 			Person infant = children.get(i).getPersonB();
 			if (infant.getGender().equals("F")) {
 				// compare with the data for the male
-				Assert.assertEquals("DOB 2018-03-31 - actual " + infant.getBirthdate(), sdf.parse("2018-03-31"), infant.getBirthdate());
+				Assert.assertEquals("DOB 2020-03-01 - actual " + infant.getBirthdate(), sdf.parse("2020-03-01"), infant.getBirthdate());
 				
 				// check the PTrackerID
 				Patient p = Context.getPatientService().getPatient(infant.getPersonId());
@@ -126,7 +126,7 @@ public class InfantRegistrationAtLaborAndDeliverySubmissionActionTest extends Ba
 				Assert.assertEquals("PTracker ID PT23457 - actual " + pid.getIdentifier(), "PT23457", pid.getIdentifier());
 			} else {
 				// compare with the data for the female
-				Assert.assertEquals("DOB 2018-02-28 - actual " + infant.getBirthdate(), sdf.parse("2018-02-28"), infant.getBirthdate());
+				Assert.assertEquals("DOB 2020-02-28 - actual " + infant.getBirthdate(), sdf.parse("2020-02-28"), infant.getBirthdate());
 				
 				// No PTrackerID
 				Patient p = Context.getPatientService().getPatient(infant.getPersonId());
