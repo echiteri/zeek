@@ -1031,19 +1031,6 @@
 
 
 
-			/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-			/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-			/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-			/*!40101 SET NAMES utf8 */;
-			/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-			/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-			/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-			LOCK TABLES `location_uids` WRITE;
-			/*!40000 ALTER TABLE `location_uids` DISABLE KEYS */;
-
-
 			INSERT INTO `location_uids` (`id`, `orgunit_uid_facility`, `orgunit_uid_outreach`, `orgunit_uid`, `orgunit_uid_maternity`, `uuid`, `dhis2_name_phc`, `dhis2_name_outreach`, `dhis2_name_maternity`, `name`, `mfl_code`)
 			VALUES
 			(469,'EZ2gKbJ2tDp','jP4C0bmYgcw','PRgufQj0poG','','EZ2gKbJ2tDp','Otavi Health Centre - PHC','Otavi Health Centre - Outreach','','Otavi Health Centre',10541),
@@ -1052,17 +1039,6 @@
 			(472,'vK2vRyx3Lvp','amjA5lh7Noi','Sn8IWZR20OF','','vK2vRyx3Lvp','Otjomuru Clinic - PHC','Otjomuru Clinic - Outreach','','Otjomuru Clinic',12232),
 			(473,'zZh4fg2TjCS','lT4jzWYBU2a','eoVC75Weu79','','zZh4fg2TjCS','Onjuva Clinic - PHC','Onjuva Clinic - Outreach','','Onjuva Clinic',12240);
 
-
-
-			/*!40000 ALTER TABLE `location_uids` ENABLE KEYS */;
-			UNLOCK TABLES;
-
-			/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-			/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-			/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-			/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-			/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-			/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 		</sql>
 	</changeSet>
 
