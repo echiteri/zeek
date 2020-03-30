@@ -859,6 +859,7 @@
 		</sql>
 	</changeSet>
 
+
 	<changeSet id="create_dhis2_integration_log_table" author="echiteri">
 		<comment>Create table log DHIS2 integration log responses</comment>
 		<sql>
@@ -1019,6 +1020,24 @@
 			SET retired = 1, retire_reason = 'Karibib HC was renamed to DR sam Nuyooma HC'
 			WHERE
 			location_id = 492
+
+		</sql>
+	</changeSet>
+
+
+	<changeSet id="load_location_uid_table_for_missing_phase_III_facilities" author="Hero">
+		<comment>Location UID table contains location UID for DHIS 2 intergration </comment>
+		<sql>
+
+
+
+			INSERT INTO `location_uids` (`id`, `orgunit_uid_facility`, `orgunit_uid_outreach`, `orgunit_uid`, `orgunit_uid_maternity`, `uuid`, `dhis2_name_phc`, `dhis2_name_outreach`, `dhis2_name_maternity`, `name`, `mfl_code`)
+			VALUES
+			(469,'EZ2gKbJ2tDp','jP4C0bmYgcw','PRgufQj0poG','','EZ2gKbJ2tDp','Otavi Health Centre - PHC','Otavi Health Centre - Outreach','','Otavi Health Centre',10541),
+			(470,'c779w7RUFRs','TPmfqksPg7J','L4iWEN6ZgXO','','c779w7RUFRs','Uukwiyuushona Clinic - PHC','Uukwiyuushona Clinic - Outreach','','Uukwiyuushona Clinic',10490),
+			(471,'MSAggngaBew','J7f43ZhZcpW','LbpWXbkE6l7','','MSAggngaBew','Eloolo Clinic -  PHC','Eloolo Clinic -  Outreach','','Eloolo Clinic',12218),
+			(472,'vK2vRyx3Lvp','amjA5lh7Noi','Sn8IWZR20OF','','vK2vRyx3Lvp','Otjomuru Clinic - PHC','Otjomuru Clinic - Outreach','','Otjomuru Clinic',12232),
+			(473,'zZh4fg2TjCS','lT4jzWYBU2a','eoVC75Weu79','','zZh4fg2TjCS','Onjuva Clinic - PHC','Onjuva Clinic - Outreach','','Onjuva Clinic',12240);
 
 		</sql>
 	</changeSet>
