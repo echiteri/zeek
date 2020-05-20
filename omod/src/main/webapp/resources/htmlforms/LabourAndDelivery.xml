@@ -1325,8 +1325,8 @@
 										<label>
 											Infant Received ARV
 										</label>
-										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,127750,1754,164956,164932"
-											 answerLabels="ARV Prophylaxis daily up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Infant received NVP + AZT prophylaxis up to 6 weeks,Missing"
+										<obs id="infant-arv-prophylaxis-{n}" style="radio" conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="164918,164956,127750,1754,164932"
+											 answerLabels="NVP Prophylaxis daily up to 6 weeks, Infant received NVP + AZT prophylaxis up to 6 weeks, Refused ARV Prophylaxis,Stock-out of ARV Prophylaxis,Missing"
 											 answerSeparator="" />
 									</p>
 									<p id="infant-refused-arv-prophylaxis-container-{n}" class="prophylaxis">
