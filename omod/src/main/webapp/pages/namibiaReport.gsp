@@ -17,7 +17,7 @@
 
         <div id="content" class="container column">
             <div class="info-container column">
-                <h2> Monthly Summary Reports </h2>
+                <h2> Monthly Summary Reports</h2>
                 <ul>
                     <li>
                         <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Monthly_Summary_Report&reportUnit=%2Freports%2FPTracker_Monthly_Summary_Report%2FANC_summary_report&standAlone=true" target="_blank"> -- ANC summary report</a>
@@ -44,6 +44,27 @@
                         <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FPTracker_Timeliness_List_&standAlone=true#" target="_blank"> -- PTracker Timeliness report</a>
                     </li>
                 </ul>
+                <h2> Facility Based Reports </h2>
+                     <ul>
+                        <li>
+                           <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Duplicate_Identifiers&standAlone=true" target="_blank"> -- PTracker Patient Duplicate Identifier</a>
+                        </li>
+                        <li>
+                           <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missing_ART_Number_List_&standAlone=true" target="_blank"> -- PTracker Patient Missing ART Number</a>
+                        </li>
+                        <li>
+                           <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missing_ART_Start_Date_List_2&standAlone=true" target="_blank"> -- PTracker Patient Missing ART Start Date</a>
+                        </li>
+                        <li>
+                           <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missing_VL_date&standAlone=true" target="_blank"> -- PTracker Patient Missing VL Date</a>
+                        </li>
+                         <li>
+                           <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missing_VL_date_or_results&standAlone=true" target="_blank"> -- PTracker Patient Missing VL Date or Results</a>
+                        </li>
+                        <li>
+                            <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missing_VL_results&standAlone=true" target="_blank"> -- PTracker Patient Missing VL Results</a>
+                        </li>
+                      </ul>
                 <h2> Dashboards </h2>
                 <!-- <ul>
                     <li>
