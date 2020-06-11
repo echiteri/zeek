@@ -1044,4 +1044,153 @@
 
 
 
+	<changeSet id="manage_inactive_users" author="Hero">
+		<comment> Deactivate inactive users for the past 12 months, the scheduler runs every month</comment>
+		<createProcedure>
+			CREATE PROCEDURE `mds_deactivate_inactive_user` () BEGIN
+
+			 #step 1
+			 #create a temp table that will hold data for all active user for the past there months
+
+			DROP TABLE
+			IF
+			EXISTS temp_user_active_user_for_past_twelve_months;
+			CREATE TABLE
+			IF
+			NOT EXISTS temp_user_active_user_for_past_twelve_months (
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			user_id INT NOT NULL,
+			user_name VARCHAR ( 255 ) NOT NULL,
+			person_id INT NOT NULL,
+			given_name VARCHAR ( 255 ) NOT NULL,
+			family_name VARCHAR ( 255 ) NOT NULL,
+			role VARCHAR ( 255 ) NOT NULL,
+			time_stamp DATETIME
+			) ENGINE = INNODB;
+
+			#step 2
+			#insert all the active user to the temp table created in step 1 including the system developer role and mentors
+
+			INSERT INTO temp_user_active_user_for_past_twelve_months ( user_id, user_name, person_id, given_name, family_name, role, time_stamp ) SELECT
+			s.user_id,
+			s.username,
+			s.person_id,
+			p.given_name,
+			p.family_name,
+			c.role,
+			NOW() AS time_stamp
+			FROM
+			users s
+			JOIN person_name p ON s.person_id = p.person_id
+			JOIN encounter b ON s.user_id = b.creator
+			JOIN user_role c ON s.user_id = c.user_id
+			WHERE
+			b.date_created > DATE_ADD( Now(), INTERVAL - 12 MONTH )
+			AND s.username IS NOT NULL
+			GROUP BY
+			user_id UNION
+			SELECT
+			s.user_id,
+			s.username,
+			s.person_id,
+			p.given_name,
+			p.family_name,
+			c.role,
+			NOW() AS time_stamp
+			FROM
+			users s
+			JOIN person_name p ON s.person_id = p.person_id
+			JOIN patient_identifier b ON s.user_id = b.creator
+			JOIN user_role c ON s.user_id = c.user_id
+			WHERE
+			b.date_created > DATE_ADD( Now(), INTERVAL - 12 MONTH )
+			AND s.username IS NOT NULL
+			GROUP BY
+			user_id UNION
+			SELECT
+			s.user_id,
+			s.username,
+			s.person_id,
+			p.given_name,
+			p.family_name,
+			c.role,
+			NOW() AS time_stamp
+			FROM
+			users s
+			JOIN person_name p ON s.person_id = p.person_id
+			JOIN user_role c ON s.user_id = c.user_id
+			WHERE
+			(
+			c.role IN ( 'System Developer', 'admin', 'Mentors', 'Application: Administers System' )
+			AND s.user_id NOT IN ( 4, 17 )
+			AND s.username IS NOT NULL
+			)
+			OR s.user_id = 131
+			GROUP BY
+			user_id;
+
+			#step 3
+			#create a temp table that will hold data for all inactive user for the past there months that are not in the first table
+
+			DROP TABLE
+			IF
+			EXISTS temp_user_inactive_user_for_past_twelve_months;
+			CREATE TABLE
+			IF
+			NOT EXISTS temp_user_inactive_user_for_past_twelve_months (
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			user_id INT NOT NULL,
+			user_name VARCHAR ( 255 ) NOT NULL,
+			person_id INT NOT NULL,
+			given_name VARCHAR ( 255 ) NOT NULL,
+			family_name VARCHAR ( 255 ) NOT NULL,
+			role VARCHAR ( 255 ) NOT NULL,
+			time_stamp DATETIME
+			) ENGINE = INNODB;
+
+			#step 4
+			#inserts all user are not in the table created in step 1 which are the inactive users
+
+			INSERT INTO temp_user_inactive_user_for_past_twelve_months ( user_id, user_name, person_id, given_name, family_name, role, time_stamp ) SELECT DISTINCT
+			s.user_id,
+			s.username,
+			s.person_id,
+			p.given_name,
+			p.family_name,
+			c.role,
+			NOW() AS time_stamp
+			FROM
+			users s
+			JOIN person_name p ON s.person_id = p.person_id
+			JOIN user_role c ON s.user_id = c.user_id
+			WHERE
+			s.user_id NOT IN ( SELECT user_id FROM temp_user_active_user_for_past_twelve_months )
+			AND s.username IS NOT NULL;
+
+			#step 5
+			#deactivate users in temp_user_inactive_user_for_past_twelve_months, which are the users that wer. not active for the past 12 months
+
+			UPDATE users a
+			SET a.retired = 1,
+			a.retired_by = 1,
+			a.date_retired = NOW(),
+			a.retire_reason = 'inactive user'
+			WHERE
+			a.user_id IN ( SELECT user_id FROM temp_user_inactive_user_for_past_twelve_months );
+
+			END;
+		</createProcedure>
+		<sql>
+
+			#Then run the event after the procedure
+
+			CREATE EVENT deactivate_inactive_user ON SCHEDULE EVERY 1 MONTH STARTS CURRENT_TIMESTAMP DO
+			CALL mds_deactivate_inactive_user;
+
+		</sql>
+
+	</changeSet>
+
+
+
 </databaseChangeLog>
