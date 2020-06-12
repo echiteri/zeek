@@ -1046,7 +1046,14 @@
 
 	<changeSet id="manage_inactive_users" author="Hero">
 		<comment> Deactivate inactive users for the past 12 months, the scheduler runs every month</comment>
+
+		<sql>
+			#drops the procedure if it exist
+			DROP PROCEDURE IF EXISTS mds_deactivate_inactive_user;
+		</sql>
+
 		<createProcedure>
+
 			CREATE PROCEDURE `mds_deactivate_inactive_user` () BEGIN
 
 			 #step 1
@@ -1184,6 +1191,7 @@
 
 			#Then run the event after the procedure
 
+			DROP EVENT IF EXISTS deactivate_inactive_user;
 			CREATE EVENT deactivate_inactive_user ON SCHEDULE EVERY 1 MONTH STARTS CURRENT_TIMESTAMP DO
 			CALL mds_deactivate_inactive_user;
 
