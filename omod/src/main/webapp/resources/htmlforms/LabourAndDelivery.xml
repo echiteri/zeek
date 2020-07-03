@@ -85,6 +85,7 @@
 				showContainer('#hiv-test-container');
 				hideContainer('#art-initiation-container');
 				hideContainer('#recent-viral-load-container');
+				hideContainer('#anc-retest-thirty-six-weeks-container');
 			}
 		});
 
