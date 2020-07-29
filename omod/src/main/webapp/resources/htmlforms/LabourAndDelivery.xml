@@ -73,17 +73,19 @@
 				hideContainer('#hiv-test-result-container');
 				showContainer('#art-initiation-container');
 				showContainer('#recent-viral-load-container');
+				hideContainer('#anc-retest-thirty-six-weeks-container');
 
 			} else if (getValue('anc-hiv-test.value') == 703) {
 				hideContainer('#hiv-test-container');
 				showContainer('#art-initiation-container');
 				hideContainer('#recent-viral-load-container');
 				hideContainer('#hiv-test-result-container');
+				hideContainer('#anc-retest-thirty-six-weeks-container');
 			} else {
 				showContainer('#hiv-test-container');
 				hideContainer('#art-initiation-container');
 				hideContainer('#recent-viral-load-container');
-				showContainer('#hiv-test-result-container');
+				hideContainer('#anc-retest-thirty-six-weeks-container');
 			}
 		});
 
