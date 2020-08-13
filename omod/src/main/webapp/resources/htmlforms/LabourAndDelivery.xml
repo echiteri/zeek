@@ -110,6 +110,8 @@
 			hideContainer('#viral-load-copies-container');
 			hideContainer('#transfer-out-date-container');
 			hideContainer('#discharge-date-container');
+			hideContainer('#anc-hiv-first-status-container');
+			hideContainer('#anc-hiv-status-container');
 			<!-- -->
 			<!-- Prevent a labor and delivery form completion if the last L&D encounter is less than 7 months -->
 			<lookup complexExpression="
@@ -813,7 +815,7 @@
 	-->
 	<includeIf velocityTest="$fn.latestObs('159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA').valueCoded.conceptId != 138571 ||  $fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') != 1169"> <!--#zeek - changed from: !$fn.latestObs('164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') -->
 
-<span id="first-anc-section-container" class="hidden">
+
 		<section id="anc-hiv-first-status-container" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="First ANC HIV status">
 			<div class="section-container">
 
@@ -831,7 +833,6 @@
 
 		</section>
 
-</span>
 	<section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="HIV Status at Delivery">
 		<script>
 			jq(function() {
