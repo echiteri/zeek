@@ -75,7 +75,7 @@
                             <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_in_List_&standAlone=true" target="_blank"> -- PTracker Tranfered In</a>
                         </li>
                         <li>
-                            <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.htmlauth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_out_List_&standAlone=true" target="_blank"> -- PTracker Transfered out</a>
+                            <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_out_List_&standAlone=true" target="_blank"> -- PTracker Transfered out</a>
                         </li>
                       </ul>
                 <h2> Dashboards </h2>
