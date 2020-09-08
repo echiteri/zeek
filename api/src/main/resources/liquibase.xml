@@ -1116,8 +1116,7 @@
 			WHERE location_id = 82;
 		</sql>
 	</changeSet>
-
-<<<<<<< HEAD
+	
 	<changeSet id="manage_inactive_users" author="Hero">
 		<comment> Deactivate inactive users for the past 12 months, the scheduler runs every month</comment>
 
@@ -1275,7 +1274,7 @@
 
 
 
-=======
+
 	<changeSet id="retire_hospitals_PTN_138" author="echiteri">
 		<comment>Retire Walvis bay, Usako, Omaruru, Rehoboth hospitals</comment>
 		<sql>
