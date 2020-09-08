@@ -1053,6 +1053,7 @@
 		</sql>
 	</changeSet>
 
+<<<<<<< HEAD
 	<changeSet id="update_obs_location_id_PTN_138" author="echiteri">
 		<comment>Update Walvis Bay and Swakopmund hospitals on obs</comment>
 		<sql>
@@ -1128,6 +1129,121 @@
 			UPDATE location SET retired = 1, retire_reason = 'Omaruru Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 56;
 			-- Rehoboth hospital
 			UPDATE location SET retired = 1, retire_reason = 'Rehoboth Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 103;
+	<changeSet id="PTN_284_Update_location_table" author="echiteri">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="35">
+				SELECT
+					COUNT(*)
+				FROM
+					location
+				WHERE
+					location_id
+				IN
+					(131,86,254,268,301,422,110,467,119,226,127,95,149,165,432,321,438,287,55,392,405,238,384,344,449,357,250,101,190,65,369,417,73,81,217);
+			</sqlCheck>
+		</preConditions>
+		<comment>Delete location labeled District Data from the location table</comment>
+		<sql>
+			DELETE FROM
+				location
+			WHERE
+				location_id
+			IN
+				(131,86,254,268,301,422,110,467,119,226,127,95,149,165,432,321,438,287,55,392,405,238,384,344,449,357,250,101,190,65,369,417,73,81,217);
+		</sql>
+		<comment>Update facility names</comment>
+		<sql>
+			# Update Aussenkher Clinic to Aussenker Clinic
+			UPDATE location SET name = 'Aussenker Clinic'  WHERE location_id = 107;
+			# Update Kalkveld Clinic to Kalkfeld Clinic
+			UPDATE location SET name = 'Kalkfeld Clinic'  WHERE location_id = 444;
+			# Update Mburuuru Clinic to Mburu-uru Clinic
+			UPDATE location SET name = 'Mburu-uru Clinic'  WHERE location_id = 145;
+			# Update Okamatapati Clinic to Okamatapi Clinic
+			UPDATE location SET name = 'Okamatapi Clinic'  WHERE location_id = 440;
+			# Update Okorusu Mine Clinic to Okorusu Clinic
+			UPDATE location SET name = 'Okorusu Clinic'  WHERE location_id = 445;
+			# Update Ongulayanetanga Clinic to Ongula yaNetanga Clinic
+			UPDATE location SET name = 'Ongula yaNetanga Clinic'  WHERE location_id = 261;
+			# Update Onjuva PHC Clinic to Onjuva Clinic
+			UPDATE location SET name = 'Onjuva Clinic'  WHERE location_id = 498;
+			# Update Polytechnikon Clinic to Polytechnic of Namibia Health Services
+			UPDATE location SET name = 'Polytechnic of Namibia Health Services'  WHERE location_id = 209;
+			# Update Ofinene Health Centre to Otjinene Health Centre
+			UPDATE location SET name = 'Otjinene Health Centre'  WHERE location_id = 307;
+		</sql>
+	</changeSet>
+
+	<changeSet id="PTN_285_Update_location_uids_table" author="echiteri">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="16">
+				SELECT
+					COUNT(*)
+					FROM
+					location_uids
+				WHERE
+					name
+				IN
+					('Aranos District Data',
+					'Engela District Data',
+					'Gobabis District Data',
+					'Karasburg District Data',
+					'Keetmanshoop District Data',
+					'Mariental District Data',
+					'Okahao District Data',
+					'Okongo District Data',
+					'Omaruru District Data',
+					'Oshikuku District Data',
+					'Outapi District Data',
+					'Rehoboth District Data',
+					'Swakopmund District Data',
+					'Tsandi District Data',
+					'Usakos District Data',
+					'Walvis Bay District Data');
+			</sqlCheck>
+		</preConditions>
+		<comment>Delete location labeled District Data from the location_uids table</comment>
+		<sql>
+			DELETE FROM
+				location_uids
+			WHERE
+				name
+			IN
+				('Aranos District Data',
+				'Engela District Data',
+				'Gobabis District Data',
+				'Karasburg District Data',
+				'Keetmanshoop District Data',
+				'Mariental District Data',
+				'Okahao District Data',
+				'Okongo District Data',
+				'Omaruru District Data',
+				'Oshikuku District Data',
+				'Outapi District Data',
+				'Rehoboth District Data',
+				'Swakopmund District Data',
+				'Tsandi District Data',
+				'Usakos District Data',
+				'Walvis Bay District Data');
+		</sql>
+		<comment>Update facility names</comment>
+		<sql>
+			# Add MFL code 10404 to Epikuro Post 3 Clinic'
+			UPDATE location_uids SET mfl_code = 10404 WHERE name = 'Epikuro Post 3 Clinic';
+			# Add MFL code 10424 and correct spelling "Iipanddayamiti Clinic" for "Iipanda-Yaamiti Clinic"
+			UPDATE location_uids SET name = 'Iipanddayamiti Clinic' , mfl_code = 10424  WHERE name = 'Iipanda-Yaamiti Clinic';
+			# Correct spelling "Karasburg District Hospital" for "Karasburg Hospital"
+			UPDATE location_uids SET name = 'Karasburg District Hospital'  WHERE name = 'Karasburg Hospital';
+			# Correct spelling "Keetmanshoop District Hospital" for "Keetmanshoop Hospital"
+			UPDATE location_uids SET name = 'Keetmanshoop District Hospital'  WHERE name = 'Keetmanshoop Hospital';
+			# Correct spelling "Mariental District Hospital" for "Mariental Hospital"
+			UPDATE location_uids SET name = 'Mariental District Hospital'  WHERE name = 'Mariental Hospital';
+			# Correct spelling "Swakopmund District Hospital" for "Swakopmund Hospital"
+			UPDATE location_uids SET name = 'Swakopmund District Hospital'  WHERE name = 'Swakopmund Hospital';
+			# Correct spelling "St Marys Rehoboth District Hospital" for "Rehoboth Hospital"
+			UPDATE location_uids SET name = 'St Marys Rehoboth District Hospital'  WHERE name = 'Rehoboth Hospital';
+			# Add MFL code 10284 and correct spelling "Sambyu Health Centre" for "Shambyu Health Centre"
+			UPDATE location_uids SET name = 'Sambyu Health Centre' , mfl_code = 10284  WHERE name = 'Shambyu Health Centre';
 		</sql>
 	</changeSet>
 </databaseChangeLog>
