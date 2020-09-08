@@ -1053,7 +1053,6 @@
 		</sql>
 	</changeSet>
 
-<<<<<<< HEAD
 	<changeSet id="update_obs_location_id_PTN_138" author="echiteri">
 		<comment>Update Walvis Bay and Swakopmund hospitals on obs</comment>
 		<sql>
