@@ -890,7 +890,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_identifer" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_identifer</comment>
 		<sql>
-
 			UPDATE patient_identifier a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -898,7 +897,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -906,7 +904,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_encounter" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_encounter</comment>
 		<sql>
-
 			UPDATE encounter a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -914,7 +911,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -922,7 +918,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_appointment_block" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_appointment_block</comment>
 		<sql>
-
 			UPDATE appointmentscheduling_appointment_block a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -930,7 +925,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -938,7 +932,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_attribute" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_attribute</comment>
 		<sql>
-
 			UPDATE location_attribute a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -946,7 +939,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -955,11 +947,9 @@
 	<changeSet id="delete_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_tag_map" author="Hero">
 		<comment>delete_Karibib_HC_data_into_DR_sam_Nuyooma_HC_location_tag_map</comment>
 		<sql>
-
 			DELETE FROM location_tag_map
 			WHERE
 			location_id = 492
-
 		</sql>
 	</changeSet>
 
@@ -967,7 +957,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_obs" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_obs</comment>
 		<sql>
-
 			UPDATE obs a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -975,7 +964,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -983,7 +971,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_program" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_program</comment>
 		<sql>
-
 			UPDATE patient_program a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -991,7 +978,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -999,7 +985,6 @@
 	<changeSet id="merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_visit" author="Hero">
 		<comment>merge_Karibib_HC_data_into_DR_sam_Nuyooma_HC_patient_visit</comment>
 		<sql>
-
 			UPDATE visit a
 			INNER JOIN location b ON a.location_id = b.location_id
 			INNER JOIN location_uids c on b.uuid = c.uuid
@@ -1007,7 +992,6 @@
 			WHERE
 			c.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
 			AND b.uuid = 'ot8dHykFUEmx9Ga0qR1ytA'
-
 		</sql>
 	</changeSet>
 
@@ -1015,12 +999,10 @@
 	<changeSet id="retire_karibib_HC" author="Hero">
 		<comment>retire_karibib_HC</comment>
 		<sql>
-
 			UPDATE location
 			SET retired = 1, retire_reason = 'Karibib HC was renamed to DR sam Nuyooma HC'
 			WHERE
 			location_id = 492
-
 		</sql>
 	</changeSet>
 
@@ -1028,9 +1010,6 @@
 	<changeSet id="load_location_uid_table_for_missing_phase_III_facilities" author="Hero">
 		<comment>Location UID table contains location UID for DHIS 2 intergration </comment>
 		<sql>
-
-
-
 			INSERT INTO `location_uids` (`id`, `orgunit_uid_facility`, `orgunit_uid_outreach`, `orgunit_uid`, `orgunit_uid_maternity`, `uuid`, `dhis2_name_phc`, `dhis2_name_outreach`, `dhis2_name_maternity`, `name`, `mfl_code`)
 			VALUES
 			(469,'EZ2gKbJ2tDp','jP4C0bmYgcw','PRgufQj0poG','','EZ2gKbJ2tDp','Otavi Health Centre - PHC','Otavi Health Centre - Outreach','','Otavi Health Centre',10541),
@@ -1038,12 +1017,107 @@
 			(471,'MSAggngaBew','J7f43ZhZcpW','LbpWXbkE6l7','','MSAggngaBew','Eloolo Clinic -  PHC','Eloolo Clinic -  Outreach','','Eloolo Clinic',12218),
 			(472,'vK2vRyx3Lvp','amjA5lh7Noi','Sn8IWZR20OF','','vK2vRyx3Lvp','Otjomuru Clinic - PHC','Otjomuru Clinic - Outreach','','Otjomuru Clinic',12232),
 			(473,'zZh4fg2TjCS','lT4jzWYBU2a','eoVC75Weu79','','zZh4fg2TjCS','Onjuva Clinic - PHC','Onjuva Clinic - Outreach','','Onjuva Clinic',12240);
-
 		</sql>
 	</changeSet>
 
+	<changeSet id="update_patient_identifier_location_id_PTN_138" author="echiteri">
+		<comment>Update Walvis Bay and Swakopmund hospitals on patient_identifier</comment>
+		<sql>
+			-- Update Walvis Bay  hospital to  Walvis Bay  district hospital
+			UPDATE patient_identifier SET location_id = 495 WHERE location_id = 82;
+			-- Update Swakopmund hospital to  Swakopmund district hospital
+			UPDATE patient_identifier SET location_id = 491 WHERE location_id = 66;
+			-- Update Omaruru hospital to  Omarutu district hospital
+			UPDATE patient_identifier SET location_id = 490 WHERE location_id = 56;
+			-- Update Rehoboth hospital to  St. Mary's Rehoboth Hospital
+			UPDATE patient_identifier SET location_id = 497 WHERE location_id = 103;
+		</sql>
+	</changeSet>
 
+	<changeSet id="update_encounter_location_id_PTN_138" author="echiteri">
+		<comment>Update Walvis Bay and Swakopmund hospitals on encounter</comment>
+		<sql>
+			-- Update Walvis Bay  hospital to  Walvis Bay  district hospital
+			UPDATE encounter SET location_id = 495 WHERE location_id = 82;
+		</sql>
+	</changeSet>
 
+	<changeSet id="update_encounter_and_obs_location_id_82_with_495" author="echiteri">
+		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on encounter. Set encounter location_id similar to obs location_id </comment>
+		<sql>
+			UPDATE encounter e
+			JOIN obs o
+			ON e.encounter_id = o.encounter_id
+			SET o.location_id = 495, e.location_id = 495
+			WHERE o.location_id = 82 OR e.location_id = 82;
+		</sql>
+	</changeSet>
+
+	<changeSet id="update_obs_location_id_PTN_138" author="echiteri">
+		<comment>Update Walvis Bay and Swakopmund hospitals on obs</comment>
+		<sql>
+			-- Update Walvis Bay  hospital to  Walvis Bay  district hospital
+			UPDATE obs SET location_id = 495 WHERE location_id = 82;
+			-- Update Swakopmund hospital to  Swakopmund district hospital
+			UPDATE obs SET location_id = 491 WHERE location_id = 66;
+			-- Update Omaruru hospital to  Omaruru district hospital
+			UPDATE obs SET location_id = 490 WHERE location_id = 56;
+		</sql>
+	</changeSet>
+
+	<changeSet id="update_appointmentscheduling_appointment_block_location_id_82_with_495" author="echiteri">
+		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on appointmentscheduling_appointment_block</comment>
+		<sql>
+			UPDATE appointmentscheduling_appointment_block
+			SET location_id = 495
+			WHERE location_id = 82;
+		</sql>
+	</changeSet>
+
+	<changeSet id="update_location_attribute_location_id_82_with_495" author="echiteri">
+		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on location_attribute</comment>
+		<sql>
+			UPDATE location_attribute
+			SET location_id = 495
+			WHERE location_id = 82;
+		</sql>
+	</changeSet>
+
+	<changeSet id="delete_hospitals_from_location_tag_map_PTN_138" author="echiteri">
+		<comment>Delete Walvis bay, Usako, Omaruru and Rehoboth hospitals from location_tag_map</comment>
+		<sql>
+			-- Walvis bay hospital
+			DELETE FROM location_tag_map WHERE location_id = 82
+			-- Usako hospital
+			DELETE FROM location_tag_map WHERE location_id = 74
+			-- Omaruru hospital
+			DELETE FROM location_tag_map WHERE location_id = 56
+			-- Swakopmund hospital
+			DELETE FROM location_tag_map WHERE location_id = 66
+			-- Rehoboth hospital
+			DELETE FROM location_tag_map WHERE location_id = 103
+		</sql>
+	</changeSet>
+
+	<changeSet id="update_patient_program_location_id_82_with_495" author="echiteri">
+		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on patient_program</comment>
+		<sql>
+			UPDATE patient_program
+			SET location_id = 495
+			WHERE location_id = 82;
+		</sql>
+	</changeSet>
+
+	<changeSet id="update_visit_location_id_82_with_495" author="echiteri">
+		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on visit</comment>
+		<sql>
+			UPDATE visit
+			SET location_id = 495
+			WHERE location_id = 82;
+		</sql>
+	</changeSet>
+
+<<<<<<< HEAD
 	<changeSet id="manage_inactive_users" author="Hero">
 		<comment> Deactivate inactive users for the past 12 months, the scheduler runs every month</comment>
 
@@ -1200,5 +1274,135 @@
 	</changeSet>
 
 
+
+=======
+	<changeSet id="retire_hospitals_PTN_138" author="echiteri">
+		<comment>Retire Walvis bay, Usako, Omaruru, Rehoboth hospitals</comment>
+		<sql>
+			-- Walvis bay hospital
+			UPDATE location SET retired = 1, retire_reason = 'Walvis Bay Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 82;
+			-- Usako hospital
+			UPDATE location SET retired = 1, retire_reason = 'Usako Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 74;
+			-- Omaruru hospital
+			UPDATE location SET retired = 1, retire_reason = 'Omaruru Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 56;
+			-- Rehoboth hospital
+			UPDATE location SET retired = 1, retire_reason = 'Rehoboth Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 103;
+	<changeSet id="PTN_284_Update_location_table" author="echiteri">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="35">
+				SELECT
+					COUNT(*)
+				FROM
+					location
+				WHERE
+					location_id
+				IN
+					(131,86,254,268,301,422,110,467,119,226,127,95,149,165,432,321,438,287,55,392,405,238,384,344,449,357,250,101,190,65,369,417,73,81,217);
+			</sqlCheck>
+		</preConditions>
+		<comment>Delete location labeled District Data from the location table</comment>
+		<sql>
+			DELETE FROM
+				location
+			WHERE
+				location_id
+			IN
+				(131,86,254,268,301,422,110,467,119,226,127,95,149,165,432,321,438,287,55,392,405,238,384,344,449,357,250,101,190,65,369,417,73,81,217);
+		</sql>
+		<comment>Update facility names</comment>
+		<sql>
+			# Update Aussenkher Clinic to Aussenker Clinic
+			UPDATE location SET name = 'Aussenker Clinic'  WHERE location_id = 107;
+			# Update Kalkveld Clinic to Kalkfeld Clinic
+			UPDATE location SET name = 'Kalkfeld Clinic'  WHERE location_id = 444;
+			# Update Mburuuru Clinic to Mburu-uru Clinic
+			UPDATE location SET name = 'Mburu-uru Clinic'  WHERE location_id = 145;
+			# Update Okamatapati Clinic to Okamatapi Clinic
+			UPDATE location SET name = 'Okamatapi Clinic'  WHERE location_id = 440;
+			# Update Okorusu Mine Clinic to Okorusu Clinic
+			UPDATE location SET name = 'Okorusu Clinic'  WHERE location_id = 445;
+			# Update Ongulayanetanga Clinic to Ongula yaNetanga Clinic
+			UPDATE location SET name = 'Ongula yaNetanga Clinic'  WHERE location_id = 261;
+			# Update Onjuva PHC Clinic to Onjuva Clinic
+			UPDATE location SET name = 'Onjuva Clinic'  WHERE location_id = 498;
+			# Update Polytechnikon Clinic to Polytechnic of Namibia Health Services
+			UPDATE location SET name = 'Polytechnic of Namibia Health Services'  WHERE location_id = 209;
+			# Update Ofinene Health Centre to Otjinene Health Centre
+			UPDATE location SET name = 'Otjinene Health Centre'  WHERE location_id = 307;
+		</sql>
+	</changeSet>
+
+	<changeSet id="PTN_285_Update_location_uids_table" author="echiteri">
+		<preConditions onFail="CONTINUE">
+			<sqlCheck expectedResult="16">
+				SELECT
+					COUNT(*)
+					FROM
+					location_uids
+				WHERE
+					name
+				IN
+					('Aranos District Data',
+					'Engela District Data',
+					'Gobabis District Data',
+					'Karasburg District Data',
+					'Keetmanshoop District Data',
+					'Mariental District Data',
+					'Okahao District Data',
+					'Okongo District Data',
+					'Omaruru District Data',
+					'Oshikuku District Data',
+					'Outapi District Data',
+					'Rehoboth District Data',
+					'Swakopmund District Data',
+					'Tsandi District Data',
+					'Usakos District Data',
+					'Walvis Bay District Data');
+			</sqlCheck>
+		</preConditions>
+		<comment>Delete location labeled District Data from the location_uids table</comment>
+		<sql>
+			DELETE FROM
+				location_uids
+			WHERE
+				name
+			IN
+				('Aranos District Data',
+				'Engela District Data',
+				'Gobabis District Data',
+				'Karasburg District Data',
+				'Keetmanshoop District Data',
+				'Mariental District Data',
+				'Okahao District Data',
+				'Okongo District Data',
+				'Omaruru District Data',
+				'Oshikuku District Data',
+				'Outapi District Data',
+				'Rehoboth District Data',
+				'Swakopmund District Data',
+				'Tsandi District Data',
+				'Usakos District Data',
+				'Walvis Bay District Data');
+		</sql>
+		<comment>Update facility names</comment>
+		<sql>
+			# Add MFL code 10404 to Epikuro Post 3 Clinic'
+			UPDATE location_uids SET mfl_code = 10404 WHERE name = 'Epikuro Post 3 Clinic';
+			# Add MFL code 10424 and correct spelling "Iipanddayamiti Clinic" for "Iipanda-Yaamiti Clinic"
+			UPDATE location_uids SET name = 'Iipanddayamiti Clinic' , mfl_code = 10424  WHERE name = 'Iipanda-Yaamiti Clinic';
+			# Correct spelling "Karasburg District Hospital" for "Karasburg Hospital"
+			UPDATE location_uids SET name = 'Karasburg District Hospital'  WHERE name = 'Karasburg Hospital';
+			# Correct spelling "Keetmanshoop District Hospital" for "Keetmanshoop Hospital"
+			UPDATE location_uids SET name = 'Keetmanshoop District Hospital'  WHERE name = 'Keetmanshoop Hospital';
+			# Correct spelling "Mariental District Hospital" for "Mariental Hospital"
+			UPDATE location_uids SET name = 'Mariental District Hospital'  WHERE name = 'Mariental Hospital';
+			# Correct spelling "Swakopmund District Hospital" for "Swakopmund Hospital"
+			UPDATE location_uids SET name = 'Swakopmund District Hospital'  WHERE name = 'Swakopmund Hospital';
+			# Correct spelling "St Marys Rehoboth District Hospital" for "Rehoboth Hospital"
+			UPDATE location_uids SET name = 'St Marys Rehoboth District Hospital'  WHERE name = 'Rehoboth Hospital';
+			# Add MFL code 10284 and correct spelling "Sambyu Health Centre" for "Shambyu Health Centre"
+			UPDATE location_uids SET name = 'Sambyu Health Centre' , mfl_code = 10284  WHERE name = 'Shambyu Health Centre';
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>
