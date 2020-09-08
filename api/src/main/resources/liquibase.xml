@@ -1023,7 +1023,7 @@
 	<changeSet id="update_patient_identifier_location_id_PTN_138" author="echiteri">
 		<comment>Update Walvis Bay and Swakopmund hospitals on patient_identifier</comment>
 		<sql>
-			-- Update Walvis Bay  hospital to  Walvis Bay  district hospital
+			-- Update Walvis Bay hospital to  Walvis Bay district hospital
 			UPDATE patient_identifier SET location_id = 495 WHERE location_id = 82;
 			-- Update Swakopmund hospital to  Swakopmund district hospital
 			UPDATE patient_identifier SET location_id = 491 WHERE location_id = 66;
@@ -1128,6 +1128,8 @@
 			UPDATE location SET retired = 1, retire_reason = 'Omaruru Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 56;
 			-- Rehoboth hospital
 			UPDATE location SET retired = 1, retire_reason = 'Rehoboth Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 103;
+		</sql>
+	</changeSet>
 	<changeSet id="PTN_284_Update_location_table" author="echiteri">
 		<preConditions onFail="CONTINUE">
 			<sqlCheck expectedResult="35">
@@ -1149,6 +1151,15 @@
 				location_id
 			IN
 				(131,86,254,268,301,422,110,467,119,226,127,95,149,165,432,321,438,287,55,392,405,238,384,344,449,357,250,101,190,65,369,417,73,81,217);
+		</sql>
+		<comment>Delete Private facilities from location table</comment>
+		<sql>
+			DELETE FROM
+				location
+			WHERE
+				location_id
+			IN
+				(425,212,84);
 		</sql>
 		<comment>Update facility names</comment>
 		<sql>
@@ -1184,21 +1195,24 @@
 					name
 				IN
 					('Aranos District Data',
-					'Engela District Data',
-					'Gobabis District Data',
-					'Karasburg District Data',
-					'Keetmanshoop District Data',
-					'Mariental District Data',
-					'Okahao District Data',
-					'Okongo District Data',
-					'Omaruru District Data',
-					'Oshikuku District Data',
-					'Outapi District Data',
-					'Rehoboth District Data',
-					'Swakopmund District Data',
-					'Tsandi District Data',
-					'Usakos District Data',
-					'Walvis Bay District Data');
+				'Engela District Data',
+				'Gobabis District Data',
+				'Karasburg District Data',
+				'Keetmanshoop District Data',
+				'Mariental District Data',
+				'Okahao District Data',
+				'Okongo District Data',
+				'Omaruru District Data',
+				'Oshikuku District Data',
+				'Outapi District Data',
+				'Rehoboth District Data',
+				'Swakopmund District Data',
+				'Tsandi District Data',
+				'Usakos District Data',
+				'Walvis Bay District Data',
+				'Welwitchia Hospital',
+				'Roman Catholic Hospital',
+				'Grootfontein Private Hospital';
 			</sqlCheck>
 		</preConditions>
 		<comment>Delete location labeled District Data from the location_uids table</comment>
@@ -1223,12 +1237,29 @@
 				'Swakopmund District Data',
 				'Tsandi District Data',
 				'Usakos District Data',
-				'Walvis Bay District Data');
+				'Usakos Hospital',
+				'Walvis Bay District Data',
+				'Welwitchia Hospital',
+				'Roman Catholic Hospital',
+				'Grootfontein Private Hospital' );
 		</sql>
-		<comment>Update facility names</comment>
+		<comment>Delete private facilities from the location_uids table</comment>
+		<sql>
+			DELETE FROM
+				location_uids
+			WHERE
+				name
+			IN
+				('Welwitchia Hospital',
+				'Roman Catholic Hospital',
+				'Grootfontein Private Hospital' );
+		</sql>
+		<comment>Update facility names and MFL codes</comment>
 		<sql>
 			# Add MFL code 10404 to Epikuro Post 3 Clinic'
 			UPDATE location_uids SET mfl_code = 10404 WHERE name = 'Epikuro Post 3 Clinic';
+			# Update MFL code 10404 to Omaruru Maternity Hospital'
+			UPDATE location_uids SET mfl_code = 10638 WHERE name = 'Omaruru Maternity Hospital';
 			# Add MFL code 10424 and correct spelling "Iipanddayamiti Clinic" for "Iipanda-Yaamiti Clinic"
 			UPDATE location_uids SET name = 'Iipanddayamiti Clinic' , mfl_code = 10424  WHERE name = 'Iipanda-Yaamiti Clinic';
 			# Correct spelling "Karasburg District Hospital" for "Karasburg Hospital"
@@ -1243,6 +1274,60 @@
 			UPDATE location_uids SET name = 'St Marys Rehoboth District Hospital'  WHERE name = 'Rehoboth Hospital';
 			# Add MFL code 10284 and correct spelling "Sambyu Health Centre" for "Shambyu Health Centre"
 			UPDATE location_uids SET name = 'Sambyu Health Centre' , mfl_code = 10284  WHERE name = 'Shambyu Health Centre';
+			# Correct spelling "Luderitz District Hospital" for "Luderitz Hospital"
+			UPDATE location_uids SET name = 'Luderitz District Hospital'  WHERE name = 'Luderitz Hospital';
+			# Correct spelling "Andara District Hospital" for "Andara Hospital"
+			UPDATE location_uids SET name = 'Andara District Hospital'  WHERE name = 'Andara Hospital';
+			# Correct spelling "Nankudu District Hospital" for "Nankudu Hospital"
+			UPDATE location_uids SET name = 'Nankudu District Hospital'  WHERE name = 'Nankudu Hospital';
+			# Correct spelling "Nyangana District Hospital" for "Nyangana Hospital"
+			UPDATE location_uids SET name = 'Nyangana District Hospital'  WHERE name = 'Nyangana Hospital';
+			# Correct spelling "Rundu Intermediate Hospital" for "Rundu Hospital"
+			UPDATE location_uids SET name = 'Rundu Intermediate Hospital'  WHERE name = 'Rundu Hospital';
+			# Correct spelling "Katutura Intermediate Hospital" for "Katutura Hospital"
+			UPDATE location_uids SET name = 'Katutura Intermediate Hospital'  WHERE name = 'Katutura Hospital';
+			# Correct spelling "Khorixas District Hospital" for "Khorixas Hospital"
+			UPDATE location_uids SET name = 'Khorixas District Hospital'  WHERE name = 'Khorixas Hospital';
+			# Correct spelling "Opuwo District Hospital" for "Opuwo Hospital"
+			UPDATE location_uids SET name = 'Opuwo District Hospital'  WHERE name = 'Opuwo Hospital';
+			# Correct spelling "Outjo District Hospital" for "Outjo Hospital"
+			UPDATE location_uids SET name = 'Outjo District Hospital'  WHERE name = 'Outjo Hospital';
+			# Correct spelling "Eenhana District Hospital" for "Eenhana Hospital"
+			UPDATE location_uids SET name = 'Eenhana District Hospital'  WHERE name = 'Eenhana Hospital';
+			# Correct spelling "Engela District Hospital" for "Engela Hospital"
+			UPDATE location_uids SET name = 'Engela District Hospital'  WHERE name = 'Engela Hospital';
+			# Correct spelling "Okongo District Hospital" for "Okongo Hospital"
+			UPDATE location_uids SET name = 'Okongo District Hospital'  WHERE name = 'Okongo Hospital';
+			# Correct spelling "Gobabis District Hospital" for "Gobabis Hospital"
+			UPDATE location_uids SET name = 'Gobabis District Hospital'  WHERE name = 'Gobabis Hospital';
+			# Correct spelling "Okahao District Hospital" for "Okahao Hospital"
+			UPDATE location_uids SET name = 'Okahao District Hospital'  WHERE name = 'Okahao Hospital';
+			# Correct spelling "Oshikuku District Hospital" for "Oshikuku Hospital"
+			UPDATE location_uids SET name = 'Oshikuku District Hospital'  WHERE name = 'Oshikuku Hospital';
+			# Correct spelling "Outapi District Hospital" for "Outapi Hospital"
+			UPDATE location_uids SET name = 'Outapi District Hospital'  WHERE name = 'Outapi Hospital';
+			# Correct spelling "Tsandi District Hospital" for "Tsandi Hospital"
+			UPDATE location_uids SET name = 'Tsandi District Hospital'  WHERE name = 'Tsandi Hospital';
+			# Correct spelling "Onandjokwe District Hospital" for "Onandjokwe Hospital"
+			UPDATE location_uids SET name = 'Onandjokwe District Hospital'  WHERE name = 'Onandjokwe Hospital';
+			# Correct spelling "Tsumeb District Hospital" for "Tsumeb Hospital"
+			UPDATE location_uids SET name = 'Tsumeb District Hospital'  WHERE name = 'Tsumeb Hospital';
+			# Correct spelling "Oshakati Intermediate Hospital" for "Oshakati Hospital"
+			UPDATE location_uids SET name = 'Oshakati Intermediate Hospital'  WHERE name = 'Oshakati Hospital';
+			# Correct spelling "Grootfontein District Hospital" for "Grootfontein Hospital"
+			UPDATE location_uids SET name = 'Grootfontein District Hospital'  WHERE name = 'Grootfontein Hospital';
+			# Correct spelling "Okahandja District Hospital" for "Okahandja Hospital"
+			UPDATE location_uids SET name = 'Okahandja District Hospital'  WHERE name = 'Okahandja Hospital';
+			# Correct spelling "Okakarara District Hospital" for "Okakarara Hospital"
+			UPDATE location_uids SET name = 'Okakarara District Hospital'  WHERE name = 'Okakarara Hospital';
+			# Correct spelling "Otjiwarongo District Hospital" for "Otjiwarongo Hospital"
+			UPDATE location_uids SET name = 'Otjiwarongo District Hospital'  WHERE name = 'Otjiwarongo Hospital';
+			# Correct spelling "Omuthiya District Hospital" for "Omuthiya Hospital"
+			UPDATE location_uids SET name = 'Omuthiya District Hospital'  WHERE name = 'Omuthiya Hospital';
+			-- STOPPED --
+			# Add MFL code 10404 to Epikuro Post 3 Clinic'
+			UPDATE location_uids SET mfl_code = 10404 WHERE name = 'Epikuro Post 3 Clinic';
+
 		</sql>
 	</changeSet>
 </databaseChangeLog>
