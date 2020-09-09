@@ -66,16 +66,16 @@
                         </li>
                         <h3> New </h3>
                         <li>
-                            <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Next_Appointment_List_&standAlone=true" target="_blank"> -- PTracker Next Appointments</a>
+                            <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Next_Appointment_List_&standAlone=true" target="_blank"> -- PTracker Next Appointments</a>
                         </li>
                         <li>
-                            <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missed_Appointment_List_&standAlone=true" target="_blank"> -- PTracker Missed Appointments</a>
+                            <a href="https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Missed_Appointment_List_&standAlone=true" target="_blank"> -- PTracker Missed Appointments</a>
                         </li>
                         <li>
-                            <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_in_List_&standAlone=true" target="_blank"> -- PTracker Tranfered In</a>
+                            <a https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_in_List_&standAlone=true" target="_blank"> -- PTracker Tranfered In</a>
                         </li>
                         <li>
-                            <a href="https://ptracker-bi.globalhealthapp.net/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_out_List_&standAlone=true" target="_blank"> -- PTracker Transfered out</a>
+                            <a https://ptracker.mhss.gov.na/jasperserver/flow.html/auth-api?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports%2FPTracker_Facility_Based_Reports&reportUnit=%2Freports%2FPTracker_Facility_Based_Reports%2FPTracker_Patient_Transfered_out_List_&standAlone=true" target="_blank"> -- PTracker Transfered out</a>
                         </li>
                       </ul>
                 <h2> Dashboards </h2>
