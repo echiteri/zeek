@@ -1467,7 +1467,8 @@
 				('Welwitchia Hospital',
 				'Roman Catholic Hospital',
 				'Grootfontein Private Hospital',
-				'Omaruru Hospital');
+				'Omaruru Hospital',
+				'Usakos Hospital');
 			SET FOREIGN_KEY_CHECKS=1;
 		</sql>
 		<comment>Update facility names and MFL codes</comment>
@@ -1543,7 +1544,7 @@
 			# Correct spelling "Walvis Bay District Hospital" for "Walvis Bay Hospital"
 			UPDATE location_uids SET name = 'Walvis Bay District Hospital'  WHERE name = 'Walvis Bay Hospital';
 			# Correct spelling "Usakos District Hospital" for "Usakos Hospital"
-			UPDATE location_uids SET name = 'Usakos District Hospital' , mfl_code = 10175  WHERE name = 'Usakos Hospital';
+			UPDATE location_uids SET mfl_code = 10175  WHERE name = 'Usakos District Hospital';
 		</sql>
 	</changeSet>
 
