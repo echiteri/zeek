@@ -1043,7 +1043,7 @@
 	</changeSet>
 
 	<changeSet id="update_encounter_and_obs_location_id_82_with_495" author="echiteri">
-		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on encounter. Set encounter location_id similar to obs location_id </comment>
+		<comment>Update location_id = 82 with = 495 on encounter. Set encounter location_id similar to obs location_id </comment>
 		<sql>
 			UPDATE encounter e
 			JOIN obs o
@@ -1065,8 +1065,8 @@
 		</sql>
 	</changeSet>
 
-	<changeSet id="update_appointmentscheduling_appointment_block_location_id_82_with_495" author="echiteri">
-		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on appointmentscheduling_appointment_block</comment>
+	<changeSet id="update_aab_location_id_82_with_495" author="echiteri">
+		<comment>Update location_id = 82 with  = 495 on appointmentscheduling_appointment_block</comment>
 		<sql>
 			UPDATE appointmentscheduling_appointment_block
 			SET location_id = 495
@@ -1074,8 +1074,8 @@
 		</sql>
 	</changeSet>
 
-	<changeSet id="update_location_attribute_location_id_82_with_495" author="echiteri">
-		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on location_attribute</comment>
+	<changeSet id="update_location_attribute_82_with_495" author="echiteri">
+		<comment>Update location_id = 82 with location_id = 495 on location_attribute</comment>
 		<sql>
 			UPDATE location_attribute
 			SET location_id = 495
@@ -1083,24 +1083,26 @@
 		</sql>
 	</changeSet>
 
-	<changeSet id="delete_hospitals_from_location_tag_map_PTN_138" author="echiteri">
+	<changeSet id="delete_hospitals_PTN_138" author="echiteri">
 		<comment>Delete Walvis bay, Usako, Omaruru and Rehoboth hospitals from location_tag_map</comment>
 		<sql>
+			SET FOREIGN_KEY_CHECKS=0;
 			-- Walvis bay hospital
-			DELETE FROM location_tag_map WHERE location_id = 82
+			DELETE FROM location_tag_map WHERE location_id = 82;
 			-- Usako hospital
-			DELETE FROM location_tag_map WHERE location_id = 74
+			DELETE FROM location_tag_map WHERE location_id = 74;
 			-- Omaruru hospital
-			DELETE FROM location_tag_map WHERE location_id = 56
+			DELETE FROM location_tag_map WHERE location_id = 56;
 			-- Swakopmund hospital
-			DELETE FROM location_tag_map WHERE location_id = 66
+			DELETE FROM location_tag_map WHERE location_id = 66;
 			-- Rehoboth hospital
-			DELETE FROM location_tag_map WHERE location_id = 103
+			DELETE FROM location_tag_map WHERE location_id = 103;
+			SET FOREIGN_KEY_CHECKS=1;
 		</sql>
 	</changeSet>
 
-	<changeSet id="update_patient_program_location_id_82_with_495" author="echiteri">
-		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on patient_program</comment>
+	<changeSet id="update_patient_program_82_with_495" author="echiteri">
+		<comment>Update location_id = 82 with  location_id = 495 on patient_program</comment>
 		<sql>
 			UPDATE patient_program
 			SET location_id = 495
@@ -1108,8 +1110,8 @@
 		</sql>
 	</changeSet>
 
-	<changeSet id="update_visit_location_id_82_with_495" author="echiteri">
-		<comment>Update Walvis Bay Hospital location_id = 82 with Walvis Bay District Hospital location_id = 495 on visit</comment>
+	<changeSet id="update_visit_82_with_495" author="echiteri">
+		<comment>Update location_id = 82 with location_id = 495 on visit</comment>
 		<sql>
 			UPDATE visit
 			SET location_id = 495
@@ -1125,7 +1127,7 @@
 			-- Usako hospital
 			UPDATE location SET retired = 1, retire_reason = 'Usako Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 74;
 			-- Omaruru hospital
-			UPDATE location SET retired = 1, retire_reason = 'Omaruru Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 56;
+			UPDATE location SET retired = 1, retire_reason = 'Omaruru Hospital correct name is Omaruru District Hospital' WHERE location_id = 56;
 			-- Rehoboth hospital
 			UPDATE location SET retired = 1, retire_reason = 'Rehoboth Hospital correct name is Walvis Bay District Hospital' WHERE location_id = 103;
 		</sql>
@@ -1145,21 +1147,25 @@
 		</preConditions>
 		<comment>Delete location labeled District Data from the location table</comment>
 		<sql>
+			SET FOREIGN_KEY_CHECKS=0;
 			DELETE FROM
 				location
 			WHERE
 				location_id
 			IN
 				(131,86,254,268,301,422,110,467,119,226,127,95,149,165,432,321,438,287,55,392,405,238,384,344,449,357,250,101,190,65,369,417,73,81,217);
+			SET FOREIGN_KEY_CHECKS=1;
 		</sql>
 		<comment>Delete Private facilities from location table</comment>
 		<sql>
+			SET FOREIGN_KEY_CHECKS=0;
 			DELETE FROM
 				location
 			WHERE
 				location_id
 			IN
 				(425,212,84);
+			SET FOREIGN_KEY_CHECKS=1;
 		</sql>
 		<comment>Update facility names</comment>
 		<sql>
@@ -1181,12 +1187,60 @@
 			UPDATE location SET name = 'Polytechnic of Namibia Health Services'  WHERE location_id = 209;
 			# Update Ofinene Health Centre to Otjinene Health Centre
 			UPDATE location SET name = 'Otjinene Health Centre'  WHERE location_id = 307;
+			# Correct spelling "Andara District Hospital" for "Andara Hospital"
+			UPDATE location SET name = 'Andara District Hospital'  WHERE name = 'Andara Hospital';
+			# Correct spelling "Nankudu District Hospital" for "Nankudu Hospital"
+			UPDATE location SET name = 'Nankudu District Hospital'  WHERE name = 'Nankudu Hospital';
+			# Correct spelling "Nyangana District Hospital" for "Nyangana Hospital"
+			UPDATE location SET name = 'Nyangana District Hospital'  WHERE name = 'Nyangana Hospital';
+			# Correct spelling "Rundu Intermediate Hospital" for "Rundu Hospital"
+			UPDATE location SET name = 'Rundu Intermediate Hospital'  WHERE name = 'Rundu Hospital';
+			# Correct spelling "Katutura Intermediate Hospital" for "Katutura Hospital"
+			UPDATE location SET name = 'Katutura Intermediate Hospital'  WHERE name = 'Katutura Hospital';
+			# Correct spelling "Khorixas District Hospital" for "Khorixas Hospital"
+			UPDATE location SET name = 'Khorixas District Hospital'  WHERE name = 'Khorixas Hospital';
+			# Correct spelling "Opuwo District Hospital" for "Opuwo Hospital"
+			UPDATE location SET name = 'Opuwo District Hospital'  WHERE name = 'Opuwo Hospital';
+			# Correct spelling "Outjo District Hospital" for "Outjo Hospital"
+			UPDATE location SET name = 'Outjo District Hospital'  WHERE name = 'Outjo Hospital';
+			# Correct spelling "Eenhana District Hospital" for "Eenhana Hospital"
+			UPDATE location SET name = 'Eenhana District Hospital'  WHERE name = 'Eenhana Hospital';
+			# Correct spelling "Engela District Hospital" for "Engela Hospital"
+			UPDATE location SET name = 'Engela District Hospital'  WHERE name = 'Engela Hospital';
+			# Correct spelling "Okongo District Hospital" for "Okongo Hospital"
+			UPDATE location SET name = 'Okongo District Hospital'  WHERE name = 'Okongo Hospital';
+			# Correct spelling "Gobabis District Hospital" for "Gobabis Hospital"
+			UPDATE location SET name = 'Gobabis District Hospital'  WHERE name = 'Gobabis Hospital';
+			# Correct spelling "Okahao District Hospital" for "Okahao Hospital"
+			UPDATE location SET name = 'Okahao District Hospital'  WHERE name = 'Okahao Hospital';
+			# Correct spelling "Oshikuku District Hospital" for "Oshikuku Hospital"
+			UPDATE location SET name = 'Oshikuku District Hospital'  WHERE name = 'Oshikuku Hospital';
+			# Correct spelling "Outapi District Hospital" for "Outapi Hospital"
+			UPDATE location SET name = 'Outapi District Hospital'  WHERE name = 'Outapi Hospital';
+			# Correct spelling "Tsandi District Hospital" for "Tsandi Hospital"
+			UPDATE location SET name = 'Tsandi District Hospital'  WHERE name = 'Tsandi Hospital';
+			# Correct spelling "Onandjokwe District Hospital" for "Onandjokwe Hospital"
+			UPDATE location SET name = 'Onandjokwe District Hospital'  WHERE name = 'Onandjokwe Hospital';
+			# Correct spelling "Tsumeb District Hospital" for "Tsumeb Hospital"
+			UPDATE location SET name = 'Tsumeb District Hospital'  WHERE name = 'Tsumeb Hospital';
+			# Correct spelling "Oshakati Intermediate Hospital" for "Oshakati Hospital"
+			UPDATE location SET name = 'Oshakati Intermediate Hospital'  WHERE name = 'Oshakati Hospital';
+			# Correct spelling "Grootfontein District Hospital" for "Grootfontein Hospital"
+			UPDATE location SET name = 'Grootfontein District Hospital'  WHERE name = 'Grootfontein Hospital';
+			# Correct spelling "Okahandja District Hospital" for "Okahandja Hospital"
+			UPDATE location SET name = 'Okahandja District Hospital'  WHERE name = 'Okahandja Hospital';
+			# Correct spelling "Okakarara District Hospital" for "Okakarara Hospital"
+			UPDATE location SET name = 'Okakarara District Hospital'  WHERE name = 'Okakarara Hospital';
+			# Correct spelling "Otjiwarongo District Hospital" for "Otjiwarongo Hospital"
+			UPDATE location SET name = 'Otjiwarongo District Hospital'  WHERE name = 'Otjiwarongo Hospital';
+			# Correct spelling "Omuthiya District Hospital" for "Omuthiya Hospital"
+			UPDATE location SET name = 'Omuthiya District Hospital'  WHERE name = 'Omuthiya Hospital';
 		</sql>
 	</changeSet>
 
 	<changeSet id="PTN_285_Update_location_uids_table" author="echiteri">
 		<preConditions onFail="CONTINUE">
-			<sqlCheck expectedResult="16">
+			<sqlCheck expectedResult="19">
 				SELECT
 					COUNT(*)
 					FROM
@@ -1212,11 +1266,12 @@
 				'Walvis Bay District Data',
 				'Welwitchia Hospital',
 				'Roman Catholic Hospital',
-				'Grootfontein Private Hospital';
+				'Grootfontein Private Hospital');
 			</sqlCheck>
 		</preConditions>
 		<comment>Delete location labeled District Data from the location_uids table</comment>
 		<sql>
+			SET FOREIGN_KEY_CHECKS=0;
 			DELETE FROM
 				location_uids
 			WHERE
@@ -1237,14 +1292,15 @@
 				'Swakopmund District Data',
 				'Tsandi District Data',
 				'Usakos District Data',
-				'Usakos Hospital',
 				'Walvis Bay District Data',
 				'Welwitchia Hospital',
 				'Roman Catholic Hospital',
-				'Grootfontein Private Hospital' );
+				'Grootfontein Private Hospital');
+			SET FOREIGN_KEY_CHECKS=1;
 		</sql>
 		<comment>Delete private facilities from the location_uids table</comment>
 		<sql>
+			SET FOREIGN_KEY_CHECKS=0;
 			DELETE FROM
 				location_uids
 			WHERE
@@ -1252,7 +1308,9 @@
 			IN
 				('Welwitchia Hospital',
 				'Roman Catholic Hospital',
-				'Grootfontein Private Hospital' );
+				'Grootfontein Private Hospital',
+				'Omaruru Hospital');
+			SET FOREIGN_KEY_CHECKS=1;
 		</sql>
 		<comment>Update facility names and MFL codes</comment>
 		<sql>
@@ -1324,10 +1382,10 @@
 			UPDATE location_uids SET name = 'Otjiwarongo District Hospital'  WHERE name = 'Otjiwarongo Hospital';
 			# Correct spelling "Omuthiya District Hospital" for "Omuthiya Hospital"
 			UPDATE location_uids SET name = 'Omuthiya District Hospital'  WHERE name = 'Omuthiya Hospital';
-			-- STOPPED --
-			# Add MFL code 10404 to Epikuro Post 3 Clinic'
-			UPDATE location_uids SET mfl_code = 10404 WHERE name = 'Epikuro Post 3 Clinic';
-
+			# Correct spelling "Walvis Bay District Hospital" for "Walvis Bay Hospital"
+			UPDATE location_uids SET name = 'Walvis Bay District Hospital'  WHERE name = 'Walvis Bay Hospital';
+			# Correct spelling "Usakos District Hospital" for "Usakos Hospital"
+			UPDATE location_uids SET name = 'Usakos District Hospital' , mfl_code = 10175  WHERE name = 'Usakos Hospital';
 		</sql>
 	</changeSet>
 </databaseChangeLog>
